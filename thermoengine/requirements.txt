@@ -1,0 +1,16 @@
+scipy>=1.7.1
+deprecation>=2.0.6
+openpyxl>=3.0.3
+rubicon_objc==0.2.10; sys_platform == 'linux'
+rubicon_objc>=0.4.2; sys_platform == 'darwin'
+pandas>=1.0.2
+pytest>=5.3.5
+numdifftools>=0.9.20
+numpy>=1.21.2
+sympy>=1.7.1
+Cython>=0.29.15
+statsmodels>=0.11.1
+SulfLiq>=1.0.0
+cmake>=3.14.0
+elasticsearch
+elasticsearch-dsl

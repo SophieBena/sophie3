@@ -1,0 +1,10 @@
+import numpy
+
+#            module name specified by `%%cython_pyximport` magic
+#            |        just `modname + ".pyx"`
+#            |        |
+def make_ext(modname, pyxfilename):
+    from setuptools.extension import Extension
+    return Extension(modname,
+                     sources=[pyxfilename, 'Garnet_GarnetBerman_solution_calib.c','Almandine_Garnet_calib.c','Grossular_Garnet_calib.c','Pyrope_Garnet_calib.c'],
+                     include_dirs=['.', numpy.get_include()], extra_compile_args=['-O3'])

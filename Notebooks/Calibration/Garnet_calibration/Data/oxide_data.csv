@@ -1,0 +1,17 @@
+name,cation,molecular_weight,cation_charge,cation_stoic,oxygen_stoic
+SiO2,Si,60.08,4,1,2
+TiO2,Ti,79.8988,3,1,2
+Al2O3,Al,101.96128,3,2,3
+Fe2O3,Fe,159.6922,3,2,3
+Cr2O3,Cr,151.9902,2,2,3
+FeO,Fe,71.8464,2,1,1
+MnO,Mn,70.9374,2,1,1
+MgO,Mg,40.3044,2,1,1
+NiO,Ni,74.7094,2,1,1
+CoO,Co,74.9326,2,1,1
+CaO,Ca,56.0794,2,1,1
+Na2O,Na,61.97894,2,2,1
+K2O,K,94.1954,1,2,1
+P2O5,P,141.94452,5,2,5
+H2O,H,18.0152,1,2,1
+CO2,C,44.0098,4,1,2

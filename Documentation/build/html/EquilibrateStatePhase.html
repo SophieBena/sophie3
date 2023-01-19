@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>EquilibrateStatePhase Class &mdash; Thermoengine 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="None"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" >
+    <link rel="search" title="Search" href="search.html" >
+    <link rel="top" title="Thermoengine 1.0.1 documentation" href="index.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="index.html">
+      <img style="border: 0;" alt="ENKI" src="_static/img/ENKI_header.png"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="http://enki-portal.org">ENKI Web</a></li>
+        <li class="active"><a href="https://enki.ofm-research.org">ENKI Server</a></li>
+	
+        <li class="active"><a href="index.html">Thermoengine 1.0.1 documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/Enki.png" alt="Logo">
+            </a></p>
+        </div>
+      </div>
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="equilibratestatephase-class">
+<h1>EquilibrateStatePhase Class<a class="headerlink" href="#equilibratestatephase-class" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="class-inheritance">
+<h2>Class Inheritance<a class="headerlink" href="#class-inheritance" title="Permalink to this headline">¶</a></h2>
+<p>NSObject ▶️ EquilibrateStatePhase</p>
+</div>
+<div class="section" id="protocols-implemented">
+<h2>Protocols Implemented<a class="headerlink" href="#protocols-implemented" title="Permalink to this headline">¶</a></h2>
+<p>None</p>
+</div>
+<div class="section" id="properties">
+<h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="nb">id</span> <span class="n">phaseClassInstance</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">assign</span><span class="p">)</span> <span class="n">double</span> <span class="n">mass</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">assign</span><span class="p">)</span> <span class="n">DoubleVector</span> <span class="o">*</span><span class="n">bulkCompositionInElements</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">assign</span><span class="p">)</span> <span class="n">double</span> <span class="n">affinity</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="class-methods">
+<h2>Class Methods<a class="headerlink" href="#class-methods" title="Permalink to this headline">¶</a></h2>
+<p>None</p>
+</div>
+<div class="section" id="instance-methods">
+<h2>Instance Methods<a class="headerlink" href="#instance-methods" title="Permalink to this headline">¶</a></h2>
+<p>🔹  Returns the molar sum of the bulkCompositionInElements array.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">sumOfMolesOfElements</span>
+</pre></div>
+</div>
+<p>🔹 Determines the indices of non-zero entries for moles of components in the phase.</p>
+<p>&#64;return<br />An array of indices of non-zero components.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="n">indicesOfNonZeroMolesOfEndmemberComponents</span>
+</pre></div>
+</div>
+<p>🔹   Determines non-zero entries for moles of components and composition/potential energy arrays for the phase.</p>
+<p><strong>Procedure</strong>:</p>
+<ol class="simple">
+<li><p>Determine if the phase is a solution or a stoichiometric phase.</p></li>
+<li><p>For each component of the solution or for the stoichiometric phase, report:</p>
+<ul class="simple">
+<li><p>Total moles.</p></li>
+<li><p>A pointer to a vector that represents the stoichiometry in terms of elements.</p></li>
+<li><p>Chemical potential.</p></li>
+<li><p>Hessian (row/column), if the phase is a solution. Otherwise, the entry is missing: An array that holds the derivatives of the chemical potential with repect to all solution components whose molar abundances are non-zero.</p></li>
+</ul>
+</li>
+<li><p>Repeat the above as required for all the endmembers of the solution (See return section for format).</p></li>
+</ol>
+<p>&#64;param constraint<br />Specifies constraints for calculation of potential energy functions:</p>
+<ul class="simple">
+<li><p>independentT &amp; independentP =&gt;&gt; derivatives of the Gibbs free energy</p></li>
+<li><p>independentT &amp; independentV =&gt;&gt; derivatives of the Helmholtz energy</p></li>
+<li><p>independentS &amp; independentP =&gt;&gt; derivatives of the enthalpy</p></li>
+<li><p>independentS &amp; independentV =&gt;&gt; derinatives of the internal energy</p></li>
+<li><p>independentH &amp; independentP =&gt;&gt; derivatives of the negative entropy</p></li>
+</ul>
+<p>&#64;param t<br />Temperature in K.</p>
+<p>&#64;param p<br />Pressure in bars.</p>
+<p>&#64;return<br />An NSArray object with the following structure:</p>
+<p>NSArray object: One entry for each non-zero component or one entry for the stoichiometric phase:</p>
+<ul class="simple">
+<li><p>NSNumber object: Contains a double value.  This is the number of moles of the component/phase.<br />- NSValue object: Contains a pointer to double value. This is an array of length 107 containing stoiciometric abundances of the elements in one mole of the component/phase.<br />- NSNumber object: Contains a double value.  This is the first derivative of the potential function with respect to the component/phase.</p></li>
+<li><p>(Only for components) NSArray object: Contains NSNumber objects that hold a double value. These values are the elements of the Hessian (second derivative matrix of the potential function) row for the non-zero components in the solution.</p></li>
+</ul>
+<p>NOTE: Additional entries are included to handle constraint vectors. See comments in code.</p>
+<p>The number of objects in the array is one for a stoichiometric phase and equal to the number of components with non-zero molar abundances for a solution.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="n">nonZeroMolesOfEndmemberComponents</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="n">constraint</span> <span class="n">andT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span>
+</pre></div>
+</div>
+<p>🔹 Computes the potential function for the phase.</p>
+<p>&#64;param constraint<br />Specifies constraints for calculation of potential energy functions:</p>
+<ul class="simple">
+<li><p>independentT &amp; independentP =&gt;&gt; derivatives of the Gibbs free energy</p></li>
+<li><p>independentT &amp; independentV =&gt;&gt; derivatives of the Helmholtz energy</p></li>
+<li><p>independentS &amp; independentP =&gt;&gt; derivatives of the enthalpy</p></li>
+<li><p>independentS &amp; independentV =&gt;&gt; derinatives of the internal energy</p></li>
+<li><p>independentH &amp; independentP =&gt;&gt; derivatives of the negative entropy</p></li>
+</ul>
+<p>&#64;param t<br />Temperature in K.</p>
+<p>&#64;param p<br />Pressure in bars.</p>
+<p>&#64;param deltaMoles<br />Corrections to non-zero molar abundances of components (or the moles of the phase). Usually determined by a quadratic minimization solution returned from HFTI.</p>
+<p>&#64;param scaleFractor<br />A proposed scaler multiplier for computation of the molar abundances of each component or the phase, as: mNew = mOld + scaleFactor * deltaMoles.</p>
+<p>&#64;return<br />The value of the potential or the number compositionIsUnacceptable if the computed composition is infeasible.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">potentialFunctionFor</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="n">constraint</span> <span class="n">andT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span> <span class="n">andDeltaMolesOfNonZeroComponents</span><span class="p">:(</span><span class="n">double</span> <span class="o">*</span><span class="p">)</span><span class="n">deltaMoles</span> <span class="n">andScalerMultiplierForCorrection</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">scaleFractor</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">entropyFunctionAtT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span> <span class="n">andDeltaMolesOfNonZeroComponents</span><span class="p">:(</span><span class="n">double</span> <span class="o">*</span><span class="p">)</span><span class="n">deltaMoles</span> <span class="n">andScalerMultiplierForCorrection</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">scaleFractor</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">volumeFunctionAtT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span> <span class="n">andDeltaMolesOfNonZeroComponents</span><span class="p">:(</span><span class="n">double</span> <span class="o">*</span><span class="p">)</span><span class="n">deltaMoles</span> <span class="n">andScalerMultiplierForCorrection</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">scaleFractor</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">enthalpyFunctionAtT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span> <span class="n">andDeltaMolesOfNonZeroComponents</span><span class="p">:(</span><span class="n">double</span> <span class="o">*</span><span class="p">)</span><span class="n">deltaMoles</span> <span class="n">andScalerMultiplierForCorrection</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">scaleFractor</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">heatCapacityFunctionAtT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span> <span class="n">andDeltaMolesOfNonZeroComponents</span><span class="p">:(</span><span class="n">double</span> <span class="o">*</span><span class="p">)</span><span class="n">deltaMoles</span> <span class="n">andScalerMultiplierForCorrection</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">scaleFractor</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">dvdpFunctionAtT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span> <span class="n">andDeltaMolesOfNonZeroComponents</span><span class="p">:(</span><span class="n">double</span> <span class="o">*</span><span class="p">)</span><span class="n">deltaMoles</span> <span class="n">andScalerMultiplierForCorrection</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">scaleFractor</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">dvdtFunctionAtT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span> <span class="n">andDeltaMolesOfNonZeroComponents</span><span class="p">:(</span><span class="n">double</span> <span class="o">*</span><span class="p">)</span><span class="n">deltaMoles</span> <span class="n">andScalerMultiplierForCorrection</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">scaleFractor</span>
+</pre></div>
+</div>
+<p>🔹 Resets molar abundances of phases and components in phases by updating the bulkCompositionInElements array.</p>
+<p>&#64;param deltaMoles<br />Corrections to non-zero molar abundances of components (or the moles of the phase). Usually determined by a quadratic minimization solution returned from HFTI.</p>
+<p>&#64;param scaleFractor<br />A proposed scaler multiplier for computation of the molar abundances of each component or the phase, as: mNew = mOld + scaleFactor * deltaMoles.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">void</span><span class="p">)</span><span class="n">addDeltaMolesToNonZeroMolesOfEndmemberComponents</span><span class="p">:(</span><span class="n">double</span> <span class="o">*</span><span class="p">)</span><span class="n">deltaMoles</span> <span class="n">andScalerMultiplierForCorrection</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">scaleFractor</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2020, ENKI.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.4.0.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

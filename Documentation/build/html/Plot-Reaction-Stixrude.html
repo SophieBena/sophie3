@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>PhaseObjC - Plot a Reaction between Stoichiometric Phases &mdash; Thermoengine 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="None"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" >
+    <link rel="search" title="Search" href="search.html" >
+    <link rel="top" title="Thermoengine 1.0.1 documentation" href="index.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="index.html">
+      <img style="border: 0;" alt="ENKI" src="_static/img/ENKI_header.png"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="http://enki-portal.org">ENKI Web</a></li>
+        <li class="active"><a href="https://enki.ofm-research.org">ENKI Server</a></li>
+	
+        <li class="active"><a href="index.html">Thermoengine 1.0.1 documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/Enki.png" alt="Logo">
+            </a></p>
+        </div>
+      </div>
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="phaseobjc-plot-a-reaction-between-stoichiometric-phases">
+<h1>PhaseObjC - Plot a Reaction between Stoichiometric Phases<a class="headerlink" href="#phaseobjc-plot-a-reaction-between-stoichiometric-phases" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">thermoengine</span> <span class="kn">import</span> <span class="n">phases</span>
+<span class="kn">from</span> <span class="nn">thermoengine</span> <span class="kn">import</span> <span class="n">model</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+<div class="section" id="get-access-to-a-thermodynamic-database-by-default-the-berman-1988-database">
+<h2>Get access to a thermodynamic database (by default, the Berman (1988) database).<a class="headerlink" href="#get-access-to-a-thermodynamic-database-by-default-the-berman-1988-database" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">modelDBStix</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">Database</span><span class="p">(</span><span class="s1">&#39;Stixrude&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="to-print-a-list-of-all-of-the-phases-in-the-database-execute">
+<h2>To print a list of all of the phases in the database, execute:<a class="headerlink" href="#to-print-a-list-of-all-of-the-phases-in-the-database-execute" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">thermoDB</span><span class="o">.</span><span class="n">all_purephases_df</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="specify-a-new-reaction-by-indicating-reactants-products">
+<h2>Specify a new reaction by indicating reactants, products.<a class="headerlink" href="#specify-a-new-reaction-by-indicating-reactants-products" title="Permalink to this headline">¶</a></h2>
+<p>forsterite = Mg-Wads</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">reaction</span> <span class="o">=</span> <span class="n">modelDBStix</span><span class="o">.</span><span class="n">get_rxn</span><span class="p">([</span><span class="s1">&#39;Fo&#39;</span><span class="p">,</span> <span class="s1">&#39;MgWds&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">fo</span> <span class="o">=</span> <span class="n">modelDBStix</span><span class="o">.</span><span class="n">get_phase</span><span class="p">(</span><span class="s1">&#39;Fo&#39;</span><span class="p">)</span>
+<span class="n">wd</span> <span class="o">=</span> <span class="n">modelDBStix</span><span class="o">.</span><span class="n">get_phase</span><span class="p">(</span><span class="s1">&#39;MgWds&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<pre class="literal-block">&lt;string&gt;:6: DeprecationWarning: Calling nonzero on 0d arrays is deprecated, as it behaves surprisingly. Use <cite>atleast_1d(cond).nonzero()</cite> if the old behavior was intended. If the context of this warning is of the form <cite>arr[nonzero(cond)]</cite>, just use <cite>arr[cond]</cite>.</pre>
+<p>Check on the thermodynamic properties of the two phases close to a known
+equilibrium point:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="mi">150000</span> <span class="c1"># pressure in bars</span>
+<span class="n">t</span> <span class="o">=</span> <span class="mi">2100</span> <span class="c1"># temperature in Kelvins</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fo</span><span class="o">.</span><span class="n">gibbs_energy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">),</span> <span class="n">wd</span><span class="o">.</span><span class="n">gibbs_energy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fo</span><span class="o">.</span><span class="n">enthalpy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">),</span> <span class="n">wd</span><span class="o">.</span><span class="n">enthalpy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fo</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">),</span> <span class="n">wd</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fo</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">),</span> <span class="n">wd</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fo</span><span class="o">.</span><span class="n">heat_capacity</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">),</span> <span class="n">wd</span><span class="o">.</span><span class="n">heat_capacity</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="mf">1926419.5746241454</span> <span class="o">-</span><span class="mf">1926366.384172494</span>
+<span class="o">-</span><span class="mf">1106691.3841051687</span> <span class="o">-</span><span class="mf">1116548.7015712014</span>
+<span class="mf">390.34675738998897</span> <span class="mf">385.6274679053774</span>
+<span class="mf">4.1087559308237935</span> <span class="mf">3.9105580237791036</span>
+<span class="mf">180.7443249827713</span> <span class="mf">183.95270593836193</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="set-up-temperature-bounds-and-calculate-the-univariant-curve">
+<h2>Set up temperature bounds, and calculate the univariant curve.<a class="headerlink" href="#set-up-temperature-bounds-and-calculate-the-univariant-curve" title="Permalink to this headline">¶</a></h2>
+<p>In this case convergence reqiuires specifying an initial guess for the
+equilibrium T (in K)</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Tlims</span> <span class="o">=</span> <span class="mf">273.15</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">700</span><span class="p">,</span><span class="mi">2500</span><span class="p">])</span>
+<span class="n">univariant_line</span> <span class="o">=</span> <span class="n">reaction</span><span class="o">.</span><span class="n">trace_boundary</span><span class="p">(</span><span class="n">Tlims</span><span class="o">=</span><span class="n">Tlims</span><span class="p">,</span><span class="n">Nsamp</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="now-plot-up-the-results">
+<h2>Now, plot up the results.<a class="headerlink" href="#now-plot-up-the-results" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span> <span class="p">(</span><span class="n">univariant_line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mf">273.15</span><span class="p">,</span> <span class="n">univariant_line</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mf">1e4</span><span class="p">,</span> <span class="s1">&#39;r-&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;P (GPa)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;T (°C)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="_images/Plot-Reaction-Stixrude_11_0.png" src="_images/Plot-Reaction-Stixrude_11_0.png" />
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2020, ENKI.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.4.0.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Phase classes &mdash; Thermoengine 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="None"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" >
+    <link rel="search" title="Search" href="search.html" >
+    <link rel="top" title="Thermoengine 1.0.1 documentation" href="index.html" >
+    <link rel="prev" title="Classes that perform the equilibrium calculations" href="EquilibrateCalcs.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="index.html">
+      <img style="border: 0;" alt="ENKI" src="_static/img/ENKI_header.png"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="http://enki-portal.org">ENKI Web</a></li>
+        <li class="active"><a href="https://enki.ofm-research.org">ENKI Server</a></li>
+	
+        <li class="active"><a href="index.html">Thermoengine 1.0.1 documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="EquilibrateCalcs.html" title="Classes that perform the equilibrium calculations"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/Enki.png" alt="Logo">
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="EquilibrateCalcs.html"
+                        title="previous chapter">Classes that perform the equilibrium calculations</a></p>
+        </div>
+      </div>
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="phase-classes">
+<h1>Phase classes<a class="headerlink" href="#phase-classes" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="support-classes-for-all-phases">
+<h2>Support classes for all phases<a class="headerlink" href="#support-classes-for-all-phases" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="DoubleMatrix.html">DoubleMatrix</a></p></li>
+<li><p><a class="reference external" href="DoubleTensor.html">DoubleTensor</a></p></li>
+<li><p><a class="reference external" href="DoubleVector.html">DoubleVector</a></p></li>
+<li><p><a class="reference external" href="IntegerVector.html">IntegerVector</a></p></li>
+<li><p><a class="reference external" href="MathSupport.html">MathSupport</a></p></li>
+<li><p><a class="reference external" href="PhaseBase.html">PhaseBase</a> - The base class for all stoichiometric and solution phases</p></li>
+<li><p><a class="reference external" href="PseudoPhase.html">PseudoPhase</a></p></li>
+<li><p>SolutionPhase</p></li>
+<li><p><a class="reference external" href="SolutionPhaseProtocol.html">SolutionPhaseProtocol</a> - Methods implemented by all multicomponent (solution) phases</p></li>
+<li><p><a class="reference external" href="StoichiometricPhaseProtocol.html">StoichiometricPhaseProtocol</a> - Methods implemented by all endmember (stoichiometric) phases</p></li>
+</ul>
+<p><em>Class hierarchy and protocol implementation for pure endmember (stoichiometric) phases</em><br /><img alt="image" src="_images/flowchart_support-classes-for-all-phases.png" /></p>
+</div>
+<div class="section" id="berman-endmember-properties">
+<h2>Berman endmember properties<a class="headerlink" href="#berman-endmember-properties" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="BermanProperties.html">BermanProperties</a></p></li>
+<li><p>BermanStoichiometricPhases</p>
+<ul>
+<li><p><a class="reference external" href="AegirineBerman.html">AegirineBerman</a></p></li>
+<li><p><a class="reference external" href="AenigmatiteBerman.html">AenigmatiteBerman</a></p></li>
+<li><p><a class="reference external" href="AkermaniteBerman.html">AkermaniteBerman</a></p></li>
+<li><p><a class="reference external" href="AlbiteBerman.html">AlbiteBerman</a></p></li>
+<li><p><a class="reference external" href="AlmandineBerman.html">AlmandineBerman</a></p></li>
+<li><p><a class="reference external" href="AndalusiteBerman.html">AndalusiteBerman</a></p></li>
+<li><p><a class="reference external" href="AnorthiteBerman.html">AnorthiteBerman</a></p></li>
+<li><p><a class="reference external" href="AnthophylliteBerman.html">AnthophylliteBerman</a></p></li>
+<li><p><a class="reference external" href="AntigoriteBerman.html">AntigoriteBerman</a></p></li>
+<li><p><a class="reference external" href="ApatiteBerman.html">ApatiteBerman</a></p></li>
+<li><p><a class="reference external" href="BruciteBerman.html">BruciteBerman</a></p></li>
+<li><p><a class="reference external" href="Ca_Al_PyroxeneBerman.html">Ca_Al_PyroxeneBerman</a></p></li>
+<li><p><a class="reference external" href="CalciteBerman.html">CalciteBerman</a></p></li>
+<li><p><a class="reference external" href="ChromiteBerman.html">ChromiteBerman</a></p></li>
+<li><p><a class="reference external" href="ChrysotileBerman.html">ChrysotileBerman</a></p></li>
+<li><p><a class="reference external" href="ClinochloreBerman.html">ClinochloreBerman</a></p></li>
+<li><p><a class="reference external" href="ClinoenstatiteBerman.html">ClinoenstatiteBerman</a></p></li>
+<li><p><a class="reference external" href="ClinozoisiteBerman.html">ClinozoisiteBerman</a></p></li>
+<li><p><a class="reference external" href="CoesiteBerman.html">CoesiteBerman</a></p></li>
+<li><p><a class="reference external" href="CordieriteBerman.html">CordieriteBerman</a></p></li>
+<li><p><a class="reference external" href="CorundumBerman.html">CorundumBerman</a></p></li>
+<li><p><a class="reference external" href="CristobaliteBerman.html">CristobaliteBerman</a></p></li>
+<li><p><a class="reference external" href="DiasporeBerman.html">DiasporeBerman</a></p></li>
+<li><p><a class="reference external" href="DiopsideBerman.html">DiopsideBerman</a></p></li>
+<li><p><a class="reference external" href="DolomiteBerman.html">DolomiteBerman</a></p></li>
+<li><p><a class="reference external" href="FayaliteBerman.html">FayaliteBerman</a></p></li>
+<li><p><a class="reference external" href="FerrosiliteBerman.html">FerrosiliteBerman</a></p></li>
+<li><p><a class="reference external" href="ForsteriteBerman.html">ForsteriteBerman</a></p></li>
+<li><p><a class="reference external" href="GehleniteBerman.html">GehleniteBerman</a></p></li>
+<li><p><a class="reference external" href="GrossularBerman.html">GrossularBerman</a></p></li>
+<li><p><a class="reference external" href="HematiteBerman.html">HematiteBerman</a></p></li>
+<li><p><a class="reference external" href="High_AlbiteBerman.html">High_AlbiteBerman</a></p></li>
+<li><p><a class="reference external" href="Hydrogen_GasBerman.html">Hydrogen_GasBerman</a></p></li>
+<li><p><a class="reference external" href="IlmeniteBerman.html">IlmeniteBerman</a></p></li>
+<li><p><a class="reference external" href="JadeiteBerman.html">JadeiteBerman</a></p></li>
+<li><p><a class="reference external" href="KalsiliteBerman.html">KalsiliteBerman</a></p></li>
+<li><p><a class="reference external" href="KaoliniteBerman.html">KaoliniteBerman</a></p></li>
+<li><p><a class="reference external" href="KyaniteBerman.html">KyaniteBerman</a></p></li>
+<li><p><a class="reference external" href="LawsoniteBerman.html">LawsoniteBerman</a></p></li>
+<li><p><a class="reference external" href="LimeBerman.html">LimeBerman</a></p></li>
+<li><p><a class="reference external" href="Low_AlbiteBerman.html">Low_AlbiteBerman</a></p></li>
+<li><p><a class="reference external" href="MagnesiteBerman.html">MagnesiteBerman</a></p></li>
+<li><p><a class="reference external" href="MagnetiteBerman.html">MagnetiteBerman</a></p></li>
+<li><p><a class="reference external" href="MargariteBerman.html">MargariteBerman</a></p></li>
+<li><p><a class="reference external" href="MeioniteBerman.html">MeioniteBerman</a></p></li>
+<li><p><a class="reference external" href="MerwiniteBerman.html">MerwiniteBerman</a></p></li>
+<li><p><a class="reference external" href="Mg_Al_SpinelBerman.html">Mg_Al_SpinelBerman</a></p></li>
+<li><p><a class="reference external" href="MicroclineBerman.html">MicroclineBerman</a></p></li>
+<li><p><a class="reference external" href="MonticelliteBerman.html">MonticelliteBerman</a></p></li>
+<li><p><a class="reference external" href="MuscoviteBerman.html">MuscoviteBerman</a></p></li>
+<li><p><a class="reference external" href="NephelineBerman.html">NephelineBerman</a></p></li>
+<li><p><a class="reference external" href="OrthoenstatiteBerman.html">OrthoenstatiteBerman</a></p></li>
+<li><p><a class="reference external" href="Oxygen_GasBerman.html">Oxygen_GasBerman</a></p></li>
+<li><p><a class="reference external" href="ParagoniteBerman.html">ParagoniteBerman</a></p></li>
+<li><p><a class="reference external" href="PericlaseBerman.html">PericlaseBerman</a></p></li>
+<li><p><a class="reference external" href="PerovskiteBerman.html">PerovskiteBerman</a></p></li>
+<li><p><a class="reference external" href="PhlogopiteBerman.html">PhlogopiteBerman</a></p></li>
+<li><p><a class="reference external" href="Potassium_FeldsparBerman.html">Potassium_FeldsparBerman</a></p></li>
+<li><p><a class="reference external" href="PrehniteBerman.html">PrehniteBerman</a></p></li>
+<li><p><a class="reference external" href="ProtoenstatiteBerman.html">ProtoenstatiteBerman</a></p></li>
+<li><p><a class="reference external" href="PyropeBerman.html">PyropeBerman</a></p></li>
+<li><p><a class="reference external" href="PyrophylliteBerman.html">PyrophylliteBerman </a></p></li>
+<li><p><a class="reference external" href="PseudowollastoniteBerman.html">PseudowollastoniteBerman</a></p></li>
+<li><p><a class="reference external" href="QuartzBerman.html">QuartzBerman</a></p></li>
+<li><p><a class="reference external" href="RutileBerman.html">RutileBerman</a></p></li>
+<li><p><a class="reference external" href="SanidineBerman.html">SanidineBerman</a></p></li>
+<li><p><a class="reference external" href="SillimaniteBerman.html">SillimaniteBerman</a></p></li>
+<li><p><a class="reference external" href="SpheneBerman.html">SpheneBerman</a></p></li>
+<li><p><a class="reference external" href="Sulfur_GasBerman.html">Sulfur_GasBerman</a></p></li>
+<li><p><a class="reference external" href="TalcBerman.html">TalcBerman</a></p></li>
+<li><p><a class="reference external" href="TremoliteBerman.html">TremoliteBerman</a></p></li>
+<li><p><a class="reference external" href="TridymiteBerman.html">TridymiteBerman</a></p></li>
+<li><p><a class="reference external" href="WhitlockiteBerman.html">WhitlockiteBerman</a></p></li>
+<li><p><a class="reference external" href="WollastoniteBerman.html">WollastoniteBerman</a></p></li>
+<li><p><a class="reference external" href="ZoisiteBerman.html">ZoisiteBerman</a></p></li>
+</ul>
+</li>
+</ul>
+<p><em>Class hierarchy and protocol implementation for multicomponent (solution) phases</em><br /><img alt="image" src="_images/flowchart_berman-endmember-properties.png" /></p>
+</div>
+<div class="section" id="melts-phases">
+<h2>MELTS phases<a class="headerlink" href="#melts-phases" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="AlloyLiquid.html">AlloyLiquid</a></p></li>
+<li><p><a class="reference external" href="AlloySolid.html">AlloySolid</a></p></li>
+<li><p><a class="reference external" href="BermanAlbite.html">BermanAlbite</a></p></li>
+<li><p><a class="reference external" href="BiotiteBerman.html">BiotiteBerman</a></p></li>
+<li><p><a class="reference external" href="ClinoamphiboleBerman.html">ClinoamphiboleBerman</a></p></li>
+<li><p><a class="reference external" href="CpxBerman.html">CpxBerman</a></p></li>
+<li><p><a class="reference external" href="FeldsparBerman.html">FeldsparBerman</a></p></li>
+<li><p><a class="reference external" href="GarnetBerman.html">GarnetBerman</a></p></li>
+<li><p><a class="reference external" href="HornblendeBerman.html">HornblendeBerman</a></p></li>
+<li><p>KalsiliteSSBerman</p>
+<ul>
+<li><p><a class="reference external" href="CalciumKalsilite.html">CalciumKalsilite</a></p></li>
+<li><p><a class="reference external" href="KalsiliteSSBerman.html">KalsiliteSSBerman</a></p></li>
+<li><p><a class="reference external" href="VacancyKalsilite.html">VacancyKalsilite</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="LeuciteBerman.html">LeuciteBerman</a></p></li>
+<li><p><a class="reference external" href="LiquidMelts.html">LiquidMelts</a></p></li>
+<li><p><a class="reference external" href="LiquidMeltsCO2.html">LiquidMeltsCO2</a></p></li>
+<li><p><a class="reference external" href="LiquidMeltsGenericEM.html"> LiquidMeltsGenericEM</a></p></li>
+<li><p>LiquidMeltsH2O</p>
+<ul>
+<li><p><a class="reference external" href="LiquidMeltsH2O.html">LiquidMeltsH2O</a></p></li>
+<li><p><a class="reference external" href="WaterMelts.html">WaterMelts</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="LiquidMeltsH2ORevised.html">LiquidMeltsH2ORevised</a></p></li>
+<li><p><a class="reference external" href="LiquidMeltsPlusCO2.html"> LiquidMeltsPlusCO2 </a></p></li>
+<li><p><a class="reference external" href="LiquidMeltsSiO2.html"> LiquidMeltsSiO2 </a></p></li>
+<li><p><a class="reference external" href="LiquidpMelts.html"> LiquidpMelts </a></p></li>
+<li><p><a class="reference external" href="LiquidpMeltsGenericEM.html"> LiquidpMeltsGenericEM </a></p></li>
+<li><p>LiquidpMeltsH2O</p>
+<ul>
+<li><p><a class="reference external" href="LiquidpMeltsH2O.html">LiquidpMeltsH2O</a></p></li>
+<li><p><a class="reference external" href="WaterpMelts.html">WaterpMelts</a></p></li>
+</ul>
+</li>
+<li><p>MeliliteBerman</p>
+<ul>
+<li><p><a class="reference external" href="Gehlenite.html">Gehlenite</a></p></li>
+<li><p><a class="reference external" href="IronAkermanite.html">IronAkermanite</a></p></li>
+<li><p><a class="reference external" href="MeliliteBerman.html">MeliliteBerman</a></p></li>
+<li><p><a class="reference external" href="SodaMelilite.html">SodaMelilite</a></p></li>
+</ul>
+</li>
+<li><p>Metals</p>
+<ul>
+<li><p><a class="reference external" href="FeLiquid.html">FeLiquid</a></p></li>
+<li><p><a class="reference external" href="FeSolid.html">FeSolid</a></p></li>
+<li><p><a class="reference external" href="NiLiquid.html">NiLiquid</a></p></li>
+<li><p><a class="reference external" href="NiSolid.html">NiSolid</a></p></li>
+</ul>
+</li>
+<li><p>NephelineSSBerman</p>
+<ul>
+<li><p><a class="reference external" href="CalciumNepheline.html">CalciumNepheline</a></p></li>
+<li><p><a class="reference external" href="NephelineSSBerman.html">NephelineSSBerman</a></p></li>
+<li><p><a class="reference external" href="VacancyNepheline.html">VacancyNepheline</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="OlivineBerman.html"> OlivineBerman </a></p></li>
+<li><p><a class="reference external" href="OpxBerman.html"> OpxBerman </a></p></li>
+<li><p><a class="reference external" href="OrthoOxideBerman.html"> OrthoOxideBerman </a></p></li>
+<li><p><a class="reference external" href="OrthoamphiboleBerman.html"> OrthoamphiboleBerman </a></p></li>
+<li><p><a class="reference external" href="RhombohedralBerman.html"> RhombohedralBerman </a></p></li>
+<li><p><a class="reference external" href="SpinelBerman.html"> SpinelBerman </a></p></li>
+</ul>
+</div>
+<div class="section" id="dew-and-hkf-based-solutions">
+<h2>DEW- and HKF-based solutions<a class="headerlink" href="#dew-and-hkf-based-solutions" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="DEWDielectricConstant.html"> DEWDielectricConstant </a></p></li>
+<li><p><a class="reference external" href="DEWFluid.html"> DEWFluid </a></p></li>
+<li><p><a class="reference external" href="DEWH2O.html"> DEWH2O </a></p></li>
+<li><p>DEWmodelParameters</p></li>
+<li><p><a class="reference external" href="DEWspecies.html"> DEWspecies </a></p></li>
+<li><p>FluidDuan</p>
+<ul>
+<li><p><a class="reference external" href="FluidDuan.html">FluidDuan</a></p></li>
+<li><p><a class="reference external" href="DuanH2O.html">DuanH2O</a></p></li>
+<li><p><a class="reference external" href="DuanCO2.html">DuanCO2</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="GenericH2O.html"> GenericH2O </a></p></li>
+<li><p><a class="reference external" href="HKFspeciesComposite.html"> HKFspeciesComposite </a></p></li>
+<li><p><a class="reference external" href="HKFspeciesProperties.html"> HKFspeciesProperties </a></p></li>
+<li><p><a class="reference external" href="HoltenJPCRD2014.html"> HoltenJPCRD2014 </a></p></li>
+<li><p><a class="reference external" href="Wagner2002.html"> Wagner2002 </a></p></li>
+<li><p>ZhangAndDuanCorrectionTerms</p></li>
+<li><p><a class="reference external" href="ZhangDuan2009.html"> ZhangDuan2009 </a></p></li>
+</ul>
+</div>
+<div class="section" id="stixrude-and-lithgow-bertelloni-phases">
+<h2>Stixrude and Lithgow-Bertelloni phases<a class="headerlink" href="#stixrude-and-lithgow-bertelloni-phases" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="Stixrude.html"> Stixrude </a></p></li>
+<li><p><a class="reference external" href="StixrudeEndmembers.html"> StixrudeEndmembers </a></p></li>
+<li><p><a class="reference external" href="StixrudeProperties.html"> StixrudeProperties </a></p></li>
+<li><p><a class="reference external" href="StixrudeSolutionPhase.html"> StixrudeSolutionPhase </a></p></li>
+<li><p>StixrudeSolutions</p>
+<ul>
+<li><p><a class="reference external" href="AkimotoiteStixrude.html">AkimotoiteStixrude</a></p></li>
+<li><p><a class="reference external" href="CaFerritePhaseStixrude.html">CaFerritePhaseStixrude </a></p></li>
+<li><p><a class="reference external" href="ClinopyroxeneStixrude.html">ClinopyroxeneStixrude </a></p></li>
+<li><p><a class="reference external" href="FeldsparStixrude.html">FeldsparStixrude</a></p></li>
+<li><p><a class="reference external" href="FerropericlaseStixrude.html">FerropericlaseStixrude </a></p></li>
+<li><p><a class="reference external" href="GarnetStixrude.html">GarnetStixrude </a></p></li>
+<li><p><a class="reference external" href="HPClinopyroxeneStixrude.html">HPClinopyroxeneStixrude </a></p></li>
+<li><p><a class="reference external" href="OlivineStixrude.html">OlivineStixrude </a></p></li>
+<li><p><a class="reference external" href="OrthopyroxeneStixrude.html">OrthopyroxeneStixrude </a></p></li>
+<li><p><a class="reference external" href="PerovskiteStixrude.html">PerovskiteStixrude </a></p></li>
+<li><p><a class="reference external" href="PostPerovskiteStixrude.html">PostPerovskiteStixrude </a></p></li>
+<li><p><a class="reference external" href="RingwooditeStixrude.html">RingwooditeStixrude </a></p></li>
+<li><p><a class="reference external" href="SpinelStixrude.html">SpinelStixrude </a></p></li>
+<li><p><a class="reference external" href="WadsleyiteStixrude.html">WadsleyiteStixrude </a></p></li>
+</ul>
+</li>
+<li><p>StixrudeStoichiometricPhases</p>
+<ul>
+<li><p><a class="reference external" href="AlAkimotoiteStixrude.html">AlAkimotoiteStixrude</a></p></li>
+<li><p><a class="reference external" href="AlbiteStixrude.html">AlbiteStixrude</a></p></li>
+<li><p><a class="reference external" href="AlmandineStixrude.html">AlmandineStixrude</a></p></li>
+<li><p><a class="reference external" href="AlPerovskiteStixrude.html">AlPerovskiteStixrude</a></p></li>
+<li><p><a class="reference external" href="AlPostPerovskiteStixrude.html">AlPostPerovskiteStixrude</a></p></li>
+<li><p><a class="reference external" href="AnorthiteStixrude.html">AnorthiteStixrude</a></p></li>
+<li><p><a class="reference external" href="CaPerovskiteStixrude.html">CaPerovskiteStixrude</a></p></li>
+<li><p><a class="reference external" href="CaTschermaksStixrude.html">CaTschermaksStixrude</a></p></li>
+<li><p><a class="reference external" href="ClinoenstatiteStixrude.html">ClinoenstatiteStixrude</a></p></li>
+<li><p><a class="reference external" href="CoesiteStixrude.html">CoesiteStixrude</a></p></li>
+<li><p><a class="reference external" href="DiopsideStixrude.html">DiopsideStixrude</a></p></li>
+<li><p><a class="reference external" href="EnstatiteStixrude.html">EnstatiteStixrude</a></p></li>
+<li><p><a class="reference external" href="FayaliteStixrude.html">FayaliteStixrude</a></p></li>
+<li><p><a class="reference external" href="FeAkimotoiteStixrude.html">FeAkimotoiteStixrude</a></p></li>
+<li><p><a class="reference external" href="FeCFStixrude.html">FeCFStixrude</a></p></li>
+<li><p><a class="reference external" href="FeHpCpxStixrude.html">FeHpCpxStixrude</a></p></li>
+<li><p><a class="reference external" href="FePerovskiteStixrude.html">FePerovskiteStixrude</a></p></li>
+<li><p><a class="reference external" href="FePostPerovskiteStixrude.html">FePostPerovskiteStixrude</a></p></li>
+<li><p><a class="reference external" href="FeRingwooditeStixrude.html">FeRingwooditeStixrude</a></p></li>
+<li><p><a class="reference external" href="FerrosiliteStixrude.html">FerrosiliteStixrude</a></p></li>
+<li><p><a class="reference external" href="FeWadsleyiteStixrude.html">FeWadsleyiteStixrude</a></p></li>
+<li><p><a class="reference external" href="ForsteriteStixrude.html">ForsteriteStixrude</a></p></li>
+<li><p><a class="reference external" href="GrossularStixrude.html">GrossularStixrude</a></p></li>
+<li><p><a class="reference external" href="HedenbergiteStixrude.html">HedenbergiteStixrude</a></p></li>
+<li><p><a class="reference external" href="HercyniteStixrude.html">HercyniteStixrude</a></p></li>
+<li><p><a class="reference external" href="JadeiteStixrude.html">JadeiteStixrude</a></p></li>
+<li><p><a class="reference external" href="KyaniteStixrude.html">KyaniteStixrude</a></p></li>
+<li><p><a class="reference external" href="MajoriteStixrude.html">MajoriteStixrude</a></p></li>
+<li><p><a class="reference external" href="MgAkimotoiteStixrude.html">MgAkimotoiteStixrude</a></p></li>
+<li><p><a class="reference external" href="MgCFStixrude.html">MgCFStixrude</a></p></li>
+<li><p><a class="reference external" href="MgHpCpxStixrude.html">MgHpCpxStixrude</a></p></li>
+<li><p><a class="reference external" href="MgPerovskiteStixrude.html">MgPerovskiteStixrude</a></p></li>
+<li><p><a class="reference external" href="MgPostPerovskiteStixrude.html">MgPostPerovskiteStixrude</a></p></li>
+<li><p><a class="reference external" href="MgRingwooditeStixrude.html">MgRingwooditeStixrude</a></p></li>
+<li><p><a class="reference external" href="MgSpinelStixrude.html">MgSpinelStixrude</a></p></li>
+<li><p><a class="reference external" href="MgTschermaksStixrude.html">MgTschermaksStixrude</a></p></li>
+<li><p><a class="reference external" href="MgWadsleyiteStixrude.html">MgWadsleyiteStixrude</a></p></li>
+<li><p><a class="reference external" href="NaCFStixrude.html">NaCFStixrude</a></p></li>
+<li><p><a class="reference external" href="NaMajoriteStixrude.html">NaMajoriteStixrude</a></p></li>
+<li><p><a class="reference external" href="NephelineStixrude.html">NephelineStixrude</a></p></li>
+<li><p><a class="reference external" href="OrthoDiopsideStixrude.html">OrthoDiopsideStixrude</a></p></li>
+<li><p><a class="reference external" href="PericlaseStixrude.html">PericlaseStixrude</a></p></li>
+<li><p><a class="reference external" href="PyropeStixrude.html">PyropeStixrude</a></p></li>
+<li><p><a class="reference external" href="QuartzStixrude.html">QuartzStixrude</a></p></li>
+<li><p><a class="reference external" href="SeifertiteStixrude.html">SeifertiteStixrude</a></p></li>
+<li><p><a class="reference external" href="StishoviteStixrude.html">StishoviteStixrude</a></p></li>
+<li><p><a class="reference external" href="WuestiteStixrude.html">WuestiteStixrude</a></p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="protocol-and-category-extensions-for-parameter-calibration">
+<h2>Protocol and category extensions for parameter calibration<a class="headerlink" href="#protocol-and-category-extensions-for-parameter-calibration" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="ParameterCalibrationProtocol.html">ParameterCalibrationProtocol</a></p></li>
+</ul>
+<p>See the example Jupyter notebooks for implementation details.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2020, ENKI.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.4.0.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

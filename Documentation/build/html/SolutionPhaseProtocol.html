@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Solution Phase Protocol &mdash; Thermoengine 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="None"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" >
+    <link rel="search" title="Search" href="search.html" >
+    <link rel="top" title="Thermoengine 1.0.1 documentation" href="index.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="index.html">
+      <img style="border: 0;" alt="ENKI" src="_static/img/ENKI_header.png"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="http://enki-portal.org">ENKI Web</a></li>
+        <li class="active"><a href="https://enki.ofm-research.org">ENKI Server</a></li>
+	
+        <li class="active"><a href="index.html">Thermoengine 1.0.1 documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/Enki.png" alt="Logo">
+            </a></p>
+        </div>
+      </div>
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="solution-phase-protocol">
+<h1>Solution Phase Protocol<a class="headerlink" href="#solution-phase-protocol" title="Permalink to this headline">¶</a></h1>
+<p style="border-style: solid; padding:3px">
+\({a_i}\) = activity of the i<sup>th</sup> endmember component<br />  
+\({n_j}\) = moles of the j<sup>th</sup> endmember component<br />  
+<em>G</em> = Gibbs free energy<br />
+<em>S</em> = entropy<br />
+<em>G</em> = volume<br />
+\({C_P}\) = isobaric heat capacity
+</p><p>🔹 By default all thermodynamic quantities are calculated to include endmember properties (yesForMixing = NO). Calling this function with YES as an argument converts output to mixing quantities.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">void</span><span class="p">)</span><span class="n">setResultsToMixingQuantities</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">yesForMixing</span>
+</pre></div>
+</div>
+<p>🔹 Retrieves the number of endmember components in the system</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="n">numberOfSolutionComponents</span>
+</pre></div>
+</div>
+<p>🔹 Retrieves superclass instance of PhaseBase object for component at specified index</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span><span class="n">componentAtIndex</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="n">index</span>
+</pre></div>
+</div>
+<p>🔹 Moles of endmember components =&gt; validity of input values</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">testPermissibleValuesOfComponents</span><span class="p">:(</span><span class="n">double</span> <span class="o">*</span><span class="p">)</span><span class="n">m</span>
+</pre></div>
+</div>
+<p>🔹 Moles of elements (standard order) =&gt; Moles of end member components of the phase</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">DoubleVector</span> <span class="p">)</span><span class="n">convertElementsToMoles</span><span class="p">:(</span><span class="n">double</span> <span class="o">*</span><span class="p">)</span><span class="n">e</span>
+</pre></div>
+</div>
+<p>🔹 Moles of elements (standard order) =&gt; Total moles of end member components of the phase</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">convertElementsToTotalMoles</span><span class="p">:(</span><span class="n">double</span> <span class="p">)</span><span class="n">e</span>
+</pre></div>
+</div>
+<p>🔹 Moles of elements (standard order) =&gt; Total mass of the phase (g)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">convertElementsToTotalMass</span><span class="p">:(</span><span class="n">double</span> <span class="o">*</span><span class="p">)</span><span class="n">e</span>
+</pre></div>
+</div>
+<p>🔹 Moles of endmember components =&gt; Mole fractions of endmember components</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">DoubleVector</span> <span class="p">)</span><span class="n">convertMolesToMoleFractions</span><span class="p">:(</span><span class="n">double</span> <span class="o">*</span><span class="p">)</span><span class="n">m</span>
+</pre></div>
+</div>
+<p>🔹 Moles of endmember components =&gt; Moles of elements (standard order)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">DoubleVector</span> <span class="p">)</span><span class="n">convertMolesToElements</span><span class="p">:(</span><span class="n">double</span> <span class="p">)</span><span class="n">m</span>
+</pre></div>
+</div>
+<p>🔹 Moles of endmember components =&gt; Molar sum</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">totalMolesFromMolesOfComponents</span><span class="p">:(</span><span class="n">double</span> <span class="o">*</span><span class="p">)</span><span class="n">m</span>
+</pre></div>
+</div>
+<p>🔹 Moles of components, T (K), P (bars) =&gt; activities of endmember components</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">DoubleVector</span> <span class="p">)</span><span class="n">getActivityFromMolesOfComponents</span><span class="p">:(</span><span class="n">double</span> <span class="o">*</span><span class="p">)</span><span class="n">m</span> <span class="n">andT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span>
+</pre></div>
+</div>
+<p>🔹 Moles of components, T (K), P (bars) =&gt; chemical potentials of endmember components (J)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">DoubleVector</span> <span class="p">)</span><span class="n">getChemicalPotentialFromMolesOfComponents</span><span class="p">:(</span><span class="n">double</span> <span class="p">)</span><span class="n">m</span> <span class="n">andT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span>
+</pre></div>
+</div>
+<p>🔹 Moles of components, T (K), P (bars) =&gt; \(\frac{{\partial G}}{{\partial {n_i}}}\)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">DoubleMatrix</span> <span class="p">)</span><span class="n">getDaDmFromMolesOfComponents</span><span class="p">:(</span><span class="n">double</span> <span class="p">)</span><span class="n">m</span> <span class="n">andT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span>
+</pre></div>
+</div>
+<p>🔹 Moles of components, T (K), P (bars) =&gt; Gibbs free energy (J)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">getGibbsFreeEnergyFromMolesOfComponents</span><span class="p">:(</span><span class="n">double</span> <span class="p">)</span><span class="n">m</span> <span class="n">andT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span>
+</pre></div>
+</div>
+<p>🔹 Moles of components, T (K), P (bars) =&gt; \(\frac{{\partial G}}{{\partial {n_i}}}\) (J)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">DoubleVector</span> <span class="p">)</span><span class="n">getDgDmFromMolesOfComponents</span><span class="p">:(</span><span class="n">double</span> <span class="p">)</span><span class="n">m</span> <span class="n">andT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span>
+</pre></div>
+</div>
+<p>🔹 Moles of components, T (K), P (bars) =&gt; \(\frac{{{\partial ^2}G}}{{\partial {n_i}\partial {n_j}}}\) (J)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">DoubleMatrix</span> <span class="p">)</span><span class="n">getD2gDm2FromMolesOfComponents</span><span class="p">:(</span><span class="n">double</span> <span class="p">)</span><span class="n">m</span> <span class="n">andT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span>
+</pre></div>
+</div>
+<p>🔹Moles of components, T (K), P (bars) =&gt; \(\frac{{{\partial ^3}G}}{{\partial {n_i}\partial {n_j}\partial {n_k}}}\) (J)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">DoubleTensor</span> <span class="p">)</span><span class="n">getD3gDm3FromMolesOfComponents</span><span class="p">:(</span><span class="n">double</span> <span class="p">)</span><span class="n">m</span> <span class="n">andT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span>
+</pre></div>
+</div>
+<p>🔹 Moles of components, T (K), P (bars) =&gt; enthalpy (J)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">getEnthalpyFromMolesOfComponents</span><span class="p">:(</span><span class="n">double</span> <span class="o">*</span><span class="p">)</span><span class="n">m</span> <span class="n">andT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span>
+</pre></div>
+</div>
+<p>🔹 Moles of components, T (K), P (bars) =&gt; entropy (J/K)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">getEntropyFromMolesOfComponents</span><span class="p">:(</span><span class="n">double</span> <span class="p">)</span><span class="n">m</span> <span class="n">andT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span>
+</pre></div>
+</div>
+<p>🔹 Moles of components, T (K), P (bars) =&gt; \(\frac{{\partial S}}{{\partial {n_i}}}\) (J/K)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">DoubleVector</span> <span class="p">)</span><span class="n">getDsDmFromMolesOfComponents</span><span class="p">:(</span><span class="n">double</span> <span class="p">)</span><span class="n">m</span> <span class="n">andT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span>
+</pre></div>
+</div>
+<p>🔹 Moles of components, T (K), P (bars) =&gt; \(\frac{{{\partial ^2}S}}{{\partial {n_i}\partial {n_j}}}\) (J/K)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">DoubleMatrix</span> <span class="p">)</span><span class="n">getD2sDm2FromMolesOfComponents</span><span class="p">:(</span><span class="n">double</span> <span class="p">)</span><span class="n">m</span> <span class="n">andT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span>
+</pre></div>
+</div>
+<p>🔹 Moles of components, T (K), P (bars) =&gt; isobaric heat capacity (J/K)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">getHeatCapacityFromMolesOfComponents</span><span class="p">:(</span><span class="n">double</span> <span class="p">)</span><span class="n">m</span> <span class="n">andT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span>
+</pre></div>
+</div>
+<p>🔹 Moles of components, T (K), P (bars) =&gt; \(\frac{{\partial {C_P}}}{{\partial T}}\) (J/K<sup>2</sup>)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">getDcpDtFromMolesOfComponents</span><span class="p">:(</span><span class="n">double</span> <span class="p">)</span><span class="n">m</span> <span class="n">andT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span>
+</pre></div>
+</div>
+<p>🔹 Moles of components, T (K), P (bars) =&gt; \(\frac{{\partial {C_P}}}{{\partial {n_i}}}\) (J/K)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">DoubleVector</span> <span class="p">)</span><span class="n">getDCpDmFromMolesOfComponents</span><span class="p">:(</span><span class="n">double</span> <span class="o">*</span><span class="p">)</span><span class="n">m</span> <span class="n">andT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span>
+</pre></div>
+</div>
+<p>🔹 Moles of components, T (K), P (bars) =&gt; volume (J/bar)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">getVolumeFromMolesOfComponents</span><span class="p">:(</span><span class="n">double</span> <span class="p">)</span><span class="n">m</span> <span class="n">andT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span>
+</pre></div>
+</div>
+<p>🔹 Moles of components, T (K), P (bars) =&gt; \(\frac{{\partial V}}{{\partial {n_i}}}\) (J/bar)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">DoubleVector</span> <span class="p">)</span><span class="n">getDvDmFromMolesOfComponents</span><span class="p">:(</span><span class="n">double</span> <span class="o">*</span><span class="p">)</span><span class="n">m</span> <span class="n">andT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span>
+</pre></div>
+</div>
+<p>🔹 Moles of components, T (K), P (bars) =&gt; \(\frac{{{\partial ^2}V}}{{\partial {n_i}\partial {n_j}}}\) (J/bar)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">DoubleMatrix</span> <span class="p">)</span><span class="n">getD2vDm2FromMolesOfComponents</span><span class="p">:(</span><span class="n">double</span> <span class="p">)</span><span class="n">m</span> <span class="n">andT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span>
+</pre></div>
+</div>
+<p>🔹 Moles of components, T (K), P (bars) =&gt; \(\frac{{\partial V}}{{\partial T}}\)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">getDvDtFromMolesOfComponents</span><span class="p">:(</span><span class="n">double</span> <span class="p">)</span><span class="n">m</span> <span class="n">andT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span>
+</pre></div>
+</div>
+<p>🔹 Moles of components, T (K), P (bars) =&gt; \(\frac{{\partial V}}{{\partial P}}\) (J/bar<sup>2</sup>)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">getDvDpFromMolesOfComponents</span><span class="p">:(</span><span class="n">double</span> <span class="p">)</span><span class="n">m</span> <span class="n">andT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span>
+</pre></div>
+</div>
+<p>🔹 Moles of components, T (K), P (bars) =&gt; \(\frac{{{\partial ^2}V}}{{\partial {T^2}}}\) (J/bar-K<sup>2</sup>)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">getD2vDt2FromMolesOfComponents</span><span class="p">:(</span><span class="n">double</span> <span class="p">)</span><span class="n">m</span> <span class="n">andT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span>
+</pre></div>
+</div>
+<p>🔹 Moles of components, T (K), P (bars) =&gt; \(\frac{{{\partial ^2}V}}{{\partial T\partial P}}\) (J/bar<sup>2</sup>-K)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">getD2vDtDpFromMolesOfComponents</span><span class="p">:(</span><span class="n">double</span> <span class="p">)</span><span class="n">m</span> <span class="n">andT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span>
+</pre></div>
+</div>
+<p>🔹 Moles of components, T (K), P (bars) =&gt; \(\frac{{{\partial ^2}V}}{{\partial {P^2}}}\) (J/bar<sup>3</sup>)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">getD2vDp2FromMolesOfComponents</span><span class="p">:(</span><span class="n">double</span> <span class="p">)</span><span class="n">m</span> <span class="n">andT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span>
+</pre></div>
+</div>
+<p>🔹 Moles of components, T (K), P (bars) =&gt; \(\frac{{\partial V}}{{\partial {n_i}\partial T}}\) (J/bar-K)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">DoubleVector</span> <span class="p">)</span><span class="n">getD2vDmDtFromMolesOfComponents</span><span class="p">:(</span><span class="n">double</span> <span class="p">)</span><span class="n">m</span> <span class="n">andT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span>
+</pre></div>
+</div>
+<p>🔹 Moles of components, T (K), P (bars) =&gt; \(\frac{{\partial V}}{{\partial {n_i}\partial P}}\) (J/bar<sup>2</sup>)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">DoubleVector</span> <span class="p">)</span><span class="n">getD2vDmDpFromMolesOfComponents</span><span class="p">:(</span><span class="n">double</span> <span class="o">*</span><span class="p">)</span><span class="n">m</span> <span class="n">andT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span>
+</pre></div>
+</div>
+<p>🔹 Moles of components, T (K), P (bars) =&gt; formulae as an NSString object</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">NSString</span> <span class="p">)</span><span class="n">getFormulaFromMolesOfComponents</span><span class="p">:(</span><span class="n">double</span> <span class="p">)</span><span class="n">m</span> <span class="n">andT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span>
+</pre></div>
+</div>
+<p>🔹 Retrieves the number of species (dependent endmembers with positive mole fractions) in the soluton</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="n">numberOfSolutionSpecies</span>
+</pre></div>
+</div>
+<p>🔹 Retrieves the name of the solution species at the specified index</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">NSString</span> <span class="p">)</span><span class="n">nameOfSolutionSpeciesAtIndex</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="n">index</span>
+</pre></div>
+</div>
+<p>🔹 Moles of solution species =&gt; moles of endmember components</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">DoubleVector</span> <span class="p">)</span><span class="n">convertMolesOfSpeciesToMolesOfComponents</span><span class="p">:(</span><span class="n">double</span> <span class="p">)</span><span class="n">mSpecies</span>
+</pre></div>
+</div>
+<p>🔹 Retrieves an elemental stoichiometry vector for the species at the specified index</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">DoubleVector</span> <span class="p">)</span><span class="n">elementalCompositionOfSpeciesAtIndex</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="n">index</span>
+</pre></div>
+</div>
+<p>🔹 Moles of components, T (K), P (bars) =&gt; chemical potentials of solution species (J)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">DoubleVector</span> <span class="p">)</span><span class="n">chemicalPotentialsOfSpeciesFromMolesOfComponents</span><span class="p">:(</span><span class="n">double</span> <span class="p">)</span><span class="n">m</span> <span class="n">andT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span>
+</pre></div>
+</div>
+<p>🔹 Chemical potentials of endmembers, T (K), P (bars) =&gt; chemical affinity and composition of the phase, etc.<br /></p>
+<p>&#64;param chemicalPotentials <br />
+Chemical potentials of endmember components in the solution. A zero entry indicates that a component is absent. <br /></p>
+<p>&#64;param t<br /><br />temperature in K <br /></p>
+<p>&#64;param p<br /><br />pressure in bars<br /></p>
+<p>&#64;return <br />
+NSArray output structure:<br /><br />- (0): NSNumber object wrapping a double - chemical affinity<br /><br />- (1…NA): NSnumber object wrapping a double - X[0] - X[NA-1], mole fraction compositional variables<br /><br />- (NA+1): NSNumber object wapping a BOOL - convergence flag<br /><br />- (NA+2): NSNumber object wrapping an NSUInteger - iteration count<br /><br />- (NA+3): NSNumber object wrapping a double - number of atoms in formula unit to scale affinity<br /><br />- (NA+4): NSNumber object wrapping a double - approximate error in calculated affinity<br /></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">NSArray</span> <span class="p">)</span><span class="n">affinityAndCompositionFromLiquidChemicalPotentialSum</span><span class="p">:(</span><span class="n">double</span> <span class="o">*</span><span class="p">)</span><span class="n">chemicalPotentials</span> <span class="n">andT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span>
+</pre></div>
+</div>
+<p>🔹</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">void</span><span class="p">)</span><span class="n">incrementInstanceCountOfPhase</span>
+</pre></div>
+</div>
+<p>🔹</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">void</span><span class="p">)</span><span class="n">decrementInstanceCountOfPhase</span>
+</pre></div>
+</div>
+<p>🔹</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">nameOfPhaseWithComposition</span><span class="p">:(</span><span class="n">double</span> <span class="o">*</span><span class="p">)</span><span class="n">refMoles</span>
+</pre></div>
+</div>
+<p>🔹</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="n">checkForAndDetermineCompositionOfCoexistingImmisciblePhase</span><span class="p">:(</span><span class="n">double</span> <span class="o">*</span><span class="p">)</span><span class="n">refMoles</span> <span class="n">andT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2020, ENKI.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.4.0.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

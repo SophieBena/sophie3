@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>MELTS &mdash; Thermoengine 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="None"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" >
+    <link rel="search" title="Search" href="search.html" >
+    <link rel="top" title="Thermoengine 1.0.1 documentation" href="index.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="index.html">
+      <img style="border: 0;" alt="ENKI" src="_static/img/ENKI_header.png"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="http://enki-portal.org">ENKI Web</a></li>
+        <li class="active"><a href="https://enki.ofm-research.org">ENKI Server</a></li>
+	
+        <li class="active"><a href="index.html">Thermoengine 1.0.1 documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/Enki.png" alt="Logo">
+            </a></p>
+        </div>
+      </div>
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="melts">
+<h1>MELTS<a class="headerlink" href="#melts" title="Permalink to this headline">¶</a></h1>
+<div class="line-block">
+<div class="line">Versions of MELTS implemented are:</div>
+<div class="line">- MELTS v. 1.0.2 ➞ (rhyolite-MELTS, Gualda et al., 2012)</div>
+<div class="line">- MELTS v. 1.1.0 ➞ (rhyolite-MELTS + new CO2, works at the ternary
+minimum)</div>
+<div class="line">- MELTS v. 1.2.0 ➞ (rhyolite-MELTS + new H2O + new CO2)</div>
+<div class="line">- pMELTS v. 5.6.1</div>
+</div>
+<div class="section" id="initialize-tools-and-packages-that-are-required-to-execute-this-notebook">
+<h2>Initialize tools and packages that are required to execute this notebook.<a class="headerlink" href="#initialize-tools-and-packages-that-are-required-to-execute-this-notebook" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">thermoengine</span> <span class="kn">import</span> <span class="n">equilibrate</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-a-melts-v-1-0-2-instance">
+<h2>Create a MELTS v 1.0.2 instance.<a class="headerlink" href="#create-a-melts-v-1-0-2-instance" title="Permalink to this headline">¶</a></h2>
+<p>Rhyolite-MELTS version 1.0.2 is the default model.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">melts</span> <span class="o">=</span> <span class="n">equilibrate</span><span class="o">.</span><span class="n">MELTSmodel</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="section" id="optional-generate-some-information-about-the-implemented-model">
+<h3>Optional: Generate some information about the implemented model.<a class="headerlink" href="#optional-generate-some-information-about-the-implemented-model" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">oxides</span> <span class="o">=</span> <span class="n">melts</span><span class="o">.</span><span class="n">get_oxide_names</span><span class="p">()</span>
+<span class="n">phases</span> <span class="o">=</span> <span class="n">melts</span><span class="o">.</span><span class="n">get_phase_names</span><span class="p">()</span>
+<span class="c1">#print (oxides)</span>
+<span class="c1">#print (phases)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="required-input-initial-composition-of-the-system-liquid-in-wt-or-grams-of-oxides">
+<h2>Required: Input initial composition of the system (liquid), in wt% or grams of oxides.<a class="headerlink" href="#required-input-initial-composition-of-the-system-liquid-in-wt-or-grams-of-oxides" title="Permalink to this headline">¶</a></h2>
+<p>Early Bishop Tuff average melt inlusion composition</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">feasible</span> <span class="o">=</span> <span class="n">melts</span><span class="o">.</span><span class="n">set_bulk_composition</span><span class="p">({</span><span class="s1">&#39;SiO2&#39;</span><span class="p">:</span>  <span class="mf">77.5</span><span class="p">,</span>
+                                       <span class="s1">&#39;TiO2&#39;</span><span class="p">:</span>   <span class="mf">0.08</span><span class="p">,</span>
+                                       <span class="s1">&#39;Al2O3&#39;</span><span class="p">:</span> <span class="mf">12.5</span><span class="p">,</span>
+                                       <span class="s1">&#39;Fe2O3&#39;</span><span class="p">:</span>  <span class="mf">0.207</span><span class="p">,</span>
+                                       <span class="s1">&#39;Cr2O3&#39;</span><span class="p">:</span>  <span class="mf">0.0</span><span class="p">,</span>
+                                       <span class="s1">&#39;FeO&#39;</span><span class="p">:</span>    <span class="mf">0.473</span><span class="p">,</span>
+                                       <span class="s1">&#39;MnO&#39;</span><span class="p">:</span>    <span class="mf">0.0</span><span class="p">,</span>
+                                       <span class="s1">&#39;MgO&#39;</span><span class="p">:</span>    <span class="mf">0.03</span><span class="p">,</span>
+                                       <span class="s1">&#39;NiO&#39;</span><span class="p">:</span>    <span class="mf">0.0</span><span class="p">,</span>
+                                       <span class="s1">&#39;CoO&#39;</span><span class="p">:</span>    <span class="mf">0.0</span><span class="p">,</span>
+                                       <span class="s1">&#39;CaO&#39;</span><span class="p">:</span>    <span class="mf">0.43</span><span class="p">,</span>
+                                       <span class="s1">&#39;Na2O&#39;</span><span class="p">:</span>   <span class="mf">3.98</span><span class="p">,</span>
+                                       <span class="s1">&#39;K2O&#39;</span><span class="p">:</span>    <span class="mf">4.88</span><span class="p">,</span>
+                                       <span class="s1">&#39;P2O5&#39;</span><span class="p">:</span>   <span class="mf">0.0</span><span class="p">,</span>
+                                       <span class="s1">&#39;H2O&#39;</span><span class="p">:</span>    <span class="mf">5.5</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="optional-suppress-phases-that-are-not-required-in-the-simulation">
+<h2>Optional: Suppress phases that are not required in the simulation.<a class="headerlink" href="#optional-suppress-phases-that-are-not-required-in-the-simulation" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="o">=</span> <span class="n">melts</span><span class="o">.</span><span class="n">get_phase_inclusion_status</span><span class="p">()</span>
+<span class="n">melts</span><span class="o">.</span><span class="n">set_phase_inclusion_status</span><span class="p">({</span><span class="s1">&#39;Nepheline&#39;</span><span class="p">:</span><span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;OrthoOxide&#39;</span><span class="p">:</span><span class="kc">False</span><span class="p">})</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">melts</span><span class="o">.</span><span class="n">get_phase_inclusion_status</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">phase</span> <span class="ow">in</span> <span class="n">b</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">b</span><span class="p">[</span><span class="n">phase</span><span class="p">]</span> <span class="o">!=</span> <span class="n">a</span><span class="p">[</span><span class="n">phase</span><span class="p">]:</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">{0:&lt;15s}</span><span class="s2"> Before: </span><span class="si">{1:&lt;5s}</span><span class="s2"> After: </span><span class="si">{2:&lt;5s}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">phase</span><span class="p">]),</span> <span class="nb">repr</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">phase</span><span class="p">])))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Nepheline</span>       <span class="n">Before</span><span class="p">:</span> <span class="kc">True</span>  <span class="n">After</span><span class="p">:</span> <span class="kc">False</span>
+<span class="n">OrthoOxide</span>      <span class="n">Before</span><span class="p">:</span> <span class="kc">True</span>  <span class="n">After</span><span class="p">:</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="compute-the-equilibrium-state-at-some-specified-t-c-and-p-mpa">
+<h2>Compute the equilibrium state at some specified T (°C) and P (MPa).<a class="headerlink" href="#compute-the-equilibrium-state-at-some-specified-t-c-and-p-mpa" title="Permalink to this headline">¶</a></h2>
+<p>Print status of the calculation.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output</span> <span class="o">=</span> <span class="n">melts</span><span class="o">.</span><span class="n">equilibrate_tp</span><span class="p">(</span><span class="mf">760.0</span><span class="p">,</span> <span class="mf">175.0</span><span class="p">,</span> <span class="n">initialize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">xmlout</span><span class="p">)</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">success</span><span class="p">,</span> <span class="n">Minimal</span> <span class="n">energy</span> <span class="n">computed</span><span class="o">.</span> <span class="mf">760.0</span> <span class="mf">175.0</span>
+</pre></div>
+</div>
+<div class="section" id="summary-output-of-equilibrium-state">
+<h3>Summary output of equilibrium state …<a class="headerlink" href="#summary-output-of-equilibrium-state" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">melts</span><span class="o">.</span><span class="n">output_summary</span><span class="p">(</span><span class="n">xmlout</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>T (°C)       760.00
+P (MPa)      175.00
+Quartz            1.2006 (g)  SiO2
+Liquid          101.5218 (g)  wt %:SiO2 73.63 TiO2  0.08 Al2O3 11.87 Fe2O3  0.20 Cr2O3  0.00 FeO  0.47 MnO  0.00 MgO
+                                  0.03 NiO  0.00 CoO  0.00 CaO  0.42 Na2O  3.79 K2O  4.61 P2O5  0.00 H2O  4.90
+Sanidine          2.3292 (g)  K0.49Na0.50Ca0.01Al1.01Si2.99O8
+Water             0.5285 (g)  H2O
+</pre></div>
+</div>
+</div>
+<div class="section" id="output-thermodynamic-properties-of-any-phase-present-in-the-system">
+<h3>Output thermodynamic properties of any phase present in the system<a class="headerlink" href="#output-thermodynamic-properties-of-any-phase-present-in-the-system" title="Permalink to this headline">¶</a></h3>
+<p>… or the sum of all phases in the system</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">props</span> <span class="o">=</span> <span class="n">melts</span><span class="o">.</span><span class="n">get_list_of_properties</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">props</span><span class="p">:</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">{0:&lt;20s}</span><span class="s2"> </span><span class="si">{1:13.6e}</span><span class="s2"> </span><span class="si">{2:&lt;10s}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prop</span><span class="p">,</span> <span class="n">melts</span><span class="o">.</span><span class="n">get_property_of_phase</span><span class="p">(</span><span class="n">xmlout</span><span class="p">,</span><span class="s1">&#39;System&#39;</span><span class="p">,</span> <span class="n">prop</span><span class="p">),</span> \
+                                                <span class="n">melts</span><span class="o">.</span><span class="n">get_units_of_property</span><span class="p">(</span><span class="n">prop</span><span class="p">)))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Mass</span>                  <span class="mf">1.055800e+02</span> <span class="n">g</span>
+<span class="n">GibbsFreeEnergy</span>      <span class="o">-</span><span class="mf">1.723511e+06</span> <span class="n">J</span>
+<span class="n">Enthalpy</span>             <span class="o">-</span><span class="mf">1.444769e+06</span> <span class="n">J</span>
+<span class="n">Entropy</span>               <span class="mf">2.697990e+02</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span>
+<span class="n">HeatCapacity</span>          <span class="mf">1.419994e+02</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span>
+<span class="n">DcpDt</span>                 <span class="mf">1.086318e-02</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">Volume</span>                <span class="mf">4.885928e+00</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span>
+<span class="n">DvDt</span>                  <span class="mf">8.637431e-04</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">-</span><span class="n">K</span>
+<span class="n">DvDp</span>                 <span class="o">-</span><span class="mf">1.354787e-04</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">D2vDt2</span>                <span class="mf">3.084601e-07</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">-</span><span class="n">K</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">D2vDtDp</span>              <span class="o">-</span><span class="mf">2.083152e-07</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="n">K</span>
+<span class="n">D2vDp2</span>                <span class="mf">8.811872e-08</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">^</span><span class="mi">3</span>
+<span class="n">Density</span>               <span class="mf">2.160900e+00</span> <span class="n">g</span><span class="o">/</span><span class="n">cm</span><span class="o">^</span><span class="mi">3</span>
+<span class="n">Alpha</span>                 <span class="mf">1.767818e-04</span> <span class="mi">1</span><span class="o">/</span><span class="n">K</span>
+<span class="n">Beta</span>                  <span class="mf">2.772834e-05</span> <span class="mi">1</span><span class="o">/</span><span class="n">bar</span>
+<span class="n">K</span>                     <span class="mf">3.606418e+00</span> <span class="n">GPa</span>
+<span class="n">K</span><span class="s1">&#39;                    2.245704e+01 none</span>
+<span class="n">Gamma</span>                 <span class="mf">4.677198e-02</span> <span class="n">none</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="output-chemical-affinities-and-potential-compositions-of-undersaturated-phases">
+<h3>Output chemical affinities and potential compositions of undersaturated phases<a class="headerlink" href="#output-chemical-affinities-and-potential-compositions-of-undersaturated-phases" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">dict</span> <span class="o">=</span> <span class="n">melts</span><span class="o">.</span><span class="n">get_dictionary_of_affinities</span><span class="p">(</span><span class="n">xmlout</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">phase</span> <span class="ow">in</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">affinity</span><span class="p">,</span> <span class="n">formulae</span><span class="p">)</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="n">phase</span><span class="p">]</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">{0:&lt;20s}</span><span class="s2"> </span><span class="si">{1:10.2f}</span><span class="s2"> </span><span class="si">{2:&lt;60s}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">affinity</span><span class="p">,</span> <span class="n">formulae</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Leucite</span>                 <span class="mf">1843.53</span> <span class="n">K0</span><span class="o">.</span><span class="mi">50</span><span class="n">Na0</span><span class="o">.</span><span class="mi">50</span><span class="n">AlSi2O5</span><span class="o">.</span><span class="mi">50</span><span class="p">(</span><span class="n">OH</span><span class="p">)</span><span class="mf">1.00</span>
+<span class="n">Tridymite</span>               <span class="mf">2141.04</span> <span class="n">SiO2</span>
+<span class="n">Cristobalite</span>            <span class="mf">2204.71</span> <span class="n">SiO2</span>
+<span class="n">Spinel</span>                  <span class="mf">3443.41</span> <span class="n">Fe</span><span class="s1">&#39;&#39;</span><span class="mf">1.00</span><span class="n">Mg0</span><span class="o">.</span><span class="mi">00</span><span class="n">Fe</span><span class="s1">&#39;&#39;&#39;0.00Al1.00Cr1.00Ti0.00O4</span>
+<span class="s1">Magnetite               6100.91 Fe3O4</span>
+<span class="s1">Coesite                 6702.07 SiO2</span>
+<span class="s1">Ilmenite ss             7040.63 Mn0.00Fe&#39;&#39;0.00Mg0.50Fe&#39;&#39;&#39;</span><span class="mf">1.00</span><span class="n">Al0</span><span class="o">.</span><span class="mi">00</span><span class="n">Ti0</span><span class="o">.</span><span class="mi">50</span><span class="n">O3</span>
+<span class="n">Orthopyroxene</span>           <span class="mf">7481.78</span> <span class="n">Na0</span><span class="o">.</span><span class="mi">00</span><span class="n">Ca0</span><span class="o">.</span><span class="mi">50</span><span class="n">Fe</span><span class="s1">&#39;&#39;</span><span class="mf">0.00</span><span class="n">Mg1</span><span class="o">.</span><span class="mi">50</span><span class="n">Fe</span><span class="s1">&#39;&#39;&#39;0.00Ti0.00Al0.00Si2.00O6</span>
+<span class="s1">Pigeonite               7899.03 Na0.00Ca0.50Fe&#39;&#39;0.00Mg1.50Fe&#39;&#39;&#39;</span><span class="mf">0.00</span><span class="n">Ti0</span><span class="o">.</span><span class="mi">00</span><span class="n">Al0</span><span class="o">.</span><span class="mi">00</span><span class="n">Si2</span><span class="o">.</span><span class="mi">00</span><span class="n">O6</span>
+<span class="n">Olivine</span>                 <span class="mf">8602.61</span> <span class="p">(</span><span class="n">Ca0</span><span class="o">.</span><span class="mi">00</span><span class="n">Mg0</span><span class="o">.</span><span class="mi">00</span><span class="n">Fe</span><span class="s1">&#39;&#39;</span><span class="mf">0.50</span><span class="n">Mn0</span><span class="o">.</span><span class="mi">50</span><span class="n">Co0</span><span class="o">.</span><span class="mi">00</span><span class="n">Ni0</span><span class="o">.</span><span class="mi">00</span><span class="p">)</span><span class="mi">2</span><span class="n">SiO4</span>
+<span class="n">Fayalite</span>               <span class="mf">10535.94</span> <span class="n">Fe2SiO4</span>
+<span class="n">Ilmenite</span>               <span class="mf">10912.99</span> <span class="n">FeTiO3</span>
+<span class="n">Rutile</span>                 <span class="mf">13232.93</span> <span class="n">TiO2</span>
+<span class="n">Sillimanite</span>            <span class="mf">14224.20</span> <span class="n">Al2SiO5</span>
+<span class="n">Andalusite</span>             <span class="mf">14583.54</span> <span class="n">Al2SiO5</span>
+<span class="n">Corundum</span>               <span class="mf">14605.08</span> <span class="n">Al2O3</span>
+<span class="n">Kyanite</span>                <span class="mf">18244.50</span> <span class="n">Al2SiO5</span>
+<span class="n">Garnet</span>                 <span class="mf">18772.08</span> <span class="p">(</span><span class="n">Ca0</span><span class="o">.</span><span class="mi">50</span><span class="n">Fe</span><span class="s1">&#39;&#39;</span><span class="mf">0.50</span><span class="n">Mg0</span><span class="o">.</span><span class="mi">00</span><span class="p">)</span><span class="mi">3</span><span class="n">Al2Si3O12</span>
+<span class="n">Hematite</span>               <span class="mf">18830.66</span> <span class="n">Fe2O3</span>
+<span class="n">Biotite</span>                <span class="mf">19819.30</span> <span class="n">K</span><span class="p">(</span><span class="n">Fe</span><span class="s1">&#39;&#39;</span><span class="mf">0.50</span><span class="n">Mg0</span><span class="o">.</span><span class="mi">50</span><span class="p">)</span><span class="mi">3</span><span class="n">AlSi3O10</span><span class="p">(</span><span class="n">OH</span><span class="p">)</span><span class="mi">2</span>
+<span class="n">Nepheline</span>              <span class="mf">20015.65</span> <span class="n">NaAlSiO4</span>
+<span class="n">Sphene</span>                 <span class="mf">24104.31</span> <span class="n">CaTiSiO5</span>
+<span class="n">Muscovite</span>              <span class="mf">25188.37</span> <span class="n">KAl2Si3AlO10</span><span class="p">(</span><span class="n">OH</span><span class="p">)</span><span class="mi">2</span>
+<span class="n">Phlogopite</span>             <span class="mf">28723.51</span> <span class="n">KMg3AlSi3O10</span><span class="p">(</span><span class="n">OH</span><span class="p">)</span><span class="mi">2</span>
+<span class="n">Forsterite</span>             <span class="mf">29210.52</span> <span class="n">Mg2SiO4</span>
+<span class="n">OrthoOxide</span>             <span class="mf">29553.98</span> <span class="n">Fe</span><span class="s1">&#39;&#39;</span><span class="mf">0.50</span><span class="n">Mg0</span><span class="o">.</span><span class="mi">00</span><span class="n">Fe</span><span class="s1">&#39;&#39;&#39;1.00Ti1.50O5</span>
+<span class="s1">Kalsilite              33671.36 KAlSiO4</span>
+<span class="s1">Cummingtonite          37212.14 Ca0.00Fe0.00Mg7.00Si8O22(OH)2</span>
+<span class="s1">Perovskite             38528.62 CaTiO3</span>
+<span class="s1">Anthophyllite          39317.80 Ca0.00Fe0.00Mg7.00Si8O22(OH)2</span>
+<span class="s1">Periclase              43143.46 MgO</span>
+<span class="s1">Nepheline ss           43681.21 Na2.00K2.00Ca0.00[]0.00Al4.00Si4.00O16</span>
+<span class="s1">Melilite               48421.67 Na0.00Ca2.00Al2.00Mg-0.00Fe0.00Si1.00O7</span>
+<span class="s1">Kalsilite ss           51793.54 Na2.00K2.00Ca0.00[]0.00Al4.00Si4.00O16</span>
+<span class="s1">Hornblende             54565.30 NaCa2Mg2.00Fe2+2.00Al1.00Fe3+0.00Al2Si6O22(OH)2</span>
+<span class="s1">Aenigmatite            58029.65 Na2Fe5TiSi6O20</span>
+<span class="s1">Solid Alloy            69174.78 Fe1.00Ni0.00</span>
+<span class="s1">Liquid Alloy           73771.78 Fe1.00Ni0.00</span>
+<span class="s1">Akermanite             80666.47 Ca2MgSi2O7</span>
+<span class="s1">Gehlenite              84296.04 Ca2Al2SiO7</span>
+<span class="s1">Lime                  113534.98 CaO</span>
+<span class="s1">Aegirine              141581.81 NaFeSi2O6</span>
+<span class="s1">Actinolite            999999.00 Ca0.00Fe3.50Mg3.50Si8O22(OH)2</span>
+<span class="s1">Whitlockite           999999.00 Ca3(PO4)2</span>
+<span class="s1">Apatite               999999.00 Ca5(PO4)3OH</span>
+<span class="s1">Chromite              999999.00 FeCr2O4</span>
+<span class="s1">Plagioclase           999999.00 K0.00Na0.50Ca0.50Al1.50Si2.50O8</span>
+<span class="s1">Augite                999999.00 Na0.00Ca0.50Fe&#39;&#39;0.00Mg1.50Fe&#39;&#39;&#39;</span><span class="mf">0.00</span><span class="n">Ti0</span><span class="o">.</span><span class="mi">00</span><span class="n">Al0</span><span class="o">.</span><span class="mi">00</span><span class="n">Si2</span><span class="o">.</span><span class="mi">00</span><span class="n">O6</span>
+<span class="n">Titanaugite</span>           <span class="mf">999999.00</span> <span class="n">Na0</span><span class="o">.</span><span class="mi">00</span><span class="n">Ca0</span><span class="o">.</span><span class="mi">50</span><span class="n">Fe</span><span class="s1">&#39;&#39;</span><span class="mf">0.00</span><span class="n">Mg1</span><span class="o">.</span><span class="mi">50</span><span class="n">Fe</span><span class="s1">&#39;&#39;&#39;0.00Ti0.00Al0.00Si2.00O6</span>
+<span class="s1">Panunzite             999999.00 Na2.00K2.00Ca0.00[]0.00Al4.00Si4.00O16</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="run-the-sequence-of-calculations-along-a-t-p-constant-path">
+<h2>Run the sequence of calculations along a T, P=constant path:<a class="headerlink" href="#run-the-sequence-of-calculations-along-a-t-p-constant-path" title="Permalink to this headline">¶</a></h2>
+<p>Output is sent to an Excel file and plotted in the notebook</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">number_of_steps</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">t_increment_of_steps</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
+<span class="n">p_increment_of_steps</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+<span class="n">plotPhases</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Liquid&#39;</span><span class="p">,</span> <span class="s1">&#39;Sanidine&#39;</span><span class="p">,</span> <span class="s1">&#39;Plagioclase&#39;</span><span class="p">,</span> <span class="s1">&#39;Quartz&#39;</span><span class="p">,</span> <span class="s1">&#39;Water&#39;</span><span class="p">]</span>
+<span class="c1"># matplotlib colors b : blue, g : green, r : red, c : cyan, m : magenta, y : yellow, k : black, w : white.</span>
+<span class="n">plotColors</span> <span class="o">=</span> <span class="p">[</span> <span class="s1">&#39;ro&#39;</span><span class="p">,</span> <span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="s1">&#39;go&#39;</span><span class="p">,</span> <span class="s1">&#39;co&#39;</span><span class="p">,</span> <span class="s1">&#39;mo&#39;</span><span class="p">]</span>
+
+<span class="n">wb</span> <span class="o">=</span> <span class="n">melts</span><span class="o">.</span><span class="n">start_excel_workbook_with_sheet_name</span><span class="p">(</span><span class="n">sheetName</span><span class="o">=</span><span class="s2">&quot;Summary&quot;</span><span class="p">)</span>
+<span class="n">melts</span><span class="o">.</span><span class="n">update_excel_workbook</span><span class="p">(</span><span class="n">wb</span><span class="p">,</span> <span class="n">xmlout</span><span class="p">)</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">plotPhases</span><span class="p">)</span>
+<span class="n">xPlot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">number_of_steps</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">yPlot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">number_of_steps</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">xPlot</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="n">yPlot</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">melts</span><span class="o">.</span><span class="n">get_property_of_phase</span><span class="p">(</span><span class="n">xmlout</span><span class="p">,</span> <span class="n">plotPhases</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">ion</span><span class="p">()</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="nb">min</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">t</span><span class="o">+</span><span class="n">t_increment_of_steps</span><span class="o">*</span><span class="n">number_of_steps</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">t</span><span class="o">+</span><span class="n">t_increment_of_steps</span><span class="o">*</span><span class="n">number_of_steps</span><span class="p">)])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">100.</span><span class="p">])</span>
+<span class="n">graphs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="n">graphs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xPlot</span><span class="p">,</span> <span class="n">yPlot</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">plotColors</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+<span class="n">handle</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">graph</span><span class="p">,)</span> <span class="ow">in</span> <span class="n">graphs</span><span class="p">:</span>
+    <span class="n">handle</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">plotPhases</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">number_of_steps</span><span class="p">):</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">melts</span><span class="o">.</span><span class="n">equilibrate_tp</span><span class="p">(</span><span class="n">t</span><span class="o">+</span><span class="n">t_increment_of_steps</span><span class="p">,</span> <span class="n">p</span><span class="o">+</span><span class="n">p_increment_of_steps</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">xmlout</span><span class="p">)</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">{0:&lt;30s}</span><span class="s2"> </span><span class="si">{1:8.2f}</span><span class="s2"> </span><span class="si">{2:8.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">))</span>
+    <span class="n">xPlot</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="n">yPlot</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">melts</span><span class="o">.</span><span class="n">get_property_of_phase</span><span class="p">(</span><span class="n">xmlout</span><span class="p">,</span> <span class="n">plotPhases</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+    <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">graph</span><span class="p">,)</span> <span class="ow">in</span> <span class="n">graphs</span><span class="p">:</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">set_xdata</span><span class="p">(</span><span class="n">xPlot</span><span class="p">)</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">set_ydata</span><span class="p">(</span><span class="n">yPlot</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+    <span class="n">melts</span><span class="o">.</span><span class="n">update_excel_workbook</span><span class="p">(</span><span class="n">wb</span><span class="p">,</span> <span class="n">xmlout</span><span class="p">)</span>
+
+<span class="n">melts</span><span class="o">.</span><span class="n">write_excel_workbook</span><span class="p">(</span><span class="n">wb</span><span class="p">,</span> <span class="s2">&quot;MELTSv102summary.xlsx&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">success</span><span class="p">,</span> <span class="n">Minimal</span> <span class="n">energy</span> <span class="n">computed</span><span class="o">.</span>   <span class="mf">759.00</span>   <span class="mf">175.00</span>
+<span class="n">success</span><span class="p">,</span> <span class="n">Minimal</span> <span class="n">energy</span> <span class="n">computed</span><span class="o">.</span>   <span class="mf">758.00</span>   <span class="mf">175.00</span>
+<span class="n">success</span><span class="p">,</span> <span class="n">Minimal</span> <span class="n">energy</span> <span class="n">computed</span><span class="o">.</span>   <span class="mf">757.00</span>   <span class="mf">175.00</span>
+<span class="n">success</span><span class="p">,</span> <span class="n">Minimal</span> <span class="n">energy</span> <span class="n">computed</span><span class="o">.</span>   <span class="mf">756.00</span>   <span class="mf">175.00</span>
+<span class="n">success</span><span class="p">,</span> <span class="n">Minimal</span> <span class="n">energy</span> <span class="n">computed</span><span class="o">.</span>   <span class="mf">755.00</span>   <span class="mf">175.00</span>
+<span class="n">success</span><span class="p">,</span> <span class="n">Minimal</span> <span class="n">energy</span> <span class="n">computed</span><span class="o">.</span>   <span class="mf">754.00</span>   <span class="mf">175.00</span>
+<span class="n">success</span><span class="p">,</span> <span class="n">Minimal</span> <span class="n">energy</span> <span class="n">computed</span><span class="o">.</span>   <span class="mf">753.00</span>   <span class="mf">175.00</span>
+<span class="n">success</span><span class="p">,</span> <span class="n">Minimal</span> <span class="n">energy</span> <span class="n">computed</span><span class="o">.</span>   <span class="mf">752.00</span>   <span class="mf">175.00</span>
+<span class="n">success</span><span class="p">,</span> <span class="n">Minimal</span> <span class="n">energy</span> <span class="n">computed</span><span class="o">.</span>   <span class="mf">751.00</span>   <span class="mf">175.00</span>
+<span class="n">success</span><span class="p">,</span> <span class="n">Minimal</span> <span class="n">energy</span> <span class="n">computed</span><span class="o">.</span>   <span class="mf">750.00</span>   <span class="mf">175.00</span>
+<span class="n">success</span><span class="p">,</span> <span class="n">Minimal</span> <span class="n">energy</span> <span class="n">computed</span><span class="o">.</span>   <span class="mf">749.00</span>   <span class="mf">175.00</span>
+<span class="n">success</span><span class="p">,</span> <span class="n">Minimal</span> <span class="n">energy</span> <span class="n">computed</span><span class="o">.</span>   <span class="mf">748.00</span>   <span class="mf">175.00</span>
+<span class="n">success</span><span class="p">,</span> <span class="n">Minimal</span> <span class="n">energy</span> <span class="n">computed</span><span class="o">.</span>   <span class="mf">747.00</span>   <span class="mf">175.00</span>
+<span class="n">success</span><span class="p">,</span> <span class="n">Minimal</span> <span class="n">energy</span> <span class="n">computed</span><span class="o">.</span>   <span class="mf">746.00</span>   <span class="mf">175.00</span>
+<span class="n">success</span><span class="p">,</span> <span class="n">Minimal</span> <span class="n">energy</span> <span class="n">computed</span><span class="o">.</span>   <span class="mf">745.00</span>   <span class="mf">175.00</span>
+<span class="n">success</span><span class="p">,</span> <span class="n">Minimal</span> <span class="n">energy</span> <span class="n">computed</span><span class="o">.</span>   <span class="mf">744.00</span>   <span class="mf">175.00</span>
+<span class="n">success</span><span class="p">,</span> <span class="n">Minimal</span> <span class="n">energy</span> <span class="n">computed</span><span class="o">.</span>   <span class="mf">743.00</span>   <span class="mf">175.00</span>
+<span class="n">success</span><span class="p">,</span> <span class="n">Optimal</span> <span class="n">residual</span> <span class="n">norm</span><span class="o">.</span>   <span class="mf">742.00</span>   <span class="mf">175.00</span>
+<span class="n">success</span><span class="p">,</span> <span class="n">Minimal</span> <span class="n">energy</span> <span class="n">computed</span><span class="o">.</span>   <span class="mf">741.00</span>   <span class="mf">175.00</span>
+</pre></div>
+</div>
+<img alt="_images/MELTS-v1.0.2-equilibrium_20_1.png" src="_images/MELTS-v1.0.2-equilibrium_20_1.png" />
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2020, ENKI.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.4.0.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,1378 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		773407E71F06F3C300F8FD6C /* PhaseObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 773407DD1F06F3C300F8FD6C /* PhaseObjC.framework */; };
+		773407EC1F06F3C300F8FD6C /* PhaseObjCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 773407EB1F06F3C300F8FD6C /* PhaseObjCTests.m */; };
+		773407EE1F06F3C300F8FD6C /* PhaseObjC.h in Headers */ = {isa = PBXBuildFile; fileRef = 773407E01F06F3C300F8FD6C /* PhaseObjC.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7774117B1F071A6200CA1587 /* Equilibrate.h in Headers */ = {isa = PBXBuildFile; fileRef = 777410D31F071A6200CA1587 /* Equilibrate.h */; };
+		7774117C1F071A6200CA1587 /* Equilibrate.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410D41F071A6200CA1587 /* Equilibrate.m */; };
+		7774117D1F071A6200CA1587 /* EquilibrateState.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410D51F071A6200CA1587 /* EquilibrateState.m */; };
+		7774117E1F071A6200CA1587 /* EquilibrateUsingMELTSv102.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410D61F071A6200CA1587 /* EquilibrateUsingMELTSv102.m */; };
+		7774117F1F071A6200CA1587 /* EquilibrateUsingMELTSv110.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410D71F071A6200CA1587 /* EquilibrateUsingMELTSv110.m */; };
+		777411801F071A6200CA1587 /* EquilibrateUsingMELTSv120.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410D81F071A6200CA1587 /* EquilibrateUsingMELTSv120.m */; };
+		777411811F071A6200CA1587 /* EquilibrateUsingpMELTSv561.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410D91F071A6200CA1587 /* EquilibrateUsingpMELTSv561.m */; };
+		777411821F071A6200CA1587 /* EquilibrateUsingStixrude.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410DA1F071A6200CA1587 /* EquilibrateUsingStixrude.m */; };
+		777411831F071A6200CA1587 /* test_equilibrateMELTSv102.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410DB1F071A6200CA1587 /* test_equilibrateMELTSv102.m */; };
+		777411841F071A6200CA1587 /* HollandAndPowellProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 777410DC1F071A6200CA1587 /* HollandAndPowellProperties.h */; };
+		777411851F071A6200CA1587 /* HollandAndPowellProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410DD1F071A6200CA1587 /* HollandAndPowellProperties.m */; };
+		777411861F071A6200CA1587 /* HollandAndPowellStoichiometricPhases.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410DE1F071A6200CA1587 /* HollandAndPowellStoichiometricPhases.m */; };
+		777411871F071A6200CA1587 /* HollandAndPowellStoichiometricPhases.h in Headers */ = {isa = PBXBuildFile; fileRef = 777410DF1F071A6200CA1587 /* HollandAndPowellStoichiometricPhases.h */; };
+		777411881F071A6200CA1587 /* BermanProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 777410E01F071A6200CA1587 /* BermanProperties.h */; };
+		777411891F071A6200CA1587 /* AlloyLiquid.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410E11F071A6200CA1587 /* AlloyLiquid.m */; };
+		7774118A1F071A6200CA1587 /* AlloySolid.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410E21F071A6200CA1587 /* AlloySolid.m */; };
+		7774118B1F071A6200CA1587 /* BermanProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410E31F071A6200CA1587 /* BermanProperties.m */; };
+		7774118C1F071A6200CA1587 /* BermanStoichiometricPhases.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410E41F071A6200CA1587 /* BermanStoichiometricPhases.m */; };
+		7774118D1F071A6200CA1587 /* clapack.h in Headers */ = {isa = PBXBuildFile; fileRef = 777410E51F071A6200CA1587 /* clapack.h */; };
+		7774118E1F071A6200CA1587 /* ClinoamphiboleBerman.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410E61F071A6200CA1587 /* ClinoamphiboleBerman.m */; };
+		7774118F1F071A6200CA1587 /* CpxBerman.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410E71F071A6200CA1587 /* CpxBerman.m */; };
+		777411901F071A6200CA1587 /* DEWFluid.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410E81F071A6200CA1587 /* DEWFluid.m */; };
+		777411911F071A6200CA1587 /* DoubleVector.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410E91F071A6200CA1587 /* DoubleVector.m */; };
+		777411921F071A6200CA1587 /* FeldsparBerman.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410EA1F071A6200CA1587 /* FeldsparBerman.m */; };
+		777411931F071A6200CA1587 /* HKFspeciesComposite.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410EB1F071A6200CA1587 /* HKFspeciesComposite.m */; };
+		777411941F071A6200CA1587 /* LeuciteBerman.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410EC1F071A6200CA1587 /* LeuciteBerman.m */; };
+		777411951F071A6200CA1587 /* LiquidMelts.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410ED1F071A6200CA1587 /* LiquidMelts.m */; };
+		777411961F071A6200CA1587 /* LiquidMeltsPlusCO2.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410EE1F071A6200CA1587 /* LiquidMeltsPlusCO2.m */; };
+		777411971F071A6200CA1587 /* MathSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410EF1F071A6200CA1587 /* MathSupport.m */; };
+		777411981F071A6200CA1587 /* NephelineSSBerman.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410F01F071A6200CA1587 /* NephelineSSBerman.m */; };
+		777411991F071A6200CA1587 /* OpxBerman.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410F11F071A6200CA1587 /* OpxBerman.m */; };
+		7774119A1F071A6200CA1587 /* OrthoamphiboleBerman.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410F21F071A6200CA1587 /* OrthoamphiboleBerman.m */; };
+		7774119B1F071A6200CA1587 /* PhaseBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410F31F071A6200CA1587 /* PhaseBase.m */; };
+		7774119C1F071A6200CA1587 /* ZhangDuan2009.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410F41F071A6200CA1587 /* ZhangDuan2009.m */; };
+		7774119D1F071A6200CA1587 /* SpinelBerman.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410F51F071A6200CA1587 /* SpinelBerman.m */; };
+		7774119E1F071A6200CA1587 /* BermanStoichiometricPhases.h in Headers */ = {isa = PBXBuildFile; fileRef = 777410F61F071A6200CA1587 /* BermanStoichiometricPhases.h */; };
+		7774119F1F071A6200CA1587 /* CristobaliteBerman+CristobaliteBerman_ParameterCalibration.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410F71F071A6200CA1587 /* CristobaliteBerman+CristobaliteBerman_ParameterCalibration.m */; };
+		777411A01F071A6200CA1587 /* GehleniteBerman+GehleniteBerman_ParameterCalibration.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410F81F071A6200CA1587 /* GehleniteBerman+GehleniteBerman_ParameterCalibration.m */; };
+		777411A11F071A6200CA1587 /* QuartzBerman+QuartzBerman_ParameterCalibration.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410F91F071A6200CA1587 /* QuartzBerman+QuartzBerman_ParameterCalibration.m */; };
+		777411A21F071A6200CA1587 /* SanidineBerman+SanidineBerman_ParameterCalibration.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410FA1F071A6200CA1587 /* SanidineBerman+SanidineBerman_ParameterCalibration.m */; };
+		777411A31F071A6200CA1587 /* TridymiteBerman+TridymiteBerman_ParameterCalibration.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410FB1F071A6200CA1587 /* TridymiteBerman+TridymiteBerman_ParameterCalibration.m */; };
+		777411A41F071A6200CA1587 /* HKFspeciesProperties+HKFspeciesProperties_ParameterCalibration.h in Headers */ = {isa = PBXBuildFile; fileRef = 777410FC1F071A6200CA1587 /* HKFspeciesProperties+HKFspeciesProperties_ParameterCalibration.h */; };
+		777411A51F071A6200CA1587 /* HKFspeciesProperties+HKFspeciesProperties_ParameterCalibration.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410FD1F071A6200CA1587 /* HKFspeciesProperties+HKFspeciesProperties_ParameterCalibration.m */; };
+		777411A61F071A6200CA1587 /* DEWDielectricConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 777410FE1F071A6200CA1587 /* DEWDielectricConstant.m */; };
+		777411A71F071A6200CA1587 /* DEWFluid.h in Headers */ = {isa = PBXBuildFile; fileRef = 777410FF1F071A6200CA1587 /* DEWFluid.h */; };
+		777411A81F071A6200CA1587 /* EquilibrateUsingMELTSwithDEW.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411001F071A6200CA1587 /* EquilibrateUsingMELTSwithDEW.h */; };
+		777411A91F071A6200CA1587 /* EquilibrateUsingMELTSwithDEW.m in Sources */ = {isa = PBXBuildFile; fileRef = 777411011F071A6200CA1587 /* EquilibrateUsingMELTSwithDEW.m */; };
+		777411AA1F071A6200CA1587 /* LiquidMeltsCO2.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411021F071A6200CA1587 /* LiquidMeltsCO2.h */; };
+		777411AB1F071A6200CA1587 /* LiquidMeltsCO2.m in Sources */ = {isa = PBXBuildFile; fileRef = 777411031F071A6200CA1587 /* LiquidMeltsCO2.m */; };
+		777411AC1F071A6200CA1587 /* LiquidMeltsH2ORevised.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411041F071A6200CA1587 /* LiquidMeltsH2ORevised.h */; };
+		777411AD1F071A6200CA1587 /* LiquidMeltsH2ORevised.m in Sources */ = {isa = PBXBuildFile; fileRef = 777411051F071A6200CA1587 /* LiquidMeltsH2ORevised.m */; };
+		777411AE1F071A6200CA1587 /* LiquidMeltsSiO2.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411061F071A6200CA1587 /* LiquidMeltsSiO2.h */; };
+		777411AF1F071A6200CA1587 /* LiquidMeltsSiO2.m in Sources */ = {isa = PBXBuildFile; fileRef = 777411071F071A6200CA1587 /* LiquidMeltsSiO2.m */; };
+		777411B01F071A6200CA1587 /* LiquidpMelts.m in Sources */ = {isa = PBXBuildFile; fileRef = 777411081F071A6200CA1587 /* LiquidpMelts.m */; };
+		777411B11F071A6200CA1587 /* DoubleTensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 777411091F071A6200CA1587 /* DoubleTensor.m */; };
+		777411B21F071A6200CA1587 /* EquilibrateState.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774110A1F071A6200CA1587 /* EquilibrateState.h */; };
+		777411B31F071A6200CA1587 /* EquilibrateUsingMELTSv102.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774110B1F071A6200CA1587 /* EquilibrateUsingMELTSv102.h */; };
+		777411B41F071A6200CA1587 /* EquilibrateUsingMELTSv110.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774110C1F071A6200CA1587 /* EquilibrateUsingMELTSv110.h */; };
+		777411B51F071A6200CA1587 /* EquilibrateUsingMELTSv120.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774110D1F071A6200CA1587 /* EquilibrateUsingMELTSv120.h */; };
+		777411B61F071A6200CA1587 /* EquilibrateUsingpMELTSv561.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774110E1F071A6200CA1587 /* EquilibrateUsingpMELTSv561.h */; };
+		777411B71F071A6200CA1587 /* EquilibrateUsingStixrude.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774110F1F071A6200CA1587 /* EquilibrateUsingStixrude.h */; };
+		777411B81F071A6200CA1587 /* SolutionPhaseProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411101F071A6200CA1587 /* SolutionPhaseProtocol.h */; };
+		777411B91F071A6200CA1587 /* FeldsparBerman.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411111F071A6200CA1587 /* FeldsparBerman.h */; };
+		777411BA1F071A6200CA1587 /* HoltenJPCRD2014.m in Sources */ = {isa = PBXBuildFile; fileRef = 777411121F071A6200CA1587 /* HoltenJPCRD2014.m */; };
+		777411BB1F071A6200CA1587 /* PhaseBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411131F071A6200CA1587 /* PhaseBase.h */; };
+		777411BC1F071A6200CA1587 /* Stixrude.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411141F071A6200CA1587 /* Stixrude.h */; };
+		777411BD1F071A6200CA1587 /* DoubleMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 777411151F071A6200CA1587 /* DoubleMatrix.m */; };
+		777411BE1F071A6200CA1587 /* DoubleTensor.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411161F071A6200CA1587 /* DoubleTensor.h */; };
+		777411BF1F071A6200CA1587 /* DoubleMatrix.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411171F071A6200CA1587 /* DoubleMatrix.h */; };
+		777411C01F071A6200CA1587 /* DoubleVector.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411181F071A6200CA1587 /* DoubleVector.h */; };
+		777411C11F071A6200CA1587 /* Stixrude.m in Sources */ = {isa = PBXBuildFile; fileRef = 777411191F071A6200CA1587 /* Stixrude.m */; };
+		777411C21F071A6200CA1587 /* Wagner2002.m in Sources */ = {isa = PBXBuildFile; fileRef = 7774111A1F071A6200CA1587 /* Wagner2002.m */; };
+		777411C31F071A6200CA1587 /* LiquidpMeltsGenericEM.m in Sources */ = {isa = PBXBuildFile; fileRef = 7774111B1F071A6200CA1587 /* LiquidpMeltsGenericEM.m */; };
+		777411C41F071A6200CA1587 /* MathSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774111C1F071A6200CA1587 /* MathSupport.h */; };
+		777411C51F071A6200CA1587 /* BermanProperties+BermanProperties_BermanProperties_ParameterCalibration.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774111D1F071A6200CA1587 /* BermanProperties+BermanProperties_BermanProperties_ParameterCalibration.h */; };
+		777411C61F071A6200CA1587 /* BermanProperties+BermanProperties_BermanProperties_ParameterCalibration.m in Sources */ = {isa = PBXBuildFile; fileRef = 7774111E1F071A6200CA1587 /* BermanProperties+BermanProperties_BermanProperties_ParameterCalibration.m */; };
+		777411C71F071A6200CA1587 /* CristobaliteBerman+CristobaliteBerman_ParameterCalibration.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774111F1F071A6200CA1587 /* CristobaliteBerman+CristobaliteBerman_ParameterCalibration.h */; };
+		777411C81F071A6200CA1587 /* DEWDielectricConstant.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411201F071A6200CA1587 /* DEWDielectricConstant.h */; };
+		777411C91F071A6200CA1587 /* DEWH2O.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411211F071A6200CA1587 /* DEWH2O.h */; };
+		777411CA1F071A6200CA1587 /* DEWH2O.m in Sources */ = {isa = PBXBuildFile; fileRef = 777411221F071A6200CA1587 /* DEWH2O.m */; };
+		777411CB1F071A6200CA1587 /* DEWmodelParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411231F071A6200CA1587 /* DEWmodelParameters.h */; };
+		777411CC1F071A6200CA1587 /* DEWspecies.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411241F071A6200CA1587 /* DEWspecies.h */; };
+		777411CD1F071A6200CA1587 /* DEWspecies.m in Sources */ = {isa = PBXBuildFile; fileRef = 777411251F071A6200CA1587 /* DEWspecies.m */; };
+		777411CE1F071A6200CA1587 /* FeldsparBerman+FeldsparBerman_ParameterCalibration.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411261F071A6200CA1587 /* FeldsparBerman+FeldsparBerman_ParameterCalibration.h */; };
+		777411CF1F071A6200CA1587 /* FeldsparBerman+FeldsparBerman_ParameterCalibration.m in Sources */ = {isa = PBXBuildFile; fileRef = 777411271F071A6200CA1587 /* FeldsparBerman+FeldsparBerman_ParameterCalibration.m */; };
+		777411D01F071A6200CA1587 /* GehleniteBerman+GehleniteBerman_ParameterCalibration.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411281F071A6200CA1587 /* GehleniteBerman+GehleniteBerman_ParameterCalibration.h */; };
+		777411D11F071A6200CA1587 /* GenericH2O.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411291F071A6200CA1587 /* GenericH2O.h */; };
+		777411D21F071A6200CA1587 /* GenericH2O.m in Sources */ = {isa = PBXBuildFile; fileRef = 7774112A1F071A6200CA1587 /* GenericH2O.m */; };
+		777411D31F071A6200CA1587 /* HKFspeciesComposite.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774112B1F071A6200CA1587 /* HKFspeciesComposite.h */; };
+		777411D41F071A6200CA1587 /* HKFspeciesProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774112C1F071A6200CA1587 /* HKFspeciesProperties.h */; };
+		777411D51F071A6200CA1587 /* HKFspeciesProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7774112D1F071A6200CA1587 /* HKFspeciesProperties.m */; };
+		777411D61F071A6200CA1587 /* HoltenJPCRD2014.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774112E1F071A6200CA1587 /* HoltenJPCRD2014.h */; };
+		777411D71F071A6200CA1587 /* LiquidMelts+LiquidMelts_LiquidMelts_ParameterCalibration.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774112F1F071A6200CA1587 /* LiquidMelts+LiquidMelts_LiquidMelts_ParameterCalibration.h */; };
+		777411D81F071A6200CA1587 /* LiquidMelts+LiquidMelts_LiquidMelts_ParameterCalibration.m in Sources */ = {isa = PBXBuildFile; fileRef = 777411301F071A6200CA1587 /* LiquidMelts+LiquidMelts_LiquidMelts_ParameterCalibration.m */; };
+		777411D91F071A6200CA1587 /* LiquidMeltsCO2+LiquidMeltsCO2_ParameterCalibration.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411311F071A6200CA1587 /* LiquidMeltsCO2+LiquidMeltsCO2_ParameterCalibration.h */; };
+		777411DA1F071A6200CA1587 /* LiquidMeltsCO2+LiquidMeltsCO2_ParameterCalibration.m in Sources */ = {isa = PBXBuildFile; fileRef = 777411321F071A6200CA1587 /* LiquidMeltsCO2+LiquidMeltsCO2_ParameterCalibration.m */; };
+		777411DB1F071A6200CA1587 /* LiquidMeltsGenericEM+LiquidMeltsGenericEM_ParameterCalibration.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411331F071A6200CA1587 /* LiquidMeltsGenericEM+LiquidMeltsGenericEM_ParameterCalibration.h */; };
+		777411DC1F071A6200CA1587 /* LiquidMeltsGenericEM+LiquidMeltsGenericEM_ParameterCalibration.m in Sources */ = {isa = PBXBuildFile; fileRef = 777411341F071A6200CA1587 /* LiquidMeltsGenericEM+LiquidMeltsGenericEM_ParameterCalibration.m */; };
+		777411DD1F071A6200CA1587 /* LiquidMeltsH2ORevised+LiquidMeltsH2ORevised_ParameterCalibration.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411351F071A6200CA1587 /* LiquidMeltsH2ORevised+LiquidMeltsH2ORevised_ParameterCalibration.h */; };
+		777411DE1F071A6200CA1587 /* LiquidMeltsH2ORevised+LiquidMeltsH2ORevised_ParameterCalibration.m in Sources */ = {isa = PBXBuildFile; fileRef = 777411361F071A6200CA1587 /* LiquidMeltsH2ORevised+LiquidMeltsH2ORevised_ParameterCalibration.m */; };
+		777411DF1F071A6200CA1587 /* LiquidMeltsPlusCO2+LiquidMeltsPlusCO2_LiquidMeltsPlusCO2_ParameterCalibration.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411371F071A6200CA1587 /* LiquidMeltsPlusCO2+LiquidMeltsPlusCO2_LiquidMeltsPlusCO2_ParameterCalibration.h */; };
+		777411E01F071A6200CA1587 /* LiquidMeltsPlusCO2+LiquidMeltsPlusCO2_LiquidMeltsPlusCO2_ParameterCalibration.m in Sources */ = {isa = PBXBuildFile; fileRef = 777411381F071A6200CA1587 /* LiquidMeltsPlusCO2+LiquidMeltsPlusCO2_LiquidMeltsPlusCO2_ParameterCalibration.m */; };
+		777411E11F071A6200CA1587 /* LiquidMeltsSiO2+LiquidMeltsSiO2_ParameterCalibration.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411391F071A6200CA1587 /* LiquidMeltsSiO2+LiquidMeltsSiO2_ParameterCalibration.h */; };
+		777411E21F071A6200CA1587 /* LiquidMeltsSiO2+LiquidMeltsSiO2_ParameterCalibration.m in Sources */ = {isa = PBXBuildFile; fileRef = 7774113A1F071A6200CA1587 /* LiquidMeltsSiO2+LiquidMeltsSiO2_ParameterCalibration.m */; };
+		777411E31F071A6200CA1587 /* ParameterCalibrationProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774113B1F071A6200CA1587 /* ParameterCalibrationProtocol.h */; };
+		777411E41F071A6200CA1587 /* QuartzBerman+QuartzBerman_ParameterCalibration.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774113C1F071A6200CA1587 /* QuartzBerman+QuartzBerman_ParameterCalibration.h */; };
+		777411E51F071A6200CA1587 /* SanidineBerman+SanidineBerman_ParameterCalibration.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774113D1F071A6200CA1587 /* SanidineBerman+SanidineBerman_ParameterCalibration.h */; };
+		777411E61F071A6200CA1587 /* TridymiteBerman+TridymiteBerman_ParameterCalibration.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774113E1F071A6200CA1587 /* TridymiteBerman+TridymiteBerman_ParameterCalibration.h */; };
+		777411E71F071A6200CA1587 /* Wagner2002.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774113F1F071A6200CA1587 /* Wagner2002.h */; };
+		777411E81F071A6200CA1587 /* ZhangAndDuanCorrectionTerms.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411401F071A6200CA1587 /* ZhangAndDuanCorrectionTerms.h */; };
+		777411E91F071A6200CA1587 /* ZhangDuan2009.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411411F071A6200CA1587 /* ZhangDuan2009.h */; };
+		777411EA1F071A6200CA1587 /* AlloyLiquid.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411421F071A6200CA1587 /* AlloyLiquid.h */; };
+		777411EB1F071A6200CA1587 /* AlloySolid.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411431F071A6200CA1587 /* AlloySolid.h */; };
+		777411EC1F071A6200CA1587 /* BermanAlbite.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411441F071A6200CA1587 /* BermanAlbite.h */; };
+		777411ED1F071A6200CA1587 /* BermanAlbite.m in Sources */ = {isa = PBXBuildFile; fileRef = 777411451F071A6200CA1587 /* BermanAlbite.m */; };
+		777411EE1F071A6200CA1587 /* BiotiteBerman.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411461F071A6200CA1587 /* BiotiteBerman.h */; };
+		777411EF1F071A6200CA1587 /* BiotiteBerman.m in Sources */ = {isa = PBXBuildFile; fileRef = 777411471F071A6200CA1587 /* BiotiteBerman.m */; };
+		777411F01F071A6200CA1587 /* ClinoamphiboleBerman.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411481F071A6200CA1587 /* ClinoamphiboleBerman.h */; };
+		777411F11F071A6200CA1587 /* CpxBerman.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411491F071A6200CA1587 /* CpxBerman.h */; };
+		777411F21F071A6200CA1587 /* FluidDuan.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774114A1F071A6200CA1587 /* FluidDuan.h */; };
+		777411F31F071A6200CA1587 /* FluidDuan.m in Sources */ = {isa = PBXBuildFile; fileRef = 7774114B1F071A6200CA1587 /* FluidDuan.m */; };
+		777411F41F071A6200CA1587 /* GarnetBerman.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774114C1F071A6200CA1587 /* GarnetBerman.h */; };
+		777411F51F071A6200CA1587 /* GarnetBerman.m in Sources */ = {isa = PBXBuildFile; fileRef = 7774114D1F071A6200CA1587 /* GarnetBerman.m */; };
+		777411F61F071A6200CA1587 /* HornblendeBerman.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774114E1F071A6200CA1587 /* HornblendeBerman.h */; };
+		777411F71F071A6200CA1587 /* HornblendeBerman.m in Sources */ = {isa = PBXBuildFile; fileRef = 7774114F1F071A6200CA1587 /* HornblendeBerman.m */; };
+		777411F81F071A6200CA1587 /* IntegerVector.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411501F071A6200CA1587 /* IntegerVector.h */; };
+		777411F91F071A6200CA1587 /* IntegerVector.m in Sources */ = {isa = PBXBuildFile; fileRef = 777411511F071A6200CA1587 /* IntegerVector.m */; };
+		777411FA1F071A6200CA1587 /* KalsiliteSSBerman.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411521F071A6200CA1587 /* KalsiliteSSBerman.h */; };
+		777411FB1F071A6200CA1587 /* KalsiliteSSBerman.m in Sources */ = {isa = PBXBuildFile; fileRef = 777411531F071A6200CA1587 /* KalsiliteSSBerman.m */; };
+		777411FC1F071A6200CA1587 /* LeuciteBerman.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411541F071A6200CA1587 /* LeuciteBerman.h */; };
+		777411FD1F071A6200CA1587 /* LiquidMelts.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411551F071A6200CA1587 /* LiquidMelts.h */; };
+		777411FE1F071A6200CA1587 /* LiquidMeltsGenericEM.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411561F071A6200CA1587 /* LiquidMeltsGenericEM.h */; };
+		777411FF1F071A6200CA1587 /* LiquidMeltsGenericEM.m in Sources */ = {isa = PBXBuildFile; fileRef = 777411571F071A6200CA1587 /* LiquidMeltsGenericEM.m */; };
+		777412001F071A6200CA1587 /* LiquidMeltsH2O.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411581F071A6200CA1587 /* LiquidMeltsH2O.h */; };
+		777412011F071A6200CA1587 /* LiquidMeltsH2O.m in Sources */ = {isa = PBXBuildFile; fileRef = 777411591F071A6200CA1587 /* LiquidMeltsH2O.m */; };
+		777412021F071A6200CA1587 /* LiquidMeltsPlusCO2.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774115A1F071A6200CA1587 /* LiquidMeltsPlusCO2.h */; };
+		777412031F071A6200CA1587 /* LiquidpMelts.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774115B1F071A6200CA1587 /* LiquidpMelts.h */; };
+		777412041F071A6200CA1587 /* LiquidpMeltsGenericEM.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774115C1F071A6200CA1587 /* LiquidpMeltsGenericEM.h */; };
+		777412051F071A6200CA1587 /* LiquidpMeltsH2O.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774115D1F071A6200CA1587 /* LiquidpMeltsH2O.h */; };
+		777412061F071A6200CA1587 /* LiquidpMeltsH2O.m in Sources */ = {isa = PBXBuildFile; fileRef = 7774115E1F071A6200CA1587 /* LiquidpMeltsH2O.m */; };
+		777412071F071A6200CA1587 /* MeliliteBerman.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774115F1F071A6200CA1587 /* MeliliteBerman.h */; };
+		777412081F071A6200CA1587 /* MeliliteBerman.m in Sources */ = {isa = PBXBuildFile; fileRef = 777411601F071A6200CA1587 /* MeliliteBerman.m */; };
+		777412091F071A6200CA1587 /* Metals.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411611F071A6200CA1587 /* Metals.h */; };
+		7774120A1F071A6200CA1587 /* Metals.m in Sources */ = {isa = PBXBuildFile; fileRef = 777411621F071A6200CA1587 /* Metals.m */; };
+		7774120B1F071A6200CA1587 /* NephelineSSBerman.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411631F071A6200CA1587 /* NephelineSSBerman.h */; };
+		7774120C1F071A6200CA1587 /* OlivineBerman.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411641F071A6200CA1587 /* OlivineBerman.h */; };
+		7774120D1F071A6200CA1587 /* OlivineBerman.m in Sources */ = {isa = PBXBuildFile; fileRef = 777411651F071A6200CA1587 /* OlivineBerman.m */; };
+		7774120E1F071A6200CA1587 /* OpxBerman.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411661F071A6200CA1587 /* OpxBerman.h */; };
+		7774120F1F071A6200CA1587 /* OrthoamphiboleBerman.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411671F071A6200CA1587 /* OrthoamphiboleBerman.h */; };
+		777412101F071A6200CA1587 /* OrthoOxideBerman.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411681F071A6200CA1587 /* OrthoOxideBerman.h */; };
+		777412111F071A6200CA1587 /* OrthoOxideBerman.m in Sources */ = {isa = PBXBuildFile; fileRef = 777411691F071A6200CA1587 /* OrthoOxideBerman.m */; };
+		777412121F071A6200CA1587 /* PseudoPhase.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774116A1F071A6200CA1587 /* PseudoPhase.h */; };
+		777412131F071A6200CA1587 /* PseudoPhase.m in Sources */ = {isa = PBXBuildFile; fileRef = 7774116B1F071A6200CA1587 /* PseudoPhase.m */; };
+		777412141F071A6200CA1587 /* RhombohedralBerman.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774116C1F071A6200CA1587 /* RhombohedralBerman.h */; };
+		777412151F071A6200CA1587 /* RhombohedralBerman.m in Sources */ = {isa = PBXBuildFile; fileRef = 7774116D1F071A6200CA1587 /* RhombohedralBerman.m */; };
+		777412161F071A6200CA1587 /* SolutionPhase.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774116E1F071A6200CA1587 /* SolutionPhase.h */; };
+		777412171F071A6200CA1587 /* SpinelBerman.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774116F1F071A6200CA1587 /* SpinelBerman.h */; };
+		777412181F071A6200CA1587 /* StixrudeEndmembers.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411701F071A6200CA1587 /* StixrudeEndmembers.h */; };
+		777412191F071A6200CA1587 /* StixrudeEndmembers.m in Sources */ = {isa = PBXBuildFile; fileRef = 777411711F071A6200CA1587 /* StixrudeEndmembers.m */; };
+		7774121A1F071A6200CA1587 /* StixrudeProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411721F071A6200CA1587 /* StixrudeProperties.h */; };
+		7774121B1F071A6200CA1587 /* StixrudeProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 777411731F071A6200CA1587 /* StixrudeProperties.m */; };
+		7774121C1F071A6200CA1587 /* StixrudeSolutionPhase.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411741F071A6200CA1587 /* StixrudeSolutionPhase.h */; };
+		7774121D1F071A6200CA1587 /* StixrudeSolutionPhase.m in Sources */ = {isa = PBXBuildFile; fileRef = 777411751F071A6200CA1587 /* StixrudeSolutionPhase.m */; };
+		7774121E1F071A6200CA1587 /* StixrudeSolutions.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411761F071A6200CA1587 /* StixrudeSolutions.h */; };
+		7774121F1F071A6200CA1587 /* StixrudeSolutions.m in Sources */ = {isa = PBXBuildFile; fileRef = 777411771F071A6200CA1587 /* StixrudeSolutions.m */; };
+		777412201F071A6200CA1587 /* StixrudeStoichiometricPhases.h in Headers */ = {isa = PBXBuildFile; fileRef = 777411781F071A6200CA1587 /* StixrudeStoichiometricPhases.h */; };
+		777412211F071A6200CA1587 /* StixrudeStoichiometricPhases.m in Sources */ = {isa = PBXBuildFile; fileRef = 777411791F071A6200CA1587 /* StixrudeStoichiometricPhases.m */; };
+		777412221F071A6200CA1587 /* StoichiometricPhaseProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774117A1F071A6200CA1587 /* StoichiometricPhaseProtocol.h */; };
+		777412531F071B3700CA1587 /* b23.c in Sources */ = {isa = PBXBuildFile; fileRef = 777412231F071B3700CA1587 /* b23.c */; };
+		777412541F071B3700CA1587 /* b23.h in Headers */ = {isa = PBXBuildFile; fileRef = 777412241F071B3700CA1587 /* b23.h */; };
+		777412551F071B3700CA1587 /* backwards_impl.h in Headers */ = {isa = PBXBuildFile; fileRef = 777412251F071B3700CA1587 /* backwards_impl.h */; };
+		777412561F071B3700CA1587 /* backwards.c in Sources */ = {isa = PBXBuildFile; fileRef = 777412261F071B3700CA1587 /* backwards.c */; };
+		777412571F071B3700CA1587 /* backwards.h in Headers */ = {isa = PBXBuildFile; fileRef = 777412271F071B3700CA1587 /* backwards.h */; };
+		777412581F071B3700CA1587 /* bounds.c in Sources */ = {isa = PBXBuildFile; fileRef = 777412281F071B3700CA1587 /* bounds.c */; };
+		777412591F071B3700CA1587 /* bounds.h in Headers */ = {isa = PBXBuildFile; fileRef = 777412291F071B3700CA1587 /* bounds.h */; };
+		7774125A1F071B3700CA1587 /* common.c in Sources */ = {isa = PBXBuildFile; fileRef = 7774122A1F071B3700CA1587 /* common.c */; };
+		7774125B1F071B3700CA1587 /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774122B1F071B3700CA1587 /* common.h */; };
+		7774125C1F071B3700CA1587 /* compat.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774122C1F071B3700CA1587 /* compat.h */; };
+		7774125D1F071B3700CA1587 /* config.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774122D1F071B3700CA1587 /* config.h */; };
+		7774125E1F071B3700CA1587 /* derivs.c in Sources */ = {isa = PBXBuildFile; fileRef = 7774122E1F071B3700CA1587 /* derivs.c */; };
+		7774125F1F071B3700CA1587 /* derivs.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774122F1F071B3700CA1587 /* derivs.h */; };
+		777412611F071B3700CA1587 /* region1.c in Sources */ = {isa = PBXBuildFile; fileRef = 777412311F071B3700CA1587 /* region1.c */; };
+		777412621F071B3700CA1587 /* region1.h in Headers */ = {isa = PBXBuildFile; fileRef = 777412321F071B3700CA1587 /* region1.h */; };
+		777412631F071B3700CA1587 /* region2.c in Sources */ = {isa = PBXBuildFile; fileRef = 777412331F071B3700CA1587 /* region2.c */; };
+		777412641F071B3700CA1587 /* region2.h in Headers */ = {isa = PBXBuildFile; fileRef = 777412341F071B3700CA1587 /* region2.h */; };
+		777412651F071B3700CA1587 /* region3.c in Sources */ = {isa = PBXBuildFile; fileRef = 777412351F071B3700CA1587 /* region3.c */; };
+		777412661F071B3700CA1587 /* region3.h in Headers */ = {isa = PBXBuildFile; fileRef = 777412361F071B3700CA1587 /* region3.h */; };
+		777412671F071B3700CA1587 /* region4.c in Sources */ = {isa = PBXBuildFile; fileRef = 777412371F071B3700CA1587 /* region4.c */; };
+		777412681F071B3700CA1587 /* region4.h in Headers */ = {isa = PBXBuildFile; fileRef = 777412381F071B3700CA1587 /* region4.h */; };
+		777412691F071B3700CA1587 /* solver2.c in Sources */ = {isa = PBXBuildFile; fileRef = 777412391F071B3700CA1587 /* solver2.c */; };
+		7774126A1F071B3700CA1587 /* solver2.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774123A1F071B3700CA1587 /* solver2.h */; };
+		7774126B1F071B3700CA1587 /* steam_ph.c in Sources */ = {isa = PBXBuildFile; fileRef = 7774123B1F071B3700CA1587 /* steam_ph.c */; };
+		7774126C1F071B3700CA1587 /* steam_ph.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774123C1F071B3700CA1587 /* steam_ph.h */; };
+		7774126D1F071B3700CA1587 /* steam_ps.c in Sources */ = {isa = PBXBuildFile; fileRef = 7774123D1F071B3700CA1587 /* steam_ps.c */; };
+		7774126E1F071B3700CA1587 /* steam_ps.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774123E1F071B3700CA1587 /* steam_ps.h */; };
+		7774126F1F071B3700CA1587 /* steam_pT.c in Sources */ = {isa = PBXBuildFile; fileRef = 7774123F1F071B3700CA1587 /* steam_pT.c */; };
+		777412701F071B3700CA1587 /* steam_pT.h in Headers */ = {isa = PBXBuildFile; fileRef = 777412401F071B3700CA1587 /* steam_pT.h */; };
+		777412711F071B3700CA1587 /* steam_pu.c in Sources */ = {isa = PBXBuildFile; fileRef = 777412411F071B3700CA1587 /* steam_pu.c */; };
+		777412721F071B3700CA1587 /* steam_pu.h in Headers */ = {isa = PBXBuildFile; fileRef = 777412421F071B3700CA1587 /* steam_pu.h */; };
+		777412731F071B3700CA1587 /* steam_pv.c in Sources */ = {isa = PBXBuildFile; fileRef = 777412431F071B3700CA1587 /* steam_pv.c */; };
+		777412741F071B3700CA1587 /* steam_pv.h in Headers */ = {isa = PBXBuildFile; fileRef = 777412441F071B3700CA1587 /* steam_pv.h */; };
+		777412751F071B3700CA1587 /* steam_Ts.c in Sources */ = {isa = PBXBuildFile; fileRef = 777412451F071B3700CA1587 /* steam_Ts.c */; };
+		777412761F071B3700CA1587 /* steam_Ts.h in Headers */ = {isa = PBXBuildFile; fileRef = 777412461F071B3700CA1587 /* steam_Ts.h */; };
+		777412771F071B3700CA1587 /* steam_Tx.c in Sources */ = {isa = PBXBuildFile; fileRef = 777412471F071B3700CA1587 /* steam_Tx.c */; };
+		777412781F071B3700CA1587 /* steam_Tx.h in Headers */ = {isa = PBXBuildFile; fileRef = 777412481F071B3700CA1587 /* steam_Tx.h */; };
+		777412791F071B3700CA1587 /* steam.c in Sources */ = {isa = PBXBuildFile; fileRef = 777412491F071B3700CA1587 /* steam.c */; };
+		7774127A1F071B3700CA1587 /* steam.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774124A1F071B3700CA1587 /* steam.h */; };
+		7774127B1F071B3700CA1587 /* surftens.c in Sources */ = {isa = PBXBuildFile; fileRef = 7774124B1F071B3700CA1587 /* surftens.c */; };
+		7774127C1F071B3700CA1587 /* surftens.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774124C1F071B3700CA1587 /* surftens.h */; };
+		7774127D1F071B3700CA1587 /* thcond.c in Sources */ = {isa = PBXBuildFile; fileRef = 7774124D1F071B3700CA1587 /* thcond.c */; };
+		7774127E1F071B3700CA1587 /* thcond.h in Headers */ = {isa = PBXBuildFile; fileRef = 7774124E1F071B3700CA1587 /* thcond.h */; };
+		7774127F1F071B3700CA1587 /* viscosity.c in Sources */ = {isa = PBXBuildFile; fileRef = 7774124F1F071B3700CA1587 /* viscosity.c */; };
+		777412801F071B3700CA1587 /* viscosity.h in Headers */ = {isa = PBXBuildFile; fileRef = 777412501F071B3700CA1587 /* viscosity.h */; };
+		777412811F071B3700CA1587 /* zeroin.c in Sources */ = {isa = PBXBuildFile; fileRef = 777412511F071B3700CA1587 /* zeroin.c */; };
+		777412821F071B3700CA1587 /* zeroin.h in Headers */ = {isa = PBXBuildFile; fileRef = 777412521F071B3700CA1587 /* zeroin.h */; };
+		777412851F071E8100CA1587 /* libgsl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 777412841F071E8100CA1587 /* libgsl.a */; };
+		777412881F071F7500CA1587 /* HoltenJPCRD2014.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 777412871F071F7500CA1587 /* HoltenJPCRD2014.cpp */; };
+		7774128F1F071FF300CA1587 /* DEWlibraryInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 7774128B1F071FF300CA1587 /* DEWlibraryInterface.m */; };
+		777412901F071FF300CA1587 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 7774128C1F071FF300CA1587 /* main.c */; };
+		777412911F071FF300CA1587 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7774128E1F071FF300CA1587 /* main.m */; };
+		777412941F07204E00CA1587 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 777412931F07204E00CA1587 /* main.m */; };
+		77D204081F0EDC7800B1DAD0 /* LiquidMeltsPlusOldH2OandNewCO2.h in Headers */ = {isa = PBXBuildFile; fileRef = 77D204061F0EDC7800B1DAD0 /* LiquidMeltsPlusOldH2OandNewCO2.h */; };
+		77D204091F0EDC7800B1DAD0 /* LiquidMeltsPlusOldH2OandNewCO2.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D204071F0EDC7800B1DAD0 /* LiquidMeltsPlusOldH2OandNewCO2.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		773407E81F06F3C300F8FD6C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 773407D41F06F3C300F8FD6C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 773407DC1F06F3C300F8FD6C;
+			remoteInfo = PhaseObjC;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		773407DD1F06F3C300F8FD6C /* PhaseObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PhaseObjC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		773407E01F06F3C300F8FD6C /* PhaseObjC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhaseObjC.h; sourceTree = "<group>"; };
+		773407E11F06F3C300F8FD6C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		773407E61F06F3C300F8FD6C /* PhaseObjCTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhaseObjCTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		773407EB1F06F3C300F8FD6C /* PhaseObjCTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhaseObjCTests.m; sourceTree = "<group>"; };
+		773407ED1F06F3C300F8FD6C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		777410D31F071A6200CA1587 /* Equilibrate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Equilibrate.h; path = ../Equilibrate.h; sourceTree = "<group>"; };
+		777410D41F071A6200CA1587 /* Equilibrate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Equilibrate.m; path = ../Equilibrate.m; sourceTree = "<group>"; };
+		777410D51F071A6200CA1587 /* EquilibrateState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EquilibrateState.m; path = ../EquilibrateState.m; sourceTree = "<group>"; };
+		777410D61F071A6200CA1587 /* EquilibrateUsingMELTSv102.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EquilibrateUsingMELTSv102.m; path = ../EquilibrateUsingMELTSv102.m; sourceTree = "<group>"; };
+		777410D71F071A6200CA1587 /* EquilibrateUsingMELTSv110.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EquilibrateUsingMELTSv110.m; path = ../EquilibrateUsingMELTSv110.m; sourceTree = "<group>"; };
+		777410D81F071A6200CA1587 /* EquilibrateUsingMELTSv120.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EquilibrateUsingMELTSv120.m; path = ../EquilibrateUsingMELTSv120.m; sourceTree = "<group>"; };
+		777410D91F071A6200CA1587 /* EquilibrateUsingpMELTSv561.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EquilibrateUsingpMELTSv561.m; path = ../EquilibrateUsingpMELTSv561.m; sourceTree = "<group>"; };
+		777410DA1F071A6200CA1587 /* EquilibrateUsingStixrude.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EquilibrateUsingStixrude.m; path = ../EquilibrateUsingStixrude.m; sourceTree = "<group>"; };
+		777410DB1F071A6200CA1587 /* test_equilibrateMELTSv102.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = test_equilibrateMELTSv102.m; path = ../test_equilibrateMELTSv102.m; sourceTree = "<group>"; };
+		777410DC1F071A6200CA1587 /* HollandAndPowellProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HollandAndPowellProperties.h; path = ../HollandAndPowellProperties.h; sourceTree = "<group>"; };
+		777410DD1F071A6200CA1587 /* HollandAndPowellProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HollandAndPowellProperties.m; path = ../HollandAndPowellProperties.m; sourceTree = "<group>"; };
+		777410DE1F071A6200CA1587 /* HollandAndPowellStoichiometricPhases.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HollandAndPowellStoichiometricPhases.m; path = ../HollandAndPowellStoichiometricPhases.m; sourceTree = "<group>"; };
+		777410DF1F071A6200CA1587 /* HollandAndPowellStoichiometricPhases.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HollandAndPowellStoichiometricPhases.h; path = ../HollandAndPowellStoichiometricPhases.h; sourceTree = "<group>"; };
+		777410E01F071A6200CA1587 /* BermanProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BermanProperties.h; path = ../BermanProperties.h; sourceTree = "<group>"; };
+		777410E11F071A6200CA1587 /* AlloyLiquid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AlloyLiquid.m; path = ../AlloyLiquid.m; sourceTree = "<group>"; };
+		777410E21F071A6200CA1587 /* AlloySolid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AlloySolid.m; path = ../AlloySolid.m; sourceTree = "<group>"; };
+		777410E31F071A6200CA1587 /* BermanProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BermanProperties.m; path = ../BermanProperties.m; sourceTree = "<group>"; };
+		777410E41F071A6200CA1587 /* BermanStoichiometricPhases.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BermanStoichiometricPhases.m; path = ../BermanStoichiometricPhases.m; sourceTree = "<group>"; };
+		777410E51F071A6200CA1587 /* clapack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = clapack.h; path = ../clapack.h; sourceTree = "<group>"; };
+		777410E61F071A6200CA1587 /* ClinoamphiboleBerman.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ClinoamphiboleBerman.m; path = ../ClinoamphiboleBerman.m; sourceTree = "<group>"; };
+		777410E71F071A6200CA1587 /* CpxBerman.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CpxBerman.m; path = ../CpxBerman.m; sourceTree = "<group>"; };
+		777410E81F071A6200CA1587 /* DEWFluid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DEWFluid.m; path = ../DEWFluid.m; sourceTree = "<group>"; };
+		777410E91F071A6200CA1587 /* DoubleVector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DoubleVector.m; path = ../DoubleVector.m; sourceTree = "<group>"; };
+		777410EA1F071A6200CA1587 /* FeldsparBerman.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeldsparBerman.m; path = ../FeldsparBerman.m; sourceTree = "<group>"; };
+		777410EB1F071A6200CA1587 /* HKFspeciesComposite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKFspeciesComposite.m; path = ../HKFspeciesComposite.m; sourceTree = "<group>"; };
+		777410EC1F071A6200CA1587 /* LeuciteBerman.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LeuciteBerman.m; path = ../LeuciteBerman.m; sourceTree = "<group>"; };
+		777410ED1F071A6200CA1587 /* LiquidMelts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LiquidMelts.m; path = ../LiquidMelts.m; sourceTree = "<group>"; };
+		777410EE1F071A6200CA1587 /* LiquidMeltsPlusCO2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LiquidMeltsPlusCO2.m; path = ../LiquidMeltsPlusCO2.m; sourceTree = "<group>"; };
+		777410EF1F071A6200CA1587 /* MathSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MathSupport.m; path = ../MathSupport.m; sourceTree = "<group>"; };
+		777410F01F071A6200CA1587 /* NephelineSSBerman.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NephelineSSBerman.m; path = ../NephelineSSBerman.m; sourceTree = "<group>"; };
+		777410F11F071A6200CA1587 /* OpxBerman.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OpxBerman.m; path = ../OpxBerman.m; sourceTree = "<group>"; };
+		777410F21F071A6200CA1587 /* OrthoamphiboleBerman.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OrthoamphiboleBerman.m; path = ../OrthoamphiboleBerman.m; sourceTree = "<group>"; };
+		777410F31F071A6200CA1587 /* PhaseBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhaseBase.m; path = ../PhaseBase.m; sourceTree = "<group>"; };
+		777410F41F071A6200CA1587 /* ZhangDuan2009.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZhangDuan2009.m; path = ../ZhangDuan2009.m; sourceTree = "<group>"; };
+		777410F51F071A6200CA1587 /* SpinelBerman.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SpinelBerman.m; path = ../SpinelBerman.m; sourceTree = "<group>"; };
+		777410F61F071A6200CA1587 /* BermanStoichiometricPhases.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BermanStoichiometricPhases.h; path = ../BermanStoichiometricPhases.h; sourceTree = "<group>"; };
+		777410F71F071A6200CA1587 /* CristobaliteBerman+CristobaliteBerman_ParameterCalibration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CristobaliteBerman+CristobaliteBerman_ParameterCalibration.m"; path = "../CristobaliteBerman+CristobaliteBerman_ParameterCalibration.m"; sourceTree = "<group>"; };
+		777410F81F071A6200CA1587 /* GehleniteBerman+GehleniteBerman_ParameterCalibration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "GehleniteBerman+GehleniteBerman_ParameterCalibration.m"; path = "../GehleniteBerman+GehleniteBerman_ParameterCalibration.m"; sourceTree = "<group>"; };
+		777410F91F071A6200CA1587 /* QuartzBerman+QuartzBerman_ParameterCalibration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "QuartzBerman+QuartzBerman_ParameterCalibration.m"; path = "../QuartzBerman+QuartzBerman_ParameterCalibration.m"; sourceTree = "<group>"; };
+		777410FA1F071A6200CA1587 /* SanidineBerman+SanidineBerman_ParameterCalibration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "SanidineBerman+SanidineBerman_ParameterCalibration.m"; path = "../SanidineBerman+SanidineBerman_ParameterCalibration.m"; sourceTree = "<group>"; };
+		777410FB1F071A6200CA1587 /* TridymiteBerman+TridymiteBerman_ParameterCalibration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "TridymiteBerman+TridymiteBerman_ParameterCalibration.m"; path = "../TridymiteBerman+TridymiteBerman_ParameterCalibration.m"; sourceTree = "<group>"; };
+		777410FC1F071A6200CA1587 /* HKFspeciesProperties+HKFspeciesProperties_ParameterCalibration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "HKFspeciesProperties+HKFspeciesProperties_ParameterCalibration.h"; path = "../HKFspeciesProperties+HKFspeciesProperties_ParameterCalibration.h"; sourceTree = "<group>"; };
+		777410FD1F071A6200CA1587 /* HKFspeciesProperties+HKFspeciesProperties_ParameterCalibration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "HKFspeciesProperties+HKFspeciesProperties_ParameterCalibration.m"; path = "../HKFspeciesProperties+HKFspeciesProperties_ParameterCalibration.m"; sourceTree = "<group>"; };
+		777410FE1F071A6200CA1587 /* DEWDielectricConstant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DEWDielectricConstant.m; path = ../DEWDielectricConstant.m; sourceTree = "<group>"; };
+		777410FF1F071A6200CA1587 /* DEWFluid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DEWFluid.h; path = ../DEWFluid.h; sourceTree = "<group>"; };
+		777411001F071A6200CA1587 /* EquilibrateUsingMELTSwithDEW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EquilibrateUsingMELTSwithDEW.h; path = ../EquilibrateUsingMELTSwithDEW.h; sourceTree = "<group>"; };
+		777411011F071A6200CA1587 /* EquilibrateUsingMELTSwithDEW.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EquilibrateUsingMELTSwithDEW.m; path = ../EquilibrateUsingMELTSwithDEW.m; sourceTree = "<group>"; };
+		777411021F071A6200CA1587 /* LiquidMeltsCO2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LiquidMeltsCO2.h; path = ../LiquidMeltsCO2.h; sourceTree = "<group>"; };
+		777411031F071A6200CA1587 /* LiquidMeltsCO2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LiquidMeltsCO2.m; path = ../LiquidMeltsCO2.m; sourceTree = "<group>"; };
+		777411041F071A6200CA1587 /* LiquidMeltsH2ORevised.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LiquidMeltsH2ORevised.h; path = ../LiquidMeltsH2ORevised.h; sourceTree = "<group>"; };
+		777411051F071A6200CA1587 /* LiquidMeltsH2ORevised.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LiquidMeltsH2ORevised.m; path = ../LiquidMeltsH2ORevised.m; sourceTree = "<group>"; };
+		777411061F071A6200CA1587 /* LiquidMeltsSiO2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LiquidMeltsSiO2.h; path = ../LiquidMeltsSiO2.h; sourceTree = "<group>"; };
+		777411071F071A6200CA1587 /* LiquidMeltsSiO2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LiquidMeltsSiO2.m; path = ../LiquidMeltsSiO2.m; sourceTree = "<group>"; };
+		777411081F071A6200CA1587 /* LiquidpMelts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LiquidpMelts.m; path = ../LiquidpMelts.m; sourceTree = "<group>"; };
+		777411091F071A6200CA1587 /* DoubleTensor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DoubleTensor.m; path = ../DoubleTensor.m; sourceTree = "<group>"; };
+		7774110A1F071A6200CA1587 /* EquilibrateState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EquilibrateState.h; path = ../EquilibrateState.h; sourceTree = "<group>"; };
+		7774110B1F071A6200CA1587 /* EquilibrateUsingMELTSv102.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EquilibrateUsingMELTSv102.h; path = ../EquilibrateUsingMELTSv102.h; sourceTree = "<group>"; };
+		7774110C1F071A6200CA1587 /* EquilibrateUsingMELTSv110.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EquilibrateUsingMELTSv110.h; path = ../EquilibrateUsingMELTSv110.h; sourceTree = "<group>"; };
+		7774110D1F071A6200CA1587 /* EquilibrateUsingMELTSv120.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EquilibrateUsingMELTSv120.h; path = ../EquilibrateUsingMELTSv120.h; sourceTree = "<group>"; };
+		7774110E1F071A6200CA1587 /* EquilibrateUsingpMELTSv561.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EquilibrateUsingpMELTSv561.h; path = ../EquilibrateUsingpMELTSv561.h; sourceTree = "<group>"; };
+		7774110F1F071A6200CA1587 /* EquilibrateUsingStixrude.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EquilibrateUsingStixrude.h; path = ../EquilibrateUsingStixrude.h; sourceTree = "<group>"; };
+		777411101F071A6200CA1587 /* SolutionPhaseProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SolutionPhaseProtocol.h; path = ../SolutionPhaseProtocol.h; sourceTree = "<group>"; };
+		777411111F071A6200CA1587 /* FeldsparBerman.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeldsparBerman.h; path = ../FeldsparBerman.h; sourceTree = "<group>"; };
+		777411121F071A6200CA1587 /* HoltenJPCRD2014.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HoltenJPCRD2014.m; path = ../HoltenJPCRD2014.m; sourceTree = "<group>"; };
+		777411131F071A6200CA1587 /* PhaseBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhaseBase.h; path = ../PhaseBase.h; sourceTree = "<group>"; };
+		777411141F071A6200CA1587 /* Stixrude.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stixrude.h; path = ../Stixrude.h; sourceTree = "<group>"; };
+		777411151F071A6200CA1587 /* DoubleMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DoubleMatrix.m; path = ../DoubleMatrix.m; sourceTree = "<group>"; };
+		777411161F071A6200CA1587 /* DoubleTensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DoubleTensor.h; path = ../DoubleTensor.h; sourceTree = "<group>"; };
+		777411171F071A6200CA1587 /* DoubleMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DoubleMatrix.h; path = ../DoubleMatrix.h; sourceTree = "<group>"; };
+		777411181F071A6200CA1587 /* DoubleVector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DoubleVector.h; path = ../DoubleVector.h; sourceTree = "<group>"; };
+		777411191F071A6200CA1587 /* Stixrude.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Stixrude.m; path = ../Stixrude.m; sourceTree = "<group>"; };
+		7774111A1F071A6200CA1587 /* Wagner2002.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Wagner2002.m; path = ../Wagner2002.m; sourceTree = "<group>"; };
+		7774111B1F071A6200CA1587 /* LiquidpMeltsGenericEM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LiquidpMeltsGenericEM.m; path = ../LiquidpMeltsGenericEM.m; sourceTree = "<group>"; };
+		7774111C1F071A6200CA1587 /* MathSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MathSupport.h; path = ../MathSupport.h; sourceTree = "<group>"; };
+		7774111D1F071A6200CA1587 /* BermanProperties+BermanProperties_BermanProperties_ParameterCalibration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "BermanProperties+BermanProperties_BermanProperties_ParameterCalibration.h"; path = "../BermanProperties+BermanProperties_BermanProperties_ParameterCalibration.h"; sourceTree = "<group>"; };
+		7774111E1F071A6200CA1587 /* BermanProperties+BermanProperties_BermanProperties_ParameterCalibration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "BermanProperties+BermanProperties_BermanProperties_ParameterCalibration.m"; path = "../BermanProperties+BermanProperties_BermanProperties_ParameterCalibration.m"; sourceTree = "<group>"; };
+		7774111F1F071A6200CA1587 /* CristobaliteBerman+CristobaliteBerman_ParameterCalibration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CristobaliteBerman+CristobaliteBerman_ParameterCalibration.h"; path = "../CristobaliteBerman+CristobaliteBerman_ParameterCalibration.h"; sourceTree = "<group>"; };
+		777411201F071A6200CA1587 /* DEWDielectricConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DEWDielectricConstant.h; path = ../DEWDielectricConstant.h; sourceTree = "<group>"; };
+		777411211F071A6200CA1587 /* DEWH2O.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DEWH2O.h; path = ../DEWH2O.h; sourceTree = "<group>"; };
+		777411221F071A6200CA1587 /* DEWH2O.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DEWH2O.m; path = ../DEWH2O.m; sourceTree = "<group>"; };
+		777411231F071A6200CA1587 /* DEWmodelParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DEWmodelParameters.h; path = ../DEWmodelParameters.h; sourceTree = "<group>"; };
+		777411241F071A6200CA1587 /* DEWspecies.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DEWspecies.h; path = ../DEWspecies.h; sourceTree = "<group>"; };
+		777411251F071A6200CA1587 /* DEWspecies.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DEWspecies.m; path = ../DEWspecies.m; sourceTree = "<group>"; };
+		777411261F071A6200CA1587 /* FeldsparBerman+FeldsparBerman_ParameterCalibration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "FeldsparBerman+FeldsparBerman_ParameterCalibration.h"; path = "../FeldsparBerman+FeldsparBerman_ParameterCalibration.h"; sourceTree = "<group>"; };
+		777411271F071A6200CA1587 /* FeldsparBerman+FeldsparBerman_ParameterCalibration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "FeldsparBerman+FeldsparBerman_ParameterCalibration.m"; path = "../FeldsparBerman+FeldsparBerman_ParameterCalibration.m"; sourceTree = "<group>"; };
+		777411281F071A6200CA1587 /* GehleniteBerman+GehleniteBerman_ParameterCalibration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GehleniteBerman+GehleniteBerman_ParameterCalibration.h"; path = "../GehleniteBerman+GehleniteBerman_ParameterCalibration.h"; sourceTree = "<group>"; };
+		777411291F071A6200CA1587 /* GenericH2O.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenericH2O.h; path = ../GenericH2O.h; sourceTree = "<group>"; };
+		7774112A1F071A6200CA1587 /* GenericH2O.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GenericH2O.m; path = ../GenericH2O.m; sourceTree = "<group>"; };
+		7774112B1F071A6200CA1587 /* HKFspeciesComposite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKFspeciesComposite.h; path = ../HKFspeciesComposite.h; sourceTree = "<group>"; };
+		7774112C1F071A6200CA1587 /* HKFspeciesProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKFspeciesProperties.h; path = ../HKFspeciesProperties.h; sourceTree = "<group>"; };
+		7774112D1F071A6200CA1587 /* HKFspeciesProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKFspeciesProperties.m; path = ../HKFspeciesProperties.m; sourceTree = "<group>"; };
+		7774112E1F071A6200CA1587 /* HoltenJPCRD2014.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HoltenJPCRD2014.h; path = ../HoltenJPCRD2014.h; sourceTree = "<group>"; };
+		7774112F1F071A6200CA1587 /* LiquidMelts+LiquidMelts_LiquidMelts_ParameterCalibration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "LiquidMelts+LiquidMelts_LiquidMelts_ParameterCalibration.h"; path = "../LiquidMelts+LiquidMelts_LiquidMelts_ParameterCalibration.h"; sourceTree = "<group>"; };
+		777411301F071A6200CA1587 /* LiquidMelts+LiquidMelts_LiquidMelts_ParameterCalibration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "LiquidMelts+LiquidMelts_LiquidMelts_ParameterCalibration.m"; path = "../LiquidMelts+LiquidMelts_LiquidMelts_ParameterCalibration.m"; sourceTree = "<group>"; };
+		777411311F071A6200CA1587 /* LiquidMeltsCO2+LiquidMeltsCO2_ParameterCalibration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "LiquidMeltsCO2+LiquidMeltsCO2_ParameterCalibration.h"; path = "../LiquidMeltsCO2+LiquidMeltsCO2_ParameterCalibration.h"; sourceTree = "<group>"; };
+		777411321F071A6200CA1587 /* LiquidMeltsCO2+LiquidMeltsCO2_ParameterCalibration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "LiquidMeltsCO2+LiquidMeltsCO2_ParameterCalibration.m"; path = "../LiquidMeltsCO2+LiquidMeltsCO2_ParameterCalibration.m"; sourceTree = "<group>"; };
+		777411331F071A6200CA1587 /* LiquidMeltsGenericEM+LiquidMeltsGenericEM_ParameterCalibration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "LiquidMeltsGenericEM+LiquidMeltsGenericEM_ParameterCalibration.h"; path = "../LiquidMeltsGenericEM+LiquidMeltsGenericEM_ParameterCalibration.h"; sourceTree = "<group>"; };
+		777411341F071A6200CA1587 /* LiquidMeltsGenericEM+LiquidMeltsGenericEM_ParameterCalibration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "LiquidMeltsGenericEM+LiquidMeltsGenericEM_ParameterCalibration.m"; path = "../LiquidMeltsGenericEM+LiquidMeltsGenericEM_ParameterCalibration.m"; sourceTree = "<group>"; };
+		777411351F071A6200CA1587 /* LiquidMeltsH2ORevised+LiquidMeltsH2ORevised_ParameterCalibration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "LiquidMeltsH2ORevised+LiquidMeltsH2ORevised_ParameterCalibration.h"; path = "../LiquidMeltsH2ORevised+LiquidMeltsH2ORevised_ParameterCalibration.h"; sourceTree = "<group>"; };
+		777411361F071A6200CA1587 /* LiquidMeltsH2ORevised+LiquidMeltsH2ORevised_ParameterCalibration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "LiquidMeltsH2ORevised+LiquidMeltsH2ORevised_ParameterCalibration.m"; path = "../LiquidMeltsH2ORevised+LiquidMeltsH2ORevised_ParameterCalibration.m"; sourceTree = "<group>"; };
+		777411371F071A6200CA1587 /* LiquidMeltsPlusCO2+LiquidMeltsPlusCO2_LiquidMeltsPlusCO2_ParameterCalibration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "LiquidMeltsPlusCO2+LiquidMeltsPlusCO2_LiquidMeltsPlusCO2_ParameterCalibration.h"; path = "../LiquidMeltsPlusCO2+LiquidMeltsPlusCO2_LiquidMeltsPlusCO2_ParameterCalibration.h"; sourceTree = "<group>"; };
+		777411381F071A6200CA1587 /* LiquidMeltsPlusCO2+LiquidMeltsPlusCO2_LiquidMeltsPlusCO2_ParameterCalibration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "LiquidMeltsPlusCO2+LiquidMeltsPlusCO2_LiquidMeltsPlusCO2_ParameterCalibration.m"; path = "../LiquidMeltsPlusCO2+LiquidMeltsPlusCO2_LiquidMeltsPlusCO2_ParameterCalibration.m"; sourceTree = "<group>"; };
+		777411391F071A6200CA1587 /* LiquidMeltsSiO2+LiquidMeltsSiO2_ParameterCalibration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "LiquidMeltsSiO2+LiquidMeltsSiO2_ParameterCalibration.h"; path = "../LiquidMeltsSiO2+LiquidMeltsSiO2_ParameterCalibration.h"; sourceTree = "<group>"; };
+		7774113A1F071A6200CA1587 /* LiquidMeltsSiO2+LiquidMeltsSiO2_ParameterCalibration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "LiquidMeltsSiO2+LiquidMeltsSiO2_ParameterCalibration.m"; path = "../LiquidMeltsSiO2+LiquidMeltsSiO2_ParameterCalibration.m"; sourceTree = "<group>"; };
+		7774113B1F071A6200CA1587 /* ParameterCalibrationProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParameterCalibrationProtocol.h; path = ../ParameterCalibrationProtocol.h; sourceTree = "<group>"; };
+		7774113C1F071A6200CA1587 /* QuartzBerman+QuartzBerman_ParameterCalibration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "QuartzBerman+QuartzBerman_ParameterCalibration.h"; path = "../QuartzBerman+QuartzBerman_ParameterCalibration.h"; sourceTree = "<group>"; };
+		7774113D1F071A6200CA1587 /* SanidineBerman+SanidineBerman_ParameterCalibration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SanidineBerman+SanidineBerman_ParameterCalibration.h"; path = "../SanidineBerman+SanidineBerman_ParameterCalibration.h"; sourceTree = "<group>"; };
+		7774113E1F071A6200CA1587 /* TridymiteBerman+TridymiteBerman_ParameterCalibration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TridymiteBerman+TridymiteBerman_ParameterCalibration.h"; path = "../TridymiteBerman+TridymiteBerman_ParameterCalibration.h"; sourceTree = "<group>"; };
+		7774113F1F071A6200CA1587 /* Wagner2002.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Wagner2002.h; path = ../Wagner2002.h; sourceTree = "<group>"; };
+		777411401F071A6200CA1587 /* ZhangAndDuanCorrectionTerms.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZhangAndDuanCorrectionTerms.h; path = ../ZhangAndDuanCorrectionTerms.h; sourceTree = "<group>"; };
+		777411411F071A6200CA1587 /* ZhangDuan2009.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZhangDuan2009.h; path = ../ZhangDuan2009.h; sourceTree = "<group>"; };
+		777411421F071A6200CA1587 /* AlloyLiquid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AlloyLiquid.h; path = ../AlloyLiquid.h; sourceTree = "<group>"; };
+		777411431F071A6200CA1587 /* AlloySolid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AlloySolid.h; path = ../AlloySolid.h; sourceTree = "<group>"; };
+		777411441F071A6200CA1587 /* BermanAlbite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BermanAlbite.h; path = ../BermanAlbite.h; sourceTree = "<group>"; };
+		777411451F071A6200CA1587 /* BermanAlbite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BermanAlbite.m; path = ../BermanAlbite.m; sourceTree = "<group>"; };
+		777411461F071A6200CA1587 /* BiotiteBerman.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BiotiteBerman.h; path = ../BiotiteBerman.h; sourceTree = "<group>"; };
+		777411471F071A6200CA1587 /* BiotiteBerman.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BiotiteBerman.m; path = ../BiotiteBerman.m; sourceTree = "<group>"; };
+		777411481F071A6200CA1587 /* ClinoamphiboleBerman.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClinoamphiboleBerman.h; path = ../ClinoamphiboleBerman.h; sourceTree = "<group>"; };
+		777411491F071A6200CA1587 /* CpxBerman.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CpxBerman.h; path = ../CpxBerman.h; sourceTree = "<group>"; };
+		7774114A1F071A6200CA1587 /* FluidDuan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FluidDuan.h; path = ../FluidDuan.h; sourceTree = "<group>"; };
+		7774114B1F071A6200CA1587 /* FluidDuan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FluidDuan.m; path = ../FluidDuan.m; sourceTree = "<group>"; };
+		7774114C1F071A6200CA1587 /* GarnetBerman.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GarnetBerman.h; path = ../GarnetBerman.h; sourceTree = "<group>"; };
+		7774114D1F071A6200CA1587 /* GarnetBerman.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GarnetBerman.m; path = ../GarnetBerman.m; sourceTree = "<group>"; };
+		7774114E1F071A6200CA1587 /* HornblendeBerman.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HornblendeBerman.h; path = ../HornblendeBerman.h; sourceTree = "<group>"; };
+		7774114F1F071A6200CA1587 /* HornblendeBerman.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HornblendeBerman.m; path = ../HornblendeBerman.m; sourceTree = "<group>"; };
+		777411501F071A6200CA1587 /* IntegerVector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IntegerVector.h; path = ../IntegerVector.h; sourceTree = "<group>"; };
+		777411511F071A6200CA1587 /* IntegerVector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IntegerVector.m; path = ../IntegerVector.m; sourceTree = "<group>"; };
+		777411521F071A6200CA1587 /* KalsiliteSSBerman.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KalsiliteSSBerman.h; path = ../KalsiliteSSBerman.h; sourceTree = "<group>"; };
+		777411531F071A6200CA1587 /* KalsiliteSSBerman.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KalsiliteSSBerman.m; path = ../KalsiliteSSBerman.m; sourceTree = "<group>"; };
+		777411541F071A6200CA1587 /* LeuciteBerman.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LeuciteBerman.h; path = ../LeuciteBerman.h; sourceTree = "<group>"; };
+		777411551F071A6200CA1587 /* LiquidMelts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LiquidMelts.h; path = ../LiquidMelts.h; sourceTree = "<group>"; };
+		777411561F071A6200CA1587 /* LiquidMeltsGenericEM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LiquidMeltsGenericEM.h; path = ../LiquidMeltsGenericEM.h; sourceTree = "<group>"; };
+		777411571F071A6200CA1587 /* LiquidMeltsGenericEM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LiquidMeltsGenericEM.m; path = ../LiquidMeltsGenericEM.m; sourceTree = "<group>"; };
+		777411581F071A6200CA1587 /* LiquidMeltsH2O.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LiquidMeltsH2O.h; path = ../LiquidMeltsH2O.h; sourceTree = "<group>"; };
+		777411591F071A6200CA1587 /* LiquidMeltsH2O.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LiquidMeltsH2O.m; path = ../LiquidMeltsH2O.m; sourceTree = "<group>"; };
+		7774115A1F071A6200CA1587 /* LiquidMeltsPlusCO2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LiquidMeltsPlusCO2.h; path = ../LiquidMeltsPlusCO2.h; sourceTree = "<group>"; };
+		7774115B1F071A6200CA1587 /* LiquidpMelts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LiquidpMelts.h; path = ../LiquidpMelts.h; sourceTree = "<group>"; };
+		7774115C1F071A6200CA1587 /* LiquidpMeltsGenericEM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LiquidpMeltsGenericEM.h; path = ../LiquidpMeltsGenericEM.h; sourceTree = "<group>"; };
+		7774115D1F071A6200CA1587 /* LiquidpMeltsH2O.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LiquidpMeltsH2O.h; path = ../LiquidpMeltsH2O.h; sourceTree = "<group>"; };
+		7774115E1F071A6200CA1587 /* LiquidpMeltsH2O.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LiquidpMeltsH2O.m; path = ../LiquidpMeltsH2O.m; sourceTree = "<group>"; };
+		7774115F1F071A6200CA1587 /* MeliliteBerman.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeliliteBerman.h; path = ../MeliliteBerman.h; sourceTree = "<group>"; };
+		777411601F071A6200CA1587 /* MeliliteBerman.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MeliliteBerman.m; path = ../MeliliteBerman.m; sourceTree = "<group>"; };
+		777411611F071A6200CA1587 /* Metals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Metals.h; path = ../Metals.h; sourceTree = "<group>"; };
+		777411621F071A6200CA1587 /* Metals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Metals.m; path = ../Metals.m; sourceTree = "<group>"; };
+		777411631F071A6200CA1587 /* NephelineSSBerman.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NephelineSSBerman.h; path = ../NephelineSSBerman.h; sourceTree = "<group>"; };
+		777411641F071A6200CA1587 /* OlivineBerman.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OlivineBerman.h; path = ../OlivineBerman.h; sourceTree = "<group>"; };
+		777411651F071A6200CA1587 /* OlivineBerman.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OlivineBerman.m; path = ../OlivineBerman.m; sourceTree = "<group>"; };
+		777411661F071A6200CA1587 /* OpxBerman.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpxBerman.h; path = ../OpxBerman.h; sourceTree = "<group>"; };
+		777411671F071A6200CA1587 /* OrthoamphiboleBerman.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OrthoamphiboleBerman.h; path = ../OrthoamphiboleBerman.h; sourceTree = "<group>"; };
+		777411681F071A6200CA1587 /* OrthoOxideBerman.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OrthoOxideBerman.h; path = ../OrthoOxideBerman.h; sourceTree = "<group>"; };
+		777411691F071A6200CA1587 /* OrthoOxideBerman.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OrthoOxideBerman.m; path = ../OrthoOxideBerman.m; sourceTree = "<group>"; };
+		7774116A1F071A6200CA1587 /* PseudoPhase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PseudoPhase.h; path = ../PseudoPhase.h; sourceTree = "<group>"; };
+		7774116B1F071A6200CA1587 /* PseudoPhase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PseudoPhase.m; path = ../PseudoPhase.m; sourceTree = "<group>"; };
+		7774116C1F071A6200CA1587 /* RhombohedralBerman.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RhombohedralBerman.h; path = ../RhombohedralBerman.h; sourceTree = "<group>"; };
+		7774116D1F071A6200CA1587 /* RhombohedralBerman.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RhombohedralBerman.m; path = ../RhombohedralBerman.m; sourceTree = "<group>"; };
+		7774116E1F071A6200CA1587 /* SolutionPhase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SolutionPhase.h; path = ../SolutionPhase.h; sourceTree = "<group>"; };
+		7774116F1F071A6200CA1587 /* SpinelBerman.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpinelBerman.h; path = ../SpinelBerman.h; sourceTree = "<group>"; };
+		777411701F071A6200CA1587 /* StixrudeEndmembers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StixrudeEndmembers.h; path = ../StixrudeEndmembers.h; sourceTree = "<group>"; };
+		777411711F071A6200CA1587 /* StixrudeEndmembers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StixrudeEndmembers.m; path = ../StixrudeEndmembers.m; sourceTree = "<group>"; };
+		777411721F071A6200CA1587 /* StixrudeProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StixrudeProperties.h; path = ../StixrudeProperties.h; sourceTree = "<group>"; };
+		777411731F071A6200CA1587 /* StixrudeProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StixrudeProperties.m; path = ../StixrudeProperties.m; sourceTree = "<group>"; };
+		777411741F071A6200CA1587 /* StixrudeSolutionPhase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StixrudeSolutionPhase.h; path = ../StixrudeSolutionPhase.h; sourceTree = "<group>"; };
+		777411751F071A6200CA1587 /* StixrudeSolutionPhase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StixrudeSolutionPhase.m; path = ../StixrudeSolutionPhase.m; sourceTree = "<group>"; };
+		777411761F071A6200CA1587 /* StixrudeSolutions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StixrudeSolutions.h; path = ../StixrudeSolutions.h; sourceTree = "<group>"; };
+		777411771F071A6200CA1587 /* StixrudeSolutions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StixrudeSolutions.m; path = ../StixrudeSolutions.m; sourceTree = "<group>"; };
+		777411781F071A6200CA1587 /* StixrudeStoichiometricPhases.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StixrudeStoichiometricPhases.h; path = ../StixrudeStoichiometricPhases.h; sourceTree = "<group>"; };
+		777411791F071A6200CA1587 /* StixrudeStoichiometricPhases.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StixrudeStoichiometricPhases.m; path = ../StixrudeStoichiometricPhases.m; sourceTree = "<group>"; };
+		7774117A1F071A6200CA1587 /* StoichiometricPhaseProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StoichiometricPhaseProtocol.h; path = ../StoichiometricPhaseProtocol.h; sourceTree = "<group>"; };
+		777412231F071B3700CA1587 /* b23.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = b23.c; path = ../FreeSteam2.1/b23.c; sourceTree = "<group>"; };
+		777412241F071B3700CA1587 /* b23.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = b23.h; path = ../FreeSteam2.1/b23.h; sourceTree = "<group>"; };
+		777412251F071B3700CA1587 /* backwards_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = backwards_impl.h; path = ../FreeSteam2.1/backwards_impl.h; sourceTree = "<group>"; };
+		777412261F071B3700CA1587 /* backwards.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = backwards.c; path = ../FreeSteam2.1/backwards.c; sourceTree = "<group>"; };
+		777412271F071B3700CA1587 /* backwards.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = backwards.h; path = ../FreeSteam2.1/backwards.h; sourceTree = "<group>"; };
+		777412281F071B3700CA1587 /* bounds.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = bounds.c; path = ../FreeSteam2.1/bounds.c; sourceTree = "<group>"; };
+		777412291F071B3700CA1587 /* bounds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bounds.h; path = ../FreeSteam2.1/bounds.h; sourceTree = "<group>"; };
+		7774122A1F071B3700CA1587 /* common.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = common.c; path = ../FreeSteam2.1/common.c; sourceTree = "<group>"; };
+		7774122B1F071B3700CA1587 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = common.h; path = ../FreeSteam2.1/common.h; sourceTree = "<group>"; };
+		7774122C1F071B3700CA1587 /* compat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = compat.h; path = ../FreeSteam2.1/compat.h; sourceTree = "<group>"; };
+		7774122D1F071B3700CA1587 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = config.h; path = ../FreeSteam2.1/config.h; sourceTree = "<group>"; };
+		7774122E1F071B3700CA1587 /* derivs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = derivs.c; path = ../FreeSteam2.1/derivs.c; sourceTree = "<group>"; };
+		7774122F1F071B3700CA1587 /* derivs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = derivs.h; path = ../FreeSteam2.1/derivs.h; sourceTree = "<group>"; };
+		777412311F071B3700CA1587 /* region1.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = region1.c; path = ../FreeSteam2.1/region1.c; sourceTree = "<group>"; };
+		777412321F071B3700CA1587 /* region1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = region1.h; path = ../FreeSteam2.1/region1.h; sourceTree = "<group>"; };
+		777412331F071B3700CA1587 /* region2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = region2.c; path = ../FreeSteam2.1/region2.c; sourceTree = "<group>"; };
+		777412341F071B3700CA1587 /* region2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = region2.h; path = ../FreeSteam2.1/region2.h; sourceTree = "<group>"; };
+		777412351F071B3700CA1587 /* region3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = region3.c; path = ../FreeSteam2.1/region3.c; sourceTree = "<group>"; };
+		777412361F071B3700CA1587 /* region3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = region3.h; path = ../FreeSteam2.1/region3.h; sourceTree = "<group>"; };
+		777412371F071B3700CA1587 /* region4.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = region4.c; path = ../FreeSteam2.1/region4.c; sourceTree = "<group>"; };
+		777412381F071B3700CA1587 /* region4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = region4.h; path = ../FreeSteam2.1/region4.h; sourceTree = "<group>"; };
+		777412391F071B3700CA1587 /* solver2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = solver2.c; path = ../FreeSteam2.1/solver2.c; sourceTree = "<group>"; };
+		7774123A1F071B3700CA1587 /* solver2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = solver2.h; path = ../FreeSteam2.1/solver2.h; sourceTree = "<group>"; };
+		7774123B1F071B3700CA1587 /* steam_ph.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = steam_ph.c; path = ../FreeSteam2.1/steam_ph.c; sourceTree = "<group>"; };
+		7774123C1F071B3700CA1587 /* steam_ph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = steam_ph.h; path = ../FreeSteam2.1/steam_ph.h; sourceTree = "<group>"; };
+		7774123D1F071B3700CA1587 /* steam_ps.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = steam_ps.c; path = ../FreeSteam2.1/steam_ps.c; sourceTree = "<group>"; };
+		7774123E1F071B3700CA1587 /* steam_ps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = steam_ps.h; path = ../FreeSteam2.1/steam_ps.h; sourceTree = "<group>"; };
+		7774123F1F071B3700CA1587 /* steam_pT.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = steam_pT.c; path = ../FreeSteam2.1/steam_pT.c; sourceTree = "<group>"; };
+		777412401F071B3700CA1587 /* steam_pT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = steam_pT.h; path = ../FreeSteam2.1/steam_pT.h; sourceTree = "<group>"; };
+		777412411F071B3700CA1587 /* steam_pu.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = steam_pu.c; path = ../FreeSteam2.1/steam_pu.c; sourceTree = "<group>"; };
+		777412421F071B3700CA1587 /* steam_pu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = steam_pu.h; path = ../FreeSteam2.1/steam_pu.h; sourceTree = "<group>"; };
+		777412431F071B3700CA1587 /* steam_pv.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = steam_pv.c; path = ../FreeSteam2.1/steam_pv.c; sourceTree = "<group>"; };
+		777412441F071B3700CA1587 /* steam_pv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = steam_pv.h; path = ../FreeSteam2.1/steam_pv.h; sourceTree = "<group>"; };
+		777412451F071B3700CA1587 /* steam_Ts.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = steam_Ts.c; path = ../FreeSteam2.1/steam_Ts.c; sourceTree = "<group>"; };
+		777412461F071B3700CA1587 /* steam_Ts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = steam_Ts.h; path = ../FreeSteam2.1/steam_Ts.h; sourceTree = "<group>"; };
+		777412471F071B3700CA1587 /* steam_Tx.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = steam_Tx.c; path = ../FreeSteam2.1/steam_Tx.c; sourceTree = "<group>"; };
+		777412481F071B3700CA1587 /* steam_Tx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = steam_Tx.h; path = ../FreeSteam2.1/steam_Tx.h; sourceTree = "<group>"; };
+		777412491F071B3700CA1587 /* steam.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = steam.c; path = ../FreeSteam2.1/steam.c; sourceTree = "<group>"; };
+		7774124A1F071B3700CA1587 /* steam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = steam.h; path = ../FreeSteam2.1/steam.h; sourceTree = "<group>"; };
+		7774124B1F071B3700CA1587 /* surftens.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = surftens.c; path = ../FreeSteam2.1/surftens.c; sourceTree = "<group>"; };
+		7774124C1F071B3700CA1587 /* surftens.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = surftens.h; path = ../FreeSteam2.1/surftens.h; sourceTree = "<group>"; };
+		7774124D1F071B3700CA1587 /* thcond.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = thcond.c; path = ../FreeSteam2.1/thcond.c; sourceTree = "<group>"; };
+		7774124E1F071B3700CA1587 /* thcond.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = thcond.h; path = ../FreeSteam2.1/thcond.h; sourceTree = "<group>"; };
+		7774124F1F071B3700CA1587 /* viscosity.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = viscosity.c; path = ../FreeSteam2.1/viscosity.c; sourceTree = "<group>"; };
+		777412501F071B3700CA1587 /* viscosity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = viscosity.h; path = ../FreeSteam2.1/viscosity.h; sourceTree = "<group>"; };
+		777412511F071B3700CA1587 /* zeroin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = zeroin.c; path = ../FreeSteam2.1/zeroin.c; sourceTree = "<group>"; };
+		777412521F071B3700CA1587 /* zeroin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = zeroin.h; path = ../FreeSteam2.1/zeroin.h; sourceTree = "<group>"; };
+		777412841F071E8100CA1587 /* libgsl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgsl.a; path = ../../../../../../../usr/local/Cellar/gsl/2.2.1/lib/libgsl.a; sourceTree = "<group>"; };
+		777412871F071F7500CA1587 /* HoltenJPCRD2014.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HoltenJPCRD2014.cpp; path = ../../HoltenJPCRD2014.cpp; sourceTree = "<group>"; };
+		7774128B1F071FF300CA1587 /* DEWlibraryInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DEWlibraryInterface.m; sourceTree = "<group>"; };
+		7774128C1F071FF300CA1587 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		7774128E1F071FF300CA1587 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		777412931F07204E00CA1587 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		77D204061F0EDC7800B1DAD0 /* LiquidMeltsPlusOldH2OandNewCO2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LiquidMeltsPlusOldH2OandNewCO2.h; path = ../LiquidMeltsPlusOldH2OandNewCO2.h; sourceTree = "<group>"; };
+		77D204071F0EDC7800B1DAD0 /* LiquidMeltsPlusOldH2OandNewCO2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LiquidMeltsPlusOldH2OandNewCO2.m; path = ../LiquidMeltsPlusOldH2OandNewCO2.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		773407D91F06F3C300F8FD6C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				777412851F071E8100CA1587 /* libgsl.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		773407E31F06F3C300F8FD6C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				773407E71F06F3C300F8FD6C /* PhaseObjC.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		773407D31F06F3C300F8FD6C = {
+			isa = PBXGroup;
+			children = (
+				773407F71F06F43000F8FD6C /* sources */,
+				773407DF1F06F3C300F8FD6C /* PhaseObjC */,
+				773407EA1F06F3C300F8FD6C /* PhaseObjCTests */,
+				773407DE1F06F3C300F8FD6C /* Products */,
+				777412831F071E8100CA1587 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		773407DE1F06F3C300F8FD6C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				773407DD1F06F3C300F8FD6C /* PhaseObjC.framework */,
+				773407E61F06F3C300F8FD6C /* PhaseObjCTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		773407DF1F06F3C300F8FD6C /* PhaseObjC */ = {
+			isa = PBXGroup;
+			children = (
+				773407E01F06F3C300F8FD6C /* PhaseObjC.h */,
+				773407E11F06F3C300F8FD6C /* Info.plist */,
+			);
+			path = PhaseObjC;
+			sourceTree = "<group>";
+		};
+		773407EA1F06F3C300F8FD6C /* PhaseObjCTests */ = {
+			isa = PBXGroup;
+			children = (
+				777412921F07204E00CA1587 /* TestEquilibrateClasses */,
+				777412891F071FF300CA1587 /* DEWTestProgram */,
+				777412871F071F7500CA1587 /* HoltenJPCRD2014.cpp */,
+				773407EB1F06F3C300F8FD6C /* PhaseObjCTests.m */,
+				773407ED1F06F3C300F8FD6C /* Info.plist */,
+			);
+			path = PhaseObjCTests;
+			sourceTree = "<group>";
+		};
+		773407F71F06F43000F8FD6C /* sources */ = {
+			isa = PBXGroup;
+			children = (
+				777411421F071A6200CA1587 /* AlloyLiquid.h */,
+				777410E11F071A6200CA1587 /* AlloyLiquid.m */,
+				777411431F071A6200CA1587 /* AlloySolid.h */,
+				777410E21F071A6200CA1587 /* AlloySolid.m */,
+				777411441F071A6200CA1587 /* BermanAlbite.h */,
+				777411451F071A6200CA1587 /* BermanAlbite.m */,
+				777410E01F071A6200CA1587 /* BermanProperties.h */,
+				777410E31F071A6200CA1587 /* BermanProperties.m */,
+				7774111D1F071A6200CA1587 /* BermanProperties+BermanProperties_BermanProperties_ParameterCalibration.h */,
+				7774111E1F071A6200CA1587 /* BermanProperties+BermanProperties_BermanProperties_ParameterCalibration.m */,
+				777410F61F071A6200CA1587 /* BermanStoichiometricPhases.h */,
+				777410E41F071A6200CA1587 /* BermanStoichiometricPhases.m */,
+				777411461F071A6200CA1587 /* BiotiteBerman.h */,
+				777411471F071A6200CA1587 /* BiotiteBerman.m */,
+				777410E51F071A6200CA1587 /* clapack.h */,
+				777411481F071A6200CA1587 /* ClinoamphiboleBerman.h */,
+				777410E61F071A6200CA1587 /* ClinoamphiboleBerman.m */,
+				777411491F071A6200CA1587 /* CpxBerman.h */,
+				777410E71F071A6200CA1587 /* CpxBerman.m */,
+				7774111F1F071A6200CA1587 /* CristobaliteBerman+CristobaliteBerman_ParameterCalibration.h */,
+				777410F71F071A6200CA1587 /* CristobaliteBerman+CristobaliteBerman_ParameterCalibration.m */,
+				777411201F071A6200CA1587 /* DEWDielectricConstant.h */,
+				777410FE1F071A6200CA1587 /* DEWDielectricConstant.m */,
+				777410FF1F071A6200CA1587 /* DEWFluid.h */,
+				777410E81F071A6200CA1587 /* DEWFluid.m */,
+				777411211F071A6200CA1587 /* DEWH2O.h */,
+				777411221F071A6200CA1587 /* DEWH2O.m */,
+				777411231F071A6200CA1587 /* DEWmodelParameters.h */,
+				777411241F071A6200CA1587 /* DEWspecies.h */,
+				777411251F071A6200CA1587 /* DEWspecies.m */,
+				777411171F071A6200CA1587 /* DoubleMatrix.h */,
+				777411151F071A6200CA1587 /* DoubleMatrix.m */,
+				777411161F071A6200CA1587 /* DoubleTensor.h */,
+				777411091F071A6200CA1587 /* DoubleTensor.m */,
+				777411181F071A6200CA1587 /* DoubleVector.h */,
+				777410E91F071A6200CA1587 /* DoubleVector.m */,
+				777410D31F071A6200CA1587 /* Equilibrate.h */,
+				777410D41F071A6200CA1587 /* Equilibrate.m */,
+				7774110A1F071A6200CA1587 /* EquilibrateState.h */,
+				777410D51F071A6200CA1587 /* EquilibrateState.m */,
+				7774110B1F071A6200CA1587 /* EquilibrateUsingMELTSv102.h */,
+				777410D61F071A6200CA1587 /* EquilibrateUsingMELTSv102.m */,
+				7774110C1F071A6200CA1587 /* EquilibrateUsingMELTSv110.h */,
+				777410D71F071A6200CA1587 /* EquilibrateUsingMELTSv110.m */,
+				7774110D1F071A6200CA1587 /* EquilibrateUsingMELTSv120.h */,
+				777410D81F071A6200CA1587 /* EquilibrateUsingMELTSv120.m */,
+				777411001F071A6200CA1587 /* EquilibrateUsingMELTSwithDEW.h */,
+				777411011F071A6200CA1587 /* EquilibrateUsingMELTSwithDEW.m */,
+				7774110E1F071A6200CA1587 /* EquilibrateUsingpMELTSv561.h */,
+				777410D91F071A6200CA1587 /* EquilibrateUsingpMELTSv561.m */,
+				7774110F1F071A6200CA1587 /* EquilibrateUsingStixrude.h */,
+				777410DA1F071A6200CA1587 /* EquilibrateUsingStixrude.m */,
+				777411111F071A6200CA1587 /* FeldsparBerman.h */,
+				777410EA1F071A6200CA1587 /* FeldsparBerman.m */,
+				777411261F071A6200CA1587 /* FeldsparBerman+FeldsparBerman_ParameterCalibration.h */,
+				777411271F071A6200CA1587 /* FeldsparBerman+FeldsparBerman_ParameterCalibration.m */,
+				7774114A1F071A6200CA1587 /* FluidDuan.h */,
+				7774114B1F071A6200CA1587 /* FluidDuan.m */,
+				777412861F071EA000CA1587 /* FreeSteam */,
+				7774114C1F071A6200CA1587 /* GarnetBerman.h */,
+				7774114D1F071A6200CA1587 /* GarnetBerman.m */,
+				777411281F071A6200CA1587 /* GehleniteBerman+GehleniteBerman_ParameterCalibration.h */,
+				777410F81F071A6200CA1587 /* GehleniteBerman+GehleniteBerman_ParameterCalibration.m */,
+				777411291F071A6200CA1587 /* GenericH2O.h */,
+				7774112A1F071A6200CA1587 /* GenericH2O.m */,
+				7774112B1F071A6200CA1587 /* HKFspeciesComposite.h */,
+				777410EB1F071A6200CA1587 /* HKFspeciesComposite.m */,
+				7774112C1F071A6200CA1587 /* HKFspeciesProperties.h */,
+				7774112D1F071A6200CA1587 /* HKFspeciesProperties.m */,
+				777410FC1F071A6200CA1587 /* HKFspeciesProperties+HKFspeciesProperties_ParameterCalibration.h */,
+				777410FD1F071A6200CA1587 /* HKFspeciesProperties+HKFspeciesProperties_ParameterCalibration.m */,
+				777410DC1F071A6200CA1587 /* HollandAndPowellProperties.h */,
+				777410DD1F071A6200CA1587 /* HollandAndPowellProperties.m */,
+				777410DF1F071A6200CA1587 /* HollandAndPowellStoichiometricPhases.h */,
+				777410DE1F071A6200CA1587 /* HollandAndPowellStoichiometricPhases.m */,
+				7774112E1F071A6200CA1587 /* HoltenJPCRD2014.h */,
+				777411121F071A6200CA1587 /* HoltenJPCRD2014.m */,
+				7774114E1F071A6200CA1587 /* HornblendeBerman.h */,
+				7774114F1F071A6200CA1587 /* HornblendeBerman.m */,
+				777411501F071A6200CA1587 /* IntegerVector.h */,
+				777411511F071A6200CA1587 /* IntegerVector.m */,
+				777411521F071A6200CA1587 /* KalsiliteSSBerman.h */,
+				777411531F071A6200CA1587 /* KalsiliteSSBerman.m */,
+				777411541F071A6200CA1587 /* LeuciteBerman.h */,
+				777410EC1F071A6200CA1587 /* LeuciteBerman.m */,
+				777411551F071A6200CA1587 /* LiquidMelts.h */,
+				777410ED1F071A6200CA1587 /* LiquidMelts.m */,
+				7774112F1F071A6200CA1587 /* LiquidMelts+LiquidMelts_LiquidMelts_ParameterCalibration.h */,
+				777411301F071A6200CA1587 /* LiquidMelts+LiquidMelts_LiquidMelts_ParameterCalibration.m */,
+				777411021F071A6200CA1587 /* LiquidMeltsCO2.h */,
+				777411031F071A6200CA1587 /* LiquidMeltsCO2.m */,
+				777411311F071A6200CA1587 /* LiquidMeltsCO2+LiquidMeltsCO2_ParameterCalibration.h */,
+				777411321F071A6200CA1587 /* LiquidMeltsCO2+LiquidMeltsCO2_ParameterCalibration.m */,
+				777411561F071A6200CA1587 /* LiquidMeltsGenericEM.h */,
+				777411571F071A6200CA1587 /* LiquidMeltsGenericEM.m */,
+				777411331F071A6200CA1587 /* LiquidMeltsGenericEM+LiquidMeltsGenericEM_ParameterCalibration.h */,
+				777411341F071A6200CA1587 /* LiquidMeltsGenericEM+LiquidMeltsGenericEM_ParameterCalibration.m */,
+				777411581F071A6200CA1587 /* LiquidMeltsH2O.h */,
+				777411591F071A6200CA1587 /* LiquidMeltsH2O.m */,
+				777411041F071A6200CA1587 /* LiquidMeltsH2ORevised.h */,
+				777411051F071A6200CA1587 /* LiquidMeltsH2ORevised.m */,
+				777411351F071A6200CA1587 /* LiquidMeltsH2ORevised+LiquidMeltsH2ORevised_ParameterCalibration.h */,
+				777411361F071A6200CA1587 /* LiquidMeltsH2ORevised+LiquidMeltsH2ORevised_ParameterCalibration.m */,
+				7774115A1F071A6200CA1587 /* LiquidMeltsPlusCO2.h */,
+				777410EE1F071A6200CA1587 /* LiquidMeltsPlusCO2.m */,
+				77D204061F0EDC7800B1DAD0 /* LiquidMeltsPlusOldH2OandNewCO2.h */,
+				77D204071F0EDC7800B1DAD0 /* LiquidMeltsPlusOldH2OandNewCO2.m */,
+				777411371F071A6200CA1587 /* LiquidMeltsPlusCO2+LiquidMeltsPlusCO2_LiquidMeltsPlusCO2_ParameterCalibration.h */,
+				777411381F071A6200CA1587 /* LiquidMeltsPlusCO2+LiquidMeltsPlusCO2_LiquidMeltsPlusCO2_ParameterCalibration.m */,
+				777411061F071A6200CA1587 /* LiquidMeltsSiO2.h */,
+				777411071F071A6200CA1587 /* LiquidMeltsSiO2.m */,
+				777411391F071A6200CA1587 /* LiquidMeltsSiO2+LiquidMeltsSiO2_ParameterCalibration.h */,
+				7774113A1F071A6200CA1587 /* LiquidMeltsSiO2+LiquidMeltsSiO2_ParameterCalibration.m */,
+				7774115B1F071A6200CA1587 /* LiquidpMelts.h */,
+				777411081F071A6200CA1587 /* LiquidpMelts.m */,
+				7774115C1F071A6200CA1587 /* LiquidpMeltsGenericEM.h */,
+				7774111B1F071A6200CA1587 /* LiquidpMeltsGenericEM.m */,
+				7774115D1F071A6200CA1587 /* LiquidpMeltsH2O.h */,
+				7774115E1F071A6200CA1587 /* LiquidpMeltsH2O.m */,
+				7774111C1F071A6200CA1587 /* MathSupport.h */,
+				777410EF1F071A6200CA1587 /* MathSupport.m */,
+				7774115F1F071A6200CA1587 /* MeliliteBerman.h */,
+				777411601F071A6200CA1587 /* MeliliteBerman.m */,
+				777411611F071A6200CA1587 /* Metals.h */,
+				777411621F071A6200CA1587 /* Metals.m */,
+				777411631F071A6200CA1587 /* NephelineSSBerman.h */,
+				777410F01F071A6200CA1587 /* NephelineSSBerman.m */,
+				777411641F071A6200CA1587 /* OlivineBerman.h */,
+				777411651F071A6200CA1587 /* OlivineBerman.m */,
+				777411661F071A6200CA1587 /* OpxBerman.h */,
+				777410F11F071A6200CA1587 /* OpxBerman.m */,
+				777411671F071A6200CA1587 /* OrthoamphiboleBerman.h */,
+				777410F21F071A6200CA1587 /* OrthoamphiboleBerman.m */,
+				777411681F071A6200CA1587 /* OrthoOxideBerman.h */,
+				777411691F071A6200CA1587 /* OrthoOxideBerman.m */,
+				7774113B1F071A6200CA1587 /* ParameterCalibrationProtocol.h */,
+				777411131F071A6200CA1587 /* PhaseBase.h */,
+				777410F31F071A6200CA1587 /* PhaseBase.m */,
+				7774116A1F071A6200CA1587 /* PseudoPhase.h */,
+				7774116B1F071A6200CA1587 /* PseudoPhase.m */,
+				7774113C1F071A6200CA1587 /* QuartzBerman+QuartzBerman_ParameterCalibration.h */,
+				777410F91F071A6200CA1587 /* QuartzBerman+QuartzBerman_ParameterCalibration.m */,
+				7774116C1F071A6200CA1587 /* RhombohedralBerman.h */,
+				7774116D1F071A6200CA1587 /* RhombohedralBerman.m */,
+				7774113D1F071A6200CA1587 /* SanidineBerman+SanidineBerman_ParameterCalibration.h */,
+				777410FA1F071A6200CA1587 /* SanidineBerman+SanidineBerman_ParameterCalibration.m */,
+				7774116E1F071A6200CA1587 /* SolutionPhase.h */,
+				777411101F071A6200CA1587 /* SolutionPhaseProtocol.h */,
+				7774116F1F071A6200CA1587 /* SpinelBerman.h */,
+				777410F51F071A6200CA1587 /* SpinelBerman.m */,
+				777411141F071A6200CA1587 /* Stixrude.h */,
+				777411191F071A6200CA1587 /* Stixrude.m */,
+				777411701F071A6200CA1587 /* StixrudeEndmembers.h */,
+				777411711F071A6200CA1587 /* StixrudeEndmembers.m */,
+				777411721F071A6200CA1587 /* StixrudeProperties.h */,
+				777411731F071A6200CA1587 /* StixrudeProperties.m */,
+				777411741F071A6200CA1587 /* StixrudeSolutionPhase.h */,
+				777411751F071A6200CA1587 /* StixrudeSolutionPhase.m */,
+				777411761F071A6200CA1587 /* StixrudeSolutions.h */,
+				777411771F071A6200CA1587 /* StixrudeSolutions.m */,
+				777411781F071A6200CA1587 /* StixrudeStoichiometricPhases.h */,
+				777411791F071A6200CA1587 /* StixrudeStoichiometricPhases.m */,
+				7774117A1F071A6200CA1587 /* StoichiometricPhaseProtocol.h */,
+				777410DB1F071A6200CA1587 /* test_equilibrateMELTSv102.m */,
+				7774113E1F071A6200CA1587 /* TridymiteBerman+TridymiteBerman_ParameterCalibration.h */,
+				777410FB1F071A6200CA1587 /* TridymiteBerman+TridymiteBerman_ParameterCalibration.m */,
+				7774113F1F071A6200CA1587 /* Wagner2002.h */,
+				7774111A1F071A6200CA1587 /* Wagner2002.m */,
+				777411401F071A6200CA1587 /* ZhangAndDuanCorrectionTerms.h */,
+				777411411F071A6200CA1587 /* ZhangDuan2009.h */,
+				777410F41F071A6200CA1587 /* ZhangDuan2009.m */,
+			);
+			name = sources;
+			sourceTree = "<group>";
+		};
+		777412831F071E8100CA1587 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				777412841F071E8100CA1587 /* libgsl.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		777412861F071EA000CA1587 /* FreeSteam */ = {
+			isa = PBXGroup;
+			children = (
+				777412231F071B3700CA1587 /* b23.c */,
+				777412241F071B3700CA1587 /* b23.h */,
+				777412251F071B3700CA1587 /* backwards_impl.h */,
+				777412261F071B3700CA1587 /* backwards.c */,
+				777412271F071B3700CA1587 /* backwards.h */,
+				777412281F071B3700CA1587 /* bounds.c */,
+				777412291F071B3700CA1587 /* bounds.h */,
+				7774122A1F071B3700CA1587 /* common.c */,
+				7774122B1F071B3700CA1587 /* common.h */,
+				7774122C1F071B3700CA1587 /* compat.h */,
+				7774122D1F071B3700CA1587 /* config.h */,
+				7774122E1F071B3700CA1587 /* derivs.c */,
+				7774122F1F071B3700CA1587 /* derivs.h */,
+				777412311F071B3700CA1587 /* region1.c */,
+				777412321F071B3700CA1587 /* region1.h */,
+				777412331F071B3700CA1587 /* region2.c */,
+				777412341F071B3700CA1587 /* region2.h */,
+				777412351F071B3700CA1587 /* region3.c */,
+				777412361F071B3700CA1587 /* region3.h */,
+				777412371F071B3700CA1587 /* region4.c */,
+				777412381F071B3700CA1587 /* region4.h */,
+				777412391F071B3700CA1587 /* solver2.c */,
+				7774123A1F071B3700CA1587 /* solver2.h */,
+				7774123B1F071B3700CA1587 /* steam_ph.c */,
+				7774123C1F071B3700CA1587 /* steam_ph.h */,
+				7774123D1F071B3700CA1587 /* steam_ps.c */,
+				7774123E1F071B3700CA1587 /* steam_ps.h */,
+				7774123F1F071B3700CA1587 /* steam_pT.c */,
+				777412401F071B3700CA1587 /* steam_pT.h */,
+				777412411F071B3700CA1587 /* steam_pu.c */,
+				777412421F071B3700CA1587 /* steam_pu.h */,
+				777412431F071B3700CA1587 /* steam_pv.c */,
+				777412441F071B3700CA1587 /* steam_pv.h */,
+				777412451F071B3700CA1587 /* steam_Ts.c */,
+				777412461F071B3700CA1587 /* steam_Ts.h */,
+				777412471F071B3700CA1587 /* steam_Tx.c */,
+				777412481F071B3700CA1587 /* steam_Tx.h */,
+				777412491F071B3700CA1587 /* steam.c */,
+				7774124A1F071B3700CA1587 /* steam.h */,
+				7774124B1F071B3700CA1587 /* surftens.c */,
+				7774124C1F071B3700CA1587 /* surftens.h */,
+				7774124D1F071B3700CA1587 /* thcond.c */,
+				7774124E1F071B3700CA1587 /* thcond.h */,
+				7774124F1F071B3700CA1587 /* viscosity.c */,
+				777412501F071B3700CA1587 /* viscosity.h */,
+				777412511F071B3700CA1587 /* zeroin.c */,
+				777412521F071B3700CA1587 /* zeroin.h */,
+			);
+			name = FreeSteam;
+			sourceTree = "<group>";
+		};
+		777412891F071FF300CA1587 /* DEWTestProgram */ = {
+			isa = PBXGroup;
+			children = (
+				7774128A1F071FF300CA1587 /* DEWPureCtestProgram */,
+				7774128D1F071FF300CA1587 /* DEWTestProgram */,
+			);
+			name = DEWTestProgram;
+			path = ../../DEWTestProgram;
+			sourceTree = "<group>";
+		};
+		7774128A1F071FF300CA1587 /* DEWPureCtestProgram */ = {
+			isa = PBXGroup;
+			children = (
+				7774128B1F071FF300CA1587 /* DEWlibraryInterface.m */,
+				7774128C1F071FF300CA1587 /* main.c */,
+			);
+			path = DEWPureCtestProgram;
+			sourceTree = "<group>";
+		};
+		7774128D1F071FF300CA1587 /* DEWTestProgram */ = {
+			isa = PBXGroup;
+			children = (
+				7774128E1F071FF300CA1587 /* main.m */,
+			);
+			path = DEWTestProgram;
+			sourceTree = "<group>";
+		};
+		777412921F07204E00CA1587 /* TestEquilibrateClasses */ = {
+			isa = PBXGroup;
+			children = (
+				777412931F07204E00CA1587 /* main.m */,
+			);
+			name = TestEquilibrateClasses;
+			path = ../../TestEquilibrateClasses;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		773407DA1F06F3C300F8FD6C /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				777411C41F071A6200CA1587 /* MathSupport.h in Headers */,
+				7774127E1F071B3700CA1587 /* thcond.h in Headers */,
+				7774126E1F071B3700CA1587 /* steam_ps.h in Headers */,
+				777411B71F071A6200CA1587 /* EquilibrateUsingStixrude.h in Headers */,
+				7774118D1F071A6200CA1587 /* clapack.h in Headers */,
+				777412551F071B3700CA1587 /* backwards_impl.h in Headers */,
+				7774125B1F071B3700CA1587 /* common.h in Headers */,
+				777411E11F071A6200CA1587 /* LiquidMeltsSiO2+LiquidMeltsSiO2_ParameterCalibration.h in Headers */,
+				777411CC1F071A6200CA1587 /* DEWspecies.h in Headers */,
+				777411FC1F071A6200CA1587 /* LeuciteBerman.h in Headers */,
+				777411D01F071A6200CA1587 /* GehleniteBerman+GehleniteBerman_ParameterCalibration.h in Headers */,
+				777412021F071A6200CA1587 /* LiquidMeltsPlusCO2.h in Headers */,
+				777411AC1F071A6200CA1587 /* LiquidMeltsH2ORevised.h in Headers */,
+				777412571F071B3700CA1587 /* backwards.h in Headers */,
+				777411881F071A6200CA1587 /* BermanProperties.h in Headers */,
+				777411A41F071A6200CA1587 /* HKFspeciesProperties+HKFspeciesProperties_ParameterCalibration.h in Headers */,
+				777411D91F071A6200CA1587 /* LiquidMeltsCO2+LiquidMeltsCO2_ParameterCalibration.h in Headers */,
+				777412101F071A6200CA1587 /* OrthoOxideBerman.h in Headers */,
+				777411E61F071A6200CA1587 /* TridymiteBerman+TridymiteBerman_ParameterCalibration.h in Headers */,
+				7774126C1F071B3700CA1587 /* steam_ph.h in Headers */,
+				777411B81F071A6200CA1587 /* SolutionPhaseProtocol.h in Headers */,
+				777412591F071B3700CA1587 /* bounds.h in Headers */,
+				777411F61F071A6200CA1587 /* HornblendeBerman.h in Headers */,
+				7774127C1F071B3700CA1587 /* surftens.h in Headers */,
+				777412031F071A6200CA1587 /* LiquidpMelts.h in Headers */,
+				7774120C1F071A6200CA1587 /* OlivineBerman.h in Headers */,
+				7774120E1F071A6200CA1587 /* OpxBerman.h in Headers */,
+				777411AE1F071A6200CA1587 /* LiquidMeltsSiO2.h in Headers */,
+				777412621F071B3700CA1587 /* region1.h in Headers */,
+				7774125D1F071B3700CA1587 /* config.h in Headers */,
+				777412801F071B3700CA1587 /* viscosity.h in Headers */,
+				7774117B1F071A6200CA1587 /* Equilibrate.h in Headers */,
+				7774120B1F071A6200CA1587 /* NephelineSSBerman.h in Headers */,
+				777411AA1F071A6200CA1587 /* LiquidMeltsCO2.h in Headers */,
+				7774119E1F071A6200CA1587 /* BermanStoichiometricPhases.h in Headers */,
+				777411C51F071A6200CA1587 /* BermanProperties+BermanProperties_BermanProperties_ParameterCalibration.h in Headers */,
+				777411DD1F071A6200CA1587 /* LiquidMeltsH2ORevised+LiquidMeltsH2ORevised_ParameterCalibration.h in Headers */,
+				777412721F071B3700CA1587 /* steam_pu.h in Headers */,
+				777412201F071A6200CA1587 /* StixrudeStoichiometricPhases.h in Headers */,
+				777411BF1F071A6200CA1587 /* DoubleMatrix.h in Headers */,
+				777411C81F071A6200CA1587 /* DEWDielectricConstant.h in Headers */,
+				777411EA1F071A6200CA1587 /* AlloyLiquid.h in Headers */,
+				777411DF1F071A6200CA1587 /* LiquidMeltsPlusCO2+LiquidMeltsPlusCO2_LiquidMeltsPlusCO2_ParameterCalibration.h in Headers */,
+				777411D11F071A6200CA1587 /* GenericH2O.h in Headers */,
+				777411D71F071A6200CA1587 /* LiquidMelts+LiquidMelts_LiquidMelts_ParameterCalibration.h in Headers */,
+				777411E41F071A6200CA1587 /* QuartzBerman+QuartzBerman_ParameterCalibration.h in Headers */,
+				777411E91F071A6200CA1587 /* ZhangDuan2009.h in Headers */,
+				7774120F1F071A6200CA1587 /* OrthoamphiboleBerman.h in Headers */,
+				777412781F071B3700CA1587 /* steam_Tx.h in Headers */,
+				777411BE1F071A6200CA1587 /* DoubleTensor.h in Headers */,
+				777412761F071B3700CA1587 /* steam_Ts.h in Headers */,
+				777411FA1F071A6200CA1587 /* KalsiliteSSBerman.h in Headers */,
+				777412741F071B3700CA1587 /* steam_pv.h in Headers */,
+				777412161F071A6200CA1587 /* SolutionPhase.h in Headers */,
+				777412051F071A6200CA1587 /* LiquidpMeltsH2O.h in Headers */,
+				777412141F071A6200CA1587 /* RhombohedralBerman.h in Headers */,
+				777411E81F071A6200CA1587 /* ZhangAndDuanCorrectionTerms.h in Headers */,
+				777411CB1F071A6200CA1587 /* DEWmodelParameters.h in Headers */,
+				777412541F071B3700CA1587 /* b23.h in Headers */,
+				773407EE1F06F3C300F8FD6C /* PhaseObjC.h in Headers */,
+				777411F41F071A6200CA1587 /* GarnetBerman.h in Headers */,
+				7774127A1F071B3700CA1587 /* steam.h in Headers */,
+				777411B51F071A6200CA1587 /* EquilibrateUsingMELTSv120.h in Headers */,
+				777412091F071A6200CA1587 /* Metals.h in Headers */,
+				777411D31F071A6200CA1587 /* HKFspeciesComposite.h in Headers */,
+				777411B31F071A6200CA1587 /* EquilibrateUsingMELTSv102.h in Headers */,
+				777412181F071A6200CA1587 /* StixrudeEndmembers.h in Headers */,
+				777412121F071A6200CA1587 /* PseudoPhase.h in Headers */,
+				777411A71F071A6200CA1587 /* DEWFluid.h in Headers */,
+				777412701F071B3700CA1587 /* steam_pT.h in Headers */,
+				777412171F071A6200CA1587 /* SpinelBerman.h in Headers */,
+				777411EE1F071A6200CA1587 /* BiotiteBerman.h in Headers */,
+				7774121E1F071A6200CA1587 /* StixrudeSolutions.h in Headers */,
+				777411B61F071A6200CA1587 /* EquilibrateUsingpMELTSv561.h in Headers */,
+				777412001F071A6200CA1587 /* LiquidMeltsH2O.h in Headers */,
+				777411BC1F071A6200CA1587 /* Stixrude.h in Headers */,
+				777411B41F071A6200CA1587 /* EquilibrateUsingMELTSv110.h in Headers */,
+				777411F81F071A6200CA1587 /* IntegerVector.h in Headers */,
+				777412821F071B3700CA1587 /* zeroin.h in Headers */,
+				777412221F071A6200CA1587 /* StoichiometricPhaseProtocol.h in Headers */,
+				777411E71F071A6200CA1587 /* Wagner2002.h in Headers */,
+				7774126A1F071B3700CA1587 /* solver2.h in Headers */,
+				777412641F071B3700CA1587 /* region2.h in Headers */,
+				777412071F071A6200CA1587 /* MeliliteBerman.h in Headers */,
+				777412041F071A6200CA1587 /* LiquidpMeltsGenericEM.h in Headers */,
+				777411D61F071A6200CA1587 /* HoltenJPCRD2014.h in Headers */,
+				777412661F071B3700CA1587 /* region3.h in Headers */,
+				777411E31F071A6200CA1587 /* ParameterCalibrationProtocol.h in Headers */,
+				777411EB1F071A6200CA1587 /* AlloySolid.h in Headers */,
+				7774121C1F071A6200CA1587 /* StixrudeSolutionPhase.h in Headers */,
+				777411EC1F071A6200CA1587 /* BermanAlbite.h in Headers */,
+				7774125F1F071B3700CA1587 /* derivs.h in Headers */,
+				777411DB1F071A6200CA1587 /* LiquidMeltsGenericEM+LiquidMeltsGenericEM_ParameterCalibration.h in Headers */,
+				777411FD1F071A6200CA1587 /* LiquidMelts.h in Headers */,
+				777411871F071A6200CA1587 /* HollandAndPowellStoichiometricPhases.h in Headers */,
+				777411F21F071A6200CA1587 /* FluidDuan.h in Headers */,
+				777411A81F071A6200CA1587 /* EquilibrateUsingMELTSwithDEW.h in Headers */,
+				777411B91F071A6200CA1587 /* FeldsparBerman.h in Headers */,
+				777411CE1F071A6200CA1587 /* FeldsparBerman+FeldsparBerman_ParameterCalibration.h in Headers */,
+				777411F01F071A6200CA1587 /* ClinoamphiboleBerman.h in Headers */,
+				77D204081F0EDC7800B1DAD0 /* LiquidMeltsPlusOldH2OandNewCO2.h in Headers */,
+				777411C01F071A6200CA1587 /* DoubleVector.h in Headers */,
+				777411C91F071A6200CA1587 /* DEWH2O.h in Headers */,
+				7774125C1F071B3700CA1587 /* compat.h in Headers */,
+				777411B21F071A6200CA1587 /* EquilibrateState.h in Headers */,
+				777412681F071B3700CA1587 /* region4.h in Headers */,
+				777411D41F071A6200CA1587 /* HKFspeciesProperties.h in Headers */,
+				777411F11F071A6200CA1587 /* CpxBerman.h in Headers */,
+				777411841F071A6200CA1587 /* HollandAndPowellProperties.h in Headers */,
+				7774121A1F071A6200CA1587 /* StixrudeProperties.h in Headers */,
+				777411E51F071A6200CA1587 /* SanidineBerman+SanidineBerman_ParameterCalibration.h in Headers */,
+				777411BB1F071A6200CA1587 /* PhaseBase.h in Headers */,
+				777411FE1F071A6200CA1587 /* LiquidMeltsGenericEM.h in Headers */,
+				777411C71F071A6200CA1587 /* CristobaliteBerman+CristobaliteBerman_ParameterCalibration.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		773407DC1F06F3C300F8FD6C /* PhaseObjC */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 773407F11F06F3C300F8FD6C /* Build configuration list for PBXNativeTarget "PhaseObjC" */;
+			buildPhases = (
+				773407D81F06F3C300F8FD6C /* Sources */,
+				773407D91F06F3C300F8FD6C /* Frameworks */,
+				773407DA1F06F3C300F8FD6C /* Headers */,
+				773407DB1F06F3C300F8FD6C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PhaseObjC;
+			productName = PhaseObjC;
+			productReference = 773407DD1F06F3C300F8FD6C /* PhaseObjC.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		773407E51F06F3C300F8FD6C /* PhaseObjCTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 773407F41F06F3C300F8FD6C /* Build configuration list for PBXNativeTarget "PhaseObjCTests" */;
+			buildPhases = (
+				773407E21F06F3C300F8FD6C /* Sources */,
+				773407E31F06F3C300F8FD6C /* Frameworks */,
+				773407E41F06F3C300F8FD6C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				773407E91F06F3C300F8FD6C /* PBXTargetDependency */,
+			);
+			name = PhaseObjCTests;
+			productName = PhaseObjCTests;
+			productReference = 773407E61F06F3C300F8FD6C /* PhaseObjCTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		773407D41F06F3C300F8FD6C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = "Mark Ghiorso";
+				TargetAttributes = {
+					773407DC1F06F3C300F8FD6C = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = WBQY88P23V;
+						ProvisioningStyle = Automatic;
+					};
+					773407E51F06F3C300F8FD6C = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = WBQY88P23V;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 773407D71F06F3C300F8FD6C /* Build configuration list for PBXProject "PhaseObjC" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 773407D31F06F3C300F8FD6C;
+			productRefGroup = 773407DE1F06F3C300F8FD6C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				773407DC1F06F3C300F8FD6C /* PhaseObjC */,
+				773407E51F06F3C300F8FD6C /* PhaseObjCTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		773407DB1F06F3C300F8FD6C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		773407E41F06F3C300F8FD6C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		773407D81F06F3C300F8FD6C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7774119C1F071A6200CA1587 /* ZhangDuan2009.m in Sources */,
+				777411DC1F071A6200CA1587 /* LiquidMeltsGenericEM+LiquidMeltsGenericEM_ParameterCalibration.m in Sources */,
+				7774118B1F071A6200CA1587 /* BermanProperties.m in Sources */,
+				7774117F1F071A6200CA1587 /* EquilibrateUsingMELTSv110.m in Sources */,
+				777411A11F071A6200CA1587 /* QuartzBerman+QuartzBerman_ParameterCalibration.m in Sources */,
+				777411811F071A6200CA1587 /* EquilibrateUsingpMELTSv561.m in Sources */,
+				7774127B1F071B3700CA1587 /* surftens.c in Sources */,
+				777411891F071A6200CA1587 /* AlloyLiquid.m in Sources */,
+				7774126B1F071B3700CA1587 /* steam_ph.c in Sources */,
+				777412191F071A6200CA1587 /* StixrudeEndmembers.m in Sources */,
+				77D204091F0EDC7800B1DAD0 /* LiquidMeltsPlusOldH2OandNewCO2.m in Sources */,
+				7774119D1F071A6200CA1587 /* SpinelBerman.m in Sources */,
+				777411D81F071A6200CA1587 /* LiquidMelts+LiquidMelts_LiquidMelts_ParameterCalibration.m in Sources */,
+				7774118E1F071A6200CA1587 /* ClinoamphiboleBerman.m in Sources */,
+				7774121D1F071A6200CA1587 /* StixrudeSolutionPhase.m in Sources */,
+				7774125E1F071B3700CA1587 /* derivs.c in Sources */,
+				777411CA1F071A6200CA1587 /* DEWH2O.m in Sources */,
+				777411BA1F071A6200CA1587 /* HoltenJPCRD2014.m in Sources */,
+				777411DE1F071A6200CA1587 /* LiquidMeltsH2ORevised+LiquidMeltsH2ORevised_ParameterCalibration.m in Sources */,
+				7774118C1F071A6200CA1587 /* BermanStoichiometricPhases.m in Sources */,
+				7774119B1F071A6200CA1587 /* PhaseBase.m in Sources */,
+				777411C11F071A6200CA1587 /* Stixrude.m in Sources */,
+				777412651F071B3700CA1587 /* region3.c in Sources */,
+				7774118F1F071A6200CA1587 /* CpxBerman.m in Sources */,
+				777411831F071A6200CA1587 /* test_equilibrateMELTSv102.m in Sources */,
+				777412061F071A6200CA1587 /* LiquidpMeltsH2O.m in Sources */,
+				777412691F071B3700CA1587 /* solver2.c in Sources */,
+				777412011F071A6200CA1587 /* LiquidMeltsH2O.m in Sources */,
+				777412611F071B3700CA1587 /* region1.c in Sources */,
+				777411901F071A6200CA1587 /* DEWFluid.m in Sources */,
+				777412731F071B3700CA1587 /* steam_pv.c in Sources */,
+				777411AF1F071A6200CA1587 /* LiquidMeltsSiO2.m in Sources */,
+				777412081F071A6200CA1587 /* MeliliteBerman.m in Sources */,
+				777411B11F071A6200CA1587 /* DoubleTensor.m in Sources */,
+				777411F31F071A6200CA1587 /* FluidDuan.m in Sources */,
+				7774120A1F071A6200CA1587 /* Metals.m in Sources */,
+				777411A91F071A6200CA1587 /* EquilibrateUsingMELTSwithDEW.m in Sources */,
+				777411941F071A6200CA1587 /* LeuciteBerman.m in Sources */,
+				777412671F071B3700CA1587 /* region4.c in Sources */,
+				7774119A1F071A6200CA1587 /* OrthoamphiboleBerman.m in Sources */,
+				777411FF1F071A6200CA1587 /* LiquidMeltsGenericEM.m in Sources */,
+				777411C21F071A6200CA1587 /* Wagner2002.m in Sources */,
+				777411EF1F071A6200CA1587 /* BiotiteBerman.m in Sources */,
+				777411C61F071A6200CA1587 /* BermanProperties+BermanProperties_BermanProperties_ParameterCalibration.m in Sources */,
+				777411A61F071A6200CA1587 /* DEWDielectricConstant.m in Sources */,
+				777411801F071A6200CA1587 /* EquilibrateUsingMELTSv120.m in Sources */,
+				777411E21F071A6200CA1587 /* LiquidMeltsSiO2+LiquidMeltsSiO2_ParameterCalibration.m in Sources */,
+				777411F51F071A6200CA1587 /* GarnetBerman.m in Sources */,
+				777411AD1F071A6200CA1587 /* LiquidMeltsH2ORevised.m in Sources */,
+				777412811F071B3700CA1587 /* zeroin.c in Sources */,
+				777411F71F071A6200CA1587 /* HornblendeBerman.m in Sources */,
+				777411A21F071A6200CA1587 /* SanidineBerman+SanidineBerman_ParameterCalibration.m in Sources */,
+				777411D51F071A6200CA1587 /* HKFspeciesProperties.m in Sources */,
+				777411951F071A6200CA1587 /* LiquidMelts.m in Sources */,
+				777412581F071B3700CA1587 /* bounds.c in Sources */,
+				777411ED1F071A6200CA1587 /* BermanAlbite.m in Sources */,
+				7774121B1F071A6200CA1587 /* StixrudeProperties.m in Sources */,
+				7774117E1F071A6200CA1587 /* EquilibrateUsingMELTSv102.m in Sources */,
+				777412631F071B3700CA1587 /* region2.c in Sources */,
+				777412561F071B3700CA1587 /* backwards.c in Sources */,
+				777412531F071B3700CA1587 /* b23.c in Sources */,
+				777412711F071B3700CA1587 /* steam_pu.c in Sources */,
+				777411BD1F071A6200CA1587 /* DoubleMatrix.m in Sources */,
+				777411861F071A6200CA1587 /* HollandAndPowellStoichiometricPhases.m in Sources */,
+				7774126F1F071B3700CA1587 /* steam_pT.c in Sources */,
+				777411991F071A6200CA1587 /* OpxBerman.m in Sources */,
+				777411931F071A6200CA1587 /* HKFspeciesComposite.m in Sources */,
+				777411971F071A6200CA1587 /* MathSupport.m in Sources */,
+				777411FB1F071A6200CA1587 /* KalsiliteSSBerman.m in Sources */,
+				777411CF1F071A6200CA1587 /* FeldsparBerman+FeldsparBerman_ParameterCalibration.m in Sources */,
+				777412211F071A6200CA1587 /* StixrudeStoichiometricPhases.m in Sources */,
+				7774121F1F071A6200CA1587 /* StixrudeSolutions.m in Sources */,
+				777411F91F071A6200CA1587 /* IntegerVector.m in Sources */,
+				777411E01F071A6200CA1587 /* LiquidMeltsPlusCO2+LiquidMeltsPlusCO2_LiquidMeltsPlusCO2_ParameterCalibration.m in Sources */,
+				7774125A1F071B3700CA1587 /* common.c in Sources */,
+				777411CD1F071A6200CA1587 /* DEWspecies.m in Sources */,
+				777411821F071A6200CA1587 /* EquilibrateUsingStixrude.m in Sources */,
+				777411A51F071A6200CA1587 /* HKFspeciesProperties+HKFspeciesProperties_ParameterCalibration.m in Sources */,
+				777411851F071A6200CA1587 /* HollandAndPowellProperties.m in Sources */,
+				7774126D1F071B3700CA1587 /* steam_ps.c in Sources */,
+				777411A31F071A6200CA1587 /* TridymiteBerman+TridymiteBerman_ParameterCalibration.m in Sources */,
+				777411921F071A6200CA1587 /* FeldsparBerman.m in Sources */,
+				777412751F071B3700CA1587 /* steam_Ts.c in Sources */,
+				7774127D1F071B3700CA1587 /* thcond.c in Sources */,
+				777411A01F071A6200CA1587 /* GehleniteBerman+GehleniteBerman_ParameterCalibration.m in Sources */,
+				7774117C1F071A6200CA1587 /* Equilibrate.m in Sources */,
+				777411B01F071A6200CA1587 /* LiquidpMelts.m in Sources */,
+				777411981F071A6200CA1587 /* NephelineSSBerman.m in Sources */,
+				777412111F071A6200CA1587 /* OrthoOxideBerman.m in Sources */,
+				777411911F071A6200CA1587 /* DoubleVector.m in Sources */,
+				7774119F1F071A6200CA1587 /* CristobaliteBerman+CristobaliteBerman_ParameterCalibration.m in Sources */,
+				777411961F071A6200CA1587 /* LiquidMeltsPlusCO2.m in Sources */,
+				7774117D1F071A6200CA1587 /* EquilibrateState.m in Sources */,
+				777411D21F071A6200CA1587 /* GenericH2O.m in Sources */,
+				777411DA1F071A6200CA1587 /* LiquidMeltsCO2+LiquidMeltsCO2_ParameterCalibration.m in Sources */,
+				777411AB1F071A6200CA1587 /* LiquidMeltsCO2.m in Sources */,
+				777412151F071A6200CA1587 /* RhombohedralBerman.m in Sources */,
+				777412791F071B3700CA1587 /* steam.c in Sources */,
+				777411C31F071A6200CA1587 /* LiquidpMeltsGenericEM.m in Sources */,
+				777412771F071B3700CA1587 /* steam_Tx.c in Sources */,
+				7774127F1F071B3700CA1587 /* viscosity.c in Sources */,
+				777412131F071A6200CA1587 /* PseudoPhase.m in Sources */,
+				7774120D1F071A6200CA1587 /* OlivineBerman.m in Sources */,
+				7774118A1F071A6200CA1587 /* AlloySolid.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		773407E21F06F3C300F8FD6C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				777412911F071FF300CA1587 /* main.m in Sources */,
+				777412901F071FF300CA1587 /* main.c in Sources */,
+				7774128F1F071FF300CA1587 /* DEWlibraryInterface.m in Sources */,
+				777412881F071F7500CA1587 /* HoltenJPCRD2014.cpp in Sources */,
+				777412941F07204E00CA1587 /* main.m in Sources */,
+				773407EC1F06F3C300F8FD6C /* PhaseObjCTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		773407E91F06F3C300F8FD6C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 773407DC1F06F3C300F8FD6C /* PhaseObjC */;
+			targetProxy = 773407E81F06F3C300F8FD6C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		773407EF1F06F3C300F8FD6C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		773407F01F06F3C300F8FD6C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		773407F21F06F3C300F8FD6C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = WBQY88P23V;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_PREPROCESSOR_DEFINITIONS = BUILD_WITH_INLINE_FREESTEAM;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				INFOPLIST_FILE = PhaseObjC/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/lib,
+					/usr/local/Cellar/gsl/2.2.1/lib,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.markghiorso.PhaseObjC;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "";
+			};
+			name = Debug;
+		};
+		773407F31F06F3C300F8FD6C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = WBQY88P23V;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_PREPROCESSOR_DEFINITIONS = BUILD_WITH_INLINE_FREESTEAM;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				INFOPLIST_FILE = PhaseObjC/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/lib,
+					/usr/local/Cellar/gsl/2.2.1/lib,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.markghiorso.PhaseObjC;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "";
+			};
+			name = Release;
+		};
+		773407F51F06F3C300F8FD6C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = WBQY88P23V;
+				INFOPLIST_FILE = PhaseObjCTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.markghiorso.PhaseObjCTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		773407F61F06F3C300F8FD6C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = WBQY88P23V;
+				INFOPLIST_FILE = PhaseObjCTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.markghiorso.PhaseObjCTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		773407D71F06F3C300F8FD6C /* Build configuration list for PBXProject "PhaseObjC" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				773407EF1F06F3C300F8FD6C /* Debug */,
+				773407F01F06F3C300F8FD6C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		773407F11F06F3C300F8FD6C /* Build configuration list for PBXNativeTarget "PhaseObjC" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				773407F21F06F3C300F8FD6C /* Debug */,
+				773407F31F06F3C300F8FD6C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		773407F41F06F3C300F8FD6C /* Build configuration list for PBXNativeTarget "PhaseObjCTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				773407F51F06F3C300F8FD6C /* Debug */,
+				773407F61F06F3C300F8FD6C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 773407D41F06F3C300F8FD6C /* Project object */;
+}

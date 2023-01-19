@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>ThermoEngine documentation &mdash; Thermoengine 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="None"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" >
+    <link rel="search" title="Search" href="search.html" >
+    <link rel="top" title="Thermoengine 1.0.1 documentation" href="#" >
+    <link rel="next" title="Phases package" href="phases.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="#">
+      <img style="border: 0;" alt="ENKI" src="_static/img/ENKI_header.png"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="http://enki-portal.org">ENKI Web</a></li>
+        <li class="active"><a href="https://enki.ofm-research.org">ENKI Server</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="phases.html" title="Phases package"
+           accesskey="N">next</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="#">
+              <img class="logo" src="_static/Enki.png" alt="Logo">
+            </a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="phases.html"
+                        title="next chapter">Phases package</a></p>
+        </div>
+      </div>
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="thermoengine-documentation">
+<h1>ThermoEngine documentation<a class="headerlink" href="#thermoengine-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Welcome to the ThermoEngine documentation!</p>
+<p>This reference material describes the Python modules, and their methods, available in ThermoEngine. It also provides details about the libPhaseObjC compiled library from which the methods are called.</p>
+<div class="section" id="python-modules">
+<h2>Python modules<a class="headerlink" href="#python-modules" title="Permalink to this headline">¶</a></h2>
+<p>This section describes the Python modules and how to call Python functions that (1) compute thermodynamic properties of phases, and (2) calculate equilibrium phase assemblages.</p>
+<p>The classes and functions described call methods from the <a class="reference internal" href="#library-label"><span class="std std-ref">libPhaseObjC compiled library</span></a>. To permit Python to interact with this library, the modules use Rubicon.</p>
+<div class="section" id="phases">
+<h3>Phases<a class="headerlink" href="#phases" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="phases.html">Phases package</a></li>
+</ul>
+</div>
+<p>The <strong>Phases module</strong> of ThermoEngine documents Python functions and classes for computing standard thermodynamic calculations utilizing the Berman, Holland and Powell, or Stixrude-Lithgow-Bertelloni endmember databases, and calculations based on solution properties utilized by MELTS. There are many helper functions available in this module that assist in the calculation of pseudosections, univariant equilibria and the construction of phase diagrams.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Examples:</dt><dd><ul class="simple">
+<li><p><a class="reference internal" href="examples_codegen.html"><span class="doc">Codegen examples</span></a></p></li>
+<li><p><a class="reference internal" href="examples_DEW.html"><span class="doc">DEW (Deep Earth Water) examples</span></a></p></li>
+<li><p><a class="reference internal" href="examples_equilibrate.html"><span class="doc">Equilibrate examples</span></a></p></li>
+<li><p><a class="reference internal" href="examples_pure-phases.html"><span class="doc">Pure Phases examples</span></a></p></li>
+<li><p><a class="reference internal" href="examples_solutions.html"><span class="doc">Solutions examples</span></a></p></li>
+</ul>
+</dd>
+</dl>
+</div></blockquote>
+</div>
+<div class="section" id="equilibrate">
+<h3>Equilibrate<a class="headerlink" href="#equilibrate" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="equilibrate.html">Equilibrate package</a></li>
+</ul>
+</div>
+<p>The <strong>Equilibrate module</strong> of ThermoEngine documents Python functions and classes for computing equilibrium phase assemblages with focus on MELTS calculations.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Examples:</dt><dd><ul class="simple">
+<li><p><a class="reference internal" href="examples_equilibrate.html"><span class="doc">Equilibrate examples</span></a></p></li>
+<li><p><a class="reference internal" href="examples_MELTS-pMELTS.html"><span class="doc">MELTS-pMELTS examples</span></a></p></li>
+</ul>
+</dd>
+</dl>
+</div></blockquote>
+</div>
+<div class="section" id="coder-coder-templates">
+<h3>Coder, Coder Templates<a class="headerlink" href="#coder-coder-templates" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="coder.html">Coder package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coder_templates.html">Coder Templates package</a></li>
+</ul>
+</div>
+<p>The <strong>Coder module</strong> of ThermoEngine documents Python functions that generate thermodynamic models for pure component stoichiometric compounds and for solutions. The module provides methods that generate computer code for both fast computation and for calibration of the specified models. The Coder module relies upon another module, <strong>Coder Templates</strong>, whose methods are generally not directly called by users.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Examples:</dt><dd><ul class="simple">
+<li><p><a class="reference internal" href="examples_codegen.html"><span class="doc">Codegen examples</span></a></p></li>
+<li><p><a class="reference internal" href="examples_equilibrate.html"><span class="doc">Equilibrate examples</span></a></p></li>
+</ul>
+</dd>
+</dl>
+</div></blockquote>
+</div>
+<div class="section" id="calibrate">
+<h3>Calibrate<a class="headerlink" href="#calibrate" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="calibrate.html">Calibrate functions</a></li>
+</ul>
+</div>
+<p>The <strong>Calibrate module</strong> of ThermoEngine documents Python functions that support calibration of thermodynamic models.  The models may be imported from the Model module or may be generated using the Coder module.</p>
+</div>
+<div class="section" id="core">
+<h3>Core<a class="headerlink" href="#core" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="core.html">Core functions</a></li>
+</ul>
+</div>
+<p>The <strong>Core module</strong> contains Python support functions shared by the Phases and Equilibrate modules. Most users do not need to call these functions directly.</p>
+</div>
+<div class="section" id="model">
+<h3>Model<a class="headerlink" href="#model" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="model.html">Model functions</a></li>
+</ul>
+</div>
+<p>The <strong>Model module</strong> of ThermoEngine implements a Python interface with the Phase objective-C classes as well as the infrastructure for pure phase thermodynamic calibration. The module contains methods that allow for loading and selection of built-in thermodynamic databases.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Examples:</dt><dd><ul class="simple">
+<li><p><a class="reference internal" href="examples_codegen.html"><span class="doc">Codegen examples</span></a></p></li>
+<li><p><a class="reference internal" href="examples_equilibrate.html"><span class="doc">Equilibrate examples</span></a></p></li>
+<li><p><a class="reference internal" href="examples_pure-phases.html"><span class="doc">Pure Phases examples</span></a></p></li>
+<li><p><a class="reference internal" href="examples_solutions.html"><span class="doc">Solutions examples</span></a></p></li>
+</ul>
+</dd>
+</dl>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="libphaseobjc-compiled-library">
+<span id="library-label"></span><h2>libPhaseObjC compiled library<a class="headerlink" href="#libphaseobjc-compiled-library" title="Permalink to this headline">¶</a></h2>
+<p>This section covers phase property and equilibrium calculators that are available in the libPhaseObjC compiled library.</p>
+<p>Except for protocol declarations, each class name is represented in the repository by a header file (.h) and usually by an associated Objective-C source file (.m).</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="EquilibrateCalcs.html">Classes that perform the equilibrium calculations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PhaseClassesDoc.html">Phase classes</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2020, ENKI.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.4.0.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Coder Templates package &mdash; Thermoengine 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="None"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" >
+    <link rel="search" title="Search" href="search.html" >
+    <link rel="top" title="Thermoengine 1.0.1 documentation" href="index.html" >
+    <link rel="next" title="Calibrate functions" href="calibrate.html" >
+    <link rel="prev" title="Coder package" href="coder.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="index.html">
+      <img style="border: 0;" alt="ENKI" src="_static/img/ENKI_header.png"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="http://enki-portal.org">ENKI Web</a></li>
+        <li class="active"><a href="https://enki.ofm-research.org">ENKI Server</a></li>
+	
+        <li class="active"><a href="index.html">Thermoengine 1.0.1 documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="calibrate.html" title="Calibrate functions"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="coder.html" title="Coder package"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/Enki.png" alt="Logo">
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="coder.html"
+                        title="previous chapter">Coder package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="calibrate.html"
+                        title="next chapter">Calibrate functions</a></p>
+        </div>
+      </div>
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="module-coder_templates">
+<span id="coder-templates-package"></span><h1>Coder Templates package<a class="headerlink" href="#module-coder_templates" title="Permalink to this headline">¶</a></h1>
+<p>The Coder Templates module provides templates that suport code generation in coder.py classes.</p>
+<dl class="function">
+<dt id="coder_templates.create_calib_c_template">
+<code class="sig-prename descclassname">coder_templates.</code><code class="sig-name descname">create_calib_c_template</code><span class="sig-paren">(</span><em class="sig-param">language='C'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coder_templates.html#create_calib_c_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coder_templates.create_calib_c_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves template for a C function file that implements calibration
+mode calculation of model functions for a specific phase instance.</p>
+<p>The calibration functions expose the model parameters using getters and
+setters, which otherwise are fixed as constants in the <em>fast</em> routines,
+allowing the compiler to optimize the resulting code.</p>
+<p>The user does not normally call this function directly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>language</strong><span class="classifier">string</span></dt><dd><p>Language syntax for generated code, (“C” is the C99 programming
+language)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>string :</dt><dd><p>The template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="coder_templates.create_calib_h_template">
+<code class="sig-prename descclassname">coder_templates.</code><code class="sig-name descname">create_calib_h_template</code><span class="sig-paren">(</span><em class="sig-param">language='C'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coder_templates.html#create_calib_h_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coder_templates.create_calib_h_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves template for an include file that implements calibration mode
+calculation of model functions for a specific phase instance.</p>
+<p>The calibration functions expose the model parameters using getters and
+setters, which otherwise are fixed as constants in the <em>fast</em> routines,
+allowing the compiler to optimize the resulting code.</p>
+<p>The user does not normally call this function directly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>language</strong><span class="classifier">string</span></dt><dd><p>Language syntax for generated code, (“C” is the C99 programming
+language)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>string :</dt><dd><p>The template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="coder_templates.create_calib_pyx_template">
+<code class="sig-prename descclassname">coder_templates.</code><code class="sig-name descname">create_calib_pyx_template</code><span class="sig-paren">(</span><em class="sig-param">language='C'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coder_templates.html#create_calib_pyx_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coder_templates.create_calib_pyx_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves calib code template for cython pyx file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>language</strong><span class="classifier">string</span></dt><dd><p>Language syntax for generated code, (“C” is the C99 programming
+language)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>string :</dt><dd><p>The template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="coder_templates.create_code_for_born_functions">
+<code class="sig-prename descclassname">coder_templates.</code><code class="sig-name descname">create_code_for_born_functions</code><span class="sig-paren">(</span><em class="sig-param">language='C'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coder_templates.html#create_code_for_born_functions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coder_templates.create_code_for_born_functions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves code that provides a reference to the Born functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>language</strong><span class="classifier">string</span></dt><dd><p>Language syntax for generated code, (“C” is the C99 programming
+language)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>string :</dt><dd><p>The template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="coder_templates.create_code_for_debye_function">
+<code class="sig-prename descclassname">coder_templates.</code><code class="sig-name descname">create_code_for_debye_function</code><span class="sig-paren">(</span><em class="sig-param">language='C'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coder_templates.html#create_code_for_debye_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coder_templates.create_code_for_debye_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves a block of code that provides an implementation of the Debye
+function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>language</strong><span class="classifier">string</span></dt><dd><p>Language syntax for generated code, (“C” is the C99 programming
+language)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>string :</dt><dd><p>The template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="coder_templates.create_code_for_dh_functions">
+<code class="sig-prename descclassname">coder_templates.</code><code class="sig-name descname">create_code_for_dh_functions</code><span class="sig-paren">(</span><em class="sig-param">language='C'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coder_templates.html#create_code_for_dh_functions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coder_templates.create_code_for_dh_functions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves code that provides a reference to the Debye-Hückel
+solvent functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>language</strong><span class="classifier">string</span></dt><dd><p>Language syntax for generated code, (“C” is the C99 programming
+language)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>string :</dt><dd><p>The template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="coder_templates.create_fast_c_template">
+<code class="sig-prename descclassname">coder_templates.</code><code class="sig-name descname">create_fast_c_template</code><span class="sig-paren">(</span><em class="sig-param">language='C'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coder_templates.html#create_fast_c_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coder_templates.create_fast_c_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves template for a C function file that implements fast
+calculation of model functions for a specific phase instance.</p>
+<p>The user does not normally call this function directly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>language</strong><span class="classifier">string</span></dt><dd><p>Language syntax for generated code, (“C” is the C99 programming
+language)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>string :</dt><dd><p>The template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="coder_templates.create_fast_h_template">
+<code class="sig-prename descclassname">coder_templates.</code><code class="sig-name descname">create_fast_h_template</code><span class="sig-paren">(</span><em class="sig-param">language='C'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coder_templates.html#create_fast_h_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coder_templates.create_fast_h_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves template for an include file that implements fast calculation
+of model functions for a specific phase instance.</p>
+<p>The user does not normally call this function directly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>language</strong><span class="classifier">string</span></dt><dd><p>Language syntax for generated code, (“C” is the C99 programming
+language)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>string :</dt><dd><p>The template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="coder_templates.create_fast_pyx_template">
+<code class="sig-prename descclassname">coder_templates.</code><code class="sig-name descname">create_fast_pyx_template</code><span class="sig-paren">(</span><em class="sig-param">language='C'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coder_templates.html#create_fast_pyx_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coder_templates.create_fast_pyx_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves fast code template for cython pyx file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>language</strong><span class="classifier">string</span></dt><dd><p>Language syntax for generated code, (“C” is the C99 programming language)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>string :</dt><dd><p>The template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="coder_templates.create_pyxbld_template">
+<code class="sig-prename descclassname">coder_templates.</code><code class="sig-name descname">create_pyxbld_template</code><span class="sig-paren">(</span><em class="sig-param">language='C'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coder_templates.html#create_pyxbld_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coder_templates.create_pyxbld_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves template for cython pyxbld file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>language</strong><span class="classifier">string</span></dt><dd><p>Language syntax for generated code, (“C” is the C99 programming
+language)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>string :</dt><dd><p>The template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="coder_templates.create_redundant_calib_TV_template">
+<code class="sig-prename descclassname">coder_templates.</code><code class="sig-name descname">create_redundant_calib_TV_template</code><span class="sig-paren">(</span><em class="sig-param">language='C'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coder_templates.html#create_redundant_calib_TV_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coder_templates.create_redundant_calib_TV_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves template for redundant thermodynamic functions associated with
+Helmholtz models.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>language</strong><span class="classifier">string</span></dt><dd><p>Language syntax for generated code, (“C” is the C99 programming
+language)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>string :</dt><dd><p>The template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="coder_templates.create_redundant_function_template">
+<code class="sig-prename descclassname">coder_templates.</code><code class="sig-name descname">create_redundant_function_template</code><span class="sig-paren">(</span><em class="sig-param">language='C'</em>, <em class="sig-param">model_type='TP'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coder_templates.html#create_redundant_function_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coder_templates.create_redundant_function_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves template for redundant thermodynamic functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>language</strong><span class="classifier">string</span></dt><dd><p>Language syntax for generated code, (“C” is the C99 programming
+language)</p>
+</dd>
+<dt><strong>model_type: string</strong></dt><dd><p>Potential type, either Gibbs free energy (‘TP’) or Helmholtz free
+energy (‘TV’)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>string :</dt><dd><p>The template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="coder_templates.create_soln_calc_template">
+<code class="sig-prename descclassname">coder_templates.</code><code class="sig-name descname">create_soln_calc_template</code><span class="sig-paren">(</span><em class="sig-param">language='C'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coder_templates.html#create_soln_calc_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coder_templates.create_soln_calc_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves template for solution functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>language</strong><span class="classifier">string</span></dt><dd><p>Language syntax for generated code, (“C” is the C99 programming
+language)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>string :</dt><dd><p>The template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="coder_templates.create_soln_calib_code_template">
+<code class="sig-prename descclassname">coder_templates.</code><code class="sig-name descname">create_soln_calib_code_template</code><span class="sig-paren">(</span><em class="sig-param">language='C'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coder_templates.html#create_soln_calib_code_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coder_templates.create_soln_calib_code_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves template for calibration code solution template.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>language</strong><span class="classifier">string</span></dt><dd><p>Language syntax for generated code, (“C” is the C99 programming
+language)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>string :</dt><dd><p>The template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="coder_templates.create_soln_calib_extra_template">
+<code class="sig-prename descclassname">coder_templates.</code><code class="sig-name descname">create_soln_calib_extra_template</code><span class="sig-paren">(</span><em class="sig-param">language='C'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coder_templates.html#create_soln_calib_extra_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coder_templates.create_soln_calib_extra_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves template for solution calibration functions that retrieve and set
+values of model parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>language</strong><span class="classifier">string</span></dt><dd><p>Language syntax for generated code, (“C” is the C99 programming
+language)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>string :</dt><dd><p>The template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="coder_templates.create_soln_calib_include_template">
+<code class="sig-prename descclassname">coder_templates.</code><code class="sig-name descname">create_soln_calib_include_template</code><span class="sig-paren">(</span><em class="sig-param">language='C'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coder_templates.html#create_soln_calib_include_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coder_templates.create_soln_calib_include_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves template for calibration include file solution template.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>language</strong><span class="classifier">string</span></dt><dd><p>Language syntax for generated code, (“C” is the C99 programming
+language)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>string :</dt><dd><p>The template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="coder_templates.create_soln_calib_pyx_template">
+<code class="sig-prename descclassname">coder_templates.</code><code class="sig-name descname">create_soln_calib_pyx_template</code><span class="sig-paren">(</span><em class="sig-param">language='C'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coder_templates.html#create_soln_calib_pyx_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coder_templates.create_soln_calib_pyx_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves calib solution code template for cython pyx file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>language</strong><span class="classifier">string</span></dt><dd><p>Language syntax for generated code, (“C” is the C99 programming language)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>string :</dt><dd><p>The template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="coder_templates.create_soln_calib_template">
+<code class="sig-prename descclassname">coder_templates.</code><code class="sig-name descname">create_soln_calib_template</code><span class="sig-paren">(</span><em class="sig-param">language='C'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coder_templates.html#create_soln_calib_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coder_templates.create_soln_calib_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves template for solution calibration functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>language</strong><span class="classifier">string</span></dt><dd><p>Language syntax for generated code, (“C” is the C99 programming
+language)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>string :</dt><dd><p>The template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="coder_templates.create_soln_deriv_template">
+<code class="sig-prename descclassname">coder_templates.</code><code class="sig-name descname">create_soln_deriv_template</code><span class="sig-paren">(</span><em class="sig-param">language='C'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coder_templates.html#create_soln_deriv_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coder_templates.create_soln_deriv_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves template for solution derivative functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>language</strong><span class="classifier">string</span></dt><dd><p>Language syntax for generated code, (“C” is the C99 programming
+language)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>string :</dt><dd><p>The template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="coder_templates.create_soln_fast_code_template">
+<code class="sig-prename descclassname">coder_templates.</code><code class="sig-name descname">create_soln_fast_code_template</code><span class="sig-paren">(</span><em class="sig-param">language='C'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coder_templates.html#create_soln_fast_code_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coder_templates.create_soln_fast_code_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves template for fast code solution template.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>language</strong><span class="classifier">string</span></dt><dd><p>Language syntax for generated code, (“C” is the C99 programming
+language)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>string :</dt><dd><p>The template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="coder_templates.create_soln_fast_include_template">
+<code class="sig-prename descclassname">coder_templates.</code><code class="sig-name descname">create_soln_fast_include_template</code><span class="sig-paren">(</span><em class="sig-param">language='C'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coder_templates.html#create_soln_fast_include_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coder_templates.create_soln_fast_include_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves template for fast include file solution template.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>language</strong><span class="classifier">string</span></dt><dd><p>Language syntax for generated code, (“C” is the C99 programming
+language)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>string :</dt><dd><p>The template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="coder_templates.create_soln_fast_pyx_template">
+<code class="sig-prename descclassname">coder_templates.</code><code class="sig-name descname">create_soln_fast_pyx_template</code><span class="sig-paren">(</span><em class="sig-param">language='C'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coder_templates.html#create_soln_fast_pyx_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coder_templates.create_soln_fast_pyx_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves fast solution code template for cython pyx file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>language</strong><span class="classifier">string</span></dt><dd><p>Language syntax for generated code, (“C” is the C99 programming language)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>string :</dt><dd><p>The template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="coder_templates.create_soln_pyxbld_template">
+<code class="sig-prename descclassname">coder_templates.</code><code class="sig-name descname">create_soln_pyxbld_template</code><span class="sig-paren">(</span><em class="sig-param">language='C'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coder_templates.html#create_soln_pyxbld_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coder_templates.create_soln_pyxbld_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves template for cython solution pyxbld file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>language</strong><span class="classifier">string</span></dt><dd><p>Language syntax for generated code, (“C” is the C99 programming
+language)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>string :</dt><dd><p>The template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="coder_templates.create_soln_redun_template">
+<code class="sig-prename descclassname">coder_templates.</code><code class="sig-name descname">create_soln_redun_template</code><span class="sig-paren">(</span><em class="sig-param">language='C'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coder_templates.html#create_soln_redun_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coder_templates.create_soln_redun_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves template for solution redundant functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>language</strong><span class="classifier">string</span></dt><dd><p>Language syntax for generated code, (“C” is the C99 programming
+language)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>string :</dt><dd><p>The template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="coder_templates.create_soln_std_state_include_template">
+<code class="sig-prename descclassname">coder_templates.</code><code class="sig-name descname">create_soln_std_state_include_template</code><span class="sig-paren">(</span><em class="sig-param">language='C'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coder_templates.html#create_soln_std_state_include_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coder_templates.create_soln_std_state_include_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves template for standard state properties include template.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>language</strong><span class="classifier">string</span></dt><dd><p>Language syntax for generated code, (“C” is the C99 programming
+language)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>string :</dt><dd><p>The template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="coder_templates.create_ordering_gaussj_template">
+<code class="sig-prename descclassname">coder_templates.</code><code class="sig-name descname">create_ordering_gaussj_template</code><span class="sig-paren">(</span><em class="sig-param">language='C'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coder_templates.html#create_ordering_gaussj_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coder_templates.create_ordering_gaussj_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves template for generation of guassj code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>language</strong><span class="classifier">string</span></dt><dd><p>Language syntax for generated code, (“C” is the C99 programming
+language)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>string :</dt><dd><p>The template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="coder_templates.create_ordering_code_template">
+<code class="sig-prename descclassname">coder_templates.</code><code class="sig-name descname">create_ordering_code_template</code><span class="sig-paren">(</span><em class="sig-param">language='C'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coder_templates.html#create_ordering_code_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coder_templates.create_ordering_code_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves template for generation of ordering code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>language</strong><span class="classifier">string</span></dt><dd><p>Language syntax for generated code, (“C” is the C99 programming
+language)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>string :</dt><dd><p>The template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="coder_templates.create_complx_soln_calc_template">
+<code class="sig-prename descclassname">coder_templates.</code><code class="sig-name descname">create_complx_soln_calc_template</code><span class="sig-paren">(</span><em class="sig-param">language='C'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coder_templates.html#create_complx_soln_calc_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coder_templates.create_complx_soln_calc_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves template for generation of solution property code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>language</strong><span class="classifier">string</span></dt><dd><p>Language syntax for generated code, (“C” is the C99 programming
+language)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>string :</dt><dd><p>The template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="coder_templates.create_complx_soln_calib_template">
+<code class="sig-prename descclassname">coder_templates.</code><code class="sig-name descname">create_complx_soln_calib_template</code><span class="sig-paren">(</span><em class="sig-param">language='C'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coder_templates.html#create_complx_soln_calib_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coder_templates.create_complx_soln_calib_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves template for generation of solution property code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>language</strong><span class="classifier">string</span></dt><dd><p>Language syntax for generated code, (“C” is the C99 programming
+language)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>string :</dt><dd><p>The template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="coder_templates.create_speciation_code_template">
+<code class="sig-prename descclassname">coder_templates.</code><code class="sig-name descname">create_speciation_code_template</code><span class="sig-paren">(</span><em class="sig-param">language='C'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coder_templates.html#create_speciation_code_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coder_templates.create_speciation_code_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves template for generation of speciation code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>language</strong><span class="classifier">string</span></dt><dd><p>Language syntax for generated code, (“C” is the C99 programming
+language)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>string :</dt><dd><p>The template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="coder_templates.create_speciation_ordering_code_template">
+<code class="sig-prename descclassname">coder_templates.</code><code class="sig-name descname">create_speciation_ordering_code_template</code><span class="sig-paren">(</span><em class="sig-param">language='C'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/coder_templates.html#create_speciation_ordering_code_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coder_templates.create_speciation_ordering_code_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves template for generation of speciation ordering code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>language</strong><span class="classifier">string</span></dt><dd><p>Language syntax for generated code, (“C” is the C99 programming
+language)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>string :</dt><dd><p>The template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2020, ENKI.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.4.0.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Phases package &mdash; Thermoengine 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="None"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" >
+    <link rel="search" title="Search" href="search.html" >
+    <link rel="top" title="Thermoengine 1.0.1 documentation" href="index.html" >
+    <link rel="next" title="Equilibrate package" href="equilibrate.html" >
+    <link rel="prev" title="ThermoEngine documentation" href="index.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="index.html">
+      <img style="border: 0;" alt="ENKI" src="_static/img/ENKI_header.png"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="http://enki-portal.org">ENKI Web</a></li>
+        <li class="active"><a href="https://enki.ofm-research.org">ENKI Server</a></li>
+	
+        <li class="active"><a href="index.html">Thermoengine 1.0.1 documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+      <li class="active">
+        <a href="equilibrate.html" title="Equilibrate package"
+           accesskey="N">next</a>
+      </li>
+      <li class="active">
+        <a href="index.html" title="ThermoEngine documentation"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/Enki.png" alt="Logo">
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">ThermoEngine documentation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="equilibrate.html"
+                        title="next chapter">Equilibrate package</a></p>
+        </div>
+      </div>
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="module-phases">
+<span id="phases-package"></span><h1>Phases package<a class="headerlink" href="#module-phases" title="Permalink to this headline">¶</a></h1>
+<p>This module provides Python wrappers to individual and collections of phases.</p>
+<dl class="class">
+<dt id="phases.Rxn">
+<em class="property">class </em><code class="sig-prename descclassname">phases.</code><code class="sig-name descname">Rxn</code><span class="sig-paren">(</span><em class="sig-param">phase_objs</em>, <em class="sig-param">endmember_ids</em>, <em class="sig-param">rxn_coefs</em>, <em class="sig-param">coefs_per_atom=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/phases.html#Rxn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#phases.Rxn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class that defines identity/properties of a specific phase reaction.</p>
+<p>Reactions occur between phases (either pure or solution) and are
+defined in terms of the participating endmembers, indicating which atoms
+are exchanged between phases during the reaction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>phase_objs</strong><span class="classifier">array of Phase Objects</span></dt><dd><p>Defines which phases participate in the reaction.</p>
+</dd>
+<dt><strong>endmember_ids</strong><span class="classifier">int array</span></dt><dd><p>Indicates the endmember of each phase that participates in the reaction.
+This array must have the same order as the phase array (phase_objs).</p>
+</dd>
+<dt><strong>rxn_coefs</strong><span class="classifier">double array</span></dt><dd><p>Defines the stoichiometric rxn coefficient, where negative values
+are reactants and positive values are products. The reaction must be
+balanced (obeying mass conservation).
+This array must have the same order as the phase array (phase_objs).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>The phases themselves may be pure or have realistic
+intermediate compositions (if they are solution phases).</p></li>
+<li><p>The reaction is defined in terms of the exchange of endmembers between
+the participating phases.</p></li>
+<li><p>Reaction coefficients correspond to a balanced stoichiometric reaction.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><a class="reference internal" href="#phases.Rxn.endmember_ids" title="phases.Rxn.endmember_ids"><code class="xref py py-obj docutils literal notranslate"><span class="pre">endmember_ids</span></code></a></dt><dd><p>ID number of each endmember in phase</p>
+</dd>
+<dt><a class="reference internal" href="#phases.Rxn.endmember_names" title="phases.Rxn.endmember_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">endmember_names</span></code></a></dt><dd><p>Name of each endmember</p>
+</dd>
+<dt><a class="reference internal" href="#phases.Rxn.phase_num" title="phases.Rxn.phase_num"><code class="xref py py-obj docutils literal notranslate"><span class="pre">phase_num</span></code></a></dt><dd><p>Number of phases</p>
+</dd>
+<dt><a class="reference internal" href="#phases.Rxn.phase_symbols" title="phases.Rxn.phase_symbols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">phase_symbols</span></code></a></dt><dd><p>Phase symbols</p>
+</dd>
+<dt><a class="reference internal" href="#module-phases" title="phases"><code class="xref py py-obj docutils literal notranslate"><span class="pre">phases</span></code></a></dt><dd><p>Phase objects used in the reaction</p>
+</dd>
+<dt><a class="reference internal" href="#phases.Rxn.product_phases" title="phases.Rxn.product_phases"><code class="xref py py-obj docutils literal notranslate"><span class="pre">product_phases</span></code></a></dt><dd><p>Product phases</p>
+</dd>
+<dt><a class="reference internal" href="#phases.Rxn.reactant_phases" title="phases.Rxn.reactant_phases"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reactant_phases</span></code></a></dt><dd><p>Reactant phases</p>
+</dd>
+<dt><a class="reference internal" href="#phases.Rxn.rxn_coefs" title="phases.Rxn.rxn_coefs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rxn_coefs</span></code></a></dt><dd><p>Reaction coefficients</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="phases.Rxn.affinity">
+<code class="sig-name descname">affinity</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">T</em>, <em class="sig-param">P</em>, <em class="sig-param">mols=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/phases.html#Rxn.affinity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#phases.Rxn.affinity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate reaction affinity</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>T</strong><span class="classifier">array-like</span></dt><dd><p>Temperature in Kelvin</p>
+</dd>
+<dt><strong>P</strong><span class="classifier">array-like</span></dt><dd><p>Pressure in bars</p>
+</dd>
+<dt><strong>mol</strong><span class="classifier">dict of arrays, optional</span></dt><dd><p>Composition of each phase in terms of mols of endmembers
+(unneeded for pure phases)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">array-like</span></dt><dd><p>Reaction affinity in J</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Rxn.chem_potential">
+<code class="sig-name descname">chem_potential</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">T</em>, <em class="sig-param">P</em>, <em class="sig-param">mols=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/phases.html#Rxn.chem_potential"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#phases.Rxn.chem_potential" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate net chemical potential change of the reaction</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>T</strong><span class="classifier">array-like</span></dt><dd><p>Temperature in Kelvin</p>
+</dd>
+<dt><strong>P</strong><span class="classifier">array-like</span></dt><dd><p>Pressure in bars</p>
+</dd>
+<dt><strong>mol</strong><span class="classifier">dict of arrays, optional</span></dt><dd><p>Composition of each phase in terms of mols of endmembers
+(unneeded for pure phases)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">array-like</span></dt><dd><p>Chemical potential in J for the net change of the reaction</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Rxn.endmember_ids">
+<em class="property">property </em><code class="sig-name descname">endmember_ids</code><a class="headerlink" href="#phases.Rxn.endmember_ids" title="Permalink to this definition">¶</a></dt>
+<dd><p>ID number of each endmember in phase</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Array of ids, [int,…]</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Rxn.endmember_names">
+<em class="property">property </em><code class="sig-name descname">endmember_names</code><a class="headerlink" href="#phases.Rxn.endmember_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of each endmember</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>List of endmember names for this solution phase, [str,…]</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Rxn.entropy">
+<code class="sig-name descname">entropy</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">T</em>, <em class="sig-param">P</em>, <em class="sig-param">mols=None</em>, <em class="sig-param">peratom=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/phases.html#Rxn.entropy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#phases.Rxn.entropy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate net entropy change of the reaction</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>T</strong><span class="classifier">array-like</span></dt><dd><p>Temperature in Kelvin</p>
+</dd>
+<dt><strong>P</strong><span class="classifier">array-like</span></dt><dd><p>Pressure in bars</p>
+</dd>
+<dt><strong>mol</strong><span class="classifier">dict of arrays, optional</span></dt><dd><p>Composition of each phase in terms of mols of endmembers
+(unneeded for pure phases).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">array-like</span></dt><dd><p>Entropy in J/K for the net change of the reaction.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Rxn.phase_num">
+<em class="property">property </em><code class="sig-name descname">phase_num</code><a class="headerlink" href="#phases.Rxn.phase_num" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of phases</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Number of phases (int)</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Rxn.phase_symbols">
+<em class="property">property </em><code class="sig-name descname">phase_symbols</code><a class="headerlink" href="#phases.Rxn.phase_symbols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Phase symbols</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Array of phase symbols used in the reaction (str)</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Rxn.phases">
+<em class="property">property </em><code class="sig-name descname">phases</code><a class="headerlink" href="#phases.Rxn.phases" title="Permalink to this definition">¶</a></dt>
+<dd><p>Phase objects used in the reaction</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Array of phase objects used in the reaction</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Rxn.product_phases">
+<em class="property">property </em><code class="sig-name descname">product_phases</code><a class="headerlink" href="#phases.Rxn.product_phases" title="Permalink to this definition">¶</a></dt>
+<dd><p>Product phases</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Array of product phase objects</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Rxn.reactant_phases">
+<em class="property">property </em><code class="sig-name descname">reactant_phases</code><a class="headerlink" href="#phases.Rxn.reactant_phases" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reactant phases</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Array of reactant phase objects</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Rxn.rxn_coefs">
+<em class="property">property </em><code class="sig-name descname">rxn_coefs</code><a class="headerlink" href="#phases.Rxn.rxn_coefs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reaction coefficients</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Array of reaction coefficients (double)</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Rxn.volume">
+<code class="sig-name descname">volume</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">T</em>, <em class="sig-param">P</em>, <em class="sig-param">mols=None</em>, <em class="sig-param">peratom=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/phases.html#Rxn.volume"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#phases.Rxn.volume" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate net volume change of the reaction</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>T</strong><span class="classifier">array-like</span></dt><dd><p>Temperature in Kelvin</p>
+</dd>
+<dt><strong>P</strong><span class="classifier">array-like</span></dt><dd><p>Pressure in bars</p>
+</dd>
+<dt><strong>mol</strong><span class="classifier">dict of arrays, optional</span></dt><dd><p>Composition of each phase in terms of mols of endmembers
+(unneeded for pure phases)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">array-like</span></dt><dd><p>Volume in J/bar for the net change of the reaction</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="phases.Phase">
+<em class="property">class </em><code class="sig-prename descclassname">phases.</code><code class="sig-name descname">Phase</code><span class="sig-paren">(</span><em class="sig-param">phase_classnm</em>, <em class="sig-param">abbrev</em>, <em class="sig-param">calib=True</em>, <em class="sig-param">source='objc'</em>, <em class="sig-param">coder_module=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/phases.html#Phase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#phases.Phase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract parent class defining generic phase properties.</p>
+<p>The user must use a subclass, like PurePhase or SolutionPhase, which
+implements the Phase interface.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl>
+<dt><strong>phase_classnm</strong><span class="classifier">str</span></dt><dd><p>Official class name for phase (implemented in src code). String has the
+form <em>classname</em> if source is <em>objc</em>, else:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>if !calib [‘cy’, ‘phase name’, ‘module name’, ‘’]</p></li>
+<li><p>if  calib [‘cy’, ‘phase name’, ‘module name’, ‘calib’, ‘’]</p></li>
+</ul>
+</div></blockquote>
+</dd>
+<dt><strong>abbrev</strong><span class="classifier">str</span></dt><dd><p>Official abbreviation of phase (regardless of implementation).</p>
+</dd>
+<dt><strong>calib</strong><span class="classifier">bool, default True</span></dt><dd><p>Indicates whether sample phase should be calibration ready.</p>
+</dd>
+<dt><strong>source</strong><span class="classifier">str</span></dt><dd><p>Code source for phase implementation. Default is ‘objc’ (code in
+objective-C that is part of the original code base). Alternative is
+‘coder’ (code generated by the coder module).</p>
+</dd>
+<dt><strong>coder_module</strong><span class="classifier">str</span></dt><dd><p>Name of the coder module that contains the phase classes. See
+documentation for model.Database for additional information and
+examples.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>This code is highly dependent on implementation and is likely to change
+dramatically with changes in the underlying code that calculates phase
+properties.</p></li>
+<li><p>The pure water phase, “H2O”, is very complex and thus not available for
+calibration. The water phase will force its calib flag to False, regardless
+of input value.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><a class="reference internal" href="#phases.Phase.abbrev" title="phases.Phase.abbrev"><code class="xref py py-obj docutils literal notranslate"><span class="pre">abbrev</span></code></a></dt><dd><p>Official unique abbreviation for phase</p>
+</dd>
+<dt><a class="reference internal" href="#phases.Phase.calib" title="phases.Phase.calib"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calib</span></code></a></dt><dd><p>Indicates whether phase calibration is enabled</p>
+</dd>
+<dt><a class="reference internal" href="#phases.Phase.class_name" title="phases.Phase.class_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">class_name</span></code></a></dt><dd><p>Name of class</p>
+</dd>
+<dt><a class="reference internal" href="#phases.Phase.endmember_ids" title="phases.Phase.endmember_ids"><code class="xref py py-obj docutils literal notranslate"><span class="pre">endmember_ids</span></code></a></dt><dd><p>ID number of each endmember in phase</p>
+</dd>
+<dt><a class="reference internal" href="#phases.Phase.endmember_names" title="phases.Phase.endmember_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">endmember_names</span></code></a></dt><dd><p>Name of each endmember</p>
+</dd>
+<dt><a class="reference internal" href="#phases.Phase.endmember_num" title="phases.Phase.endmember_num"><code class="xref py py-obj docutils literal notranslate"><span class="pre">endmember_num</span></code></a></dt><dd><p>Number of endmembers in phase</p>
+</dd>
+<dt><a class="reference internal" href="#phases.Phase.formula" title="phases.Phase.formula"><code class="xref py py-obj docutils literal notranslate"><span class="pre">formula</span></code></a></dt><dd><p>Formula of phase</p>
+</dd>
+<dt><a class="reference internal" href="#phases.Phase.identifier" title="phases.Phase.identifier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">identifier</span></code></a></dt><dd><p>Identifier of phase</p>
+</dd>
+<dt><a class="reference internal" href="#phases.Phase.module" title="phases.Phase.module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">module</span></code></a></dt><dd><p>Python module attribute for coder generated functions</p>
+</dd>
+<dt><a class="reference internal" href="#phases.Phase.MOLWTS" title="phases.Phase.MOLWTS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MOLWTS</span></code></a></dt><dd><p>Array of molecular weights of oxides</p>
+</dd>
+<dt><a class="reference internal" href="#phases.Phase.OXIDES" title="phases.Phase.OXIDES"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OXIDES</span></code></a></dt><dd><p>Array of oxide names</p>
+</dd>
+<dt><a class="reference internal" href="#phases.Phase.param_names" title="phases.Phase.param_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">param_names</span></code></a></dt><dd><p>Array of parameter names</p>
+</dd>
+<dt><a class="reference internal" href="#phases.Phase.param_props" title="phases.Phase.param_props"><code class="xref py py-obj docutils literal notranslate"><span class="pre">param_props</span></code></a></dt><dd><p>Dictionary of phase model parameters</p>
+</dd>
+<dt><a class="reference internal" href="#phases.Phase.phase_name" title="phases.Phase.phase_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">phase_name</span></code></a></dt><dd><p>Name of phase</p>
+</dd>
+<dt><a class="reference internal" href="#phases.Phase.phase_obj" title="phases.Phase.phase_obj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">phase_obj</span></code></a></dt><dd><p>Instance of the phase object</p>
+</dd>
+<dt><a class="reference internal" href="#phases.Phase.phase_type" title="phases.Phase.phase_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">phase_type</span></code></a></dt><dd><p>Phase type</p>
+</dd>
+<dt><a class="reference internal" href="#phases.Phase.props" title="phases.Phase.props"><code class="xref py py-obj docutils literal notranslate"><span class="pre">props</span></code></a></dt><dd><p>Dictionary of phase properties</p>
+</dd>
+<dt><a class="reference internal" href="#phases.Phase.source" title="phases.Phase.source"><code class="xref py py-obj docutils literal notranslate"><span class="pre">source</span></code></a></dt><dd><p>Indicates origin of source code implementation</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="phases.Phase.MOLWTS">
+<em class="property">property </em><code class="sig-name descname">MOLWTS</code><a class="headerlink" href="#phases.Phase.MOLWTS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Array of molecular weights of oxides</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Numpy array of molecular weights, (nparray)</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Phase.OXIDES">
+<em class="property">property </em><code class="sig-name descname">OXIDES</code><a class="headerlink" href="#phases.Phase.OXIDES" title="Permalink to this definition">¶</a></dt>
+<dd><p>Array of oxide names</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Array of oxide names, [str,…]</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Phase.abbrev">
+<em class="property">property </em><code class="sig-name descname">abbrev</code><a class="headerlink" href="#phases.Phase.abbrev" title="Permalink to this definition">¶</a></dt>
+<dd><p>Official unique abbreviation for phase</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Abbreviation (str)</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Phase.affinity_and_comp">
+<code class="sig-name descname">affinity_and_comp</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">t</em>, <em class="sig-param">p</em>, <em class="sig-param">mu</em>, <em class="sig-param">debug=False</em>, <em class="sig-param">method='generic'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/phases.html#Phase.affinity_and_comp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#phases.Phase.affinity_and_comp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a temperature, pressure and chemical potential(s), compute and
+return a chemical affinity and phase composition.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl>
+<dt><strong>t,p</strong><span class="classifier">float</span></dt><dd><p>Temperature (K) and pressure (bars)</p>
+</dd>
+<dt><strong>mu</strong><span class="classifier">ndarray</span></dt><dd><p>Chemical potential(s) of endmember components in phase</p>
+<ul class="simple">
+<li><p>For a stoichiometric phase, a 1-component 1-D numpy array</p></li>
+<li><p>For a solution phase, a 1-D numpy array of length equal to the
+number of endmember components in the phase</p></li>
+</ul>
+</dd>
+<dt><strong>debug</strong><span class="classifier">bool, def False</span></dt><dd><p>Print iteration details</p>
+</dd>
+<dt><strong>method</strong><span class="classifier">str, def ‘generic’</span></dt><dd><p>Algorithm used:
+‘generic’ - generic algorithm on components,
+‘species’ - generic algorithm on species (&gt; = components),
+‘special’ - algorthmic specifically coded in the phase instance,</p>
+<blockquote>
+<div><p>currently, only Objective-C coded methods are utilized,
+see _tailored_affinity_and_comp()</p>
+</div></blockquote>
+</dd>
+<dt><strong>Returns</strong></dt><dd></dd>
+<dt><strong>——-</strong></dt><dd></dd>
+<dt><strong>A, X</strong><span class="classifier">tuple</span></dt><dd><p>A is a scalar equal to the chemical affinity of the phase relative
+to mu.</p>
+<p>X is a numpy array of mole fractions of endmember components in the
+phase. X is the same length as mu.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The algorithm used is from Ghiorso (2013) and is a globally convergent saturation
+state algorithm applicable to thermodynamic systems with a stable or
+metastable omni-component phase. Geochimica et Cosmochimica Acta, 103,
+295-300</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Phase.calib">
+<em class="property">property </em><code class="sig-name descname">calib</code><a class="headerlink" href="#phases.Phase.calib" title="Permalink to this definition">¶</a></dt>
+<dd><p>Indicates whether phase calibration is enabled</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Value of calib (bool)</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Phase.class_name">
+<em class="property">property </em><code class="sig-name descname">class_name</code><a class="headerlink" href="#phases.Phase.class_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Name of class (str)</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Phase.disable_gibbs_energy_reference_state">
+<code class="sig-name descname">disable_gibbs_energy_reference_state</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/phases.html#Phase.disable_gibbs_energy_reference_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#phases.Phase.disable_gibbs_energy_reference_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unset Gibbs energy of the reference state.</p>
+<p class="rubric">Notes</p>
+<p>Call method on any phase class, and it automatically applies to all.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Phase.enable_gibbs_energy_reference_state">
+<code class="sig-name descname">enable_gibbs_energy_reference_state</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/phases.html#Phase.enable_gibbs_energy_reference_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#phases.Phase.enable_gibbs_energy_reference_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set Gibbs energy of the reference state.</p>
+<p class="rubric">Notes</p>
+<p>Call method on any phase class, and it automatically applies to all.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Phase.endmember_ids">
+<em class="property">property </em><code class="sig-name descname">endmember_ids</code><a class="headerlink" href="#phases.Phase.endmember_ids" title="Permalink to this definition">¶</a></dt>
+<dd><p>ID number of each endmember in phase</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Array of ids, [int,…]</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Phase.endmember_names">
+<em class="property">property </em><code class="sig-name descname">endmember_names</code><a class="headerlink" href="#phases.Phase.endmember_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of each endmember</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>List of endmember names for this solution phase, [str,…]</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Phase.endmember_num">
+<em class="property">property </em><code class="sig-name descname">endmember_num</code><a class="headerlink" href="#phases.Phase.endmember_num" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of endmembers in phase</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Number of endmembers in phase (int)</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Phase.formula">
+<em class="property">property </em><code class="sig-name descname">formula</code><a class="headerlink" href="#phases.Phase.formula" title="Permalink to this definition">¶</a></dt>
+<dd><p>Formula of phase</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Formula of phase (str)</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Phase.get_param_values">
+<code class="sig-name descname">get_param_values</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">param_names=[]</em>, <em class="sig-param">all_params=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/phases.html#Phase.get_param_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#phases.Phase.get_param_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get current values for listed parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>param_names</strong><span class="classifier">str array</span></dt><dd><p>List of parameter names</p>
+</dd>
+<dt><strong>all_params</strong><span class="classifier">bool, default False</span></dt><dd><p>If true, returns units for all parameters</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>values</strong><span class="classifier">double array</span></dt><dd><p>List of values for selected parameters</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Phase.get_phase_amount_from_elements">
+<code class="sig-name descname">get_phase_amount_from_elements</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">elements</em>, <em class="sig-param">kind='mass'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/phases.html#Phase.get_phase_amount_from_elements"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#phases.Phase.get_phase_amount_from_elements" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert list of elements to quantity of phase.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>elements</strong><span class="classifier">double array</span></dt><dd><p>Number of each element</p>
+</dd>
+<dt><strong>kind</strong><span class="classifier">{‘mass’,’moles’}</span></dt><dd><p>Determines how phase amount is determined (mass vs. moles)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>amount</strong><span class="classifier">double</span></dt><dd><p>Amount of phase (expressed according to kind)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Phase.identifier">
+<em class="property">property </em><code class="sig-name descname">identifier</code><a class="headerlink" href="#phases.Phase.identifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Identifier of phase</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Identifier of phase (str)</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Phase.module">
+<em class="property">property </em><code class="sig-name descname">module</code><a class="headerlink" href="#phases.Phase.module" title="Permalink to this definition">¶</a></dt>
+<dd><p>Python module attribute for coder generated functions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>module</dt><dd><p>Module attribute returned from importlib.import_module,
+else None if source is ‘objc’</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Phase.param_names">
+<em class="property">property </em><code class="sig-name descname">param_names</code><a class="headerlink" href="#phases.Phase.param_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Array of parameter names</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Array of names for each parameter of the phase model, [str,…]</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Phase.param_props">
+<em class="property">property </em><code class="sig-name descname">param_props</code><a class="headerlink" href="#phases.Phase.param_props" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dictionary of phase model parameters</p>
+<p>This dictionary defines parameter properties for the phase, using these keys:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">supports_calib</span></code><span class="classifier">bool</span></dt><dd><p>Flag indicating whether phase allows calibration</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">param_num</span></code><span class="classifier">int</span></dt><dd><p>Number of parameters</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">param_names</span></code><span class="classifier">str array</span></dt><dd><p>Name of each parameter</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">param_units</span></code><span class="classifier">str array</span></dt><dd><p>Units for each parameter</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">param0</span></code><span class="classifier">double array</span></dt><dd><p>Initial parameter values</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Dictionary of phase model parameters (dict)</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Phase.param_units">
+<code class="sig-name descname">param_units</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">param_names=[]</em>, <em class="sig-param">all_params=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/phases.html#Phase.param_units"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#phases.Phase.param_units" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get units for listed parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>param_names</strong><span class="classifier">str array</span></dt><dd><p>List of parameter names</p>
+</dd>
+<dt><strong>all_params</strong><span class="classifier">bool, default False</span></dt><dd><p>If true, returns units for all parameters</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>units</strong><span class="classifier">double array</span></dt><dd><p>List of units for selected parameters</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Phase.phase_name">
+<em class="property">property </em><code class="sig-name descname">phase_name</code><a class="headerlink" href="#phases.Phase.phase_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of phase</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Name of phase (str)</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Phase.phase_obj">
+<em class="property">property </em><code class="sig-name descname">phase_obj</code><a class="headerlink" href="#phases.Phase.phase_obj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instance of the phase object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Object instance</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Phase.phase_type">
+<em class="property">property </em><code class="sig-name descname">phase_type</code><a class="headerlink" href="#phases.Phase.phase_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Phase type</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Phase type (str)</dt><dd><p>Permissible values are ‘pure’ or ‘solution’.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Phase.props">
+<em class="property">property </em><code class="sig-name descname">props</code><a class="headerlink" href="#phases.Phase.props" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dictionary of phase properties</p>
+<p>The dictionary defines phase properties with these keys:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">abbrev</span></code><span class="classifier">str</span></dt><dd><p>Official unique phase abbreviation</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">name</span></code><span class="classifier">str</span></dt><dd><p>Name of phase (implementation dependent)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">class_name</span></code><span class="classifier">str</span></dt><dd><p>Official class name for phase (implemented in src code)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">formula</span></code><span class="classifier">str</span></dt><dd><p>Formula of phase</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">natom</span></code><span class="classifier">int</span></dt><dd><p>Number of atoms in formula unit</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">molwt</span></code><span class="classifier">double</span></dt><dd><p>Molecular weight of phase (in g/mol-formula-unit)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">elemental_entropy</span></code><span class="classifier">double</span></dt><dd><p>Estimated entropy from elemental formula (from Robie et al. 1979)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">element_symbols</span></code><span class="classifier">str array</span></dt><dd><p>Symbol array string</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">element_comp</span></code><span class="classifier">int array</span></dt><dd><p>Phase formula in terms of number of each element</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>A Python dictionary (dict)</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Need to update these dictionary values to be vectors for solution phases</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Phase.set_param_values">
+<code class="sig-name descname">set_param_values</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">param_names=[]</em>, <em class="sig-param">param_values=[]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/phases.html#Phase.set_param_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#phases.Phase.set_param_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set new values for listed parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>param_names</strong><span class="classifier">str array</span></dt><dd><p>List of parameter names</p>
+</dd>
+<dt><strong>param_values</strong><span class="classifier">double array</span></dt><dd><p>List of parameter values</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Phase.set_ref_state">
+<code class="sig-name descname">set_ref_state</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">Tr=298.15</em>, <em class="sig-param">Pr=1.0</em>, <em class="sig-param">Trl=298.15</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/phases.html#Phase.set_ref_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#phases.Phase.set_ref_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set reference state P/T conditions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>Tr</strong><span class="classifier">double, default 298.15</span></dt><dd><p>Reference temperature in Kelvin</p>
+</dd>
+<dt><strong>Pr</strong><span class="classifier">double, default 1.0</span></dt><dd><p>Reference pressure in bars</p>
+</dd>
+<dt><strong>Trl</strong><span class="classifier">double, default 298.15</span></dt><dd><p>Reference temperature for lambda heat capacity correction in Kelvin</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.Phase.source">
+<em class="property">property </em><code class="sig-name descname">source</code><a class="headerlink" href="#phases.Phase.source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Indicates origin of source code implementation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>String indicating origin of source code for implementation</dt><dd><p>Permissible values ‘objc’ or ‘coder’.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="phases.PurePhase">
+<em class="property">class </em><code class="sig-prename descclassname">phases.</code><code class="sig-name descname">PurePhase</code><span class="sig-paren">(</span><em class="sig-param">phase_classnm</em>, <em class="sig-param">abbrev</em>, <em class="sig-param">calib=True</em>, <em class="sig-param">source='objc'</em>, <em class="sig-param">coder_module=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/phases.html#PurePhase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#phases.PurePhase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pure stoichiometric phases.</p>
+<p>Implements the Phase interface.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>phase_classnm</strong><span class="classifier">str</span></dt><dd><p>Official class name for phase (implemented in src code)</p>
+</dd>
+<dt><strong>abbrev</strong><span class="classifier">str</span></dt><dd><p>Official abbreviation of phase (regardless of implementation)</p>
+</dd>
+<dt><strong>calib</strong><span class="classifier">bool, default True</span></dt><dd><p>Indicates whether sample phase should be calibration ready</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>This code is highly dependent on implementation and is likely to change
+dramatically with changes in the underlying code that calculates phase
+properties.</p></li>
+<li><p>The pure water phase, “H2O”, is very complex and thus not available for
+calibration. The water phase will force its calib flag to False, regardless
+of input value.</p></li>
+<li><p>In addition to the attributes listed, this class inherits the Phase class
+attributes.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><a class="reference internal" href="#phases.PurePhase.Berman_formula" title="phases.PurePhase.Berman_formula"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Berman_formula</span></code></a></dt><dd><p>Representation of formula using Berman format</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="phases.PurePhase.Berman_formula">
+<em class="property">property </em><code class="sig-name descname">Berman_formula</code><a class="headerlink" href="#phases.PurePhase.Berman_formula" title="Permalink to this definition">¶</a></dt>
+<dd><p>Representation of formula using Berman format</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Chemical formula of phase (str)</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="phases.SolutionPhase">
+<em class="property">class </em><code class="sig-prename descclassname">phases.</code><code class="sig-name descname">SolutionPhase</code><span class="sig-paren">(</span><em class="sig-param">phase_classnm</em>, <em class="sig-param">abbrev</em>, <em class="sig-param">calib=True</em>, <em class="sig-param">source='objc'</em>, <em class="sig-param">coder_module=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/phases.html#SolutionPhase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#phases.SolutionPhase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Solid solution phases.</p>
+<p>Implements the Phase interface.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>phase_classnm</strong><span class="classifier">str</span></dt><dd><p>Official class name for phase (implemented in src code).</p>
+</dd>
+<dt><strong>abbrev</strong><span class="classifier">str</span></dt><dd><p>Official abbreviation of phase (regardless of implementation).</p>
+</dd>
+<dt><strong>calib</strong><span class="classifier">bool, default True</span></dt><dd><p>Indicates whether sample phase should be calibration ready.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>This code is highly dependent on implementation and is likely to change
+dramatically with changes in the underlying code that calculates phase
+properties.</p></li>
+<li><p>The pure water phase, “H2O”, is very complex and thus not available for
+calibration. The water phase will force its calib flag to False, regardless
+of input value.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>Attributes for this class are inherited from the Phase class.</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="phases.SolutionPhase.calc_endmember_comp">
+<code class="sig-name descname">calc_endmember_comp</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">mol_oxide_comp</em>, <em class="sig-param">method='least_squares'</em>, <em class="sig-param">output_residual=False</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">decimals=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/phases.html#SolutionPhase.calc_endmember_comp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#phases.SolutionPhase.calc_endmember_comp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get fraction of each endmember given the composition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>mol_oxide_comp</strong><span class="classifier">double array</span></dt><dd><p>Amounts of each oxide in standard order (defined in OXIDES)</p>
+</dd>
+<dt><strong>decimals</strong><span class="classifier">int, default 10</span></dt><dd><p>Number of decimals to round result to</p>
+</dd>
+<dt><strong>method</strong><span class="classifier">str, default ‘least_squares’</span></dt><dd><p>Method used to convert oxide composition (in moles) to moles of
+endmembers ‘intrinsic’ is alternate method, hardcoded by the
+solution implementation</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>endmember_comp</strong><span class="classifier">double array</span></dt><dd><p>Best-fit molar composition in terms of endmembers</p>
+</dd>
+<dt><strong>mol_oxide_comp_residual</strong><span class="classifier">double array</span></dt><dd><p>Residual molar oxide composition</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul>
+<li><p>Eventually, we may want the ability to calculate endmember comp. using
+a variety of methods for inputing composition:</p>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="simple">
+<dt>kind<span class="classifier">[‘wt_oxide’, ‘mol_oxide’, ‘element’]</span></dt><dd><p>Identifies how composition is defined.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.SolutionPhase.compute_formula">
+<code class="sig-name descname">compute_formula</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">T</em>, <em class="sig-param">P</em>, <em class="sig-param">mol_comp</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/phases.html#SolutionPhase.compute_formula"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#phases.SolutionPhase.compute_formula" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts an input array of moles of endmember components to
+the chemical formula of the phase</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>T</strong><span class="classifier">double</span></dt><dd><p>Temperature in Kelvins</p>
+</dd>
+<dt><strong>P</strong><span class="classifier">double</span></dt><dd><p>Pressure in bars</p>
+</dd>
+<dt><strong>mol_comp</strong><span class="classifier">double array</span></dt><dd><p>Mole numbers of each component in the solution</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>formula</strong><span class="classifier">str</span></dt><dd><p>A string with the formula of the phase</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.SolutionPhase.convert_elements">
+<code class="sig-name descname">convert_elements</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">mol_elm</em>, <em class="sig-param">output='moles_end'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/phases.html#SolutionPhase.convert_elements"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#phases.SolutionPhase.convert_elements" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts an array of mole numbers of elements (in the standard order) to
+the specified output quantity</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>mole_elm</strong><span class="classifier">double array</span></dt><dd><p>Mole numbers of elements in the standard order</p>
+</dd>
+<dt><strong>output</strong><span class="classifier">str, default = ‘moles_end’</span></dt><dd><dl class="simple">
+<dt>Output quantity:</dt><dd><ul class="simple">
+<li><p>‘moles_end’ - double array of moles of endmembers</p></li>
+<li><p>‘total_moles’ - double, sum of moles of endmembers</p></li>
+<li><p>‘total_grams’ - double, sum of grams of solution</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>result</strong><span class="classifier">double or double array</span></dt><dd><p>The computed quantity as double or double array</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.SolutionPhase.convert_species_to_comp">
+<code class="sig-name descname">convert_species_to_comp</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">mol_species</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/phases.html#SolutionPhase.convert_species_to_comp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#phases.SolutionPhase.convert_species_to_comp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts an input array of moles of species to moles of
+endmember components</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>mol_species</strong><span class="classifier">double array</span></dt><dd><p>Mole numbers of each species in the solution</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>result</strong><span class="classifier">double array</span></dt><dd><p>Moles of endmember components</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.SolutionPhase.covert_endmember_comp">
+<code class="sig-name descname">covert_endmember_comp</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">mol_comp</em>, <em class="sig-param">output='total_moles'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/phases.html#SolutionPhase.covert_endmember_comp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#phases.SolutionPhase.covert_endmember_comp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts an input array of moles of endmember components to
+the specified quantity</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>mol_comp</strong><span class="classifier">double array</span></dt><dd><p>Mole numbers of each component in the solution</p>
+</dd>
+<dt><strong>output</strong><span class="classifier">str, default = ‘total_moles’</span></dt><dd><dl class="simple">
+<dt>Output quantity:</dt><dd><ul class="simple">
+<li><p>‘total_moles’ - double</p></li>
+<li><p>‘moles_elements’ - double array (standard order and length)</p></li>
+<li><p>‘mole_fraction’ - double array (same order and length as input)</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>result</strong><span class="classifier">double or double array</span></dt><dd><p>The computed quantity as double or double array</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.SolutionPhase.get_endmember_ind">
+<code class="sig-name descname">get_endmember_ind</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">mol_oxide_comp</em>, <em class="sig-param">get_endmember_comp=False</em>, <em class="sig-param">TOL=1e-06</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/phases.html#SolutionPhase.get_endmember_ind"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#phases.SolutionPhase.get_endmember_ind" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get index of endmember that best matches composition.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>mol_oxide_comp</strong><span class="classifier">double array</span></dt><dd><p>Amounts of each oxide in standard order (defined in OXIDES)</p>
+</dd>
+<dt><strong>TOL</strong><span class="classifier">double, default 1e-6</span></dt><dd><p>Allowed tolerance for mismatch to defined composition</p>
+</dd>
+<dt><strong>get_endmember_comp</strong><span class="classifier">bool, default False</span></dt><dd><p>If true, also return endmember composition array.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl>
+<dt><strong>endmember_ind</strong><span class="classifier">int</span></dt><dd><p>Index of best-fit endmember</p>
+</dd>
+<dt><strong>endmember_comp</strong><span class="classifier">double array, optional</span></dt><dd><p>Composition array in terms of endmembers.</p>
+<p>Return if get_endmember_comp==True</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="phases.SolutionPhase.test_endmember_comp">
+<code class="sig-name descname">test_endmember_comp</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">mol_comp</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/phases.html#SolutionPhase.test_endmember_comp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#phases.SolutionPhase.test_endmember_comp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests validity of endmember component moles array</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>mol_comp</strong><span class="classifier">double array</span></dt><dd><p>Mole numbers of each component in the solution</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>flag</strong><span class="classifier">boolean</span></dt><dd><p>True is composition is valid, otherwise False.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2020, ENKI.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.4.0.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

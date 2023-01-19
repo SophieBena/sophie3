@@ -1,0 +1,20 @@
+proxy:
+  secretToken: "782f65ff317054c3ca9e7942294b57fa79f61d99de85c63186acb4e83c2d03a1"
+
+singleuser:
+  image:
+    name: registry.gitlab.com/enki-portal/thermoengine
+    tag: master
+    pullPolicy: Always
+  defaultUrl: "/lab"
+
+auth:
+  type: dummy
+  dummy:
+    password: 'enki'
+  admin:
+    users:
+      - enki
+  whitelist:
+    users:
+      - enki

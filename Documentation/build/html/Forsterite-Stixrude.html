@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Forsterite - Stixrude &mdash; Thermoengine 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="None"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" >
+    <link rel="search" title="Search" href="search.html" >
+    <link rel="top" title="Thermoengine 1.0.1 documentation" href="index.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="index.html">
+      <img style="border: 0;" alt="ENKI" src="_static/img/ENKI_header.png"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="http://enki-portal.org">ENKI Web</a></li>
+        <li class="active"><a href="https://enki.ofm-research.org">ENKI Server</a></li>
+	
+        <li class="active"><a href="index.html">Thermoengine 1.0.1 documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/Enki.png" alt="Logo">
+            </a></p>
+        </div>
+      </div>
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="forsterite-stixrude">
+<h1>Forsterite - Stixrude<a class="headerlink" href="#forsterite-stixrude" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">thermoengine</span> <span class="kn">import</span> <span class="n">phases</span>
+<span class="kn">from</span> <span class="nn">thermoengine</span> <span class="kn">import</span> <span class="n">model</span>
+</pre></div>
+</div>
+<div class="section" id="create-a-python-reference-to-the-forsterite-phase-in-teh-stixrude-database">
+<h2>Create a Python reference to the Forsterite phase in teh Stixrude database.<a class="headerlink" href="#create-a-python-reference-to-the-forsterite-phase-in-teh-stixrude-database" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">modelDBStix</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">Database</span><span class="p">(</span><span class="n">database</span><span class="o">=</span><span class="s1">&#39;Stixrude&#39;</span><span class="p">)</span>
+<span class="n">obj</span> <span class="o">=</span> <span class="n">modelDBStix</span><span class="o">.</span><span class="n">get_phase</span><span class="p">(</span><span class="s1">&#39;Fo&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="all-phases-that-conform-to-the-stoichiometric-phase-protocol">
+<h3>All phases that conform to the Stoichiometric Phase Protocol …<a class="headerlink" href="#all-phases-that-conform-to-the-stoichiometric-phase-protocol" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="implement-the-following-functions">
+<h2>…implement the following functions:<a class="headerlink" href="#implement-the-following-functions" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">getGibbsFreeEnergyFromT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span><span class="p">;</span>
+<span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">getEnthalpyFromT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span><span class="p">;</span>
+<span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">getEntropyFromT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span><span class="p">;</span>
+<span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">getHeatCapacityFromT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span><span class="p">;</span>
+<span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">getDcpDtFromT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span><span class="p">;</span>
+<span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">getVolumeFromT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span><span class="p">;</span>
+<span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">getDvDtFromT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span><span class="p">;</span>
+<span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">getDvDpFromT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span><span class="p">;</span>
+<span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">getD2vDt2FromT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span><span class="p">;</span>
+<span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">getD2vDtDpFromT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span><span class="p">;</span>
+<span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">getD2vDp2FromT</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span> <span class="n">andP</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>where <em>t</em> (temperature) is in K, and <em>p</em> (pressure) is in bars. ### In
+Python, these calls are written:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">formatted_output</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">decimals</span><span class="p">,</span> <span class="n">sci_notation</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">format_str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0:&gt;10s}</span><span class="s2">{1:15.&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">decimals</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">sci_notation</span><span class="p">:</span>
+        <span class="n">format_str</span> <span class="o">+=</span> <span class="s2">&quot;e&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">format_str</span> <span class="o">+=</span> <span class="s2">&quot;f&quot;</span>
+
+    <span class="n">format_str</span> <span class="o">+=</span> <span class="s2">&quot;} </span><span class="si">{2:&lt;20s}</span><span class="s2">&quot;</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="n">format_str</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">units</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">output</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="mf">2100.0</span> <span class="o">-</span> <span class="mf">273.15</span>
+<span class="n">p</span> <span class="o">=</span> <span class="mf">15000.0</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="n">formatted_output</span><span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">gibbs_energy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/mol&#39;</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">formatted_output</span><span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">enthalpy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/mol&#39;</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">formatted_output</span><span class="p">(</span><span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-mol&#39;</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">formatted_output</span><span class="p">(</span><span class="s1">&#39;Cp&#39;</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">heat_capacity</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-mol&#39;</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">formatted_output</span><span class="p">(</span><span class="s2">&quot;V&quot;</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/bar-mol&#39;</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">formatted_output</span><span class="p">(</span><span class="s2">&quot;dV/dT&quot;</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dT&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">}),</span> <span class="s1">&#39;J/bar-K-mol&#39;</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span> <span class="n">sci_notation</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">formatted_output</span><span class="p">(</span><span class="s2">&quot;dv/dP&quot;</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dP&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">}),</span> <span class="s1">&#39;J/bar^2-mol&#39;</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span> <span class="n">sci_notation</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">formatted_output</span><span class="p">(</span><span class="s2">&quot;d2V/dT2&quot;</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dT&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">}),</span> <span class="s1">&#39;J/bar-K^2-mol&#39;</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span> <span class="n">sci_notation</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">formatted_output</span><span class="p">(</span><span class="s2">&quot;d2V/dTdP&quot;</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dT&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;dP&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">}),</span> <span class="s1">&#39;J/bar^2-K-mol&#39;</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span> <span class="n">sci_notation</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">formatted_output</span><span class="p">(</span><span class="s2">&quot;d2V/dP2&quot;</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dP&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">}),</span> <span class="s1">&#39;J/bar^3-mol&#39;</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span> <span class="n">sci_notation</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>       <span class="n">G</span>    <span class="o">-</span><span class="mf">2401656.91</span> <span class="n">J</span><span class="o">/</span><span class="n">mol</span>
+       <span class="n">H</span>    <span class="o">-</span><span class="mf">1702496.72</span> <span class="n">J</span><span class="o">/</span><span class="n">mol</span>
+       <span class="n">S</span>         <span class="mf">382.71</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">-</span><span class="n">mol</span>
+      <span class="n">Cp</span>        <span class="mf">187.032</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">-</span><span class="n">mol</span>
+       <span class="n">V</span>          <span class="mf">4.531</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">-</span><span class="n">mol</span>
+   <span class="n">dV</span><span class="o">/</span><span class="n">dT</span>   <span class="mf">1.859698e-04</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">-</span><span class="n">K</span><span class="o">-</span><span class="n">mol</span>
+   <span class="n">dv</span><span class="o">/</span><span class="n">dP</span>  <span class="o">-</span><span class="mf">4.513093e-06</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="n">mol</span>
+ <span class="n">d2V</span><span class="o">/</span><span class="n">dT2</span>   <span class="mf">6.744500e-08</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">-</span><span class="n">K</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="n">mol</span>
+<span class="n">d2V</span><span class="o">/</span><span class="n">dTdP</span>  <span class="o">-</span><span class="mf">1.359414e-09</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="n">K</span><span class="o">-</span><span class="n">mol</span>
+ <span class="n">d2V</span><span class="o">/</span><span class="n">dP2</span>   <span class="mf">2.734201e-11</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">^</span><span class="mi">3</span><span class="o">-</span><span class="n">mol</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.misc</span> <span class="kn">import</span> <span class="n">derivative</span>
+<span class="n">t</span> <span class="o">=</span> <span class="mf">2100.0</span><span class="o">-</span><span class="mf">273.15</span>
+<span class="n">p</span> <span class="o">=</span> <span class="mf">15000.0</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_h</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">):</span>
+    <span class="n">h_est</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">gibbs_energy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span> <span class="o">+</span> <span class="n">t</span><span class="o">*</span><span class="n">obj</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="n">h_act</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">enthalpy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="n">h_err</span> <span class="o">=</span> <span class="p">(</span><span class="n">h_est</span><span class="o">-</span><span class="n">h_act</span><span class="p">)</span><span class="o">*</span><span class="mf">100.0</span><span class="o">/</span><span class="n">h_act</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;H       </span><span class="si">{0:10.6f}</span><span class="s2"> </span><span class="si">% e</span><span class="s2">rror, est: </span><span class="si">{1:15.6e}</span><span class="s2"> act: </span><span class="si">{2:15.6e}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">h_err</span><span class="p">,</span> <span class="n">h_est</span><span class="p">,</span> <span class="n">h_act</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">g</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">doT</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">doT</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">gibbs_energy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">gibbs_energy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_g_dt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">):</span>
+    <span class="n">s_est</span> <span class="o">=</span> <span class="o">-</span><span class="n">derivative</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="kc">True</span><span class="p">,))</span>
+    <span class="n">s_act</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="n">s_err</span> <span class="o">=</span> <span class="p">(</span><span class="n">s_est</span><span class="o">-</span><span class="n">s_act</span><span class="p">)</span><span class="o">*</span><span class="mf">100.0</span><span class="o">/</span><span class="n">s_act</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;S       </span><span class="si">{0:10.6f}</span><span class="s2"> </span><span class="si">% e</span><span class="s2">rror, est: </span><span class="si">{1:15.6e}</span><span class="s2"> act: </span><span class="si">{2:15.6e}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s_err</span><span class="p">,</span> <span class="n">s_est</span><span class="p">,</span> <span class="n">s_act</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">test_g_dp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">):</span>
+    <span class="n">v_est</span> <span class="o">=</span> <span class="n">derivative</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="kc">False</span><span class="p">,))</span>
+    <span class="n">v_act</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="n">v_err</span> <span class="o">=</span> <span class="p">(</span><span class="n">v_est</span><span class="o">-</span><span class="n">v_act</span><span class="p">)</span><span class="o">*</span><span class="mf">100.0</span><span class="o">/</span><span class="n">v_act</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;V       </span><span class="si">{0:10.6f}</span><span class="s2"> </span><span class="si">% e</span><span class="s2">rror, est: </span><span class="si">{1:15.6e}</span><span class="s2"> act: </span><span class="si">{2:15.6e}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v_err</span><span class="p">,</span> <span class="n">v_est</span><span class="p">,</span> <span class="n">v_act</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">s</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">doT</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">doT</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_s_dt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">):</span>
+    <span class="n">cp_est</span> <span class="o">=</span> <span class="n">t</span><span class="o">*</span><span class="n">derivative</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="kc">True</span><span class="p">,))</span>
+    <span class="n">cp_act</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">heat_capacity</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="n">cp_err</span> <span class="o">=</span> <span class="p">(</span><span class="n">cp_est</span><span class="o">-</span><span class="n">cp_act</span><span class="p">)</span><span class="o">*</span><span class="mf">100.0</span><span class="o">/</span><span class="n">cp_act</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Cp      </span><span class="si">{0:10.6f}</span><span class="s2"> </span><span class="si">% e</span><span class="s2">rror, est: </span><span class="si">{1:15.6e}</span><span class="s2"> act: </span><span class="si">{2:15.6e}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cp_err</span><span class="p">,</span> <span class="n">cp_est</span><span class="p">,</span> <span class="n">cp_act</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">cp</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">doT</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">doT</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">heat_capacity</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">heat_capacity</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_cp_dt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">):</span>
+    <span class="n">dcpdt_est</span> <span class="o">=</span> <span class="n">derivative</span><span class="p">(</span><span class="n">cp</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="kc">True</span><span class="p">,))</span>
+    <span class="n">dcpdt_act</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">heat_capacity</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dT&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
+    <span class="n">dcpdt_err</span> <span class="o">=</span> <span class="p">(</span><span class="n">dcpdt_est</span><span class="o">-</span><span class="n">dcpdt_act</span><span class="p">)</span><span class="o">*</span><span class="mf">100.0</span><span class="o">/</span><span class="n">dcpdt_act</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;dCpDt   </span><span class="si">{0:10.6f}</span><span class="s2"> </span><span class="si">% e</span><span class="s2">rror, est: </span><span class="si">{1:15.6e}</span><span class="s2"> act: </span><span class="si">{2:15.6e}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dcpdt_err</span><span class="p">,</span> <span class="n">dcpdt_est</span><span class="p">,</span> <span class="n">dcpdt_act</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">v</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">doT</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">doT</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_v_dt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">):</span>
+    <span class="n">dvdt_est</span> <span class="o">=</span> <span class="n">derivative</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="kc">True</span><span class="p">,))</span>
+    <span class="n">dvdt_act</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dT&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
+    <span class="n">dvdt_err</span> <span class="o">=</span> <span class="p">(</span><span class="n">dvdt_est</span><span class="o">-</span><span class="n">dvdt_act</span><span class="p">)</span><span class="o">*</span><span class="mf">100.0</span><span class="o">/</span><span class="n">dvdt_act</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;dVdT    </span><span class="si">{0:10.6f}</span><span class="s2"> </span><span class="si">% e</span><span class="s2">rror, est: </span><span class="si">{1:15.6e}</span><span class="s2"> act: </span><span class="si">{2:15.6e}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dvdt_err</span><span class="p">,</span> <span class="n">dvdt_est</span><span class="p">,</span> <span class="n">dvdt_act</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">test_v_dp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">):</span>
+    <span class="n">dvdp_est</span> <span class="o">=</span> <span class="n">derivative</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="kc">False</span><span class="p">,))</span>
+    <span class="n">dvdp_act</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dP&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
+    <span class="n">dvdp_err</span> <span class="o">=</span> <span class="p">(</span><span class="n">dvdp_est</span><span class="o">-</span><span class="n">dvdp_act</span><span class="p">)</span><span class="o">*</span><span class="mf">100.0</span><span class="o">/</span><span class="n">dvdp_act</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;dVdP    </span><span class="si">{0:10.6f}</span><span class="s2"> </span><span class="si">% e</span><span class="s2">rror, est: </span><span class="si">{1:15.6e}</span><span class="s2"> act: </span><span class="si">{2:15.6e}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dvdp_err</span><span class="p">,</span> <span class="n">dvdp_est</span><span class="p">,</span> <span class="n">dvdp_act</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">dvdt</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">doT</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">doT</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dT&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dT&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
+<span class="k">def</span> <span class="nf">dvdp</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">doT</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">doT</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dP&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dP&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
+<span class="k">def</span> <span class="nf">test_dvdt_dt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">):</span>
+    <span class="n">d2vdt2_est</span> <span class="o">=</span> <span class="n">derivative</span><span class="p">(</span><span class="n">dvdt</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="kc">True</span><span class="p">,))</span>
+    <span class="n">d2vdt2_act</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dT&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">})</span>
+    <span class="n">d2vdt2_err</span> <span class="o">=</span> <span class="p">(</span><span class="n">d2vdt2_est</span><span class="o">-</span><span class="n">d2vdt2_act</span><span class="p">)</span><span class="o">*</span><span class="mf">100.0</span><span class="o">/</span><span class="n">d2vdt2_act</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;d2VdT2  </span><span class="si">{0:10.6f}</span><span class="s2"> </span><span class="si">% e</span><span class="s2">rror, est: </span><span class="si">{1:15.6e}</span><span class="s2"> act: </span><span class="si">{2:15.6e}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">d2vdt2_err</span><span class="p">,</span> <span class="n">d2vdt2_est</span><span class="p">,</span> <span class="n">d2vdt2_act</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">test_dvdt_dp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">):</span>
+    <span class="n">d2vdtdp_est</span> <span class="o">=</span> <span class="n">derivative</span><span class="p">(</span><span class="n">dvdt</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="kc">False</span><span class="p">,))</span>
+    <span class="n">d2vdtdp_act</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dT&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;dP&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
+    <span class="n">d2vdtdp_err</span> <span class="o">=</span> <span class="p">(</span><span class="n">d2vdtdp_est</span><span class="o">-</span><span class="n">d2vdtdp_act</span><span class="p">)</span><span class="o">*</span><span class="mf">100.0</span><span class="o">/</span><span class="n">d2vdtdp_act</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;d2VdTdP </span><span class="si">{0:10.6f}</span><span class="s2"> </span><span class="si">% e</span><span class="s2">rror, est: </span><span class="si">{1:15.6e}</span><span class="s2"> act: </span><span class="si">{2:15.6e}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">d2vdtdp_err</span><span class="p">,</span> <span class="n">d2vdtdp_est</span><span class="p">,</span> <span class="n">d2vdtdp_act</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">test_dvdp_dt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">):</span>
+    <span class="n">d2vdtdp_est</span> <span class="o">=</span> <span class="n">derivative</span><span class="p">(</span><span class="n">dvdp</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="kc">True</span><span class="p">,))</span>
+    <span class="n">d2vdtdp_act</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dT&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;dP&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
+    <span class="n">d2vdtdp_err</span> <span class="o">=</span> <span class="p">(</span><span class="n">d2vdtdp_est</span><span class="o">-</span><span class="n">d2vdtdp_act</span><span class="p">)</span><span class="o">*</span><span class="mf">100.0</span><span class="o">/</span><span class="n">d2vdtdp_act</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;d2VdTDp </span><span class="si">{0:10.6f}</span><span class="s2"> </span><span class="si">% e</span><span class="s2">rror, est: </span><span class="si">{1:15.6e}</span><span class="s2"> act: </span><span class="si">{2:15.6e}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">d2vdtdp_err</span><span class="p">,</span> <span class="n">d2vdtdp_est</span><span class="p">,</span> <span class="n">d2vdtdp_act</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">test_dvdp_dp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">):</span>
+    <span class="n">d2vdp2_est</span> <span class="o">=</span> <span class="n">derivative</span><span class="p">(</span><span class="n">dvdp</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="kc">False</span><span class="p">,))</span>
+    <span class="n">d2vdp2_act</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dP&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">})</span>
+    <span class="n">d2vdp2_err</span> <span class="o">=</span> <span class="p">(</span><span class="n">d2vdp2_est</span><span class="o">-</span><span class="n">d2vdp2_act</span><span class="p">)</span><span class="o">*</span><span class="mf">100.0</span><span class="o">/</span><span class="n">d2vdp2_act</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;d2VdP2  </span><span class="si">{0:10.6f}</span><span class="s2"> </span><span class="si">% e</span><span class="s2">rror, est: </span><span class="si">{1:15.6e}</span><span class="s2"> act: </span><span class="si">{2:15.6e}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">d2vdp2_err</span><span class="p">,</span> <span class="n">d2vdp2_est</span><span class="p">,</span> <span class="n">d2vdp2_act</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_h</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+<span class="n">test_g_dt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+<span class="n">test_s_dt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+<span class="n">test_cp_dt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+<span class="n">test_g_dp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+<span class="n">test_v_dt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+<span class="n">test_v_dp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+<span class="n">test_dvdt_dt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+<span class="n">test_dvdt_dp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+<span class="n">test_dvdp_dt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+<span class="n">test_dvdp_dp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">H</span>        <span class="o">-</span><span class="mf">0.000000</span> <span class="o">%</span> <span class="n">error</span><span class="p">,</span> <span class="n">est</span><span class="p">:</span>   <span class="o">-</span><span class="mf">1.702497e+06</span> <span class="n">act</span><span class="p">:</span>   <span class="o">-</span><span class="mf">1.702497e+06</span>
+<span class="n">S</span>        <span class="o">-</span><span class="mf">0.000002</span> <span class="o">%</span> <span class="n">error</span><span class="p">,</span> <span class="n">est</span><span class="p">:</span>    <span class="mf">3.827135e+02</span> <span class="n">act</span><span class="p">:</span>    <span class="mf">3.827135e+02</span>
+<span class="n">Cp</span>        <span class="mf">0.000009</span> <span class="o">%</span> <span class="n">error</span><span class="p">,</span> <span class="n">est</span><span class="p">:</span>    <span class="mf">1.870316e+02</span> <span class="n">act</span><span class="p">:</span>    <span class="mf">1.870316e+02</span>
+<span class="n">dCpDt</span>    <span class="o">-</span><span class="mf">0.052643</span> <span class="o">%</span> <span class="n">error</span><span class="p">,</span> <span class="n">est</span><span class="p">:</span>    <span class="mf">1.544871e-02</span> <span class="n">act</span><span class="p">:</span>    <span class="mf">1.545684e-02</span>
+<span class="n">V</span>         <span class="mf">0.000000</span> <span class="o">%</span> <span class="n">error</span><span class="p">,</span> <span class="n">est</span><span class="p">:</span>    <span class="mf">4.530851e+00</span> <span class="n">act</span><span class="p">:</span>    <span class="mf">4.530851e+00</span>
+<span class="n">dVdT</span>      <span class="mf">0.000005</span> <span class="o">%</span> <span class="n">error</span><span class="p">,</span> <span class="n">est</span><span class="p">:</span>    <span class="mf">1.859698e-04</span> <span class="n">act</span><span class="p">:</span>    <span class="mf">1.859698e-04</span>
+<span class="n">dVdP</span>     <span class="o">-</span><span class="mf">0.000000</span> <span class="o">%</span> <span class="n">error</span><span class="p">,</span> <span class="n">est</span><span class="p">:</span>   <span class="o">-</span><span class="mf">4.513093e-06</span> <span class="n">act</span><span class="p">:</span>   <span class="o">-</span><span class="mf">4.513093e-06</span>
+<span class="n">d2VdT2</span>   <span class="o">-</span><span class="mf">0.077181</span> <span class="o">%</span> <span class="n">error</span><span class="p">,</span> <span class="n">est</span><span class="p">:</span>    <span class="mf">6.744501e-08</span> <span class="n">act</span><span class="p">:</span>    <span class="mf">6.749710e-08</span>
+<span class="n">d2VdTdP</span>   <span class="mf">0.001460</span> <span class="o">%</span> <span class="n">error</span><span class="p">,</span> <span class="n">est</span><span class="p">:</span>   <span class="o">-</span><span class="mf">1.359414e-09</span> <span class="n">act</span><span class="p">:</span>   <span class="o">-</span><span class="mf">1.359394e-09</span>
+<span class="n">d2VdTDp</span>  <span class="o">-</span><span class="mf">0.077716</span> <span class="o">%</span> <span class="n">error</span><span class="p">,</span> <span class="n">est</span><span class="p">:</span>   <span class="o">-</span><span class="mf">1.359414e-09</span> <span class="n">act</span><span class="p">:</span>   <span class="o">-</span><span class="mf">1.360472e-09</span>
+<span class="n">d2VdP2</span>    <span class="mf">0.001319</span> <span class="o">%</span> <span class="n">error</span><span class="p">,</span> <span class="n">est</span><span class="p">:</span>    <span class="mf">2.734201e-11</span> <span class="n">act</span><span class="p">:</span>    <span class="mf">2.734165e-11</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">obj</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">4.530851427152421</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">obj</span><span class="o">.</span><span class="n">props</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">&#39;abbrev&#39;</span><span class="p">,</span> <span class="s1">&#39;Fo&#39;</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;phase_name&#39;</span><span class="p">,</span> <span class="s1">&#39;Forsterite&#39;</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;class_name&#39;</span><span class="p">,</span> <span class="s1">&#39;ForsteriteStixrude&#39;</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;identifier&#39;</span><span class="p">,</span> <span class="s1">&#39;Objective-C-base&#39;</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;endmember_name&#39;</span><span class="p">,</span> <span class="n">array</span><span class="p">([</span><span class="s1">&#39;Forsterite&#39;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;&lt;U10&#39;</span><span class="p">)),</span>
+             <span class="p">(</span><span class="s1">&#39;endmember_ids&#39;</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">]),</span>
+             <span class="p">(</span><span class="s1">&#39;formula&#39;</span><span class="p">,</span> <span class="n">array</span><span class="p">([</span><span class="s1">&#39;Mg2SiO4&#39;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;&lt;U7&#39;</span><span class="p">)),</span>
+             <span class="p">(</span><span class="s1">&#39;atom_num&#39;</span><span class="p">,</span> <span class="n">array</span><span class="p">([</span><span class="mf">7.</span><span class="p">])),</span>
+             <span class="p">(</span><span class="s1">&#39;molwt&#39;</span><span class="p">,</span> <span class="n">array</span><span class="p">([</span><span class="mf">140.6931</span><span class="p">])),</span>
+             <span class="p">(</span><span class="s1">&#39;elemental_entropy&#39;</span><span class="p">,</span> <span class="n">array</span><span class="p">([</span><span class="mf">494.47</span><span class="p">])),</span>
+             <span class="p">(</span><span class="s1">&#39;element_comp&#39;</span><span class="p">,</span>
+              <span class="n">array</span><span class="p">([[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span>
+                      <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span>
+                      <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span>
+                      <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span>
+                      <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span>
+                      <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span>
+                      <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">]])),</span>
+             <span class="p">(</span><span class="s1">&#39;mol_oxide_comp&#39;</span><span class="p">,</span>
+              <span class="n">array</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">]])),</span>
+             <span class="p">(</span><span class="s1">&#39;endmember_id&#39;</span><span class="p">,</span> <span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">]))])</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2020, ENKI.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.4.0.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,9 @@
+#!/bin/bash
+echo Teardown the cluster
+echo Delete the release ...
+helm delete jwork --purge --tiller-namespace workshop
+echo Delete the namespace ...
+kubectl delete namespace jwork
+echo Delete the cluster ...
+gcloud container clusters delete enkiworkshop --zone=europe-west1-b
+echo Done

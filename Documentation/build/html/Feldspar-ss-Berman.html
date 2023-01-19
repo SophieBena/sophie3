@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Feldspar Solid Solution - Berman Compatible &mdash; Thermoengine 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="None"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" >
+    <link rel="search" title="Search" href="search.html" >
+    <link rel="top" title="Thermoengine 1.0.1 documentation" href="index.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="index.html">
+      <img style="border: 0;" alt="ENKI" src="_static/img/ENKI_header.png"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="http://enki-portal.org">ENKI Web</a></li>
+        <li class="active"><a href="https://enki.ofm-research.org">ENKI Server</a></li>
+	
+        <li class="active"><a href="index.html">Thermoengine 1.0.1 documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/Enki.png" alt="Logo">
+            </a></p>
+        </div>
+      </div>
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="feldspar-solid-solution-berman-compatible">
+<h1>Feldspar Solid Solution - Berman Compatible<a class="headerlink" href="#feldspar-solid-solution-berman-compatible" title="Permalink to this headline">¶</a></h1>
+<p>Required Python code to load the phase library.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">thermoengine</span> <span class="kn">import</span> <span class="n">core</span><span class="p">,</span> <span class="n">phases</span><span class="p">,</span> <span class="n">model</span>
+</pre></div>
+</div>
+<div class="section" id="listing-of-solution-phases-compatible-with-berman-inherited-from-the-melts-model">
+<h2>Listing of solution phases compatible with Berman inherited from the MELTS model<a class="headerlink" href="#listing-of-solution-phases-compatible-with-berman-inherited-from-the-melts-model" title="Permalink to this headline">¶</a></h2>
+<p>get_phase_info returns an ordered list of <em>pure</em> and <em>solution</em> phases</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">phase_info</span><span class="p">,</span><span class="n">info_files</span> <span class="o">=</span> <span class="n">phases</span><span class="o">.</span><span class="n">get_phase_info</span><span class="p">()</span>
+<span class="n">phase_info</span><span class="p">[</span><span class="s1">&#39;solution&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Abbrev</th>
+      <th>Name</th>
+      <th>Members</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AkiS</td>
+      <td>Akimotoite Solution</td>
+      <td>MgAki/FeAki/AlAki</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Bt</td>
+      <td>Biotite</td>
+      <td>Ann/Phl</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>CfS</td>
+      <td>Ca-Ferrite Solution</td>
+      <td>MgCf/FeCf/NaCf</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>CalS</td>
+      <td>Calcite Solution</td>
+      <td>Cal/Mgs</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Cam</td>
+      <td>Clinoamphibole</td>
+      <td>Cum/Gru/Tr</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Fp</td>
+      <td>Ferropericlase</td>
+      <td>Per/Wus</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Mws</td>
+      <td>Magnesiowustite</td>
+      <td>Per/Wus</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Fsp</td>
+      <td>Feldspar</td>
+      <td>Ab/An/Kfs/Or/Mc/Sa</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Grt</td>
+      <td>Garnet</td>
+      <td>Alm/Grs/Prp/Maj/NaMaj</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Hbl</td>
+      <td>Hornblende</td>
+      <td>Fprg/Mhs/Prg</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>KlsS</td>
+      <td>Kalsilite Solution</td>
+      <td>Nph/Kls</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>LctS</td>
+      <td>Leucite Solution</td>
+      <td>Anl/Lct/nLct</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Liq</td>
+      <td>Liquid</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Mll</td>
+      <td>Melilite</td>
+      <td>Ak/Gh/fAk/nMll</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>NphS</td>
+      <td>Nepheline Solution</td>
+      <td>Nph/Kls</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>Ol</td>
+      <td>Olivine</td>
+      <td>CoOl/Fa/Fo/Mtc/NiOl/Tep</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>OrOx</td>
+      <td>OrthoOxide</td>
+      <td>Fpsb/Krt/Psb</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>Oam</td>
+      <td>Orthoamphibole</td>
+      <td>Cum/Gru/Tr</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>Opx</td>
+      <td>Orthopyroxene</td>
+      <td>Abfn/Bfn/CaTs/En/Fs/cEn/Di/Ess/Hd/Jd/oDi</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>Cpx</td>
+      <td>Clinopyroxene</td>
+      <td>Abfn/Bfn/CaTs/En/Fs/cEn/Di/Ess/Hd/Jd</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>hpCpx</td>
+      <td>High-Pressure Clinopyroxene</td>
+      <td>hpcEn/hpcFs</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>PrvS</td>
+      <td>Perovskite</td>
+      <td>Prv/FePrv/AlPrv</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>PpvS</td>
+      <td>Post-Perovskite</td>
+      <td>MgPpv/FePpv/AlPpv</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>Rhom</td>
+      <td>Rhombohedral</td>
+      <td>Crn/Gk/Hem/Ilm/Pph</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>Rwd</td>
+      <td>Ringwoodite</td>
+      <td>MgRwd/FeRwd</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>SplS</td>
+      <td>Spinel</td>
+      <td>Chr/Hc/Mag/Spl/Usp</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>Wds</td>
+      <td>Wadsleyite</td>
+      <td>MgWds/FeWds</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>Psu</td>
+      <td>PseudoPhase</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+<div class="section" id="get-access-to-a-thermodynamic-database-by-default-the-berman-1988-melts-database">
+<h2>Get access to a thermodynamic database (by default, the Berman (1988)/MELTS database).<a class="headerlink" href="#get-access-to-a-thermodynamic-database-by-default-the-berman-1988-melts-database" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">modelDB</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">Database</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-a-python-reference-to-the-feldspar-solution-phase-class">
+<h2>Create a Python reference to the feldspar solution phase class.<a class="headerlink" href="#create-a-python-reference-to-the-feldspar-solution-phase-class" title="Permalink to this headline">¶</a></h2>
+<p>The required phase abbreviation method argument is listed above.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Feldspar</span> <span class="o">=</span> <span class="n">modelDB</span><span class="o">.</span><span class="n">get_phase</span><span class="p">(</span><span class="s1">&#39;Fsp&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="obtain-some-properties-of-the-selected-feldspar-solution">
+<h2>Obtain some properties of the selected feldspar solution<a class="headerlink" href="#obtain-some-properties-of-the-selected-feldspar-solution" title="Permalink to this headline">¶</a></h2>
+<p>Name, formulas of endmembers, molecular weights of endmembers,
+abbreviation, number of endmember components, names of endmembers</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">Feldspar</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;phase_name&#39;</span><span class="p">])</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">Feldspar</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;formula&#39;</span><span class="p">])</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">Feldspar</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;molwt&#39;</span><span class="p">])</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">Feldspar</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;abbrev&#39;</span><span class="p">])</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">Feldspar</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;endmember_num&#39;</span><span class="p">])</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">Feldspar</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;endmember_name&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Feldspar</span>
+<span class="p">[</span><span class="s1">&#39;NaAlSi3O8&#39;</span> <span class="s1">&#39;CaAl2Si2O8&#39;</span> <span class="s1">&#39;KAlSi3O8&#39;</span><span class="p">]</span>
+<span class="p">[</span><span class="mf">262.22301</span> <span class="mf">278.20928</span> <span class="mf">278.33524</span><span class="p">]</span>
+<span class="n">Fsp</span>
+<span class="mi">3</span>
+<span class="p">[</span><span class="s1">&#39;albite&#39;</span> <span class="s1">&#39;anorthite&#39;</span> <span class="s1">&#39;sanidine&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="section" id="specify-the-composition-of-the-solution">
+<h3>Specify the composition of the solution<a class="headerlink" href="#specify-the-composition-of-the-solution" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="composition-input-in-wt-oxides-treated-as-grams-of-oxides">
+<h4>Composition input in wt% oxides (treated as grams of oxides)<a class="headerlink" href="#composition-input-in-wt-oxides-treated-as-grams-of-oxides" title="Permalink to this headline">¶</a></h4>
+<p>Sandine composition in wt% oxides, taken from Deer, Howie and Zussman,
+Table 30, entry 9: Sanidine from a rhyolite in Mitchell Mesa, Texas.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mol_oxides</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">chem</span><span class="o">.</span><span class="n">format_mol_oxide_comp</span><span class="p">({</span><span class="s1">&#39;SiO2&#39;</span><span class="p">:</span><span class="mf">67.27</span><span class="p">,</span><span class="s1">&#39;Al2O3&#39;</span><span class="p">:</span><span class="mf">18.35</span><span class="p">,</span> <span class="s1">&#39;FeO&#39;</span><span class="p">:</span><span class="mf">0.92</span><span class="p">,</span> <span class="s1">&#39;CaO&#39;</span><span class="p">:</span><span class="mf">0.15</span><span class="p">,</span>
+                                              <span class="s1">&#39;Na2O&#39;</span><span class="p">:</span><span class="mf">6.45</span><span class="p">,</span> <span class="s1">&#39;K2O&#39;</span><span class="p">:</span><span class="mf">7.05</span><span class="p">,</span> <span class="s1">&#39;H2O&#39;</span><span class="p">:</span><span class="mf">0.16</span><span class="p">},</span> <span class="n">convert_grams_to_moles</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="convert-analytical-composition-to-moles-of-endmember-components">
+<h2>Convert analytical composition to moles of endmember components<a class="headerlink" href="#convert-analytical-composition-to-moles-of-endmember-components" title="Permalink to this headline">¶</a></h2>
+<p>Note that a method is called - <em>test_endmember_comp()</em> - to test the
+validity of the projected composition #### (1st method) A default
+projection method based on generic least sqaures …</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">moles_end</span><span class="p">,</span><span class="n">oxide_res</span> <span class="o">=</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">calc_endmember_comp</span><span class="p">(</span><span class="n">mol_oxide_comp</span><span class="o">=</span><span class="n">mol_oxides</span><span class="p">,</span> <span class="n">output_residual</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">Feldspar</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;endmember_num&#39;</span><span class="p">]):</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;mole number of </span><span class="si">{0:10.10s}</span><span class="s2"> = </span><span class="si">{1:13.6e}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">Feldspar</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;endmember_name&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">moles_end</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">test_endmember_comp</span><span class="p">(</span><span class="n">moles_end</span><span class="p">):</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Calculated composition is infeasible!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>mole number of albite     =  2.156163e-01
+mole number of anorthite  = -2.161623e-04
+mole number of sanidine   =  1.571699e-01
+Calculated composition is infeasible!
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">moles_end</span><span class="p">,</span><span class="n">oxide_res</span> <span class="o">=</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">calc_endmember_comp</span><span class="p">(</span><span class="n">mol_oxide_comp</span><span class="o">=</span><span class="n">mol_oxides</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;intrinsic&#39;</span><span class="p">,</span> <span class="n">output_residual</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">Feldspar</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;endmember_num&#39;</span><span class="p">]):</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;mole number of </span><span class="si">{0:10.10s}</span><span class="s2"> = </span><span class="si">{1:13.6e}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">Feldspar</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;endmember_name&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">moles_end</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">test_endmember_comp</span><span class="p">(</span><span class="n">moles_end</span><span class="p">):</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Calculated composition is infeasible!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mole</span> <span class="n">number</span> <span class="n">of</span> <span class="n">albite</span>     <span class="o">=</span>  <span class="mf">2.081352e-01</span>
+<span class="n">mole</span> <span class="n">number</span> <span class="n">of</span> <span class="n">anorthite</span>  <span class="o">=</span>  <span class="mf">2.674779e-03</span>
+<span class="n">mole</span> <span class="n">number</span> <span class="n">of</span> <span class="n">sanidine</span>   <span class="o">=</span>  <span class="mf">1.496888e-01</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="some-convenience-methods-to-manipulate-composition-information">
+<h2>Some convenience methods to manipulate composition information<a class="headerlink" href="#some-convenience-methods-to-manipulate-composition-information" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">➜ Moles of endmember components =&gt; Molar sum</div>
+<div class="line">➜ Moles of endmember components =&gt; Moles of elements (standard order)</div>
+<div class="line">➜ Moles of endmember components =&gt; Mole fractions of endmember
+components</div>
+<div class="line">➜ Moles of elements (standard order) =&gt; Moles of endmember components
+of the phase</div>
+<div class="line">➜ Moles of elements (standard order) =&gt; Total moles of endmember
+components of the phase</div>
+<div class="line">➜ Moles of elements (standard order) =&gt; Total mass of the phase (g)</div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Total moles of endmembers: &#39;</span><span class="p">,</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">covert_endmember_comp</span><span class="p">(</span><span class="n">moles_end</span><span class="p">,</span><span class="n">output</span><span class="o">=</span><span class="s1">&#39;total_moles&#39;</span><span class="p">))</span>
+<span class="n">mol_elm</span> <span class="o">=</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">covert_endmember_comp</span><span class="p">(</span><span class="n">moles_end</span><span class="p">,</span><span class="n">output</span><span class="o">=</span><span class="s1">&#39;moles_elements&#39;</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Mole fractions of endmembers: &#39;</span><span class="p">,</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">covert_endmember_comp</span><span class="p">(</span><span class="n">moles_end</span><span class="p">,</span><span class="n">output</span><span class="o">=</span><span class="s1">&#39;mole_fraction&#39;</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Moles of endmembers: &#39;</span><span class="p">,</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">convert_elements</span><span class="p">(</span><span class="n">mol_elm</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;moles_end&#39;</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Total moles of endmembers: &#39;</span><span class="p">,</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">convert_elements</span><span class="p">(</span><span class="n">mol_elm</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;total_moles&#39;</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Total grams of phase: &#39;</span><span class="p">,</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">convert_elements</span><span class="p">(</span><span class="n">mol_elm</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;total_grams&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Total</span> <span class="n">moles</span> <span class="n">of</span> <span class="n">endmembers</span><span class="p">:</span>  <span class="mf">0.36049883224427715</span>
+<span class="n">Mole</span> <span class="n">fractions</span> <span class="n">of</span> <span class="n">endmembers</span><span class="p">:</span>  <span class="p">[</span><span class="mf">0.57735337</span> <span class="mf">0.00741966</span> <span class="mf">0.41522697</span><span class="p">]</span>
+<span class="n">Moles</span> <span class="n">of</span> <span class="n">endmembers</span><span class="p">:</span>  <span class="p">[</span><span class="mf">0.20813521</span> <span class="mf">0.00267478</span> <span class="mf">0.14968884</span><span class="p">]</span>
+<span class="n">Total</span> <span class="n">moles</span> <span class="n">of</span> <span class="n">endmembers</span><span class="p">:</span>  <span class="mf">0.36049883224427715</span>
+<span class="n">Total</span> <span class="n">grams</span> <span class="n">of</span> <span class="n">phase</span><span class="p">:</span>  <span class="mf">96.98566962270826</span>
+</pre></div>
+</div>
+<div class="section" id="compute-activities-and-chemical-potentials-of-endmember-components">
+<h3>Compute activities and chemical potentials of endmember components:<a class="headerlink" href="#compute-activities-and-chemical-potentials-of-endmember-components" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">➜ Moles of components, T (K), P (bars) =&gt; activities of endmember
+components</div>
+<div class="line">➜ Moles of components, T (K), P (bars) =&gt; chemical potentials of
+endmember components (J)</div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">p</span> <span class="o">=</span> <span class="mi">1000</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">names</span> <span class="o">=</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;endmember_name&#39;</span><span class="p">]</span>
+<span class="n">forms</span> <span class="o">=</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;formula&#39;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">Feldspar</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;endmember_num&#39;</span><span class="p">]):</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;chemical potential of </span><span class="si">{0:15.15s}</span><span class="s2"> (</span><span class="si">{1:15.15s}</span><span class="s2">) = </span><span class="si">{2:15.2f}</span><span class="s2"> J, activity = </span><span class="si">{3:10.6f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">forms</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">chem_potential</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">moles_end</span><span class="p">,</span> <span class="n">endmember</span><span class="o">=</span><span class="n">i</span><span class="p">),</span>
+        <span class="n">Feldspar</span><span class="o">.</span><span class="n">activity</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">moles_end</span><span class="p">,</span> <span class="n">endmember</span><span class="o">=</span><span class="n">i</span><span class="p">)))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">chemical</span> <span class="n">potential</span> <span class="n">of</span> <span class="n">albite</span>          <span class="p">(</span><span class="n">NaAlSi3O8</span>      <span class="p">)</span> <span class="o">=</span>     <span class="o">-</span><span class="mf">4265565.12</span> <span class="n">J</span><span class="p">,</span> <span class="n">activity</span> <span class="o">=</span>   <span class="mf">0.842485</span>
+<span class="n">chemical</span> <span class="n">potential</span> <span class="n">of</span> <span class="n">anorthite</span>       <span class="p">(</span><span class="n">CaAl2Si2O8</span>     <span class="p">)</span> <span class="o">=</span>     <span class="o">-</span><span class="mf">4575045.33</span> <span class="n">J</span><span class="p">,</span> <span class="n">activity</span> <span class="o">=</span>   <span class="mf">0.053515</span>
+<span class="n">chemical</span> <span class="n">potential</span> <span class="n">of</span> <span class="n">sanidine</span>        <span class="p">(</span><span class="n">KAlSi3O8</span>       <span class="p">)</span> <span class="o">=</span>     <span class="o">-</span><span class="mf">4305773.90</span> <span class="n">J</span><span class="p">,</span> <span class="n">activity</span> <span class="o">=</span>   <span class="mf">0.646776</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="molar-derivatives-of-activities">
+<h3>Molar derivatives of activities:<a class="headerlink" href="#molar-derivatives-of-activities" title="Permalink to this headline">¶</a></h3>
+<p>➜ Moles of components, T (K), P (bars) =&gt; d(activities of endmember
+components)/d(Moles of components)</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">Feldspar</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;endmember_num&#39;</span><span class="p">]):</span>
+    <span class="n">dadm</span> <span class="o">=</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">activity</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="n">mol</span><span class="o">=</span><span class="n">moles_end</span><span class="p">,</span><span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dmol&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">},</span><span class="n">endmember</span><span class="o">=</span><span class="n">i</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Derivative of a[</span><span class="si">{0:s}</span><span class="s2">] with respect to:&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">Feldspar</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;endmember_num&#39;</span><span class="p">]):</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;    </span><span class="si">{0:15.15s}</span><span class="s2"> = </span><span class="si">{1:13.6e}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">names</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">dadm</span><span class="p">[</span><span class="n">j</span><span class="p">]))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Derivative</span> <span class="n">of</span> <span class="n">a</span><span class="p">[</span><span class="n">albite</span><span class="p">]</span> <span class="k">with</span> <span class="n">respect</span> <span class="n">to</span><span class="p">:</span>
+    <span class="n">albite</span>          <span class="o">=</span>  <span class="mf">2.787764e-01</span>
+    <span class="n">anorthite</span>       <span class="o">=</span> <span class="o">-</span><span class="mf">7.297958e+00</span>
+    <span class="n">sanidine</span>        <span class="o">=</span> <span class="o">-</span><span class="mf">2.572186e-01</span>
+<span class="n">Derivative</span> <span class="n">of</span> <span class="n">a</span><span class="p">[</span><span class="n">anorthite</span><span class="p">]</span> <span class="k">with</span> <span class="n">respect</span> <span class="n">to</span><span class="p">:</span>
+    <span class="n">albite</span>          <span class="o">=</span> <span class="o">-</span><span class="mf">4.635673e-01</span>
+    <span class="n">anorthite</span>       <span class="o">=</span>  <span class="mf">1.932289e+01</span>
+    <span class="n">sanidine</span>        <span class="o">=</span>  <span class="mf">2.992890e-01</span>
+<span class="n">Derivative</span> <span class="n">of</span> <span class="n">a</span><span class="p">[</span><span class="n">sanidine</span><span class="p">]</span> <span class="k">with</span> <span class="n">respect</span> <span class="n">to</span><span class="p">:</span>
+    <span class="n">albite</span>          <span class="o">=</span> <span class="o">-</span><span class="mf">1.974669e-01</span>
+    <span class="n">anorthite</span>       <span class="o">=</span>  <span class="mf">3.617189e+00</span>
+    <span class="n">sanidine</span>        <span class="o">=</span>  <span class="mf">2.099331e-01</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="gibbs-free-energy-and-its-compositional-derivatives">
+<h3>Gibbs free energy and its compositional derivatives:<a class="headerlink" href="#gibbs-free-energy-and-its-compositional-derivatives" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">➜ Moles of components, T (K), P (bars) =&gt; Gibbs free energy (J)</div>
+<div class="line">➜ Moles of components, T (K), P (bars) =&gt; d(Gibbs free energy)/d(Moles
+of components) (J)</div>
+<div class="line">➜ Moles of components, T (K), P (bars) =&gt; d^2(Gibbs free
+energy)/d(Moles of components)^2 (J)</div>
+<div class="line">➜ Moles of components, T (K), P (bars) =&gt; d^3(Gibbs free
+energy)/d(Moles of components)^3 (J)</div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Gibbs free energy = </span><span class="si">{0:12.2f}</span><span class="s1"> J&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">Feldspar</span><span class="o">.</span><span class="n">gibbs_energy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">moles_end</span><span class="p">)))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">dgdm</span> <span class="o">=</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">gibbs_energy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">moles_end</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dmol&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">})[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">d2gdm2</span> <span class="o">=</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">gibbs_energy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">moles_end</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dmol&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">})[</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;endmember_num&#39;</span><span class="p">]):</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;dg/dm[</span><span class="si">{0:&gt;2d}</span><span class="s1">] = </span><span class="si">{1:13.6e}</span><span class="s1">     d2gdm2[</span><span class="si">{0:&gt;2d}</span><span class="s1">][*]:  &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">dgdm</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">i</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;endmember_num&#39;</span><span class="p">]):</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">{0:13.6e}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">d2gdm2</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">d3gdm3</span> <span class="o">=</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">gibbs_energy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">moles_end</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dmol&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">})[</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;endmember_num&#39;</span><span class="p">]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;d3gdm3[</span><span class="si">{0:&gt;2d}</span><span class="s1">][*][*]: &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;endmember_num&#39;</span><span class="p">]):</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;endmember_num&#39;</span><span class="p">]):</span>
+            <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">{0:13.6e}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">d3gdm3</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;  &#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Gibbs</span> <span class="n">free</span> <span class="n">energy</span> <span class="o">=</span>  <span class="o">-</span><span class="mf">1544577.84</span> <span class="n">J</span>
+
+<span class="n">dg</span><span class="o">/</span><span class="n">dm</span><span class="p">[</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">4.265565e+06</span>     <span class="n">d2gdm2</span><span class="p">[</span> <span class="mi">0</span><span class="p">][</span><span class="o">*</span><span class="p">]:</span>    <span class="mf">2.751184e+03</span> <span class="o">-</span><span class="mf">7.202198e+04</span> <span class="o">-</span><span class="mf">2.538435e+03</span>
+<span class="n">dg</span><span class="o">/</span><span class="n">dm</span><span class="p">[</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">4.575045e+06</span>     <span class="n">d2gdm2</span><span class="p">[</span> <span class="mi">1</span><span class="p">][</span><span class="o">*</span><span class="p">]:</span>   <span class="o">-</span><span class="mf">7.202198e+04</span>  <span class="mf">3.002095e+06</span>  <span class="mf">4.649893e+04</span>
+<span class="n">dg</span><span class="o">/</span><span class="n">dm</span><span class="p">[</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">4.305774e+06</span>     <span class="n">d2gdm2</span><span class="p">[</span> <span class="mi">2</span><span class="p">][</span><span class="o">*</span><span class="p">]:</span>   <span class="o">-</span><span class="mf">2.538435e+03</span>  <span class="mf">4.649893e+04</span>  <span class="mf">2.698688e+03</span>
+
+<span class="n">d3gdm3</span><span class="p">[</span> <span class="mi">0</span><span class="p">][</span><span class="o">*</span><span class="p">][</span><span class="o">*</span><span class="p">]:</span>  <span class="o">-</span><span class="mf">3.714742e+03</span>  <span class="mf">1.866043e+05</span> <span class="o">-</span><span class="mf">1.613352e+03</span>     <span class="mf">5.612260e+04</span>  <span class="mf">4.781953e+05</span>  <span class="mf">5.992005e+04</span>     <span class="mf">7.182150e+02</span> <span class="o">-</span><span class="mf">1.215085e+05</span>  <span class="mf">3.343639e+03</span>
+<span class="n">d3gdm3</span><span class="p">[</span> <span class="mi">1</span><span class="p">][</span><span class="o">*</span><span class="p">][</span><span class="o">*</span><span class="p">]:</span>   <span class="mf">3.042045e+05</span>  <span class="mf">8.211941e+05</span>  <span class="mf">2.308674e+04</span>     <span class="mf">6.907124e+05</span> <span class="o">-</span><span class="mf">1.160760e+09</span>  <span class="mf">1.827003e+05</span>     <span class="mf">2.541830e+04</span>  <span class="mf">1.271789e+03</span> <span class="o">-</span><span class="mf">3.258032e+05</span>
+<span class="n">d3gdm3</span><span class="p">[</span> <span class="mi">2</span><span class="p">][</span><span class="o">*</span><span class="p">][</span><span class="o">*</span><span class="p">]:</span>  <span class="o">-</span><span class="mf">3.714742e+03</span>  <span class="mf">1.866043e+05</span> <span class="o">-</span><span class="mf">1.613352e+03</span>     <span class="mf">5.612260e+04</span>  <span class="mf">4.781953e+05</span>  <span class="mf">5.992005e+04</span>     <span class="mf">7.182150e+02</span> <span class="o">-</span><span class="mf">1.215085e+05</span>  <span class="mf">3.343639e+03</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="enthalpy-entropy-and-molar-derivatives">
+<h3>Enthalpy, Entropy, and molar derivatives:<a class="headerlink" href="#enthalpy-entropy-and-molar-derivatives" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">➜ Moles of components, T (K), P (bars) =&gt; enthalpy (J)</div>
+<div class="line">➜ Moles of components, T (K), P (bars) =&gt; entropy (J/K)</div>
+<div class="line">➜ Moles of components, T (K), P (bars) =&gt; d(entropy)/d(Moles of
+components) (J/K)</div>
+<div class="line">➜ Moles of components, T (K), P (bars) =&gt; d^2(entropy)/d(Moles of
+components)^2 (J/K)</div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Entropy = </span><span class="si">{0:12.2f}</span><span class="s1"> J/K&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">Feldspar</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">moles_end</span><span class="p">)))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">dsdm</span> <span class="o">=</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">moles_end</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dmol&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">})[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">d2sdm2</span> <span class="o">=</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">moles_end</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dmol&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">})[</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;endmember_num&#39;</span><span class="p">]):</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;ds/dm[</span><span class="si">{0:&gt;2d}</span><span class="s1">] = </span><span class="si">{1:13.6e}</span><span class="s1">     d2sdm2[</span><span class="si">{0:&gt;2d}</span><span class="s1">][*]:  &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">dsdm</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">i</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;endmember_num&#39;</span><span class="p">]):</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">{0:13.6e}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">d2sdm2</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Entropy</span> <span class="o">=</span>       <span class="mf">199.56</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span>
+
+<span class="n">ds</span><span class="o">/</span><span class="n">dm</span><span class="p">[</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span>  <span class="mf">5.506230e+02</span>     <span class="n">d2sdm2</span><span class="p">[</span> <span class="mi">0</span><span class="p">][</span><span class="o">*</span><span class="p">]:</span>   <span class="o">-</span><span class="mf">2.691158e+01</span>  <span class="mf">2.489871e+01</span>  <span class="mf">3.697437e+01</span>
+<span class="n">ds</span><span class="o">/</span><span class="n">dm</span><span class="p">[</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span>  <span class="mf">5.697965e+02</span>     <span class="n">d2sdm2</span><span class="p">[</span> <span class="mi">1</span><span class="p">][</span><span class="o">*</span><span class="p">]:</span>    <span class="mf">2.489871e+01</span> <span class="o">-</span><span class="mf">3.071644e+03</span>  <span class="mf">2.026651e+01</span>
+<span class="n">ds</span><span class="o">/</span><span class="n">dm</span><span class="p">[</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span>  <span class="mf">5.573604e+02</span>     <span class="n">d2sdm2</span><span class="p">[</span> <span class="mi">2</span><span class="p">][</span><span class="o">*</span><span class="p">]:</span>    <span class="mf">3.697437e+01</span>  <span class="mf">2.026651e+01</span> <span class="o">-</span><span class="mf">5.177324e+01</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="heat-capacity-and-its-derivatives">
+<h3>Heat capacity and its derivatives:<a class="headerlink" href="#heat-capacity-and-its-derivatives" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">➜ Moles of components, T (K), P (bars) =&gt; isobaric heat capacity (J/K)</div>
+<div class="line">➜ Moles of components, T (K), P (bars) =&gt; d(isobaric heat capacity)/dT
+(J/K^2)</div>
+<div class="line">➜ Moles of components, T (K), P (bars) =&gt; d(isobaric heat
+capacity)/d(Moles of components) (J/K)</div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">{0:&lt;10s}{1:13.6f}</span><span class="s1"> </span><span class="si">{2:&lt;15s}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Cp&#39;</span><span class="p">,</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">heat_capacity</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">moles_end</span><span class="p">),</span> <span class="s1">&#39;J/K&#39;</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">{0:&lt;10s}{1:13.6f}</span><span class="s1"> </span><span class="si">{2:&lt;15s}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dCp/dT&#39;</span><span class="p">,</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">heat_capacity</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">moles_end</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dT&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">}),</span> <span class="s1">&#39;J/K^2&#39;</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">dcpdm</span> <span class="o">=</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">heat_capacity</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">moles_end</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dmol&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">})[</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;endmember_num&#39;</span><span class="p">]):</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;dCp/dm[</span><span class="si">{0:&gt;2d}</span><span class="s1">]    = </span><span class="si">{1:13.6e}</span><span class="s1"> J/K-m&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">dcpdm</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Cp</span>           <span class="mf">117.869612</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span>
+<span class="n">dCp</span><span class="o">/</span><span class="n">dT</span>        <span class="o">-</span><span class="mf">0.069768</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">^</span><span class="mi">2</span>
+
+<span class="n">dCp</span><span class="o">/</span><span class="n">dm</span><span class="p">[</span> <span class="mi">0</span><span class="p">]</span>    <span class="o">=</span>  <span class="mf">3.313154e+02</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">-</span><span class="n">m</span>
+<span class="n">dCp</span><span class="o">/</span><span class="n">dm</span><span class="p">[</span> <span class="mi">1</span><span class="p">]</span>    <span class="o">=</span>  <span class="mf">3.208859e+02</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">-</span><span class="n">m</span>
+<span class="n">dCp</span><span class="o">/</span><span class="n">dm</span><span class="p">[</span> <span class="mi">2</span><span class="p">]</span>    <span class="o">=</span>  <span class="mf">3.210186e+02</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">-</span><span class="n">m</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="volume-and-its-derivatives">
+<h3>Volume and its derivatives:<a class="headerlink" href="#volume-and-its-derivatives" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">➜ Moles of components, T (K), P (bars) =&gt; volume (J/bar)</div>
+<div class="line">➜ Moles of components, T (K), P (bars) =&gt; d(volume)/d(Moles of
+components) (J/bar)</div>
+<div class="line">➜ Moles of components, T (K), P (bars) =&gt; d^2(volume)/d(Moles of
+components)^2 (J/bar)</div>
+<div class="line">➜ Moles of components, T (K), P (bars) =&gt; d(volume)/dT (J/bar-K)</div>
+<div class="line">➜ Moles of components, T (K), P (bars) =&gt; d(volume)/dP (J/bar^2)</div>
+<div class="line">➜ Moles of components, T (K), P (bars) =&gt; d2(volume)/dT^2 (J/bar-K^2)</div>
+<div class="line">➜ Moles of components, T (K), P (bars) =&gt; d2(volume)/dTdP (J/bar^2-K)</div>
+<div class="line">➜ Moles of components, T (K), P (bars) =&gt; d2(volume)/dP^2 (J/bar^3)</div>
+<div class="line">➜ Moles of components, T (K), P (bars) =&gt; d2(volume)/d(Moles of
+components)dT (J/bar-K)</div>
+<div class="line">➜ Moles of components, T (K), P (bars) =&gt; d2(volume)/d(Moles of
+components)dP (J/bar^2)</div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">{0:&lt;10s}{1:13.6f}</span><span class="s1"> </span><span class="si">{2:&lt;15s}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Volume&#39;</span><span class="p">,</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">moles_end</span><span class="p">),</span> <span class="s1">&#39;J/bar&#39;</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">{0:&lt;10s}{1:13.6e}</span><span class="s1"> </span><span class="si">{2:&lt;15s}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dvdt&#39;</span><span class="p">,</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">moles_end</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dT&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">}),</span> <span class="s1">&#39;J/bar-K&#39;</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">{0:&lt;10s}{1:13.6e}</span><span class="s1"> </span><span class="si">{2:&lt;15s}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dvdp&#39;</span><span class="p">,</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">moles_end</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dP&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">}),</span> <span class="s1">&#39;J/bar^2&#39;</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">{0:&lt;10s}{1:13.6e}</span><span class="s1"> </span><span class="si">{2:&lt;15s}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2vdt2&#39;</span><span class="p">,</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">moles_end</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dT&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">}),</span> <span class="s1">&#39;J/bar-K^2&#39;</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">{0:&lt;10s}{1:13.6e}</span><span class="s1"> </span><span class="si">{2:&lt;15s}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2vdtdp&#39;</span><span class="p">,</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">moles_end</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dT&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;dP&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">}),</span>  <span class="s1">&#39;J/bar^2-K&#39;</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">{0:&lt;10s}{1:13.6e}</span><span class="s1"> </span><span class="si">{2:&lt;15s}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2vdp2&#39;</span><span class="p">,</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">moles_end</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dP&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">}),</span> <span class="s1">&#39;J/bar^3&#39;</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">dvdm</span> <span class="o">=</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">moles_end</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dmol&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">})[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">d2vdm2</span> <span class="o">=</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">moles_end</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dmol&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">})[</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;endmember_num&#39;</span><span class="p">]):</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;dv/dm[</span><span class="si">{0:&gt;2d}</span><span class="s1">] = </span><span class="si">{1:13.6e}</span><span class="s1"> J/bar-m     d2vdm2[</span><span class="si">{0:&gt;2d}</span><span class="s1">][*]:  &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">dvdm</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">i</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;endmember_num&#39;</span><span class="p">]):</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">{0:13.6e}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">d2vdm2</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;J/bar-m^2&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Volume</span>         <span class="mf">3.843501</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span>
+<span class="n">dvdt</span>       <span class="mf">1.194789e-04</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">-</span><span class="n">K</span>
+<span class="n">dvdp</span>      <span class="o">-</span><span class="mf">7.056455e-06</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">d2vdt2</span>    <span class="o">-</span><span class="mf">2.283345e-07</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">-</span><span class="n">K</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">d2vdtdp</span>    <span class="mf">7.335540e-10</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="n">K</span>
+<span class="n">d2vdp2</span>     <span class="mf">3.499319e-11</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">^</span><span class="mi">3</span>
+
+<span class="n">dv</span><span class="o">/</span><span class="n">dm</span><span class="p">[</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span>  <span class="mf">1.031408e+01</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">-</span><span class="n">m</span>     <span class="n">d2vdm2</span><span class="p">[</span> <span class="mi">0</span><span class="p">][</span><span class="o">*</span><span class="p">]:</span>   <span class="o">-</span><span class="mf">3.493432e-01</span>  <span class="mf">4.277645e-01</span>  <span class="mf">4.781015e-01</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">-</span><span class="n">m</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">dv</span><span class="o">/</span><span class="n">dm</span><span class="p">[</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span>  <span class="mf">9.782711e+00</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">-</span><span class="n">m</span>     <span class="n">d2vdm2</span><span class="p">[</span> <span class="mi">1</span><span class="p">][</span><span class="o">*</span><span class="p">]:</span>    <span class="mf">4.277645e-01</span>  <span class="mf">3.692671e+00</span> <span class="o">-</span><span class="mf">6.607703e-01</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">-</span><span class="n">m</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">dv</span><span class="o">/</span><span class="n">dm</span><span class="p">[</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span>  <span class="mf">1.116056e+01</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">-</span><span class="n">m</span>     <span class="n">d2vdm2</span><span class="p">[</span> <span class="mi">2</span><span class="p">][</span><span class="o">*</span><span class="p">]:</span>    <span class="mf">4.781015e-01</span> <span class="o">-</span><span class="mf">6.607703e-01</span> <span class="o">-</span><span class="mf">6.529701e-01</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">-</span><span class="n">m</span><span class="o">^</span><span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="accessing-properties-of-solution-species">
+<h3>Accessing properties of solution species:<a class="headerlink" href="#accessing-properties-of-solution-species" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">➜ Moles of components, T (K), P (bars) =&gt; formulae as an NSString
+object</div>
+<div class="line">➜ Retrieves the name of the solution species at the specified index</div>
+<div class="line">➜ Moles of solution species =&gt; moles of endmember components</div>
+<div class="line">➜ Retrieves an elemental stoichiometry vector for the species at the
+specified index</div>
+<div class="line">➜ Moles of components, T (K), P (bars) =&gt; chemical potentials of
+solution species (J)</div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Composition as a formula = &#39;</span><span class="p">,</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">compute_formula</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">moles_end</span><span class="p">))</span>
+<span class="n">mSpecies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">Feldspar</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;species_num&#39;</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;species_num&#39;</span><span class="p">]):</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Species = </span><span class="si">{0:&lt;15.15s}</span><span class="s1">  elms:&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">Feldspar</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;species_name&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="n">elm</span> <span class="o">=</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;species_elms&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">107</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">elm</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;[</span><span class="si">{0:&gt;2.2s}</span><span class="s1">] </span><span class="si">{1:5.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">chem</span><span class="o">.</span><span class="n">PERIODIC_ORDER</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">elm</span><span class="p">[</span><span class="n">j</span><span class="p">]),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;   chemical potential = </span><span class="si">{0:12.2f}</span><span class="s1"> J/m&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">Feldspar</span><span class="o">.</span><span class="n">chem_potential</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">moles_end</span><span class="p">,</span> <span class="n">endmember</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">species</span><span class="o">=</span><span class="kc">True</span><span class="p">)))</span>
+    <span class="n">mSpecies</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;species_num&#39;</span><span class="p">]):</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;moles of species   [</span><span class="si">{0:&gt;2d}</span><span class="s1">] = </span><span class="si">{1:5.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">mSpecies</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+<span class="n">mSpToComp</span> <span class="o">=</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">convert_species_to_comp</span><span class="p">(</span><span class="n">mSpecies</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;endmember_num&#39;</span><span class="p">]):</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;moles of component [</span><span class="si">{0:&gt;2d}</span><span class="s1">] = </span><span class="si">{1:5.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">mSpToComp</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Composition</span> <span class="k">as</span> <span class="n">a</span> <span class="n">formula</span> <span class="o">=</span>  <span class="n">K0</span><span class="o">.</span><span class="mi">42</span><span class="n">Na0</span><span class="o">.</span><span class="mi">58</span><span class="n">Ca0</span><span class="o">.</span><span class="mi">01</span><span class="n">Al1</span><span class="o">.</span><span class="mi">01</span><span class="n">Si2</span><span class="o">.</span><span class="mi">99</span><span class="n">O8</span>
+<span class="n">Species</span> <span class="o">=</span> <span class="n">albite</span>           <span class="n">elms</span><span class="p">:</span> <span class="p">[</span> <span class="n">O</span><span class="p">]</span>  <span class="mf">8.00</span> <span class="p">[</span><span class="n">Na</span><span class="p">]</span>  <span class="mf">1.00</span> <span class="p">[</span><span class="n">Al</span><span class="p">]</span>  <span class="mf">1.00</span> <span class="p">[</span><span class="n">Si</span><span class="p">]</span>  <span class="mf">3.00</span>    <span class="n">chemical</span> <span class="n">potential</span> <span class="o">=</span>  <span class="o">-</span><span class="mf">4265565.12</span> <span class="n">J</span><span class="o">/</span><span class="n">m</span>
+<span class="n">Species</span> <span class="o">=</span> <span class="n">anorthite</span>        <span class="n">elms</span><span class="p">:</span> <span class="p">[</span> <span class="n">O</span><span class="p">]</span>  <span class="mf">8.00</span> <span class="p">[</span><span class="n">Al</span><span class="p">]</span>  <span class="mf">2.00</span> <span class="p">[</span><span class="n">Si</span><span class="p">]</span>  <span class="mf">2.00</span> <span class="p">[</span><span class="n">Ca</span><span class="p">]</span>  <span class="mf">1.00</span>    <span class="n">chemical</span> <span class="n">potential</span> <span class="o">=</span>  <span class="o">-</span><span class="mf">4575045.33</span> <span class="n">J</span><span class="o">/</span><span class="n">m</span>
+<span class="n">Species</span> <span class="o">=</span> <span class="n">sanidine</span>         <span class="n">elms</span><span class="p">:</span> <span class="p">[</span> <span class="n">O</span><span class="p">]</span>  <span class="mf">8.00</span> <span class="p">[</span><span class="n">Al</span><span class="p">]</span>  <span class="mf">1.00</span> <span class="p">[</span><span class="n">Si</span><span class="p">]</span>  <span class="mf">3.00</span> <span class="p">[</span> <span class="n">K</span><span class="p">]</span>  <span class="mf">1.00</span>    <span class="n">chemical</span> <span class="n">potential</span> <span class="o">=</span>  <span class="o">-</span><span class="mf">4305773.90</span> <span class="n">J</span><span class="o">/</span><span class="n">m</span>
+<span class="n">moles</span> <span class="n">of</span> <span class="n">species</span>   <span class="p">[</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span>  <span class="mf">1.00</span>
+<span class="n">moles</span> <span class="n">of</span> <span class="n">species</span>   <span class="p">[</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span>  <span class="mf">2.00</span>
+<span class="n">moles</span> <span class="n">of</span> <span class="n">species</span>   <span class="p">[</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span>  <span class="mf">3.00</span>
+<span class="n">moles</span> <span class="n">of</span> <span class="n">component</span> <span class="p">[</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span>  <span class="mf">1.00</span>
+<span class="n">moles</span> <span class="n">of</span> <span class="n">component</span> <span class="p">[</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span>  <span class="mf">2.00</span>
+<span class="n">moles</span> <span class="n">of</span> <span class="n">component</span> <span class="p">[</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span>  <span class="mf">3.00</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="solution-model-parameters">
+<h3>Solution model parameters<a class="headerlink" href="#solution-model-parameters" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="accessing-modifying-functional-derivatives">
+<h4>Accessing, modifying, functional derivatives<a class="headerlink" href="#accessing-modifying-functional-derivatives" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">param_props</span><span class="p">[</span><span class="s1">&#39;supports_calib&#39;</span><span class="p">]:</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;This phase supports the Calibration protocol&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="n">np</span> <span class="o">=</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">param_props</span><span class="p">[</span><span class="s1">&#39;param_num&#39;</span><span class="p">]</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;and there are&#39;</span><span class="p">,</span> <span class="n">np</span><span class="p">,</span> <span class="s1">&#39;parameters&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="p">):</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">param_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">get_param_values</span><span class="p">(</span><span class="n">param_names</span><span class="o">=</span><span class="p">[</span><span class="n">name</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">units</span> <span class="o">=</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">param_units</span><span class="p">(</span><span class="n">param_names</span><span class="o">=</span><span class="p">[</span><span class="n">name</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">dgdw</span> <span class="o">=</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">gibbs_energy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">moles_end</span><span class="p">,</span> <span class="n">deriv_param</span><span class="o">=</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Parameter </span><span class="si">{0:&lt;10.10s}</span><span class="s1"> = </span><span class="si">{1:13.6e}</span><span class="s1"> </span><span class="si">{2:&lt;10.10s}</span><span class="s1"> dggw = </span><span class="si">{3:13.6e}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">gibbs_energy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">moles_end</span><span class="p">,</span> <span class="n">deriv_param</span><span class="o">=</span><span class="p">[</span><span class="n">name</span><span class="p">])))</span>
+        <span class="n">dmudw</span> <span class="o">=</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">gibbs_energy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">moles_end</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dmol&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">},</span> <span class="n">deriv_param</span><span class="o">=</span><span class="p">[</span><span class="n">name</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;   dmu[*]dw:&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;endmember_num&#39;</span><span class="p">]):</span>
+            <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">{0:13.6e}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dmudw</span><span class="p">[</span><span class="n">j</span><span class="p">]),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+        <span class="nb">print</span> <span class="p">()</span>
+    <span class="n">Feldspar</span><span class="o">.</span><span class="n">set_param_values</span><span class="p">(</span><span class="n">param_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;whabor&#39;</span><span class="p">,</span><span class="s1">&#39;whorab&#39;</span><span class="p">],</span> <span class="n">param_values</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;1.0&#39;</span><span class="p">,</span> <span class="s1">&#39;2.0&#39;</span><span class="p">])</span>
+    <span class="nb">print</span> <span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Reset values of whabor and whorab: &#39;</span><span class="p">,</span> <span class="n">Feldspar</span><span class="o">.</span><span class="n">get_param_values</span><span class="p">(</span><span class="n">param_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;whabor&#39;</span><span class="p">,</span><span class="s1">&#39;whorab&#39;</span><span class="p">]))</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;This phase does not implement the parameter calibration protocol&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">This</span> <span class="n">phase</span> <span class="n">supports</span> <span class="n">the</span> <span class="n">Calibration</span> <span class="n">protocol</span> <span class="ow">and</span> <span class="n">there</span> <span class="n">are</span> <span class="mi">13</span> <span class="n">parameters</span>
+<span class="n">Parameter</span> <span class="n">whabor</span>     <span class="o">=</span>  <span class="mf">1.881000e+04</span> <span class="n">joules</span>     <span class="n">dggw</span> <span class="o">=</span>  <span class="mf">3.620592e-02</span>
+   <span class="n">dmu</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="n">dw</span><span class="p">:</span> <span class="o">-</span><span class="mf">2.691388e-02</span> <span class="o">-</span><span class="mf">8.100080e-02</span>  <span class="mf">2.807416e-01</span>
+<span class="n">Parameter</span> <span class="n">wsabor</span>     <span class="o">=</span>  <span class="mf">1.030000e+01</span> <span class="n">joules</span>     <span class="n">dggw</span> <span class="o">=</span> <span class="o">-</span><span class="mf">3.620592e+01</span>
+   <span class="n">dmu</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="n">dw</span><span class="p">:</span>  <span class="mf">2.691141e+01</span>  <span class="mf">8.100121e+01</span> <span class="o">-</span><span class="mf">2.807403e+02</span>
+<span class="n">Parameter</span> <span class="n">wvabor</span>     <span class="o">=</span>  <span class="mf">4.602000e-01</span> <span class="n">joules</span>     <span class="n">dggw</span> <span class="o">=</span>  <span class="mf">3.616972e+01</span>
+   <span class="n">dmu</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="n">dw</span><span class="p">:</span> <span class="o">-</span><span class="mf">2.689048e+01</span> <span class="o">-</span><span class="mf">8.094307e+01</span>  <span class="mf">2.804487e+02</span>
+<span class="n">Parameter</span> <span class="n">whorab</span>     <span class="o">=</span>  <span class="mf">2.732000e+04</span> <span class="n">joules</span>     <span class="n">dggw</span> <span class="o">=</span>  <span class="mf">5.021743e-02</span>
+   <span class="n">dmu</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="n">dw</span><span class="p">:</span>  <span class="mf">2.024044e-01</span> <span class="o">-</span><span class="mf">1.587322e-01</span>  <span class="mf">5.687912e-02</span>
+<span class="n">Parameter</span> <span class="n">wsorab</span>     <span class="o">=</span>  <span class="mf">1.030000e+01</span> <span class="n">joules</span>     <span class="n">dggw</span> <span class="o">=</span> <span class="o">-</span><span class="mf">5.021743e+01</span>
+   <span class="n">dmu</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="n">dw</span><span class="p">:</span> <span class="o">-</span><span class="mf">2.024090e+02</span>  <span class="mf">1.587318e+02</span> <span class="o">-</span><span class="mf">5.688107e+01</span>
+<span class="n">Parameter</span> <span class="n">wvorab</span>     <span class="o">=</span>  <span class="mf">3.264000e-01</span> <span class="n">joules</span>     <span class="n">dggw</span> <span class="o">=</span>  <span class="mf">5.016721e+01</span>
+   <span class="n">dmu</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="n">dw</span><span class="p">:</span>  <span class="mf">2.022059e+02</span> <span class="o">-</span><span class="mf">1.585478e+02</span>  <span class="mf">5.687040e+01</span>
+<span class="n">Parameter</span> <span class="n">whaban</span>     <span class="o">=</span>  <span class="mf">7.924000e+03</span> <span class="n">joules</span>     <span class="n">dggw</span> <span class="o">=</span>  <span class="mf">3.320741e-04</span>
+   <span class="n">dmu</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="n">dw</span><span class="p">:</span> <span class="o">-</span><span class="mf">2.523978e-04</span>  <span class="mf">1.265933e-01</span>  <span class="mf">2.997224e-04</span>
+<span class="n">Parameter</span> <span class="n">whanab</span>     <span class="o">=</span>  <span class="mf">0.000000e+00</span> <span class="n">joules</span>     <span class="n">dggw</span> <span class="o">=</span>  <span class="mf">1.212219e-03</span>
+   <span class="n">dmu</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="n">dw</span><span class="p">:</span>  <span class="mf">0.000000e+00</span>  <span class="mf">4.375000e-01</span>  <span class="mf">0.000000e+00</span>
+<span class="n">Parameter</span> <span class="n">whoran</span>     <span class="o">=</span>  <span class="mf">4.031700e+04</span> <span class="n">joules</span>     <span class="n">dggw</span> <span class="o">=</span>  <span class="mf">3.288566e-04</span>
+   <span class="n">dmu</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="n">dw</span><span class="p">:</span> <span class="o">-</span><span class="mf">2.852395e-04</span>  <span class="mf">1.242032e-01</span>  <span class="mf">3.720515e-04</span>
+<span class="n">Parameter</span> <span class="n">whanor</span>     <span class="o">=</span>  <span class="mf">3.897400e+04</span> <span class="n">joules</span>     <span class="n">dggw</span> <span class="o">=</span>  <span class="mf">7.817838e-04</span>
+   <span class="n">dmu</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="n">dw</span><span class="p">:</span> <span class="o">-</span><span class="mf">2.796736e-03</span>  <span class="mf">2.879420e-01</span>  <span class="mf">3.965785e-03</span>
+<span class="n">Parameter</span> <span class="n">wvanor</span>     <span class="o">=</span> <span class="o">-</span><span class="mf">1.037000e-01</span> <span class="n">joules</span>     <span class="n">dggw</span> <span class="o">=</span>  <span class="mf">7.810020e-01</span>
+   <span class="n">dmu</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="n">dw</span><span class="p">:</span> <span class="o">-</span><span class="mf">2.410800e+00</span>  <span class="mf">2.874879e+02</span>  <span class="mf">4.218901e+00</span>
+<span class="n">Parameter</span> <span class="n">whabanor</span>   <span class="o">=</span>  <span class="mf">1.254500e+04</span> <span class="n">joules</span>     <span class="n">dggw</span> <span class="o">=</span>  <span class="mf">6.412320e-04</span>
+   <span class="n">dmu</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="n">dw</span><span class="p">:</span> <span class="o">-</span><span class="mf">4.782782e-04</span>  <span class="mf">2.361748e-01</span>  <span class="mf">7.273814e-04</span>
+<span class="n">Parameter</span> <span class="n">wvabanor</span>   <span class="o">=</span> <span class="o">-</span><span class="mf">1.095000e+00</span> <span class="n">joules</span>     <span class="n">dggw</span> <span class="o">=</span>  <span class="mf">1.776956e+00</span>
+   <span class="n">dmu</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="n">dw</span><span class="p">:</span> <span class="o">-</span><span class="mf">4.566210e-01</span>  <span class="mf">2.359589e+02</span>  <span class="mf">7.420091e-01</span>
+
+<span class="n">Reset</span> <span class="n">values</span> <span class="n">of</span> <span class="n">whabor</span> <span class="ow">and</span> <span class="n">whorab</span><span class="p">:</span>  <span class="p">[</span><span class="mf">1.</span> <span class="mf">2.</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2020, ENKI.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.4.0.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

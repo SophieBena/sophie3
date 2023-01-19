@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>PhaseObjC - DEW Quartz Solubility &mdash; Thermoengine 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="None"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" >
+    <link rel="search" title="Search" href="search.html" >
+    <link rel="top" title="Thermoengine 1.0.1 documentation" href="index.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="index.html">
+      <img style="border: 0;" alt="ENKI" src="_static/img/ENKI_header.png"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="http://enki-portal.org">ENKI Web</a></li>
+        <li class="active"><a href="https://enki.ofm-research.org">ENKI Server</a></li>
+	
+        <li class="active"><a href="index.html">Thermoengine 1.0.1 documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/Enki.png" alt="Logo">
+            </a></p>
+        </div>
+      </div>
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="phaseobjc-dew-quartz-solubility">
+<h1>PhaseObjC - DEW Quartz Solubility<a class="headerlink" href="#phaseobjc-dew-quartz-solubility" title="Permalink to this headline">¶</a></h1>
+<p>Required python code to load the PhaseObjC library. The library
+libphaseobjc.dylib (see build instructions in README.md) must be
+locatable to teh system in a standard location (by default
+/usr/local/lib)</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ctypes</span> <span class="kn">import</span> <span class="n">cdll</span>
+<span class="kn">from</span> <span class="nn">ctypes</span> <span class="kn">import</span> <span class="n">util</span>
+<span class="kn">from</span> <span class="nn">rubicon.objc</span> <span class="kn">import</span> <span class="n">ObjCClass</span><span class="p">,</span> <span class="n">objc_method</span>
+<span class="n">cdll</span><span class="o">.</span><span class="n">LoadLibrary</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">find_library</span><span class="p">(</span><span class="s1">&#39;phaseobjc&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">ghiorso</span><span class="o">/</span><span class="n">anaconda3</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="o">.</span><span class="mi">7</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">rubicon</span><span class="o">/</span><span class="n">objc</span><span class="o">/</span><span class="n">ctypes_patch</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">24</span><span class="p">:</span> <span class="ne">UserWarning</span><span class="p">:</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">objc</span><span class="o">.</span><span class="n">ctypes_patch</span> <span class="n">has</span> <span class="n">only</span> <span class="n">been</span> <span class="n">tested</span> <span class="k">with</span> <span class="n">Python</span> <span class="mf">3.4</span> <span class="n">through</span> <span class="mf">3.6</span><span class="o">.</span> <span class="n">The</span> <span class="n">current</span> <span class="n">version</span> <span class="ow">is</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">(</span><span class="n">major</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">minor</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">micro</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">releaselevel</span><span class="o">=</span><span class="s1">&#39;final&#39;</span><span class="p">,</span> <span class="n">serial</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span> <span class="n">Most</span> <span class="n">likely</span> <span class="n">things</span> <span class="n">will</span> <span class="n">work</span> <span class="n">properly</span><span class="p">,</span> <span class="n">but</span> <span class="n">you</span> <span class="n">may</span> <span class="n">experience</span> <span class="n">crashes</span> <span class="k">if</span> <span class="n">Python</span><span class="s1">&#39;s internals have changed significantly.</span>
+  <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">CDLL</span> <span class="s1">&#39;/usr/local/lib/libphaseobjc.dylib&#39;</span><span class="p">,</span> <span class="n">handle</span> <span class="mi">7</span><span class="n">fe0a04dcfb0</span> <span class="n">at</span> <span class="mh">0x7fe0785a8650</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<div class="section" id="create-a-python-reference-to-the-dewfluid-class-and-instantiate-an-instance-of-that-class">
+<h2>Create a python reference to the DEWFluid class and instantiate an instance of that class.<a class="headerlink" href="#create-a-python-reference-to-the-dewfluid-class-and-instantiate-an-instance-of-that-class" title="Permalink to this headline">¶</a></h2>
+<p>In Objective-C the code has the form:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">obj</span> <span class="o">=</span> <span class="p">[[</span><span class="n">CpxBerman</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>and in python:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DEWFluid</span> <span class="o">=</span> <span class="n">ObjCClass</span><span class="p">(</span><span class="s1">&#39;DEWFluid&#39;</span><span class="p">)</span>
+<span class="n">obj</span> <span class="o">=</span> <span class="n">DEWFluid</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-a-python-reference-to-the-quartz-class-and-instantiate-the-phase">
+<h2>Create a python reference to the Quartz class and instantiate the phase<a class="headerlink" href="#create-a-python-reference-to-the-quartz-class-and-instantiate-the-phase" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Quartz</span> <span class="o">=</span> <span class="n">ObjCClass</span><span class="p">(</span><span class="s1">&#39;QuartzBerman&#39;</span><span class="p">)</span>
+<span class="n">qtz</span> <span class="o">=</span> <span class="n">Quartz</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="section" id="obtain-properties-of-the-phase-inherited-from-the-phasebase-class">
+<h3>Obtain properties of the phase inherited from the PhaseBase class.<a class="headerlink" href="#obtain-properties-of-the-phase-inherited-from-the-phasebase-class" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">phaseName</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">qtz</span><span class="o">.</span><span class="n">phaseName</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DEWFluid</span>
+<span class="n">Quartz</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="solution-protocol-functions">
+<h1>Solution Protocol Functions<a class="headerlink" href="#solution-protocol-functions" title="Permalink to this headline">¶</a></h1>
+<p>–&gt; Retrieves the number of endmember components in the system</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="n">numberOfSolutionComponents</span>
+</pre></div>
+</div>
+<p>–&gt; Retrieves the number of species (dependent endmembers with positive
+mole fractions) in the soluton</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="n">numberOfSolutionSpecies</span>
+</pre></div>
+</div>
+<p>Note that the number of components (nc) may be the same as the number of
+endmember species (ns) if the solution does not involve speciation
+(complexing) or if the solid solution is not a reciprocal solution.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nc</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">numberOfSolutionComponents</span><span class="p">()</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Number of components = &#39;</span><span class="p">,</span> <span class="n">nc</span><span class="p">)</span>
+<span class="n">ns</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">numberOfSolutionSpecies</span><span class="p">()</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Number of species = &#39;</span><span class="p">,</span> <span class="n">ns</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Number</span> <span class="n">of</span> <span class="n">components</span> <span class="o">=</span>  <span class="mi">17</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">species</span> <span class="o">=</span>  <span class="mi">92</span>
+</pre></div>
+</div>
+<p>Return name, formula and molecular weight of each end-member component
+in the solution. Note teh use of the PhaseBase class (for further info
+see the Stoichiometric Phase notebook examples)</p>
+<p>–&gt; Retrieves superclass instance of PhaseBase object for component at
+specified index</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nb">id</span><span class="p">)</span><span class="n">componentAtIndex</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="n">index</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">PhaseBase</span> <span class="o">=</span> <span class="n">ObjCClass</span><span class="p">(</span><span class="s1">&#39;PhaseBase&#39;</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Component name&#39;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;Formula&#39;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;Molecular weight (g/mol)&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">nc</span><span class="p">):</span>
+    <span class="n">component</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">componentAtIndex_</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="n">component</span><span class="o">.</span><span class="n">phaseName</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">component</span><span class="o">.</span><span class="n">phaseFormula</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">component</span><span class="o">.</span><span class="n">mw</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Component</span> <span class="n">name</span>               <span class="n">Formula</span>                 <span class="n">Molecular</span> <span class="n">weight</span> <span class="p">(</span><span class="n">g</span><span class="o">/</span><span class="n">mol</span><span class="p">)</span>
+<span class="n">Water</span>                        <span class="n">H2O</span>                     <span class="mf">18.0152</span>
+<span class="n">CO2</span><span class="p">,</span><span class="n">aq</span>                       <span class="n">CO2</span>                     <span class="mf">44.0098</span>
+<span class="n">O2</span><span class="p">,</span><span class="n">aq</span>                        <span class="n">O2</span>                      <span class="mf">31.9988</span>
+<span class="n">HF</span><span class="p">,</span><span class="n">aq</span>                        <span class="n">HF</span>                      <span class="mf">20.006303</span>
+<span class="n">NaOH</span><span class="p">,</span><span class="n">aq</span>                      <span class="n">NaOH</span>                    <span class="mf">39.99707</span>
+<span class="n">Mg</span><span class="p">(</span><span class="n">OH</span><span class="p">)</span><span class="mi">2</span><span class="p">,</span><span class="n">aq</span>                   <span class="n">Mg</span><span class="p">(</span><span class="n">OH</span><span class="p">)</span><span class="mi">2</span>                 <span class="mf">58.319599999999994</span>
+<span class="n">HAlO2</span><span class="p">,</span><span class="n">aq</span>                     <span class="n">HAlO2</span>                   <span class="mf">59.98824</span>
+<span class="n">SiO2</span><span class="p">,</span><span class="n">aq</span>                      <span class="n">SiO2</span>                    <span class="mf">60.0843</span>
+<span class="n">H3PO4</span><span class="p">,</span><span class="n">aq</span>                     <span class="n">H3PO4</span>                   <span class="mf">97.99506</span>
+<span class="n">SO2</span><span class="p">,</span><span class="n">aq</span>                       <span class="n">SO2</span>                     <span class="mf">64.0588</span>
+<span class="n">HCl</span><span class="p">,</span><span class="n">aq</span>                       <span class="n">HCl</span>                     <span class="mf">36.4609</span>
+<span class="n">KOH</span><span class="p">,</span><span class="n">aq</span>                       <span class="n">KOH</span>                     <span class="mf">56.1093</span>
+<span class="n">Ca</span><span class="p">(</span><span class="n">OH</span><span class="p">)</span><span class="mi">2</span><span class="p">,</span><span class="n">aq</span>                   <span class="n">Ca</span><span class="p">(</span><span class="n">OH</span><span class="p">)</span><span class="mi">2</span>                 <span class="mf">74.0946</span>
+<span class="n">H2CrO4</span><span class="p">,</span><span class="n">aq</span>                    <span class="n">H2CrO4</span>                  <span class="mf">118.0094</span>
+<span class="n">Mn</span><span class="p">(</span><span class="n">OH</span><span class="p">)</span><span class="mi">2</span><span class="p">,</span><span class="n">aq</span>                   <span class="n">Mn</span><span class="p">(</span><span class="n">OH</span><span class="p">)</span><span class="mi">2</span>                 <span class="mf">88.9526</span>
+<span class="n">Fe</span><span class="p">(</span><span class="n">OH</span><span class="p">)</span><span class="mi">2</span><span class="p">,</span><span class="n">aq</span>                   <span class="n">Fe</span><span class="p">(</span><span class="n">OH</span><span class="p">)</span><span class="mi">2</span>                 <span class="mf">89.8616</span>
+<span class="n">Co</span><span class="p">(</span><span class="n">OH</span><span class="p">)</span><span class="mi">2</span><span class="p">,</span><span class="n">aq</span>                   <span class="n">Co</span><span class="p">(</span><span class="n">OH</span><span class="p">)</span><span class="mi">2</span>                 <span class="mf">92.9478</span>
+</pre></div>
+</div>
+<p>Allocate a “c”-type pointer to a double precision one-dimensional array,
+and initialize the array to hold the moles of each component in the
+solution</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ctypes</span>
+<span class="n">m</span> <span class="o">=</span> <span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="o">*</span><span class="n">nc</span><span class="p">)()</span>
+<span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">))</span>
+<span class="n">m</span><span class="p">[</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span>  <span class="mf">55.55</span>
+<span class="n">m</span><span class="p">[</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span>   <span class="mf">0.0</span>
+<span class="n">m</span><span class="p">[</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span>   <span class="mf">0.0</span>
+<span class="n">m</span><span class="p">[</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span>   <span class="mf">0.0</span>
+<span class="n">m</span><span class="p">[</span> <span class="mi">4</span><span class="p">]</span> <span class="o">=</span>   <span class="mf">0.0</span>
+<span class="n">m</span><span class="p">[</span> <span class="mi">5</span><span class="p">]</span> <span class="o">=</span>   <span class="mf">0.0</span>
+<span class="n">m</span><span class="p">[</span> <span class="mi">6</span><span class="p">]</span> <span class="o">=</span>   <span class="mf">0.0</span>
+<span class="n">m</span><span class="p">[</span> <span class="mi">7</span><span class="p">]</span> <span class="o">=</span>   <span class="mf">0.04223</span> <span class="c1"># 0.03 at 400 C and 2 kb, 0.3 at 600 C and 10 kb</span>
+<span class="n">m</span><span class="p">[</span> <span class="mi">8</span><span class="p">]</span> <span class="o">=</span>   <span class="mf">0.0</span>
+<span class="n">m</span><span class="p">[</span> <span class="mi">9</span><span class="p">]</span> <span class="o">=</span>   <span class="mf">0.0</span>
+<span class="n">m</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span>   <span class="mf">0.0</span>
+<span class="n">m</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="o">=</span>   <span class="mf">0.0</span>
+<span class="n">m</span><span class="p">[</span><span class="mi">12</span><span class="p">]</span> <span class="o">=</span>   <span class="mf">0.0</span>
+<span class="n">m</span><span class="p">[</span><span class="mi">13</span><span class="p">]</span> <span class="o">=</span>   <span class="mf">0.0</span>
+<span class="n">m</span><span class="p">[</span><span class="mi">14</span><span class="p">]</span> <span class="o">=</span>   <span class="mf">0.0</span>
+<span class="n">m</span><span class="p">[</span><span class="mi">15</span><span class="p">]</span> <span class="o">=</span>   <span class="mf">0.0</span>
+<span class="n">m</span><span class="p">[</span><span class="mi">16</span><span class="p">]</span> <span class="o">=</span>   <span class="mf">0.0</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">nc</span><span class="p">):</span>
+    <span class="n">component</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">componentAtIndex_</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">m</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;moles of (&#39;</span><span class="p">,</span> <span class="n">component</span><span class="o">.</span><span class="n">phaseName</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span> <span class="s1">&#39;) = &#39;</span><span class="p">,</span> <span class="n">m</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">moles</span> <span class="n">of</span> <span class="p">(</span> <span class="n">Water</span>                <span class="p">)</span> <span class="o">=</span>  <span class="mf">55.55</span>
+<span class="n">moles</span> <span class="n">of</span> <span class="p">(</span> <span class="n">SiO2</span><span class="p">,</span><span class="n">aq</span>              <span class="p">)</span> <span class="o">=</span>  <span class="mf">0.04223</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">testPermissibleValuesOfComponents_</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;mole input is feasible&#39;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;mole input is infeasible&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Total moles = &#39;</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">totalMolesFromMolesOfComponents_</span><span class="p">(</span><span class="n">m</span><span class="p">))</span>
+
+<span class="n">mole_frac_pointer</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">convertMolesToMoleFractions_</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;component name&#39;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span> <span class="s1">&#39;component formula&#39;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span> <span class="s1">&#39;mole fraction&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">nc</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">m</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">componentAtIndex_</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">phaseName</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span> <span class="n">obj</span><span class="o">.</span><span class="n">componentAtIndex_</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">phaseFormula</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span> <span class="n">mole_frac_pointer</span><span class="o">.</span><span class="n">valueAtIndex_</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+
+<span class="n">moles_pointer</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">convertMolesToElements_</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="n">ne</span> <span class="o">=</span> <span class="n">moles_pointer</span><span class="o">.</span><span class="n">size</span>
+<span class="n">formula</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ne</span><span class="p">):</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">moles_pointer</span><span class="o">.</span><span class="n">valueAtIndex_</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">value</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">PhaseBase</span><span class="o">.</span><span class="n">elementNameFromAtomicNumber_</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">formula</span> <span class="o">=</span> <span class="n">formula</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;(&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Solution formula = &#39;</span><span class="p">,</span> <span class="n">formula</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mole</span> <span class="nb">input</span> <span class="ow">is</span> <span class="n">feasible</span>
+<span class="n">Total</span> <span class="n">moles</span> <span class="o">=</span>  <span class="mf">55.59223</span>
+<span class="n">component</span> <span class="n">name</span>       <span class="n">component</span> <span class="n">formula</span>    <span class="n">mole</span> <span class="n">fraction</span>
+<span class="n">Water</span>                <span class="n">H2O</span>                  <span class="mf">0.9992403614677806</span>
+<span class="n">SiO2</span><span class="p">,</span><span class="n">aq</span>              <span class="n">SiO2</span>                 <span class="mf">0.0007596385322193406</span>
+<span class="n">Solution</span> <span class="n">formula</span> <span class="o">=</span>  <span class="n">H</span><span class="p">(</span><span class="mf">111.1</span><span class="p">)</span><span class="n">O</span><span class="p">(</span><span class="mf">55.63446</span><span class="p">)</span><span class="n">Si</span><span class="p">(</span><span class="mf">0.04223</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="change-convention-for-berman-properties">
+<h2>Change convention for Berman properties<a class="headerlink" href="#change-convention-for-berman-properties" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">Use Helgeson (SUPCRT) convention of Gibbs free energy of formation
+rather than enthalpy of formation at Tr, Pr</div>
+<div class="line">Do not implement quartz enthalpy correction that is used in
+rhyolite-MELTS</div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Quartz</span><span class="o">.</span><span class="n">enableGibbsFreeEnergyReferenceStateUsed</span><span class="p">()</span>
+<span class="n">Quartz</span><span class="o">.</span><span class="n">disableQuartzCorrectionUsed</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">BermanGTrPr</span> <span class="o">=</span> <span class="o">-</span><span class="mf">856288.0</span>
+<span class="n">t</span> <span class="o">=</span> <span class="mf">673.15</span>
+<span class="n">p</span> <span class="o">=</span> <span class="mf">1000.0</span>
+
+<span class="n">activity</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">getActivityFromMolesOfComponents_andT_andP_</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<span class="n">potential</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">getChemicalPotentialFromMolesOfComponents_andT_andP_</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Gibbs free energy (J) = &#39;</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">getGibbsFreeEnergyFromMolesOfComponents_andT_andP_</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;component, activity, chemical potential, mu0&#39;</span><span class="p">)</span>
+
+<span class="n">mu0_quartz</span> <span class="o">=</span> <span class="n">qtz</span><span class="o">.</span><span class="n">getGibbsFreeEnergyFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">nc</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">m</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="n">component</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">componentAtIndex_</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="n">getGibbsFreeEnergyFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">{0:&gt;20s}</span><span class="s2"> </span><span class="si">{1:10.6f}</span><span class="s2"> </span><span class="si">{2:15.2f}</span><span class="s2"> </span><span class="si">{3:15.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">component</span><span class="o">.</span><span class="n">phaseName</span><span class="p">,</span> <span class="n">activity</span><span class="o">.</span><span class="n">valueAtIndex_</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">potential</span><span class="o">.</span><span class="n">valueAtIndex_</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">g</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">{0:&gt;20s}</span><span class="s2"> </span><span class="si">{1:15.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Quartz&#39;</span><span class="p">,</span> <span class="n">mu0_quartz</span><span class="p">))</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">muSpecies</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">chemicalPotentialsOfSpeciesFromMolesOfComponents_andT_andP_</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;species, activity, mu, mu0&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ns</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">muSpecies</span><span class="o">.</span><span class="n">valueAtIndex_</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="n">pure</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">componentAtIndex_</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">pure</span><span class="o">.</span><span class="n">getGibbsFreeEnergyFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0:&gt;20s}</span><span class="s2"> </span><span class="si">{1:10.6e}</span><span class="s2"> </span><span class="si">{2:15.2f}</span><span class="s2"> </span><span class="si">{3:15.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">nameOfSolutionSpeciesAtIndex_</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="n">muSpecies</span><span class="o">.</span><span class="n">valueAtIndex_</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">-</span><span class="n">g</span><span class="p">)</span><span class="o">/</span><span class="mf">8.3143</span><span class="o">/</span><span class="n">t</span><span class="p">),</span> <span class="n">muSpecies</span><span class="o">.</span><span class="n">valueAtIndex_</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">g</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;deltaG quartz -&gt; SiO2 (aq)&#39;</span><span class="p">,</span> <span class="n">muSpecies</span><span class="o">.</span><span class="n">valueAtIndex_</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span><span class="o">-</span><span class="n">mu0_quartz</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;at log (molality) = </span><span class="si">{0:10.6e}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="mi">7</span><span class="p">])))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Gibbs</span> <span class="n">free</span> <span class="n">energy</span> <span class="p">(</span><span class="n">J</span><span class="p">)</span> <span class="o">=</span>  <span class="o">-</span><span class="mf">15269944.699001541</span>
+<span class="n">component</span><span class="p">,</span> <span class="n">activity</span><span class="p">,</span> <span class="n">chemical</span> <span class="n">potential</span><span class="p">,</span> <span class="n">mu0</span>
+               <span class="n">Water</span>   <span class="mf">0.999394</span>      <span class="o">-</span><span class="mf">274219.43</span>      <span class="o">-</span><span class="mf">274216.04</span>
+             <span class="n">SiO2</span><span class="p">,</span><span class="n">aq</span>   <span class="mf">0.025098</span>      <span class="o">-</span><span class="mf">877459.59</span>      <span class="o">-</span><span class="mf">856835.60</span>
+              <span class="n">Quartz</span>      <span class="o">-</span><span class="mf">878750.13</span>
+<span class="n">species</span><span class="p">,</span> <span class="n">activity</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">mu0</span>
+               <span class="n">Water</span> <span class="mf">9.993938e-01</span>      <span class="o">-</span><span class="mf">274219.43</span>      <span class="o">-</span><span class="mf">274216.04</span>
+             <span class="n">SiO2</span><span class="p">,</span><span class="n">aq</span> <span class="mf">2.509769e-02</span>      <span class="o">-</span><span class="mf">877459.59</span>      <span class="o">-</span><span class="mf">856835.60</span>
+                  <span class="n">H</span><span class="o">+</span> <span class="mf">7.652831e-06</span>       <span class="o">-</span><span class="mf">65932.40</span>            <span class="mf">0.00</span>
+                 <span class="n">OH</span><span class="o">-</span> <span class="mf">4.452470e-06</span>      <span class="o">-</span><span class="mf">208287.04</span>      <span class="o">-</span><span class="mf">139323.34</span>
+              <span class="n">HSiO3</span><span class="o">-</span> <span class="mf">3.200361e-06</span>     <span class="o">-</span><span class="mf">1085746.63</span>     <span class="o">-</span><span class="mf">1014934.90</span>
+            <span class="n">Si2O4</span><span class="p">,</span><span class="n">aq</span> <span class="mf">8.535953e-03</span>     <span class="o">-</span><span class="mf">1754919.18</span>     <span class="o">-</span><span class="mf">1728259.14</span>
+<span class="n">deltaG</span> <span class="n">quartz</span> <span class="o">-&gt;</span> <span class="n">SiO2</span> <span class="p">(</span><span class="n">aq</span><span class="p">)</span> <span class="mf">1290.539609355852</span>
+<span class="n">at</span> <span class="n">log</span> <span class="p">(</span><span class="n">molality</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.374379e+00</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">{0:&gt;10s}</span><span class="s2"> </span><span class="si">{1:10.6f}</span><span class="s2"> </span><span class="si">{2:10.6f}</span><span class="s2"> </span><span class="si">{3:10.6f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;G TP TPr TrPr&#39;</span><span class="p">,</span> <span class="n">qtz</span><span class="o">.</span><span class="n">getGibbsFreeEnergyFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">),</span> <span class="n">qtz</span><span class="o">.</span><span class="n">getGibbsFreeEnergyFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">qtz</span><span class="o">.</span><span class="n">getGibbsFreeEnergyFromT_andP_</span><span class="p">(</span><span class="mf">298.15</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">{0:&gt;10s}</span><span class="s2"> </span><span class="si">{1:10.6f}</span><span class="s2"> </span><span class="si">{2:10.6f}</span><span class="s2"> </span><span class="si">{3:10.6f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;H TP TPr TrPr&#39;</span><span class="p">,</span> <span class="n">qtz</span><span class="o">.</span><span class="n">getEnthalpyFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">),</span> <span class="n">qtz</span><span class="o">.</span><span class="n">getEnthalpyFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">qtz</span><span class="o">.</span><span class="n">getEnthalpyFromT_andP_</span><span class="p">(</span><span class="mf">298.15</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">{0:&gt;10s}</span><span class="s2"> </span><span class="si">{1:10.6f}</span><span class="s2"> </span><span class="si">{2:10.6f}</span><span class="s2"> </span><span class="si">{3:10.6f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;S TP TPr TrPr&#39;</span><span class="p">,</span> <span class="n">qtz</span><span class="o">.</span><span class="n">getEntropyFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">),</span> <span class="n">qtz</span><span class="o">.</span><span class="n">getEntropyFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">qtz</span><span class="o">.</span><span class="n">getEntropyFromT_andP_</span><span class="p">(</span><span class="mf">298.15</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">{0:&gt;10s}</span><span class="s2"> </span><span class="si">{1:10.6f}</span><span class="s2"> </span><span class="si">{2:10.6f}</span><span class="s2"> </span><span class="si">{3:10.6f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;C TP TPr TrPr&#39;</span><span class="p">,</span> <span class="n">qtz</span><span class="o">.</span><span class="n">getHeatCapacityFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">),</span> <span class="n">qtz</span><span class="o">.</span><span class="n">getHeatCapacityFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">qtz</span><span class="o">.</span><span class="n">getHeatCapacityFromT_andP_</span><span class="p">(</span><span class="mf">298.15</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)))</span>
+
+<span class="n">HTP</span> <span class="o">=</span> <span class="n">qtz</span><span class="o">.</span><span class="n">getEnthalpyFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<span class="n">HTrPr</span> <span class="o">=</span> <span class="n">qtz</span><span class="o">.</span><span class="n">getEnthalpyFromT_andP_</span><span class="p">(</span><span class="mf">298.15</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">STP</span> <span class="o">=</span> <span class="n">qtz</span><span class="o">.</span><span class="n">getEntropyFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+<span class="n">STrPr</span> <span class="o">=</span> <span class="n">qtz</span><span class="o">.</span><span class="n">getEntropyFromT_andP_</span><span class="p">(</span><span class="mf">298.15</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">GTP</span> <span class="o">=</span> <span class="n">qtz</span><span class="o">.</span><span class="n">getGibbsFreeEnergyFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<span class="n">GTrPr</span> <span class="o">=</span> <span class="n">qtz</span><span class="o">.</span><span class="n">getGibbsFreeEnergyFromT_andP_</span><span class="p">(</span><span class="mf">298.15</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;G(T,P)-G(Tr,Pr) = &#39;</span><span class="p">,</span> <span class="n">GTP</span> <span class="o">-</span> <span class="n">GTrPr</span><span class="p">)</span>
+
+<span class="n">BermanG</span> <span class="o">=</span> <span class="o">-</span><span class="mi">856288</span>
+<span class="n">BermanH</span> <span class="o">=</span> <span class="o">-</span><span class="mi">910700</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Berman deltaG-deltaH formation at 298 K and 1 bar&#39;</span><span class="p">,</span> <span class="n">BermanG</span> <span class="o">-</span> <span class="n">BermanH</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;BermanG + integral from PhaseObjC&#39;</span><span class="p">,</span> <span class="n">BermanG</span><span class="o">+</span><span class="n">GTP</span><span class="o">-</span><span class="n">GTrPr</span><span class="p">)</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Dimitri at 400C and 1KB deltaG quartz = &#39;</span><span class="p">,</span> <span class="o">-</span><span class="mf">210026.5</span><span class="o">*</span><span class="mf">4.184</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Dimitri at 400C and 1KB deltaG SiO2,aq = &#39;</span><span class="p">,</span> <span class="o">-</span><span class="mf">204755.13</span><span class="o">*</span><span class="mf">4.184</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Dimitri at 400C and 1KB deltaG Si2O4 = &#39;</span><span class="p">,</span> <span class="o">-</span><span class="mf">413054.54</span><span class="o">*</span><span class="mf">4.184</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">G</span> <span class="n">TP</span> <span class="n">TPr</span> <span class="n">TrPr</span> <span class="o">-</span><span class="mf">878750.130116</span> <span class="o">-</span><span class="mf">881047.101142</span> <span class="o">-</span><span class="mf">856287.786356</span>
+<span class="n">H</span> <span class="n">TP</span> <span class="n">TPr</span> <span class="n">TrPr</span> <span class="o">-</span><span class="mf">820003.153422</span> <span class="o">-</span><span class="mf">822172.288621</span> <span class="o">-</span><span class="mf">843929.046342</span>
+<span class="n">S</span> <span class="n">TP</span> <span class="n">TPr</span> <span class="n">TrPr</span>  <span class="mf">87.271747</span>  <span class="mf">87.461654</span>  <span class="mf">41.451417</span>
+<span class="n">C</span> <span class="n">TP</span> <span class="n">TPr</span> <span class="n">TrPr</span>  <span class="mf">67.531020</span>  <span class="mf">68.196114</span>  <span class="mf">44.844355</span>
+<span class="n">G</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="n">P</span><span class="p">)</span><span class="o">-</span><span class="n">G</span><span class="p">(</span><span class="n">Tr</span><span class="p">,</span><span class="n">Pr</span><span class="p">)</span> <span class="o">=</span>  <span class="o">-</span><span class="mf">22462.343760243733</span>
+<span class="n">Berman</span> <span class="n">deltaG</span><span class="o">-</span><span class="n">deltaH</span> <span class="n">formation</span> <span class="n">at</span> <span class="mi">298</span> <span class="n">K</span> <span class="ow">and</span> <span class="mi">1</span> <span class="n">bar</span> <span class="mi">54412</span>
+<span class="n">BermanG</span> <span class="o">+</span> <span class="n">integral</span> <span class="kn">from</span> <span class="nn">PhaseObjC</span> <span class="o">-</span><span class="mf">878750.3437602438</span>
+<span class="n">Dimitri</span> <span class="n">at</span> <span class="mi">400</span><span class="n">C</span> <span class="ow">and</span> <span class="mi">1</span><span class="n">KB</span> <span class="n">deltaG</span> <span class="n">quartz</span> <span class="o">=</span>  <span class="o">-</span><span class="mf">878750.876</span>
+<span class="n">Dimitri</span> <span class="n">at</span> <span class="mi">400</span><span class="n">C</span> <span class="ow">and</span> <span class="mi">1</span><span class="n">KB</span> <span class="n">deltaG</span> <span class="n">SiO2</span><span class="p">,</span><span class="n">aq</span> <span class="o">=</span>  <span class="o">-</span><span class="mf">856695.46392</span>
+<span class="n">Dimitri</span> <span class="n">at</span> <span class="mi">400</span><span class="n">C</span> <span class="ow">and</span> <span class="mi">1</span><span class="n">KB</span> <span class="n">deltaG</span> <span class="n">Si2O4</span> <span class="o">=</span>  <span class="o">-</span><span class="mf">1728220.19536</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2020, ENKI.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.4.0.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

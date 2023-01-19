@@ -1,0 +1,15 @@
+## PhlogopiteBerman Class  
+### Class Inheritance  
+NSObject ▶️ [PhaseBase](PhaseBase.html) ▶️ [BermanProperties](BermanProperties.html) ▶️ PhlogopiteBerman  
+
+### Protocols Implemented  
+None  
+
+### Properties  
+None 
+
+### Class Methods  
+None  
+
+### Instance Methods  
+None  

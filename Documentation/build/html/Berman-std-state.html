@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Berman Standard State Code Generator &mdash; Thermoengine 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="None"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" >
+    <link rel="search" title="Search" href="search.html" >
+    <link rel="top" title="Thermoengine 1.0.1 documentation" href="index.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="index.html">
+      <img style="border: 0;" alt="ENKI" src="_static/img/ENKI_header.png"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="http://enki-portal.org">ENKI Web</a></li>
+        <li class="active"><a href="https://enki.ofm-research.org">ENKI Server</a></li>
+	
+        <li class="active"><a href="index.html">Thermoengine 1.0.1 documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/Enki.png" alt="Logo">
+            </a></p>
+        </div>
+      </div>
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="berman-standard-state-code-generator">
+<h1>Berman Standard State Code Generator<a class="headerlink" href="#berman-standard-state-code-generator" title="Permalink to this headline">¶</a></h1>
+<p>Required system packages and initialization</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">sympy</span> <span class="k">as</span> <span class="nn">sym</span>
+<span class="n">sym</span><span class="o">.</span><span class="n">init_printing</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Required ENKI packages</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">thermoengine</span> <span class="kn">import</span> <span class="n">coder</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="types-of-terms-in-a-standard-state-properties-description">
+<h1>Types of terms in a standard state properties description<a class="headerlink" href="#types-of-terms-in-a-standard-state-properties-description" title="Permalink to this headline">¶</a></h1>
+<p>There are three classes of terms: 1. Terms that apply over the whole of
+<span class="math notranslate nohighlight">\(T\)</span>-, <span class="math notranslate nohighlight">\(P\)</span>-space, <span class="math notranslate nohighlight">\(T_r \le T\)</span>, <span class="math notranslate nohighlight">\(P_r \le P\)</span> 2.
+Terms that apply over a specified range of <span class="math notranslate nohighlight">\(T\)</span>-, <span class="math notranslate nohighlight">\(P\)</span>-space,
+<span class="math notranslate nohighlight">\((T_{r_\lambda},P_{r_\lambda}) \le (T,P) \le (T_\lambda,P_\lambda)\)</span>
+3. Terms that apply to a specific <span class="math notranslate nohighlight">\(T_t\)</span> and <span class="math notranslate nohighlight">\(P_t\)</span> and higher
+<span class="math notranslate nohighlight">\(T\)</span>, <span class="math notranslate nohighlight">\(P\)</span>, <span class="math notranslate nohighlight">\(T_t \le T\)</span>, <span class="math notranslate nohighlight">\(P_t \le P\)</span></p>
+<p>Second-order phase transitions (<span class="math notranslate nohighlight">\(lambda\)</span>-transitions) are an
+example of the second type, as are order disorder transformations.
+First-order phase transitions are an example of the third type.</p>
+<div class="section" id="create-a-model-class-for-the-gibbs-free-energy">
+<h2>Create a model class for the Gibbs free energy<a class="headerlink" href="#create-a-model-class-for-the-gibbs-free-energy" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">coder</span><span class="o">.</span><span class="n">StdStateModel</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Retrieve sympy symbols for model variables and reference conditions</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_symbol_for_t</span><span class="p">()</span>
+<span class="n">P</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_symbol_for_p</span><span class="p">()</span>
+<span class="n">Tr</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_symbol_for_tr</span><span class="p">()</span>
+<span class="n">Pr</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_symbol_for_pr</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="section" id="define-model-expressions-applicable-over-all-of-t-p-space">
+<h3>Define model expressions applicable over all of T,P space<a class="headerlink" href="#define-model-expressions-applicable-over-all-of-t-p-space" title="Permalink to this headline">¶</a></h3>
+<p>An expression for the Gibbs free energy, <span class="math notranslate nohighlight">\(G(T,P)\)</span> or the Helmholtz
+energy <span class="math notranslate nohighlight">\(A(T,V)\)</span> is constructed. The expression may have multiple
+parts. Often the heat capacity function is postulated, then integrated
+to yield expressions for the entahlpy, entropy, and in combination the
+energy potential. Then, an equation of state (EOS) is adopted and that
+term is integrated in pressure or volume and added to the heat capacity
+integrals. This proceedure is follwed here. #### (1) <span class="math notranslate nohighlight">\(C_P\)</span>
+integrals The isobaric heat capacity terms parameterized as: $C_P = k_0
++ k_1 / T^{1/2} + k_2 / T^2 + k_3 / T^3 $, and in addition the reference
+condition third law entropy, $ S_{Tr,Pr} $, and enthalpy of formation
+from the elements, $ :raw-latex:<a href="#id1"><span class="problematic" id="id2">`</span></a>Delta <a href="#id3"><span class="problematic" id="id4">`</span></a>H_{Tr,Pr} $, constitute
+additional parameters:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">k0</span><span class="p">,</span><span class="n">k1</span><span class="p">,</span><span class="n">k2</span><span class="p">,</span><span class="n">k3</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;k0 k1 k2 k3&#39;</span><span class="p">)</span>
+<span class="n">CpPr</span> <span class="o">=</span> <span class="n">k0</span><span class="o">+</span><span class="n">k1</span><span class="o">/</span><span class="n">sym</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">T</span><span class="p">)</span><span class="o">+</span><span class="n">k2</span><span class="o">/</span><span class="n">T</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">k3</span><span class="o">/</span><span class="n">T</span><span class="o">**</span><span class="mi">3</span>
+<span class="n">STrPr</span><span class="p">,</span><span class="n">HTrPr</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;S_TrPr H_TrPr&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">CpPr</span>
+</pre></div>
+</div>
+<div class="math notranslate nohighlight">
+\[k_{0} + \frac{k_{2}}{T^{2}} + \frac{k_{3}}{T^{3}} + \frac{k_{1}}{\sqrt{T}}\]</div>
+<p>Specify paramters …</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;H_TrPr&#39;</span><span class="p">,</span><span class="s1">&#39;J&#39;</span><span class="p">,</span><span class="n">HTrPr</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;S_TrPr&#39;</span><span class="p">,</span><span class="s1">&#39;J/K&#39;</span><span class="p">,</span><span class="n">STrPr</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;k0&#39;</span><span class="p">,</span><span class="s1">&#39;J/K-m&#39;</span><span class="p">,</span><span class="n">k0</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;k1&#39;</span><span class="p">,</span><span class="s1">&#39;J-K^(1/2)-m&#39;</span><span class="p">,</span><span class="n">k1</span><span class="p">),</span>
+          <span class="p">(</span><span class="s1">&#39;k2&#39;</span><span class="p">,</span><span class="s1">&#39;J-K/m&#39;</span><span class="p">,</span><span class="n">k2</span><span class="p">),</span>  <span class="p">(</span><span class="s1">&#39;k3&#39;</span><span class="p">,</span><span class="s1">&#39;J-K^2&#39;</span><span class="p">,</span><span class="n">k3</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>Define the heat capacity contribution to the Gibbs free energy …</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">GPr</span> <span class="o">=</span> <span class="n">HTrPr</span> <span class="o">+</span> <span class="n">sym</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="n">CpPr</span><span class="p">,(</span><span class="n">T</span><span class="p">,</span><span class="n">Tr</span><span class="p">,</span><span class="n">T</span><span class="p">))</span> <span class="o">-</span> <span class="n">T</span><span class="o">*</span><span class="p">(</span><span class="n">STrPr</span> <span class="o">+</span> <span class="n">sym</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="n">CpPr</span><span class="o">/</span><span class="n">T</span><span class="p">,(</span><span class="n">T</span><span class="p">,</span><span class="n">Tr</span><span class="p">,</span><span class="n">T</span><span class="p">)))</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">GPr</span>
+</pre></div>
+</div>
+<div class="math notranslate nohighlight">
+\[H_{TrPr} + 2 \sqrt{T} k_{1} + T k_{0} - T \left(S_{TrPr} + k_{0} \log{\left (T \right )} - k_{0} \log{\left (T_{r} \right )} + \frac{k_{2}}{2 T_{r}^{2}} + \frac{k_{3}}{3 T_{r}^{3}} + \frac{2 k_{1}}{\sqrt{T_{r}}} - \frac{k_{2}}{2 T^{2}} - \frac{k_{3}}{3 T^{3}} - \frac{2 k_{1}}{\sqrt{T}}\right) - 2 \sqrt{T_{r}} k_{1} - T_{r} k_{0} + \frac{k_{2}}{T_{r}} + \frac{k_{3}}{2 T_{r}^{2}} - \frac{k_{2}}{T} - \frac{k_{3}}{2 T^{2}}\]</div>
+<p>… and add this expression to the model</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">add_expression_to_model</span><span class="p">(</span><span class="n">GPr</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="v-eos-integrals">
+<h4>(2) <span class="math notranslate nohighlight">\(V\)</span> (EOS) integrals<a class="headerlink" href="#v-eos-integrals" title="Permalink to this headline">¶</a></h4>
+<p>Next, define a volume-explicit equation of state applicable over the
+whole of temperature and pressure space</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">VTrPr</span><span class="p">,</span><span class="n">v1</span><span class="p">,</span><span class="n">v2</span><span class="p">,</span><span class="n">v3</span><span class="p">,</span><span class="n">v4</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;V_TrPr v1 v2 v3 v4&#39;</span><span class="p">)</span>
+<span class="n">params</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;V_TrPr&#39;</span><span class="p">,</span> <span class="s1">&#39;J/bar-m&#39;</span><span class="p">,</span> <span class="n">VTrPr</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;v1&#39;</span><span class="p">,</span><span class="s1">&#39;1/bar&#39;</span><span class="p">,</span><span class="n">v1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;v2&#39;</span><span class="p">,</span><span class="s1">&#39;1/bar^2&#39;</span><span class="p">,</span><span class="n">v2</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;v3&#39;</span><span class="p">,</span><span class="s1">&#39;1/K&#39;</span><span class="p">,</span><span class="n">v3</span><span class="p">),</span>  <span class="p">(</span><span class="s1">&#39;v4&#39;</span><span class="p">,</span><span class="s1">&#39;1/K^2&#39;</span><span class="p">,</span><span class="n">v4</span><span class="p">)]</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">GPrToP</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="n">VTrPr</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">v1</span><span class="o">*</span><span class="p">(</span><span class="n">P</span><span class="o">-</span><span class="n">Pr</span><span class="p">)</span><span class="o">+</span><span class="n">v2</span><span class="o">*</span><span class="p">(</span><span class="n">P</span><span class="o">-</span><span class="n">Pr</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">v3</span><span class="o">*</span><span class="p">(</span><span class="n">T</span><span class="o">-</span><span class="n">Tr</span><span class="p">)</span><span class="o">+</span><span class="n">v4</span><span class="o">*</span><span class="p">(</span><span class="n">T</span><span class="o">-</span><span class="n">Tr</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">),(</span><span class="n">P</span><span class="p">,</span><span class="n">Pr</span><span class="p">,</span><span class="n">P</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add_expression_to_model</span><span class="p">(</span><span class="n">GPrToP</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="define-additional-lambda-heat-capacity-terms-applicable-over-a-restricted-range-of-t-p-space">
+<h3>Define additional lambda heat capacity terms applicable over a restricted range of T,P space<a class="headerlink" href="#define-additional-lambda-heat-capacity-terms-applicable-over-a-restricted-range-of-t-p-space" title="Permalink to this headline">¶</a></h3>
+<p>These contributions to the potential function apply over a limited range
+of <span class="math notranslate nohighlight">\(T,P\)</span> or <span class="math notranslate nohighlight">\(T,V\)</span> space. However, the affects of these
+functions propagate beyond the upper limits of the range. Say,
+<span class="math notranslate nohighlight">\(f(T,P)\)</span> is the contribution to the Gibbs free energy that
+describes a <span class="math notranslate nohighlight">\(\lambda\)</span>-like transition over the range
+<span class="math notranslate nohighlight">\(({T_{\lambda ,ref}},{P_{\lambda ,ref}})\)</span> to
+<span class="math notranslate nohighlight">\(({T_\lambda },{P_\lambda })\)</span>. Then, <em>above the upper limit</em> of
+temperature there is a fixed entropy contribution:</p>
+<p><span class="math notranslate nohighlight">\(- {\left. {\frac{{\partial f\left( {T,P} \right)}}{{\partial T}}} \right|_{{T_\lambda },{P_\lambda }}} = {f_S}({T_\lambda },{P_\lambda })\)</span></p>
+<p>and <em>above the upper limit of pressure</em> there is a fixed volume
+contribution:</p>
+<p><span class="math notranslate nohighlight">\({\left. {\frac{{\partial f\left( {T,P} \right)}}{{\partial P}}} \right|_{{T_\lambda },{P_\lambda }}} = {f_V}({T_\lambda },{P_\lambda })\)</span></p>
+<p>the consequence of which is that for <span class="math notranslate nohighlight">\(T &gt; T_{\lambda}\)</span> and
+<span class="math notranslate nohighlight">\(P &gt; P_{\lambda}\)</span>, there is a contribution to the Gibbs free
+energy of the form:</p>
+<p><span class="math notranslate nohighlight">\(- \left( {T - {T_\lambda }} \right){f_S}({T_\lambda },{P_\lambda }) + \left( {P - {P_\lambda }} \right){f_V}({T_\lambda },{P_\lambda })\)</span></p>
+<p>This contribution is linear in <span class="math notranslate nohighlight">\(T\)</span> and <span class="math notranslate nohighlight">\(P\)</span>.</p>
+<p>The additional energetic contributions applicable above the upper range
+limit will be added automatically to the model function, and need not be
+explicitly accounted for in building the model expressions.</p>
+<div class="section" id="lambda-transition-like-heat-capacity-integrals">
+<h4>(1) <span class="math notranslate nohighlight">\(\lambda\)</span>-transition-like heat capacity integrals<a class="headerlink" href="#lambda-transition-like-heat-capacity-integrals" title="Permalink to this headline">¶</a></h4>
+<p>Parameters of the Berman (1988) lambda transition model: - <span class="math notranslate nohighlight">\(l_1\)</span>
+and <span class="math notranslate nohighlight">\(l_2\)</span>, coefficients in Berman (1988)’s <span class="math notranslate nohighlight">\(lambda\)</span>-heat
+capacity model - <span class="math notranslate nohighlight">\(k_{\lambda}\)</span>,
+<span class="math notranslate nohighlight">\(\frac{{d{T_\lambda }}}{{dP}}\)</span> in Berman (1988)’s
+<span class="math notranslate nohighlight">\(lambda\)</span>-transition model - <span class="math notranslate nohighlight">\(T_{\lambda,{P_r}}\)</span>, Temperature
+of the <span class="math notranslate nohighlight">\(\lambda\)</span>-transition at reference pressure -
+<span class="math notranslate nohighlight">\(T_{\lambda,{ref}}\)</span>, Temperature of the lower bound of the heat
+capacity integral for the <span class="math notranslate nohighlight">\(\lambda\)</span>-transition at reference
+pressure</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">l1</span><span class="p">,</span><span class="n">l2</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;l1 l2&#39;</span><span class="p">)</span>
+<span class="n">kl</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;k_lambda&#39;</span><span class="p">)</span>
+<span class="n">TlPr</span><span class="p">,</span> <span class="n">Tlref</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;T_lambda_Pr T_lambda_ref&#39;</span><span class="p">)</span>
+<span class="n">params</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;l1&#39;</span><span class="p">,</span><span class="s1">&#39;(J/m)^(1/2)-K&#39;</span><span class="p">,</span> <span class="n">l1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;l2&#39;</span><span class="p">,</span> <span class="s1">&#39;(J/m)^(1/2)/K^2&#39;</span><span class="p">,</span> <span class="n">l2</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;k_lambda&#39;</span><span class="p">,</span> <span class="s1">&#39;K/bar&#39;</span><span class="p">,</span> <span class="n">kl</span><span class="p">),</span>
+          <span class="p">(</span><span class="s1">&#39;T_lambda_Pr&#39;</span><span class="p">,</span> <span class="s1">&#39;K&#39;</span><span class="p">,</span> <span class="n">TlPr</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;T_lambda_ref&#39;</span><span class="p">,</span> <span class="s1">&#39;K&#39;</span><span class="p">,</span> <span class="n">Tlref</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>Calculate the transition temperature, <span class="math notranslate nohighlight">\(T_{\lambda}\)</span>, at the
+pressure, <span class="math notranslate nohighlight">\(P\)</span></p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Tl</span> <span class="o">=</span> <span class="n">TlPr</span> <span class="o">+</span> <span class="n">kl</span><span class="o">*</span><span class="p">(</span><span class="n">P</span><span class="o">-</span><span class="n">Pr</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Temperature difference between <span class="math notranslate nohighlight">\(T_{\lambda}\)</span> at <span class="math notranslate nohighlight">\(P\)</span> and
+<span class="math notranslate nohighlight">\(P_r\)</span></p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">td</span> <span class="o">=</span> <span class="n">TlPr</span> <span class="o">-</span> <span class="n">Tl</span>
+</pre></div>
+</div>
+<p>Reference temperature for lower limit of heat capacity integral.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tr</span> <span class="o">=</span> <span class="n">Tlref</span> <span class="o">-</span> <span class="n">td</span>
+</pre></div>
+</div>
+<p>Heat capacity due to the <span class="math notranslate nohighlight">\(\lambda\)</span>-transition at <span class="math notranslate nohighlight">\(T\)</span> and
+<span class="math notranslate nohighlight">\(P\)</span>. Valid: <span class="math notranslate nohighlight">\(T_r \le T \le T_{\lambda}\)</span>.</p>
+<p><strong>Note:</strong> The syntax of the arguments to the SymPy Piecewise expression
+is of the form:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">e1</span><span class="p">,</span><span class="n">c1</span><span class="p">),</span> <span class="p">(</span><span class="n">e2</span><span class="p">,</span><span class="n">d2</span><span class="p">),</span> <span class="o">...</span><span class="p">,</span> <span class="p">(</span><span class="n">eDefault</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where the sequence is evaluated left to right. <em>eN</em> is the value of the
+resulting expression if the condition <em>cN</em> is <em>True</em>. <em>cN</em> is always a
+logical comparison. The first <em>cN</em> that is <em>True</em> provides the value of
+the expression. If no <em>cN</em> evaluate to <em>True</em>, then the resulting
+expression becomes <em>eDefault</em> given by the last tuple in the sequence.
+See the example below.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Cpl</span> <span class="o">=</span> <span class="p">(</span><span class="n">T</span><span class="o">+</span><span class="n">td</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">l1</span><span class="o">+</span><span class="n">l2</span><span class="o">*</span><span class="p">(</span><span class="n">T</span><span class="o">+</span><span class="n">td</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
+</pre></div>
+</div>
+<p>Compute the Gibbs free energy of the lambda transition</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Gl</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="n">Cpl</span><span class="p">,(</span><span class="n">T</span><span class="p">,</span><span class="n">tr</span><span class="p">,</span><span class="n">T</span><span class="p">))</span> <span class="o">-</span> <span class="n">T</span><span class="o">*</span><span class="n">sym</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="n">Cpl</span><span class="o">/</span><span class="n">T</span><span class="p">,(</span><span class="n">T</span><span class="p">,</span><span class="n">tr</span><span class="p">,</span><span class="n">T</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>… and add this expression to the model</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">add_expression_to_model</span><span class="p">(</span><span class="n">Gl</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">exp_type</span><span class="o">=</span><span class="s1">&#39;restricted&#39;</span><span class="p">,</span> <span class="n">lower_limits</span><span class="o">=</span><span class="p">(</span><span class="n">tr</span><span class="p">,</span><span class="n">Pr</span><span class="p">),</span> <span class="n">upper_limits</span><span class="o">=</span><span class="p">(</span><span class="n">Tl</span><span class="p">,</span><span class="kc">None</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="first-order-phase-transition-terms">
+<h4>(2) First order phase transition terms<a class="headerlink" href="#first-order-phase-transition-terms" title="Permalink to this headline">¶</a></h4>
+<p>Berman terms valid at T <span class="math notranslate nohighlight">\(\ge\)</span> <span class="math notranslate nohighlight">\(T_t\)</span>. Parameters (in this
+case <span class="math notranslate nohighlight">\(T_t\)</span> is equivalent to <span class="math notranslate nohighlight">\(T_{\lambda}\)</span>: -
+<span class="math notranslate nohighlight">\({{\Delta}_t}H\)</span>, First order enthalpy contribution at
+<span class="math notranslate nohighlight">\(T_{\lambda}\)</span></p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">deltaHt</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;H_t&#39;</span><span class="p">)</span>
+<span class="n">params</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;H_t&#39;</span><span class="p">,</span><span class="s1">&#39;J/m&#39;</span><span class="p">,</span> <span class="n">deltaHt</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p><span class="math notranslate nohighlight">\({{\Delta}_t}S = {{\Delta}_t}H/T_{\lambda}\)</span>, First order enropy
+contribution at <span class="math notranslate nohighlight">\(T_{\lambda}\)</span>:
+<span class="math notranslate nohighlight">\({{\Delta}_t}H - T {{\Delta}_t}S = -(T-T_{\lambda}) {{\Delta}_t}H/T_{\lambda}\)</span></p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">GaboveTl</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">T</span><span class="o">-</span><span class="n">Tl</span><span class="p">)</span><span class="o">*</span><span class="n">deltaHt</span><span class="o">/</span><span class="n">Tl</span>
+</pre></div>
+</div>
+<p>… and add this expression to the model</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">add_expression_to_model</span><span class="p">(</span><span class="n">GaboveTl</span> <span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">exp_type</span><span class="o">=</span><span class="s1">&#39;restricted&#39;</span><span class="p">,</span> <span class="n">lower_limits</span><span class="o">=</span><span class="p">(</span><span class="n">Tl</span><span class="p">,</span><span class="kc">None</span><span class="p">),</span> <span class="n">upper_limits</span><span class="o">=</span><span class="p">(</span><span class="n">Tl</span><span class="p">,</span><span class="kc">None</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="order-disorder-contributions">
+<h4>(3) Order-disorder contributions<a class="headerlink" href="#order-disorder-contributions" title="Permalink to this headline">¶</a></h4>
+<p>Parameters of the Berman (1988) order-disorder model: - <span class="math notranslate nohighlight">\(d_0\)</span>,
+<span class="math notranslate nohighlight">\(d_1\)</span>, <span class="math notranslate nohighlight">\(d_2\)</span>, <span class="math notranslate nohighlight">\(d_3\)</span>, <span class="math notranslate nohighlight">\(d_4\)</span>, <span class="math notranslate nohighlight">\(d_5\)</span>,
+order-disorder coefficients from the Berman (1988) model -
+<span class="math notranslate nohighlight">\(T_{D_{ref}}\)</span>, <span class="math notranslate nohighlight">\(T_D\)</span>, minimum, maximum temperature of
+ordering interval, <span class="math notranslate nohighlight">\(T_{D_{ref}} \le T \le T_D\)</span></p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d0</span><span class="p">,</span><span class="n">d1</span><span class="p">,</span><span class="n">d2</span><span class="p">,</span><span class="n">d3</span><span class="p">,</span><span class="n">d4</span><span class="p">,</span><span class="n">d5</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;d0 d1 d2 d3 d4 d5&#39;</span><span class="p">)</span>
+<span class="n">TD</span><span class="p">,</span><span class="n">TDref</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;T_D T_D_ref&#39;</span><span class="p">)</span>
+<span class="n">params</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;d0&#39;</span><span class="p">,</span><span class="s1">&#39;J/K-m&#39;</span><span class="p">,</span> <span class="n">d0</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;d1&#39;</span><span class="p">,</span><span class="s1">&#39;J/K^(1/2)-m&#39;</span><span class="p">,</span><span class="n">d1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;d2&#39;</span><span class="p">,</span><span class="s1">&#39;J-K/m&#39;</span><span class="p">,</span><span class="n">d2</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;d3&#39;</span><span class="p">,</span><span class="s1">&#39;J/K^2-m&#39;</span><span class="p">,</span><span class="n">d3</span><span class="p">),</span>
+          <span class="p">(</span><span class="s1">&#39;d4&#39;</span><span class="p">,</span><span class="s1">&#39;J/K^3-m&#39;</span><span class="p">,</span><span class="n">d4</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;d5&#39;</span><span class="p">,</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span><span class="n">d5</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;T_D&#39;</span><span class="p">,</span><span class="s1">&#39;K&#39;</span><span class="p">,</span><span class="n">TD</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;T_D_ref&#39;</span><span class="p">,</span><span class="s1">&#39;K&#39;</span><span class="p">,</span><span class="n">TDref</span><span class="p">)]</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">CpDs</span> <span class="o">=</span> <span class="n">d0</span> <span class="o">+</span> <span class="n">d1</span><span class="o">/</span><span class="n">sym</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="o">+</span> <span class="n">d2</span><span class="o">/</span><span class="n">T</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">d3</span><span class="o">*</span><span class="n">T</span> <span class="o">+</span> <span class="n">d4</span><span class="o">*</span><span class="n">T</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">HDs</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="n">CpDs</span><span class="p">,(</span><span class="n">T</span><span class="p">,</span><span class="n">TDref</span><span class="p">,</span><span class="n">T</span><span class="p">))</span>
+<span class="n">SDs</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="n">CpDs</span><span class="o">/</span><span class="n">T</span><span class="p">,(</span><span class="n">T</span><span class="p">,</span><span class="n">TDref</span><span class="p">,</span><span class="n">T</span><span class="p">))</span>
+<span class="n">VDs</span> <span class="o">=</span> <span class="n">HDs</span><span class="o">/</span><span class="n">d5</span>
+<span class="n">GDs</span> <span class="o">=</span> <span class="n">HDs</span> <span class="o">-</span> <span class="n">T</span><span class="o">*</span><span class="n">SDs</span> <span class="o">+</span> <span class="n">VDs</span><span class="o">*</span><span class="p">(</span><span class="n">P</span><span class="o">-</span><span class="n">Pr</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">add_expression_to_model</span><span class="p">(</span><span class="n">GDs</span> <span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">exp_type</span><span class="o">=</span><span class="s1">&#39;restricted&#39;</span><span class="p">,</span> <span class="n">lower_limits</span><span class="o">=</span><span class="p">(</span><span class="n">TDref</span><span class="p">,</span><span class="kc">None</span><span class="p">),</span> <span class="n">upper_limits</span><span class="o">=</span><span class="p">(</span><span class="n">TD</span><span class="p">,</span><span class="kc">None</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="code-print-the-model-compile-the-code-and-link-a-python-module">
+<h2>Code Print the Model, compile the code and link a Python module<a class="headerlink" href="#code-print-the-model-compile-the-code-and-link-a-python-module" title="Permalink to this headline">¶</a></h2>
+<p>Name the model class</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">set_module_name</span><span class="p">(</span><span class="s1">&#39;berman&#39;</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">get_berman_std_state_database</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Akermanite&#39;</span><span class="p">,</span> <span class="s1">&#39;MgCa2Si2O7&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Albite&#39;</span><span class="p">,</span> <span class="s1">&#39;NaAlSi3O8&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Ca-Al_Pyroxene&#39;</span><span class="p">,</span> <span class="s1">&#39;CaAl2SiO6&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;Calcite&#39;</span><span class="p">,</span> <span class="s1">&#39;CaCO3&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;Chrysotile&#39;</span><span class="p">,</span> <span class="s1">&#39;Mg3Si2O9H4&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;Clinochlore&#39;</span><span class="p">,</span> <span class="s1">&#39;Mg5Al2Si3O18H8&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;Coesite&#39;</span><span class="p">,</span> <span class="s1">&#39;SiO2&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="s1">&#39;Cordierite&#39;</span><span class="p">,</span> <span class="s1">&#39;Mg2Al4Si5O18&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;Corundum&#39;</span><span class="p">,</span> <span class="s1">&#39;Al2O3&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;Alpha_Cristobalite&#39;</span><span class="p">,</span> <span class="s1">&#39;SiO2&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;Beta_Cristobalite&#39;</span><span class="p">,</span> <span class="s1">&#39;SiO2&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="s1">&#39;Diaspore&#39;</span><span class="p">,</span> <span class="s1">&#39;AlO2H&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;High_Albite&#39;</span><span class="p">,</span> <span class="s1">&#39;NaAlSi3O8&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="s1">&#39;Diopside&#39;</span><span class="p">,</span> <span class="s1">&#39;MgCaSi2O6&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="s1">&#39;Dolomite&#39;</span><span class="p">,</span> <span class="s1">&#39;MgCaC2O6&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="s1">&#39;Clinoenstatite&#39;</span><span class="p">,</span> <span class="s1">&#39;MgSiO3&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="s1">&#39;Orthoenstatite&#39;</span><span class="p">,</span> <span class="s1">&#39;MgSiO3&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">17</span><span class="p">,</span> <span class="s1">&#39;Protoenstatite&#39;</span><span class="p">,</span> <span class="s1">&#39;MgSiO3&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="s1">&#39;Fayalite&#39;</span><span class="p">,</span> <span class="s1">&#39;Fe2SiO4&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">19</span><span class="p">,</span> <span class="s1">&#39;Ferrosilite&#39;</span><span class="p">,</span> <span class="s1">&#39;SiFeO3&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="s1">&#39;Forsterite&#39;</span><span class="p">,</span> <span class="s1">&#39;Mg2SiO4&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">21</span><span class="p">,</span> <span class="s1">&#39;Gehlenite&#39;</span><span class="p">,</span> <span class="s1">&#39;Al2Ca2SiO7&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">22</span><span class="p">,</span> <span class="s1">&#39;Grossular&#39;</span><span class="p">,</span> <span class="s1">&#39;Ca3Al2Si3O12&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">23</span><span class="p">,</span> <span class="s1">&#39;Low_Albite&#39;</span><span class="p">,</span> <span class="s1">&#39;NaAlSi3O8&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="s1">&#39;Hematite&#39;</span><span class="p">,</span> <span class="s1">&#39;Fe2O3&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="s1">&#39;Ilmenite&#39;</span><span class="p">,</span> <span class="s1">&#39;FeTiO3&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">26</span><span class="p">,</span> <span class="s1">&#39;Jadeite&#39;</span><span class="p">,</span> <span class="s1">&#39;NaAlSi2O6&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">27</span><span class="p">,</span> <span class="s1">&#39;Kaolinite&#39;</span><span class="p">,</span> <span class="s1">&#39;Al2Si2O9H4&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="s1">&#39;Kyanite&#39;</span><span class="p">,</span> <span class="s1">&#39;Al2SiO5&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">29</span><span class="p">,</span> <span class="s1">&#39;Lawsonite&#39;</span><span class="p">,</span> <span class="s1">&#39;CaAl2Si2O10H4&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="s1">&#39;Lime&#39;</span><span class="p">,</span> <span class="s1">&#39;CaO&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">31</span><span class="p">,</span> <span class="s1">&#39;Magnesite&#39;</span><span class="p">,</span> <span class="s1">&#39;MgCO3&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="s1">&#39;Magnetite&#39;</span><span class="p">,</span> <span class="s1">&#39;Fe3O4&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="s1">&#39;Margarite&#39;</span><span class="p">,</span> <span class="s1">&#39;CaAl4Si2O12H2&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">34</span><span class="p">,</span> <span class="s1">&#39;Almandine&#39;</span><span class="p">,</span> <span class="s1">&#39;Si3Fe3Al2O12&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">35</span><span class="p">,</span> <span class="s1">&#39;Meionite&#39;</span><span class="p">,</span> <span class="s1">&#39;Ca4Al6Si6O27C&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">36</span><span class="p">,</span> <span class="s1">&#39;Merwinite&#39;</span><span class="p">,</span> <span class="s1">&#39;Ca3MgSi2O8&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">37</span><span class="p">,</span> <span class="s1">&#39;Monticellite&#39;</span><span class="p">,</span> <span class="s1">&#39;CaMgSiO4&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">38</span><span class="p">,</span> <span class="s1">&#39;Muscovite&#39;</span><span class="p">,</span> <span class="s1">&#39;KAl3Si3O12H2&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">39</span><span class="p">,</span> <span class="s1">&#39;Paragonite&#39;</span><span class="p">,</span> <span class="s1">&#39;NaAl3Si3O12H2&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;Periclase&#39;</span><span class="p">,</span> <span class="s1">&#39;MgO&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">41</span><span class="p">,</span> <span class="s1">&#39;Phlogopite&#39;</span><span class="p">,</span> <span class="s1">&#39;KMg3AlSi3O12H2&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="s1">&#39;Potassium_Feldspar&#39;</span><span class="p">,</span> <span class="s1">&#39;KAlSi3O8&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">43</span><span class="p">,</span> <span class="s1">&#39;Sanidine&#39;</span><span class="p">,</span> <span class="s1">&#39;KAlSi3O8&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">44</span><span class="p">,</span> <span class="s1">&#39;Microcline&#39;</span><span class="p">,</span> <span class="s1">&#39;KAlSi3O8&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">45</span><span class="p">,</span> <span class="s1">&#39;Andalusite&#39;</span><span class="p">,</span> <span class="s1">&#39;Al2SiO5&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">46</span><span class="p">,</span> <span class="s1">&#39;Prehnite&#39;</span><span class="p">,</span> <span class="s1">&#39;Ca2Al2Si3O12H2&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">47</span><span class="p">,</span> <span class="s1">&#39;Pyrope&#39;</span><span class="p">,</span> <span class="s1">&#39;Mg3Al2Si3O12&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="s1">&#39;Pyrophyllite&#39;</span><span class="p">,</span> <span class="s1">&#39;Al2Si4O12H2&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">49</span><span class="p">,</span> <span class="s1">&#39;A-Quartz&#39;</span><span class="p">,</span> <span class="s1">&#39;SiO2&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="s1">&#39;B-Quartz&#39;</span><span class="p">,</span> <span class="s1">&#39;SiO2&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">51</span><span class="p">,</span> <span class="s1">&#39;Rutile&#39;</span><span class="p">,</span> <span class="s1">&#39;TiO2&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">52</span><span class="p">,</span> <span class="s1">&#39;Sillimanite&#39;</span><span class="p">,</span> <span class="s1">&#39;Al2SiO5&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">53</span><span class="p">,</span> <span class="s1">&#39;Sphene&#39;</span><span class="p">,</span> <span class="s1">&#39;CaTiSiO5&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">54</span><span class="p">,</span> <span class="s1">&#39;Spinel&#39;</span><span class="p">,</span> <span class="s1">&#39;MgAl2O4&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">55</span><span class="p">,</span> <span class="s1">&#39;Talc&#39;</span><span class="p">,</span> <span class="s1">&#39;Mg3Si4O12H2&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">56</span><span class="p">,</span> <span class="s1">&#39;Anorthite&#39;</span><span class="p">,</span> <span class="s1">&#39;Al2CaSi2O8&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">57</span><span class="p">,</span> <span class="s1">&#39;Tremolite&#39;</span><span class="p">,</span> <span class="s1">&#39;Ca2Mg5Si8O24H2&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">58</span><span class="p">,</span> <span class="s1">&#39;Low_Tridymite&#39;</span><span class="p">,</span> <span class="s1">&#39;SiO2&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">59</span><span class="p">,</span> <span class="s1">&#39;High_Tridymite&#39;</span><span class="p">,</span> <span class="s1">&#39;SiO2&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="s1">&#39;Wollastonite&#39;</span><span class="p">,</span> <span class="s1">&#39;CaSiO3&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">61</span><span class="p">,</span> <span class="s1">&#39;Pseudowollastonite&#39;</span><span class="p">,</span> <span class="s1">&#39;CaSiO3&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">62</span><span class="p">,</span> <span class="s1">&#39;Zoisite&#39;</span><span class="p">,</span> <span class="s1">&#39;Ca2Al3Si3O13H&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">63</span><span class="p">,</span> <span class="s1">&#39;Clinozoisite&#39;</span><span class="p">,</span> <span class="s1">&#39;Ca2Al3Si3O13H&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="s1">&#39;Carbon_Dioxide&#39;</span><span class="p">,</span> <span class="s1">&#39;CO2&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">65</span><span class="p">,</span> <span class="s1">&#39;Water&#39;</span><span class="p">,</span> <span class="s1">&#39;H2O&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">66</span><span class="p">,</span> <span class="s1">&#39;Oxygen_Gas&#39;</span><span class="p">,</span> <span class="s1">&#39;O2&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">67</span><span class="p">,</span> <span class="s1">&#39;Anthophyllite&#39;</span><span class="p">,</span> <span class="s1">&#39;Mg7Si8O24H2&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">68</span><span class="p">,</span> <span class="s1">&#39;Sulfur_Gas&#39;</span><span class="p">,</span> <span class="s1">&#39;S2&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">69</span><span class="p">,</span> <span class="s1">&#39;Hydrogen_Gas&#39;</span><span class="p">,</span> <span class="s1">&#39;H2&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">70</span><span class="p">,</span> <span class="s1">&#39;Antigorite&#39;</span><span class="p">,</span> <span class="s1">&#39;Mg48Si34O99H62O48&#39;</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">71</span><span class="p">,</span> <span class="s1">&#39;Brucite&#39;</span><span class="p">,</span> <span class="s1">&#39;MgO2H2&#39;</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>Make a working sub-directory and move down into the directory. This is
+done so that generated files will not clash between alternate model
+configurations.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_working_dir</span> <span class="o">=</span> <span class="s2">&quot;working&quot;</span>
+<span class="o">!</span>mkdir -p <span class="o">{</span>model_working_dir<span class="o">}</span>
+<span class="o">%</span><span class="k">cd</span> {model_working_dir}
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">ghiorso</span><span class="o">/</span><span class="n">Documents</span><span class="o">/</span><span class="n">ARCHIVE_XCODE</span><span class="o">/</span><span class="n">ThermoEngine</span><span class="o">/</span><span class="n">Notebooks</span><span class="o">/</span><span class="n">Codegen</span><span class="o">/</span><span class="n">working</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Choose an existing phase from the Berman database</p></li>
+<li><p>Generate an include file and code file for this phase</p></li>
+</ul>
+<p>Note that the call to</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">create_code_module</span><span class="p">(</span><span class="n">phase</span><span class="o">=</span><span class="n">phase_name</span><span class="p">,</span> <span class="n">formula</span><span class="o">=</span><span class="n">formula</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">param_dict</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>generates fast code with unmodifiable model parameters and
+“calibration-” related functions. The call to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">create_code_module</span><span class="p">(</span><span class="n">phase</span><span class="o">=</span><span class="n">phase_name</span><span class="p">,</span> <span class="n">formula</span><span class="o">=</span><span class="n">formula</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">param_dict</span><span class="p">,</span> <span class="n">module_type</span><span class="o">=</span><span class="s1">&#39;calib&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line">generates code suitable for model parameter calibration.</div>
+<div class="line">model_type is “fast” or “calib”</div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_type</span> <span class="o">=</span> <span class="s2">&quot;fast&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">param_dict</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_berman_std_state_database</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">phase_name</span> <span class="o">=</span> <span class="n">param_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;Phase&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+<span class="n">formula</span> <span class="o">=</span> <span class="n">param_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;Formula&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_code_module</span><span class="p">(</span><span class="n">phase</span><span class="o">=</span><span class="n">phase_name</span><span class="p">,</span> <span class="n">formula</span><span class="o">=</span><span class="n">formula</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">param_dict</span><span class="p">,</span> <span class="n">module_type</span><span class="o">=</span><span class="n">model_type</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Creating (once only) generic fast model code file string
+Creating (once only) generic model fast code template include file string
+Creating (once only) generic model fast code template code file string
+Creating include file ...
+... done!
+Creating code file ...
+... done
+Writing include file to working directory ...
+Writing code file to working directory ...
+Writing pyxbld file to working directory ...
+writing pyx file to working directory ...
+Compiling code and Python bindings ...
+Success! Import the module named  berman
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">param_dict</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_berman_std_state_database</span><span class="p">(</span><span class="mi">56</span><span class="p">)</span>
+<span class="n">phase_name</span> <span class="o">=</span> <span class="n">param_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;Phase&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+<span class="n">formula</span> <span class="o">=</span> <span class="n">param_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;Formula&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_code_module</span><span class="p">(</span><span class="n">phase</span><span class="o">=</span><span class="n">phase_name</span><span class="p">,</span> <span class="n">formula</span><span class="o">=</span><span class="n">formula</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">param_dict</span><span class="p">,</span> <span class="n">module_type</span><span class="o">=</span><span class="n">model_type</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Creating include file ...
+... done!
+Creating code file ...
+... done
+Writing include file to working directory ...
+Writing code file to working directory ...
+Writing pyxbld file to working directory ...
+writing pyx file to working directory ...
+Compiling code and Python bindings ...
+Success! Import the module named  berman
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">param_dict</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_berman_std_state_database</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">phase_name</span> <span class="o">=</span> <span class="n">param_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;Phase&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+<span class="n">formula</span> <span class="o">=</span> <span class="n">param_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;Formula&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_code_module</span><span class="p">(</span><span class="n">phase</span><span class="o">=</span><span class="n">phase_name</span><span class="p">,</span> <span class="n">formula</span><span class="o">=</span><span class="n">formula</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">param_dict</span><span class="p">,</span> <span class="n">module_type</span><span class="o">=</span><span class="n">model_type</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Creating include file ...
+... done!
+Creating code file ...
+... done
+Writing include file to working directory ...
+Writing code file to working directory ...
+Writing pyxbld file to working directory ...
+writing pyx file to working directory ...
+Compiling code and Python bindings ...
+Success! Import the module named  berman
+</pre></div>
+</div>
+</div>
+<div class="section" id="import-the-new-module-and-test-the-model">
+<h2>Import the new module and test the model<a class="headerlink" href="#import-the-new-module-and-test-the-model" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">berman</span>
+<span class="o">%</span><span class="k">cd</span> ..
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">ghiorso</span><span class="o">/</span><span class="n">Documents</span><span class="o">/</span><span class="n">ARCHIVE_XCODE</span><span class="o">/</span><span class="n">ThermoEngine</span><span class="o">/</span><span class="n">Notebooks</span><span class="o">/</span><span class="n">Codegen</span>
+</pre></div>
+</div>
+<p>Evaluate functions at temperature (K) and pressure (bars)</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="mf">1000.0</span>
+<span class="n">p</span> <span class="o">=</span> <span class="mf">10000.0</span>
+</pre></div>
+</div>
+<div class="section" id="available-in-both-fast-and-calib-code-versions">
+<h3>Available in both “Fast” and “Calib” code versions<a class="headerlink" href="#available-in-both-fast-and-calib-code-versions" title="Permalink to this headline">¶</a></h3>
+<p>Execute the “fast” or “calibration” code metadata retrieval functions:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_identifier</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_name</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_formula</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_mw</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_elements</span><span class="p">())</span>
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_identifier</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_name</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_formula</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_mw</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_elements</span><span class="p">())</span>
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Thu</span> <span class="n">Sep</span> <span class="mi">20</span> <span class="mi">12</span><span class="p">:</span><span class="mi">23</span><span class="p">:</span><span class="mi">41</span> <span class="mi">2018</span>
+<span class="n">Potassium_Feldspar</span>
+<span class="n">KAlSi3O8</span>
+<span class="mf">278.33524</span>
+<span class="p">[</span><span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">8.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">1.</span> <span class="mf">3.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">1.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span>
+ <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span>
+ <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span>
+ <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span>
+ <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Execute the standard thermodynamic property retrieval functions:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0:&lt;10.10s}</span><span class="s2"> </span><span class="si">{1:13.6e}</span><span class="s2"> </span><span class="si">{2:&lt;10.10s}</span><span class="s2">&quot;</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_g</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dGdT&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_dgdt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dGdP&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_dgdp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/bar-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdP2&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_d2gdt2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K^2-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdTdP&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_d2gdtdp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-bar-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdP2&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_d2gdp2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/bar^2-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdT3&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_d3gdt3</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K^3-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdT2dP&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_d3gdt2dp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K^2-bar-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdTdP2&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_d3gdtdp2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-bar^2-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdP3&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_d3gdp3</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/bar^3-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_s</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;V&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_v</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/bar-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Cv&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_cv</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Cp&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_cp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dCpdT&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_dcpdt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K^2-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_alpha</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;1/K&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_beta</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;1/bar&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;K&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_K</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;bar&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Kp&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_Kp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;&#39;</span><span class="p">))</span>
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_g</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dGdT&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_dgdt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dGdP&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_dgdp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/bar-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdP2&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_d2gdt2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K^2-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdTdP&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_d2gdtdp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-bar-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdP2&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_d2gdp2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/bar^2-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdT3&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_d3gdt3</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K^3-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdT2dP&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_d3gdt2dp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K^2-bar-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdTdP2&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_d3gdtdp2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-bar^2-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdP3&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_d3gdp3</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/bar^3-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_s</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;V&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_v</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/bar-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Cv&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_cv</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Cp&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_cp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dCpdT&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_dcpdt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K^2-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_alpha</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;1/K&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_beta</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;1/bar&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;K&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_K</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;bar&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Kp&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_Kp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;&#39;</span><span class="p">))</span>
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">G</span>          <span class="o">-</span><span class="mf">4.207188e+06</span> <span class="n">J</span><span class="o">/</span><span class="n">m</span>
+<span class="n">dGdT</span>       <span class="o">-</span><span class="mf">5.440218e+02</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">-</span><span class="n">m</span>
+<span class="n">dGdP</span>        <span class="mf">1.083742e+01</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">-</span><span class="n">m</span>
+<span class="n">d2GdP2</span>     <span class="o">-</span><span class="mf">3.203108e-01</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="n">m</span>
+<span class="n">d2GdTdP</span>     <span class="mf">2.759511e-04</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">-</span><span class="n">bar</span><span class="o">-</span><span class="n">m</span>
+<span class="n">d2GdP2</span>     <span class="o">-</span><span class="mf">1.961311e-05</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="n">m</span>
+<span class="n">d3GdT3</span>      <span class="mf">2.898693e-04</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">^</span><span class="mi">3</span><span class="o">-</span><span class="n">m</span>
+<span class="n">d3GdT2dP</span>    <span class="mf">7.416367e-08</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="n">bar</span><span class="o">-</span>
+<span class="n">d3GdTdP2</span>    <span class="mf">0.000000e+00</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">-</span><span class="n">bar</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span>
+<span class="n">d3GdP3</span>      <span class="mf">0.000000e+00</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">^</span><span class="mi">3</span><span class="o">-</span><span class="n">m</span>
+<span class="n">S</span>           <span class="mf">5.440218e+02</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">-</span><span class="n">m</span>
+<span class="n">V</span>           <span class="mf">1.083742e+01</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">-</span><span class="n">m</span>
+<span class="n">Cv</span>          <span class="mf">3.164283e+02</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">-</span><span class="n">m</span>
+<span class="n">Cp</span>          <span class="mf">3.203108e+02</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">-</span><span class="n">m</span>
+<span class="n">dCpdT</span>       <span class="mf">3.044151e-02</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="n">m</span>
+<span class="n">alpha</span>       <span class="mf">2.546279e-05</span> <span class="mi">1</span><span class="o">/</span><span class="n">K</span>
+<span class="n">beta</span>        <span class="mf">1.809758e-06</span> <span class="mi">1</span><span class="o">/</span><span class="n">bar</span>
+<span class="n">K</span>           <span class="mf">5.525601e+05</span> <span class="n">bar</span>
+<span class="n">Kp</span>         <span class="o">-</span><span class="mf">1.000000e+00</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="available-only-in-the-calib-versions-of-generated-code">
+<h3>Available only in the “Calib” versions of generated code<a class="headerlink" href="#available-only-in-the-calib-versions-of-generated-code" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">Execute the parameter value/metadata functions.</div>
+<div class="line">These functions are only defined for the “calibration” model code
+implementation:</div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">np</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_get_param_number</span><span class="p">()</span>
+    <span class="n">names</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_get_param_names</span><span class="p">()</span>
+    <span class="n">units</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_get_param_units</span><span class="p">()</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_get_param_values</span><span class="p">()</span>
+    <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0:&lt;10.10s}</span><span class="s2"> </span><span class="si">{1:13.6e}</span><span class="s2"> </span><span class="si">{2:13.6e}</span><span class="s2"> </span><span class="si">{3:&lt;10.10s}</span><span class="s2">&quot;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">np</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_get_param_value</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">units</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>Test the functions that allow modification of the array of parameter
+values</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">100.0</span>
+    <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_set_param_values</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+    <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0:&lt;10.10s}</span><span class="s2"> </span><span class="si">{1:13.6e}</span><span class="s2"> </span><span class="si">{2:13.6e}</span><span class="s2"> </span><span class="si">{3:&lt;10.10s}</span><span class="s2">&quot;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">np</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_get_param_value</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">units</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+<span class="k">except</span> <span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">NameError</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>Test the functions that allow modification of a particular parameter
+value</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_set_param_value</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0:&lt;10.10s}</span><span class="s2"> </span><span class="si">{1:13.6e}</span><span class="s2"> </span><span class="si">{2:13.6e}</span><span class="s2"> </span><span class="si">{3:&lt;10.10s}</span><span class="s2">&quot;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">np</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_get_param_value</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">units</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>Evaluate parameter derivatives …</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;    </span><span class="si">{0:&lt;10.10s}</span><span class="s2"> </span><span class="si">{1:13.6e}</span><span class="s2">&quot;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="p">):</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Derivative with respect to parameter: &#39;</span><span class="p">,</span> <span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="s1">&#39; of&#39;</span><span class="p">)</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_dparam_g</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dGdT&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_dparam_dgdt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dGdP&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_dparam_dgdp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdT2&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_dparam_d2gdt2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdTdP&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_dparam_d2gdtdp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdP2&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_dparam_d2gdp2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdT3&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_dparam_d3gdt3</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdT2dP&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_dparam_d3gdt2dp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdTdP2&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_dparam_d3gdtdp2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdP3&#39;</span><span class="p">,</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_dparam_d3gdp3</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span>
+<span class="k">except</span> <span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="test-the-generated-code-against-the-standard-berman-code-base">
+<h2>Test the generated code against the standard Berman code base<a class="headerlink" href="#test-the-generated-code-against-the-standard-berman-code-base" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">thermoengine</span> <span class="kn">import</span> <span class="n">model</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bermanDB</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">Database</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">abbrv</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<span class="k">for</span> <span class="n">full_name</span><span class="p">,</span> <span class="n">abbrv</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">bermanDB</span><span class="o">.</span><span class="n">phase_info</span><span class="o">.</span><span class="n">phase_name</span><span class="p">,</span><span class="n">bermanDB</span><span class="o">.</span><span class="n">phase_info</span><span class="o">.</span><span class="n">abbrev</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">phase_name</span> <span class="o">==</span> <span class="n">full_name</span><span class="p">:</span>
+        <span class="k">break</span>
+<span class="n">refModel</span> <span class="o">=</span> <span class="n">bermanDB</span><span class="o">.</span><span class="n">get_phase</span><span class="p">(</span><span class="n">abbrv</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0:&lt;10.10s}</span><span class="s2"> </span><span class="si">{1:13.6e}</span><span class="s2"> </span><span class="si">{2:13.6e}</span><span class="s2"> </span><span class="si">{3:13.6e}</span><span class="s2"> </span><span class="si">{4:6.2f}</span><span class="s2">%&quot;</span>
+<span class="n">fmts</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0:&lt;10.10s}</span><span class="s2"> </span><span class="si">{1:13.6e}</span><span class="s2">&quot;</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_g</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">gibbs_energy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_dgdt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="n">refModel</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dGdT&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_dgdp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dGdP&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_d2gdt2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdT2&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_d2gdtdp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdTdP&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_d2gdp2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdP2&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_d3gdt3</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdT3&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_d3gdt2dp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdT2dP&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_d3gdtdp2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdTdP2&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_d3gdp3</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdP3&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_s</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_v</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;V&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_cv</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Cv&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_cp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">heat_capacity</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Cp&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_dcpdt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dCpdT&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_alpha</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_beta</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_K</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;K&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_Kp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Kp&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_g</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">gibbs_energy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_dgdt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="n">refModel</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dGdT&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_dgdp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dGdP&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_d2gdt2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdT2&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_d2gdtdp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdTdP&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_d2gdp2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdP2&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_d3gdt3</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdT3&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_d3gdt2dp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdT2dP&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_d3gdtdp2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdTdP2&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_d3gdp3</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdP3&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_s</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_v</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;V&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_cv</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Cv&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_cp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">heat_capacity</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Cp&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_dcpdt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dCpdT&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_alpha</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_beta</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_K</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;K&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">berman</span><span class="o">.</span><span class="n">cy_Potassium_Feldspar_berman_calib_Kp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Kp&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">G</span>          <span class="o">-</span><span class="mf">4.207188e+06</span> <span class="o">-</span><span class="mf">4.207218e+06</span>  <span class="mf">3.024521e+01</span>   <span class="mf">0.00</span><span class="o">%</span>
+<span class="n">dGdT</span>       <span class="o">-</span><span class="mf">5.440218e+02</span> <span class="o">-</span><span class="mf">5.440935e+02</span>  <span class="mf">7.166392e-02</span>   <span class="mf">0.01</span><span class="o">%</span>
+<span class="n">dGdP</span>        <span class="mf">1.083742e+01</span>  <span class="mf">1.083799e+01</span> <span class="o">-</span><span class="mf">5.670119e-04</span>   <span class="mf">0.01</span><span class="o">%</span>
+<span class="n">d2GdT2</span>     <span class="o">-</span><span class="mf">3.203108e-01</span>
+<span class="n">d2GdTdP</span>     <span class="mf">2.759511e-04</span>
+<span class="n">d2GdP2</span>     <span class="o">-</span><span class="mf">1.961311e-05</span>
+<span class="n">d3GdT3</span>      <span class="mf">2.898693e-04</span>
+<span class="n">d3GdT2dP</span>    <span class="mf">7.416367e-08</span>
+<span class="n">d3GdTdP2</span>    <span class="mf">0.000000e+00</span>
+<span class="n">d3GdP3</span>      <span class="mf">0.000000e+00</span>
+<span class="n">S</span>           <span class="mf">5.440218e+02</span>  <span class="mf">5.440935e+02</span> <span class="o">-</span><span class="mf">7.166392e-02</span>   <span class="mf">0.01</span><span class="o">%</span>
+<span class="n">V</span>           <span class="mf">1.083742e+01</span>  <span class="mf">1.083799e+01</span> <span class="o">-</span><span class="mf">5.670119e-04</span>   <span class="mf">0.01</span><span class="o">%</span>
+<span class="n">Cv</span>          <span class="mf">3.164283e+02</span>
+<span class="n">Cp</span>          <span class="mf">3.203108e+02</span>  <span class="mf">3.203555e+02</span> <span class="o">-</span><span class="mf">4.466899e-02</span>   <span class="mf">0.01</span><span class="o">%</span>
+<span class="n">dCpdT</span>       <span class="mf">3.044151e-02</span>
+<span class="n">alpha</span>       <span class="mf">2.546279e-05</span>
+<span class="n">beta</span>        <span class="mf">1.809758e-06</span>
+<span class="n">K</span>           <span class="mf">5.525601e+05</span>
+<span class="n">Kp</span>         <span class="o">-</span><span class="mf">1.000000e+00</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="time-execution-of-the-code">
+<h2>Time execution of the code<a class="headerlink" href="#time-execution-of-the-code" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="o">%</span><span class="k">timeit</span>(berman.cy_Potassium_Feldspar_berman_calib_g(t,p))
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="o">%</span><span class="k">timeit</span>(berman.cy_Potassium_Feldspar_berman_g(t,p))
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>152 ns ± 0.724 ns per loop (mean ± std. dev. of 7 runs, 10000000 loops each)
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">timeit</span>(refModel.gibbs_energy(t,p))
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>79.9 µs ± 310 ns per loop (mean ± std. dev. of 7 runs, 10000 loops each)
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2020, ENKI.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.4.0.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

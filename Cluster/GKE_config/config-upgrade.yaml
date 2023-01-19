@@ -1,0 +1,69 @@
+proxy:
+  secretToken: "782f65ff317054c3ca9e7942294b57fa79f61d99de85c63186acb4e83c2d03a1"
+
+singleuser:
+  image:
+    name: registry.gitlab.com/enki-portal/thermoengine
+    tag: master
+    pullPolicy: Always
+  defaultUrl: "/lab"
+  lifecycleHooks:
+    postStart:
+      exec:
+        command: 
+          - "sh"
+          - "-c"
+          - >
+            gitpuller https://gitlab.com/enki-portal/ThermoEngine master ThermoEngine;
+            gitpuller https://gitlab.com/ENKI-portal/enki_workshops.git master ENKI_Workshops
+
+hub:
+  extraConfig:
+    10-second-config: |
+      from oauthenticator.gitlab import GitLabOAuthenticator
+      c.JupyterHub.authenticator_class = GitLabOAuthenticator
+      c.GitLabOAuthenticator.scope = ['read_user']
+      c.GitLabOAuthenticator.oauth_callback_url = 'https://server.enki-portal.org/hub/oauth_callback'
+      c.GitLabOAuthenticator.client_id = '5d56beb18d6d6c85b6fe1bb7b2023a15f72e77f1fedd0de625c03c5f59401e7d'
+      c.GitLabOAuthenticator.client_secret = '4fa498951acb705bbc4d8f7c4b695e88f1ffa662084b85c75fe7778e24098a2b'
+    20-templates: |
+      c.JupyterHub.template_paths = ['/etc/custom/jupyterhub_custom/templates']
+  extraEnv:
+    GITLAB_URL: https://gitlab.com
+  initContainers:
+    - name: git-clone-templates
+      image: alpine/git
+      args:
+        - clone
+        - --single-branch
+        - --branch=master
+        - --depth=1
+        - --
+        - https://gitlab.com/ENKI-portal/jupyterhub_custom.git
+        - /etc/custom/jupyterhub_custom
+      securityContext:
+        runAsUser: 0
+      volumeMounts:
+        - name: custom-templates
+          mountPath: /etc/custom/jupyterhub_custom
+  extraVolumes:
+    - name: custom-templates
+      emptyDir: {}
+  extraVolumeMounts:
+    - name: custom-templates
+      mountPath: /etc/custom/jupyterhub_custom
+
+auth:
+#  type: gitlab
+#  gitlab:
+#    clientId: "5d56beb18d6d6c85b6fe1bb7b2023a15f72e77f1fedd0de625c03c5f59401e7d"
+#    clientSecret: "4fa498951acb705bbc4d8f7c4b695e88f1ffa662084b85c75fe7778e24098a2b"
+#    callbackUrl: "http://server.enki-portal.org/hub/oauth_callback"
+#    gitlabGroupWhiteList:
+#      - enki-portal
+  admin:
+    access: true
+    users:
+      - ghiorso
+
+# c.GitLabOAuthenticator.gitlab_group_whitelist = ['enki-portal']

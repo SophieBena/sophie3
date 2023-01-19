@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Equilibrate Class &mdash; Thermoengine 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="None"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" >
+    <link rel="search" title="Search" href="search.html" >
+    <link rel="top" title="Thermoengine 1.0.1 documentation" href="index.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="index.html">
+      <img style="border: 0;" alt="ENKI" src="_static/img/ENKI_header.png"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="http://enki-portal.org">ENKI Web</a></li>
+        <li class="active"><a href="https://enki.ofm-research.org">ENKI Server</a></li>
+	
+        <li class="active"><a href="index.html">Thermoengine 1.0.1 documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/Enki.png" alt="Logo">
+            </a></p>
+        </div>
+      </div>
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="equilibrate-class">
+<h1>Equilibrate Class<a class="headerlink" href="#equilibrate-class" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="class-inheritance">
+<h2>Class Inheritance<a class="headerlink" href="#class-inheritance" title="Permalink to this headline">¶</a></h2>
+<p>NSObject ▶️ Equilibrate</p>
+</div>
+<div class="section" id="protocols-implemented">
+<h2>Protocols Implemented<a class="headerlink" href="#protocols-implemented" title="Permalink to this headline">¶</a></h2>
+<p>None</p>
+</div>
+<div class="section" id="properties">
+<h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSArray</span> <span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">systemOxides</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSArray</span> <span class="o">&lt;</span><span class="n">PhaseBase</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">bulkComposition</span>  
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSArray</span> <span class="o">&lt;</span><span class="n">NSNumber</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">elementsKnownToSystem</span> 
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSDictionary</span> <span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*</span><span class="p">,</span> <span class="n">PhaseBase</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">dictionaryOfPhasesInSystem</span>  
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">debugV</span> 
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">debugS</span>  
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">PPOPTIONS_DISTRIBUTION</span> 
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">PPOPTIONS_CHEM_POTENTIAL</span>  
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">PPOPTIONS_RANK</span>  
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">PPOPTIONS_ZERO_LINEAR</span>  
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">PPOPTIONS_QUAD_ITERS</span>  
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">PPOPTIONS_FORCE_COMPONENTS</span>  
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">PPOPTIONS_DETECT_MINIMAL</span>  
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">PPPARAMETERS_CHEM_POTENTIAL</span>  
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">PPPARAMETERS_RANK</span>  
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">PPPARAMETERS_QUAD_OPTIMAL</span>  
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">PPPARAMETERS_QUAD_SUBOPTIMAL</span>  
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">PPPARAMETERS_QUAD_MAX_ITERS</span>  
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">PPPARAMETERS_LINEAR_MAX_ITERS</span>  
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">PPPARAMETERS_LINEAR_RELTEST</span>  
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">PPPARAMETERS_LINEAR_MIN_STEPLENGTH</span>  
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">PPPARAMETERS_COMPONENT_MINIMUM</span>  
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">PPPARAMETERS_MASSOUT</span>  
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">PPPARAMETERS_MOLESIN</span>  
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">PPPARAMETERS_LINEAR_MINIMAL</span>  
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">PPPARAMETERS_CYCLES_MAX</span>  
+</pre></div>
+</div>
+</div>
+<div class="section" id="class-methods">
+<h2>Class Methods<a class="headerlink" href="#class-methods" title="Permalink to this headline">¶</a></h2>
+<p>None</p>
+</div>
+<div class="section" id="instance-methods">
+<h2>Instance Methods<a class="headerlink" href="#instance-methods" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">NSMutableArray</span> <span class="o">*</span><span class="p">)</span> <span class="n">oxideNames</span>
+</pre></div>
+</div>
+<p>🔹 Provides an array of NSString objects that correspond to the names of phases known to this class.</p>
+<p>&#64;return<br />An array of Cocoa strings</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span> <span class="n">phaseNames</span>
+</pre></div>
+</div>
+<p>🔹 Converts moles of elements into moles of oxides.</p>
+<p>&#64;param<br />e vector of length 107 containing moles of elements</p>
+<p>&#64;return<br />Double vector of length 15 containing moles of oxides</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">DoubleVector</span> <span class="o">*</span><span class="p">)</span><span class="n">molesOfOxidesFromMolesOfElements</span><span class="p">:(</span><span class="n">double</span> <span class="o">*</span><span class="p">)</span><span class="n">e</span>
+</pre></div>
+</div>
+<p>🔹 Converts moles of oxides into moles of elements.</p>
+<p>&#64;param<br />e vector of length 15 containing moles of oxides</p>
+<p>&#64;return<br />Double vector of length 107 containing moles of elements</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">DoubleVector</span> <span class="o">*</span><span class="p">)</span><span class="n">gramsOfOxidesFromMolesOfElements</span><span class="p">:(</span><span class="n">double</span> <span class="o">*</span><span class="p">)</span><span class="n">e</span>
+</pre></div>
+</div>
+<p>🔹 Provides a test on the feasibility of an input composition.</p>
+<p>&#64;param<br />compositionInWtPercentOxides array of NSNumber objects containing wt% values of system oxides</p>
+<p>&#64;return<br />YES = feasible, NO = unfeasible</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">compositionIsFeasible</span><span class="p">:(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="n">compositionInWtPercentOxides</span> <span class="n">forSolution</span><span class="p">:(</span><span class="nb">id</span> <span class="o">&lt;</span><span class="n">SolutionPhaseProtocol</span><span class="o">&gt;</span><span class="p">)</span><span class="n">omniComponentPhase</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">initWithSystemOxides</span><span class="p">:(</span><span class="n">NSArray</span> <span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="n">systemOxides</span>
+      <span class="n">andDictionaryOfPhasesInSystem</span><span class="p">:(</span><span class="n">NSDictionary</span> <span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*</span><span class="p">,</span> <span class="n">PhaseBase</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="n">dictionaryOfPhasesInSystem</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">initWithInformationalDebug</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">debugS</span>
+                          <span class="n">andVerboseDebug</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">debugV</span>
+                          <span class="n">andSystemOxides</span><span class="p">:(</span><span class="n">NSArray</span> <span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="n">systemOxides</span>
+            <span class="n">andDictionaryOfPhasesInSystem</span><span class="p">:(</span><span class="n">NSDictionary</span> <span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*</span><span class="p">,</span> <span class="n">PhaseBase</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="n">dictionaryOfPhasesInSystem</span>
+</pre></div>
+</div>
+<p>🔹 Determines if a phase is supersaturated in the system realative to a liquid phase or a collection of solid phases.</p>
+<p>The most supersaturated phase is transferred from the potentialPhaseList dictionary to the phasesInSystem dictionary.</p>
+<p>&#64;return<br />A YES if supersaturation is detected. A NO if the current system is stable.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">evaluateSaturationState</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">lastPhaseRemovedFromSystem</span>
+</pre></div>
+</div>
+<p>🔹 Sets the temperature.</p>
+<p>&#64;param<br />t in K</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">void</span><span class="p">)</span><span class="n">setTemperature</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span>
+</pre></div>
+</div>
+<p>🔹 Increments the temperature (assumes a previously successful execute step).</p>
+<p>&#64;param<br />t in K</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">void</span><span class="p">)</span><span class="n">incrementTemperature</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">t</span>
+</pre></div>
+</div>
+<p>🔹 Sets the pressure.</p>
+<p>&#64;param<br />p in bars</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">void</span><span class="p">)</span><span class="n">setPressure</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span>
+</pre></div>
+</div>
+<p>🔹 Increments the pressure (assumes a previously successful execute step).</p>
+<p>&#64;param<br />p in bars</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">void</span><span class="p">)</span><span class="n">incrementPressure</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">p</span>
+</pre></div>
+</div>
+<p>🔹 Sets the entropy.</p>
+<p>&#64;param<br />s in J/K</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">void</span><span class="p">)</span><span class="n">setEntropy</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">s</span>
+</pre></div>
+</div>
+<p>🔹 Increments the entropy (assumes a previously successful execute step).</p>
+<p>&#64;param<br />s in J/K</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">void</span><span class="p">)</span><span class="n">incrementEntropy</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">s</span>
+</pre></div>
+</div>
+<p>🔹 Sets the volume.</p>
+<p>&#64;param<br />v in J/bar</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">void</span><span class="p">)</span><span class="n">setVolume</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">v</span>
+</pre></div>
+</div>
+<p>🔹 Increments the volume (assumes a previously successful execute step).</p>
+<p>&#64;param<br />v in J/bar</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">void</span><span class="p">)</span><span class="n">incrementVolume</span><span class="p">:(</span><span class="n">double</span><span class="p">)</span><span class="n">v</span>
+</pre></div>
+</div>
+<p>🔹 Sets the bulk composition of the system.</p>
+<p>Wipes the system clean of all phases and allocates an instance of a liquid phase (which may be metastable).</p>
+<p>&#64;param<br />wtOxides NSArray of length 15 containing objects of class NSNumber. Each object holds a doubleValue of grams of an oxide.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">void</span><span class="p">)</span><span class="n">setComposition</span><span class="p">:(</span><span class="n">double</span> <span class="o">*</span><span class="p">)</span><span class="n">wtOxides</span>
+</pre></div>
+</div>
+<p>🔹 Sets the permissable phase state.</p>
+<p>Turns on or off entries in the permissablePhasesState array that determine inclusion of phases in the system.</p>
+<p>&#64;param<br />arrayOfStateValues NSArray of containing objects of class NSNumber.  Each object holds a BOOL value. The order is the same as returned by the method phaseNames.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">void</span><span class="p">)</span><span class="n">setPermissablePhasesState</span><span class="p">:(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="n">arrayOfStateValues</span>
+</pre></div>
+</div>
+<p>🔹 Set the options for the Phase equilibration.</p>
+<p>&#64;param<br />dictionaryOfCalculationOptions NSDictionary containing options corresponding to known keys:</p>
+<ul class="simple">
+<li><p>value of the key &#64;”ordinate” is either &#64;”Temperature”, &#64;”Enthalpy”, or &#64;”Entropy”</p></li>
+<li><p>value of the key &#64;”abscissa” is either &#64;”Pressure” or &#64;”Volume”</p></li>
+<li><p>value of the key &#64;”buffer” is either &#64;”HM”, &#64;”IW”, &#64;”NNO”, or &#64;”QFM”</p></li>
+<li><p>value of the key &#64;”imposeBuffer” is either the boolean YES or NO contained in an NSNumber object</p></li>
+<li><p>value of the key &#64;”bufferOffset” is a double contained in an NSNumber object</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">void</span><span class="p">)</span><span class="n">setCalculationOptions</span><span class="p">:(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="n">dictionaryOfCalculationOptions</span>
+</pre></div>
+</div>
+<p>🔹 Executes an equilibration calculation.</p>
+<p>&#64;return<br />An NSDictionary of status and output items:<br />- status key:  A flag indicating success or failure of the calculation<br />- results key: A EquilibrateState object</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="n">execute</span>
+</pre></div>
+</div>
+<p>🔹 Computes chemical potentials of elements from current system phase assemblage.</p>
+<p>The solution will be unique if the system is in equilibrium and the norm of the residuals will be zero.<br />A non-zero residual norm indicates a disequilibrium state.</p>
+<p>&#64;param<br />elementMu of moles of elements on length 107. Solution is returned in this vector</p>
+<p>&#64;return<br />Residual norm.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">double</span><span class="p">)</span><span class="n">chemicalPotentialsOfElements</span><span class="p">:(</span><span class="n">double</span> <span class="o">*</span><span class="p">)</span><span class="n">elementMu</span>
+</pre></div>
+</div>
+<p>🔹</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">equilibrateResultsAsXML</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2020, ENKI.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.4.0.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,325 @@
+stages:
+  - build
+  - test-pkg
+  - test-production
+#  - report
+  - release
+  - deploy
+
+build-runtime-container:
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  stage: build
+  variables:
+    CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:runtime
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - >
+      /kaniko/executor
+      --cleanup
+      --context $CI_PROJECT_DIR
+      --dockerfile $CI_PROJECT_DIR/Cluster/Knative/Dockerfile
+      --destination $CONTAINER_TEST_IMAGE
+      --snapshotMode=redo
+
+  environment:
+    name: knative
+  only:
+    - master
+    - develop
+    - merge
+    - merge_requests
+#  when: manual
+#  tags:
+#    - kubernetes
+
+build-notebook-container:
+  image: 
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  stage: build
+  variables:
+    CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:staging
+  script:
+    - echo "TEST!!!! CI_REPOSITORY_URL"
+    - echo ${CI_REPOSITORY_URL}
+    - echo "----------"
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - >
+      /kaniko/executor 
+      --cleanup 
+      --context $CI_PROJECT_DIR 
+      --dockerfile $CI_PROJECT_DIR/Cluster/Dockerfile 
+      --destination $CONTAINER_TEST_IMAGE 
+      --snapshotMode=redo
+
+  environment:
+    name: staging
+  only:
+    - master
+    - develop
+    - merge
+    - merge_requests
+#  when: manual
+#  tags:
+#    - kubernetes
+
+#
+# Inconsistent with revised run-all-tests stage. Rework before using.
+#
+.debug-all-tests:
+  image: docker:19.03.1
+  services:
+    - docker:19.03.1-dind
+  stage: test-production
+  variables:
+    # Use TLS https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#tls-enabled
+    DOCKER_HOST: tcp://docker:2376
+    DOCKER_TLS_CERTDIR: "/certs"
+    CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:staging
+  before_script:
+    - apk update
+    - apk add bash
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    - docker pull $CONTAINER_TEST_IMAGE
+    - 'export SHARED_PATH="$(dirname ${CI_PROJECT_DIR})/shared"'
+    - echo ${SHARED_PATH}
+    - mkdir -p ${SHARED_PATH}
+    - bash ./Cluster/debug-all-tests.sh $CONTAINER_TEST_IMAGE "${SHARED_PATH}:/mnt" $COVERALLS_REPO_TOKEN
+    - echo "--- complete test runner script ---"
+    - cd ${SHARED_PATH}
+    - ls -al
+    - mv htmlcov-devtests ${CI_PROJECT_DIR}/.
+    - mv htmlcov-nbtests ${CI_PROJECT_DIR}/.
+    - mv htmlcov ${CI_PROJECT_DIR}/.
+    - cd ${CI_PROJECT_DIR}
+    - ls -al
+  artifacts:
+    paths:
+      - htmlcov-devtests/
+      - htmlcov-nbtests/
+      - htmlcov/
+  environment:
+    name: staging
+  only:
+    - master
+    - develop
+    - merge
+    - merge_requests
+#  when: manual
+
+direct-tests:
+  image: $CI_REGISTRY_IMAGE:staging
+  stage: test-pkg
+  script:
+    - echo "Inside direct-tests"
+    - pwd
+    - ls
+    - pip install nbval pytest-cov wurlitzer coveralls
+
+    - echo "==== run devtests ===="
+    - export PROJECT_DIR=$(pwd)
+    - cd $PROJECT_DIR/thermoengine/thermoengine/test
+    - mkdir -p htmlcov
+    - pytest --cov=thermoengine --cov-append --cov-report= .
+    - echo "===== find .coverage files and save them ====="
+    - ls -al
+
+    - coverage html
+    - mv htmlcov $PROJECT_DIR/htmlcov-devtests
+    - mv .coverage $PROJECT_DIR/.coverage.devtests
+
+    - echo "==== run nbtests ===="
+    - cd $PROJECT_DIR/Notebooks
+    - mkdir -p htmlcov
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Pure-Phases/Compare-Phases.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Pure-Phases/Forsterite-Stixrude.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Pure-Phases/Phase-Diagram.ipynb
+    # Avoids strange stderr error, unknown cause, but Reaction code to be deprecated anyway 
+    - (pytest --cov=thermoengine --cov-append --cov-report= --nbval Pure-Phases/Plot-Reaction.ipynb || true)
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Pure-Phases/Quartz-Berman.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Pure-Phases/Water.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Pure-Phases/Water+For-EH.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Solutions/Feldspar-ss-Berman.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Equilibrate/1-G-Equilibrate.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Equilibrate/2-KandC-O2-Equilibrate.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Equilibrate/3-K-H2O-Equilibrate.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Equilibrate/4-H-Equilibrate.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Equilibrate/5-A-Equilibrate.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Equilibrate/6-E-Equilibrate.ipynb
+    - (pytest --cov=thermoengine --cov-append --cov-report= --nbval Equilibrate/7a-K-Quartz-Equilibrate.ipynb || true)
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Equilibrate/7b-K-Cor-Equilibrate.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Equilibrate/8-K-Qtz-Cor-Equilibrate.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Equilibrate/9-K-Qtz-Fld-Equilibrate.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Equilibrate/9-Olivine-loop.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval MELTS-pMELTS/MELTS-v1.0.2-equilibrium.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval MELTS-pMELTS/MELTS-v1.0.2-fractionation.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval MELTS-pMELTS/MELTS-v1.1.0-equilibrium.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval MELTS-pMELTS/MELTS-v1.2.0-equilibrium.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval MELTS-pMELTS/pMELTS-v5.6.1-melting.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval MELTS-pMELTS/pMELTS-v5.6.1-adiabatic.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Codegen/Example-1-Berman-std-state.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Codegen/Example-3-HKF.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Codegen/Example-4-Stixrude-Debye.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Codegen/Example-7-Simple-Solution.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Codegen/Example-9-Complex-Solution.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Codegen/Example-10-gas-Speciation-Solution.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Codegen/Example-12-SWIM.ipynb
+    - (pytest --cov=thermoengine --cov-append --cov-report= --nbval Codegen/Example-13-Sulfide_liquid.ipynb  || true)
+    - echo "===== find .coverage files and save them ====="
+    - ls -al
+    - coverage html
+    - mv htmlcov $PROJECT_DIR/htmlcov-nbtests
+    - mv .coverage $PROJECT_DIR/.coverage.nbtests
+    - echo "==== combine coverage reports ===="
+    - cd $PROJECT_DIR
+    - mkdir -p htmlcov
+    - ls -al
+    - ls -al htmlcov-nbtests
+    - ls -al htmlcov-devtests
+    - coverage combine
+    - ls -al htmlcov
+    - coverage html
+    - ls -al htmlcov
+    # COVERALLS_REPO_TOKEN must be set in Settings->CI/CD->Variables and should be masked but not protected
+    - >
+      if [[ -z "${COVERALLS_REPO_TOKEN}" ]]; then 
+        echo "COVERALLS_REPO_TOKEN not set. No coverage upload to coveralls site."
+      else
+        coveralls 
+      fi
+
+    # - mv htmlcov-nbtests /mnt
+    # - mv htmlcov-devtests /mnt
+    # - mv htmlcov /mnt
+    # - ls -al /mnt
+
+
+run-all-tests:
+  image: $CI_REGISTRY_IMAGE:staging
+  stage: test-production
+  script:
+    - pip install nbval pytest-cov wurlitzer coveralls
+    - echo "==== run devtests ===="
+    - export PROJECT_DIR=$(pwd)
+    - cd $PROJECT_DIR/thermoengine/thermoengine/test
+    - mkdir -p htmlcov
+    - pytest --cov=thermoengine --cov-append --cov-report= .
+    - echo "===== find .coverage files and save them ====="
+    - ls -al
+    - coverage html
+    - mv htmlcov $PROJECT_DIR/htmlcov-devtests
+    - mv .coverage $PROJECT_DIR/.coverage.devtests
+    - echo "==== run nbtests ===="
+    - cd $PROJECT_DIR/Notebooks
+    - mkdir -p htmlcov
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Pure-Phases/Compare-Phases.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Pure-Phases/Forsterite-Stixrude.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Pure-Phases/Phase-Diagram.ipynb
+    # Avoids strange stderr error, unknown cause, but Reaction code to be deprecated anyway 
+    - (pytest --cov=thermoengine --cov-append --cov-report= --nbval Pure-Phases/Plot-Reaction.ipynb || true)
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Pure-Phases/Quartz-Berman.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Pure-Phases/Water.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Pure-Phases/Water+For-EH.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Solutions/Feldspar-ss-Berman.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Equilibrate/1-G-Equilibrate.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Equilibrate/2-KandC-O2-Equilibrate.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Equilibrate/3-K-H2O-Equilibrate.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Equilibrate/4-H-Equilibrate.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Equilibrate/5-A-Equilibrate.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Equilibrate/6-E-Equilibrate.ipynb
+    - (pytest --cov=thermoengine --cov-append --cov-report= --nbval Equilibrate/7a-K-Quartz-Equilibrate.ipynb || true)
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Equilibrate/7b-K-Cor-Equilibrate.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Equilibrate/8-K-Qtz-Cor-Equilibrate.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Equilibrate/9-K-Qtz-Fld-Equilibrate.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Equilibrate/9-Olivine-loop.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval MELTS-pMELTS/MELTS-v1.0.2-equilibrium.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval MELTS-pMELTS/MELTS-v1.0.2-fractionation.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval MELTS-pMELTS/MELTS-v1.1.0-equilibrium.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval MELTS-pMELTS/MELTS-v1.2.0-equilibrium.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval MELTS-pMELTS/pMELTS-v5.6.1-melting.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval MELTS-pMELTS/pMELTS-v5.6.1-adiabatic.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Codegen/Example-1-Berman-std-state.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Codegen/Example-3-HKF.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Codegen/Example-4-Stixrude-Debye.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Codegen/Example-7-Simple-Solution.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Codegen/Example-9-Complex-Solution.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Codegen/Example-10-gas-Speciation-Solution.ipynb
+    - pytest --cov=thermoengine --cov-append --cov-report= --nbval Codegen/Example-12-SWIM.ipynb
+    - (pytest --cov=thermoengine --cov-append --cov-report= --nbval Codegen/Example-13-Sulfide_liquid.ipynb  || true)
+    - echo "===== find .coverage files and save them ====="
+    - ls -al
+    - coverage html
+    - mv htmlcov $PROJECT_DIR/htmlcov-nbtests
+    - mv .coverage $PROJECT_DIR/.coverage.nbtests
+    - echo "==== combine coverage reports ===="
+    - cd $PROJECT_DIR
+    - mkdir -p htmlcov
+    - ls -al
+    - ls -al htmlcov-nbtests
+    - ls -al htmlcov-devtests
+    - coverage combine
+    - ls -al htmlcov
+    - coverage html
+    - ls -al htmlcov
+    # COVERALLS_REPO_TOKEN must be set in Settings->CI/CD->Variables and should be masked but not protected
+    - >
+      if [[ -z "${COVERALLS_REPO_TOKEN}" ]]; then 
+        echo "COVERALLS_REPO_TOKEN not set. No coverage upload to coveralls site."
+      else
+        coveralls 
+      fi
+
+  artifacts:
+    paths:
+      - htmlcov-devtests/
+      - htmlcov-nbtests/
+      - htmlcov/
+  environment:
+    name: staging
+  only:
+    - master
+    - develop
+    - merge
+    - merge_requests
+#  when: manual
+
+release-notebook-container:
+  image: docker:19.03.1
+  services:
+    - docker:19.03.1-dind
+  stage: release
+  variables:
+    # Use TLS https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#tls-enabled
+    DOCKER_HOST: tcp://docker:2376
+    DOCKER_TLS_CERTDIR: "/certs"
+    CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:staging
+    CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:master
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker push $CONTAINER_RELEASE_IMAGE
+  environment:
+    name: production
+  when: manual
+  only:
+    - master
+    - merge
+    - merge_requests
+
+deploy-pages:
+  image: alpine
+  stage: deploy
+  script:
+    - mv Documentation/build/html/ public/
+  artifacts:
+    paths:
+      - public
+  only:
+    - Documentation

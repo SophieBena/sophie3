@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Olivine Phase Loop &mdash; Thermoengine 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="None"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" >
+    <link rel="search" title="Search" href="search.html" >
+    <link rel="top" title="Thermoengine 1.0.1 documentation" href="index.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="index.html">
+      <img style="border: 0;" alt="ENKI" src="_static/img/ENKI_header.png"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="http://enki-portal.org">ENKI Web</a></li>
+        <li class="active"><a href="https://enki.ofm-research.org">ENKI Server</a></li>
+	
+        <li class="active"><a href="index.html">Thermoengine 1.0.1 documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/Enki.png" alt="Logo">
+            </a></p>
+        </div>
+      </div>
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="olivine-phase-loop">
+<h1>Olivine Phase Loop<a class="headerlink" href="#olivine-phase-loop" title="Permalink to this headline">¶</a></h1>
+<div class="line-block">
+<div class="line">This notebook demonstrates calculation of the olivine liquid-solid
+phase loop under the assumption that both phases behave as ideal
+solutions.</div>
+<div class="line">The workflow is: - Use the <strong>coder</strong> module to generate endmember
+properties of both solutions; the only thermodynamic properties that
+are specified are the enthalpy and entropy of fusion - Use the
+<strong>coder</strong> module to generate solid and liquid solution properties -
+Import the generated code using the <strong>model</strong> module - Use the
+<strong>equilibrate</strong> module to compute the liquid-solid phase loop - Plot
+results</div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy</span> <span class="k">as</span> <span class="nn">sp</span>
+<span class="kn">import</span> <span class="nn">sympy</span> <span class="k">as</span> <span class="nn">sym</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">thermoengine</span> <span class="kn">import</span> <span class="n">model</span><span class="p">,</span> <span class="n">equilibrate</span><span class="p">,</span> <span class="n">coder</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+<div class="section" id="endmember-properties">
+<h2>Endmember properties<a class="headerlink" href="#endmember-properties" title="Permalink to this headline">¶</a></h2>
+<p>Write code into a working subdirectory</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">working_dir</span> <span class="o">=</span> <span class="s2">&quot;working&quot;</span>
+<span class="o">!</span>mkdir -p <span class="o">{</span>working_dir<span class="o">}</span>
+<span class="o">%</span><span class="k">cd</span> {working_dir}
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">ghiorso</span><span class="o">/</span><span class="n">Documents</span><span class="o">/</span><span class="n">ARCHIVE_XCODE</span><span class="o">/</span><span class="n">ThermoEngine</span><span class="o">/</span><span class="n">Notebooks</span><span class="o">/</span><span class="n">Equilibrate</span><span class="o">/</span><span class="n">working</span>
+</pre></div>
+</div>
+<p>Model generation function</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">make_endmembers</span><span class="p">(</span><span class="n">module</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">formula</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">Hrefvalue</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">Srefvalue</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+    <span class="n">mdl</span> <span class="o">=</span> <span class="n">coder</span><span class="o">.</span><span class="n">StdStateModel</span><span class="p">()</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">mdl</span><span class="o">.</span><span class="n">get_symbol_for_t</span><span class="p">()</span>
+    <span class="n">GPr</span><span class="p">,</span><span class="n">Href</span><span class="p">,</span><span class="n">Sref</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;GPr Href Sref&#39;</span><span class="p">)</span>
+    <span class="n">GPr</span> <span class="o">=</span> <span class="n">Href</span> <span class="o">-</span> <span class="n">T</span><span class="o">*</span><span class="n">Sref</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;Href&#39;</span><span class="p">,</span> <span class="s1">&#39;J&#39;</span><span class="p">,</span> <span class="n">Href</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Sref&#39;</span><span class="p">,</span> <span class="s1">&#39;J/K&#39;</span><span class="p">,</span> <span class="n">Sref</span><span class="p">)]</span>
+    <span class="n">mdl</span><span class="o">.</span><span class="n">add_expression_to_model</span><span class="p">(</span><span class="n">GPr</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+    <span class="n">mdl</span><span class="o">.</span><span class="n">set_module_name</span><span class="p">(</span><span class="n">module</span><span class="p">)</span>
+    <span class="n">paramValues</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Href&#39;</span><span class="p">:</span><span class="n">Hrefvalue</span><span class="p">,</span> <span class="s1">&#39;Sref&#39;</span><span class="p">:</span><span class="n">Srefvalue</span><span class="p">,</span> <span class="s1">&#39;T_r&#39;</span><span class="p">:</span><span class="mf">298.15</span><span class="p">,</span> <span class="s1">&#39;P_r&#39;</span><span class="p">:</span><span class="mf">1.0</span><span class="p">}</span>
+    <span class="n">mdl</span><span class="o">.</span><span class="n">create_code_module</span><span class="p">(</span><span class="n">phase</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">formula</span><span class="o">=</span><span class="n">formula</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">paramValues</span><span class="p">,</span>
+                           <span class="n">module_type</span><span class="o">=</span><span class="s1">&#39;calib&#39;</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="forsterite-solid">
+<h3>Forsterite Solid<a class="headerlink" href="#forsterite-solid" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">make_endmembers</span><span class="p">(</span><span class="n">module</span><span class="o">=</span><span class="s1">&#39;OlvSolid&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Fo&#39;</span><span class="p">,</span> <span class="n">formula</span><span class="o">=</span><span class="s1">&#39;Mg(2)Si(1)O(4)&#39;</span><span class="p">,</span> <span class="n">Hrefvalue</span><span class="o">=-</span><span class="mf">100000.0</span><span class="p">,</span> <span class="n">Srefvalue</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="o">%</span><span class="k">cp</span> OlvSolid.pyx endmembersolids.pyx
+</pre></div>
+</div>
+</div>
+<div class="section" id="fayalite-solid">
+<h3>Fayalite Solid<a class="headerlink" href="#fayalite-solid" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">make_endmembers</span><span class="p">(</span><span class="n">module</span><span class="o">=</span><span class="s1">&#39;OlvSolid&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Fa&#39;</span><span class="p">,</span> <span class="n">formula</span><span class="o">=</span><span class="s1">&#39;Fe(2)Si(1)O(4)&#39;</span><span class="p">,</span> <span class="n">Hrefvalue</span><span class="o">=-</span><span class="mf">100000.0</span><span class="p">,</span> <span class="n">Srefvalue</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="o">%</span><span class="k">cat</span> OlvSolid.pyx &gt;&gt; endmembersolids.pyx
+</pre></div>
+</div>
+</div>
+<div class="section" id="forsterite-liquid">
+<h3>Forsterite Liquid<a class="headerlink" href="#forsterite-liquid" title="Permalink to this headline">¶</a></h3>
+<p>Fusion temperature is 2163 K, entropy is 57.2 J/K</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">make_endmembers</span><span class="p">(</span><span class="n">module</span><span class="o">=</span><span class="s1">&#39;OlvLiquid&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Fo&#39;</span><span class="p">,</span> <span class="n">formula</span><span class="o">=</span><span class="s1">&#39;Mg(2)Si(1)O(4)&#39;</span><span class="p">,</span> <span class="n">Hrefvalue</span><span class="o">=-</span><span class="mf">100000.0</span><span class="o">+</span><span class="mf">57.2</span><span class="o">*</span><span class="mf">2163.0</span><span class="p">,</span> <span class="n">Srefvalue</span><span class="o">=</span><span class="mf">57.2</span><span class="p">)</span>
+<span class="o">%</span><span class="k">cp</span> OlvLiquid.pyx endmemberliquids.pyx
+</pre></div>
+</div>
+</div>
+<div class="section" id="fayalite-liquid">
+<h3>Fayalite Liquid<a class="headerlink" href="#fayalite-liquid" title="Permalink to this headline">¶</a></h3>
+<p>Fusion temperature is 1490 K, entropy is 59.9 J/K</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">make_endmembers</span><span class="p">(</span><span class="n">module</span><span class="o">=</span><span class="s1">&#39;OlvLiquid&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Fa&#39;</span><span class="p">,</span> <span class="n">formula</span><span class="o">=</span><span class="s1">&#39;Fe(2)Si(1)O(4)&#39;</span><span class="p">,</span> <span class="n">Hrefvalue</span><span class="o">=-</span><span class="mf">100000.0</span><span class="o">+</span><span class="mf">59.9</span><span class="o">*</span><span class="mf">1490.0</span><span class="p">,</span> <span class="n">Srefvalue</span><span class="o">=</span><span class="mf">59.9</span><span class="p">)</span>
+<span class="o">%</span><span class="k">cat</span> OlvLiquid.pyx &gt;&gt; endmemberliquids.pyx
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="solution-properties">
+<h2>Solution Properties<a class="headerlink" href="#solution-properties" title="Permalink to this headline">¶</a></h2>
+<p>Model generation function</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">make_solution</span><span class="p">(</span><span class="n">module</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">endmembers</span><span class="o">=</span><span class="p">[]):</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">mdl</span> <span class="o">=</span> <span class="n">coder</span><span class="o">.</span><span class="n">SimpleSolnModel</span><span class="p">(</span><span class="n">nc</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">mdl</span><span class="o">.</span><span class="n">n</span>
+    <span class="n">nT</span> <span class="o">=</span> <span class="n">mdl</span><span class="o">.</span><span class="n">nT</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">n</span><span class="o">/</span><span class="n">nT</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">mdl</span><span class="o">.</span><span class="n">get_symbol_for_t</span><span class="p">()</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">mdl</span><span class="o">.</span><span class="n">mu</span>
+    <span class="n">G_ss</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span><span class="o">*</span><span class="n">mu</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">S_config</span><span class="p">,</span><span class="n">R</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;S_config R&#39;</span><span class="p">)</span>
+    <span class="n">S_config</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">c</span><span class="p">):</span>
+        <span class="n">S_config</span> <span class="o">+=</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">sym</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">S_config</span> <span class="o">*=</span> <span class="o">-</span><span class="n">R</span><span class="o">*</span><span class="n">nT</span>
+    <span class="n">G_config</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">simplify</span><span class="p">(</span><span class="o">-</span><span class="n">T</span><span class="o">*</span><span class="n">S_config</span><span class="p">)</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">G_ss</span> <span class="o">+</span> <span class="n">G_config</span>
+    <span class="n">mdl</span><span class="o">.</span><span class="n">add_expression_to_model</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;dummy&#39;</span><span class="p">,</span> <span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">sym</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;dummy&#39;</span><span class="p">))])</span>
+    <span class="n">mdl</span><span class="o">.</span><span class="n">module</span> <span class="o">=</span> <span class="n">module</span>
+    <span class="n">mdl</span><span class="o">.</span><span class="n">formula_string</span> <span class="o">=</span> <span class="s1">&#39;Mg[Mg]Fe[Fe]Si[Si]O4&#39;</span>
+    <span class="n">mdl</span><span class="o">.</span><span class="n">conversion_string</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;[0]=[Mg]&#39;</span><span class="p">,</span> <span class="s1">&#39;[1]=[Fe]&#39;</span><span class="p">]</span>
+    <span class="n">mdl</span><span class="o">.</span><span class="n">test_string</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;[0] &gt; 0.0&#39;</span><span class="p">,</span> <span class="s1">&#39;[1] &gt; 0.0&#39;</span><span class="p">]</span>
+    <span class="n">mdl</span><span class="o">.</span><span class="n">create_code_module</span><span class="p">(</span><span class="n">phase</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dummy&#39;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;T_r&#39;</span><span class="p">:</span><span class="mf">298.15</span><span class="p">,</span> <span class="s1">&#39;P_r&#39;</span><span class="p">:</span><span class="mf">1.0</span><span class="p">},</span>
+                           <span class="n">endmembers</span><span class="o">=</span><span class="n">endmembers</span><span class="p">,</span>
+                           <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;cy&quot;</span><span class="p">,</span> <span class="n">module_type</span><span class="o">=</span><span class="s1">&#39;calib&#39;</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="solid-solution">
+<h3>Solid solution<a class="headerlink" href="#solid-solution" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">make_solution</span><span class="p">(</span><span class="n">module</span><span class="o">=</span><span class="s1">&#39;OlvSolid&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Olivine&#39;</span><span class="p">,</span> <span class="n">endmembers</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Fo_OlvSolid&#39;</span><span class="p">,</span> <span class="s1">&#39;Fa_OlvSolid&#39;</span><span class="p">])</span>
+<span class="o">%</span><span class="k">cat</span> endmembersolids.pyx &gt;&gt; OlvSolid.pyx
+</pre></div>
+</div>
+</div>
+<div class="section" id="liquid-solution">
+<h3>Liquid solution<a class="headerlink" href="#liquid-solution" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">make_solution</span><span class="p">(</span><span class="n">module</span><span class="o">=</span><span class="s1">&#39;OlvLiquid&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Liquid&#39;</span><span class="p">,</span> <span class="n">endmembers</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Fo_OlvLiquid&#39;</span><span class="p">,</span> <span class="s1">&#39;Fa_OlvLiquid&#39;</span><span class="p">])</span>
+<span class="o">%</span><span class="k">cat</span> endmemberliquids.pyx &gt;&gt; OlvLiquid.pyx
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">OlvSolid</span>
+<span class="kn">import</span> <span class="nn">OlvLiquid</span>
+<span class="o">%</span><span class="k">cd</span> ..
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/ghiorso/anaconda3/lib/python3.7/site-packages/Cython/Compiler/Main.py:369: FutureWarning: Cython directive &#39;language_level&#39; not set, using 2 for now (Py2). This will change in a later release! File: /Users/ghiorso/Documents/ARCHIVE_XCODE/ThermoEngine/Notebooks/Equilibrate/working/OlvSolid.pyx
+  tree = Parsing.p_module(s, pxd, full_module_name)
+/Users/ghiorso/anaconda3/lib/python3.7/site-packages/Cython/Compiler/Main.py:369: FutureWarning: Cython directive &#39;language_level&#39; not set, using 2 for now (Py2). This will change in a later release! File: /Users/ghiorso/Documents/ARCHIVE_XCODE/ThermoEngine/Notebooks/Equilibrate/working/OlvLiquid.pyx
+  tree = Parsing.p_module(s, pxd, full_module_name)
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">ghiorso</span><span class="o">/</span><span class="n">Documents</span><span class="o">/</span><span class="n">ARCHIVE_XCODE</span><span class="o">/</span><span class="n">ThermoEngine</span><span class="o">/</span><span class="n">Notebooks</span><span class="o">/</span><span class="n">Equilibrate</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="set-up-phase-loop-calculation">
+<h2>Set up phase loop calculation<a class="headerlink" href="#set-up-phase-loop-calculation" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">modelDBsol</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">Database</span><span class="p">(</span><span class="n">database</span><span class="o">=</span><span class="s2">&quot;CoderModule&quot;</span><span class="p">,</span> <span class="n">calib</span><span class="o">=</span><span class="s1">&#39;calib&#39;</span><span class="p">,</span>
+                            <span class="n">phase_tuple</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;OlvSolid&#39;</span><span class="p">,</span> <span class="p">{</span>
+                                <span class="s1">&#39;Ol&#39;</span><span class="p">:[</span><span class="s1">&#39;Olivine&#39;</span><span class="p">,</span><span class="s1">&#39;solution&#39;</span><span class="p">],</span>
+                                <span class="s1">&#39;Fo&#39;</span><span class="p">:[</span><span class="s1">&#39;Fo&#39;</span><span class="p">,</span><span class="s1">&#39;pure&#39;</span><span class="p">],</span>
+                                <span class="s1">&#39;Fa&#39;</span><span class="p">:[</span><span class="s1">&#39;Fa&#39;</span><span class="p">,</span><span class="s1">&#39;pure&#39;</span><span class="p">]</span>
+                            <span class="p">}))</span>
+<span class="n">modelDBliq</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">Database</span><span class="p">(</span><span class="n">database</span><span class="o">=</span><span class="s2">&quot;CoderModule&quot;</span><span class="p">,</span> <span class="n">calib</span><span class="o">=</span><span class="s1">&#39;calib&#39;</span><span class="p">,</span>
+                            <span class="n">phase_tuple</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;OlvLiquid&#39;</span><span class="p">,</span> <span class="p">{</span>
+                                <span class="s1">&#39;Liq&#39;</span><span class="p">:[</span><span class="s1">&#39;Liquid&#39;</span><span class="p">,</span><span class="s1">&#39;solution&#39;</span><span class="p">],</span>
+                                <span class="s1">&#39;Fo&#39;</span><span class="p">:[</span><span class="s1">&#39;Fo&#39;</span><span class="p">,</span><span class="s1">&#39;pure&#39;</span><span class="p">],</span>
+                                <span class="s1">&#39;Fa&#39;</span><span class="p">:[</span><span class="s1">&#39;Fa&#39;</span><span class="p">,</span><span class="s1">&#39;pure&#39;</span><span class="p">]</span>
+                            <span class="p">}))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Solution</span> <span class="n">phase</span> <span class="n">code</span> <span class="n">generated</span> <span class="n">by</span> <span class="n">the</span> <span class="n">coder</span> <span class="n">module</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">yet</span> <span class="n">provide</span> <span class="n">information</span> <span class="n">on</span> <span class="n">solution</span> <span class="n">species</span><span class="o">.</span> <span class="n">Species</span> <span class="n">are</span> <span class="n">proxied</span> <span class="n">by</span> <span class="n">components</span><span class="o">.</span>
+<span class="n">Solution</span> <span class="n">phase</span> <span class="n">code</span> <span class="n">generated</span> <span class="n">by</span> <span class="n">the</span> <span class="n">coder</span> <span class="n">module</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">yet</span> <span class="n">provide</span> <span class="n">information</span> <span class="n">on</span> <span class="n">species</span> <span class="n">properties</span><span class="o">.</span> <span class="n">Species</span> <span class="n">are</span> <span class="n">proxied</span> <span class="n">by</span> <span class="n">components</span><span class="o">.</span>
+<span class="n">Solution</span> <span class="n">phase</span> <span class="n">code</span> <span class="n">generated</span> <span class="n">by</span> <span class="n">the</span> <span class="n">coder</span> <span class="n">module</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">yet</span> <span class="n">provide</span> <span class="n">information</span> <span class="n">on</span> <span class="n">solution</span> <span class="n">species</span><span class="o">.</span> <span class="n">Species</span> <span class="n">are</span> <span class="n">proxied</span> <span class="n">by</span> <span class="n">components</span><span class="o">.</span>
+<span class="n">Solution</span> <span class="n">phase</span> <span class="n">code</span> <span class="n">generated</span> <span class="n">by</span> <span class="n">the</span> <span class="n">coder</span> <span class="n">module</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">yet</span> <span class="n">provide</span> <span class="n">information</span> <span class="n">on</span> <span class="n">species</span> <span class="n">properties</span><span class="o">.</span> <span class="n">Species</span> <span class="n">are</span> <span class="n">proxied</span> <span class="n">by</span> <span class="n">components</span><span class="o">.</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">olivine</span> <span class="o">=</span> <span class="n">modelDBsol</span><span class="o">.</span><span class="n">get_phase</span><span class="p">(</span><span class="s2">&quot;Ol&quot;</span><span class="p">)</span>
+<span class="n">liquid</span> <span class="o">=</span> <span class="n">modelDBliq</span><span class="o">.</span><span class="n">get_phase</span><span class="p">(</span><span class="s2">&quot;Liq&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">elm_sys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;O&#39;</span><span class="p">,</span><span class="s1">&#39;Mg&#39;</span><span class="p">,</span><span class="s1">&#39;Si&#39;</span><span class="p">,</span><span class="s1">&#39;Fe&#39;</span><span class="p">]</span>
+<span class="n">phs_sys</span> <span class="o">=</span> <span class="p">[</span><span class="n">liquid</span><span class="p">,</span> <span class="n">olivine</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="section" id="compute-the-loop">
+<h3>Compute the loop<a class="headerlink" href="#compute-the-loop" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xFoSol</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]</span>
+<span class="n">xFoLiq</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]</span>
+<span class="n">tC</span> <span class="o">=</span> <span class="p">[</span><span class="mf">2163.0</span><span class="o">-</span><span class="mf">273.15</span><span class="p">]</span>
+<span class="n">p</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">20</span><span class="p">):</span>
+    <span class="n">XFo</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">i</span><span class="o">*</span><span class="mf">0.05</span>
+    <span class="n">XFa</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">XFo</span>
+    <span class="n">blk_cmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4.0</span><span class="o">*</span><span class="p">(</span><span class="n">XFo</span><span class="o">+</span><span class="n">XFa</span><span class="p">),</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">XFo</span><span class="p">,</span> <span class="n">XFo</span><span class="o">+</span><span class="n">XFa</span><span class="p">,</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">XFa</span><span class="p">])</span>
+    <span class="n">equil</span> <span class="o">=</span> <span class="n">equilibrate</span><span class="o">.</span><span class="n">Equilibrate</span><span class="p">(</span><span class="n">elm_sys</span><span class="p">,</span> <span class="n">phs_sys</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="mf">2163.0</span><span class="o">*</span><span class="n">XFo</span> <span class="o">+</span> <span class="mf">1490.0</span><span class="o">*</span><span class="n">XFa</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">equil</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">bulk_comp</span><span class="o">=</span><span class="n">blk_cmp</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">stats</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">state</span><span class="o">.</span><span class="n">print_state</span><span class="p">()</span>
+    <span class="n">tC</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="mf">273.15</span><span class="p">)</span>
+    <span class="n">xFoSol</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">compositions</span><span class="p">(</span><span class="n">phase_name</span><span class="o">=</span><span class="s1">&#39;Olivine&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;mole_frac&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">xFoLiq</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">compositions</span><span class="p">(</span><span class="n">phase_name</span><span class="o">=</span><span class="s1">&#39;Liquid&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;mole_frac&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">xFoSol</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="n">xFoLiq</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="n">tC</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">1490.0</span><span class="o">-</span><span class="mf">273.15</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Add: Olivine
+Quad (000) norm:  2.1104254762564e+00 Lin (016) step:  3.8779326997502e-01 func: -1.0402273326438e+05
+Quad (001) norm:  3.2418611320216e-02 Lin (017) step:  1.7951470449315e+00 func: -1.0405375729263e+05
+Quad (002) norm:  1.4763143793992e-02 Lin (010) step:  9.6932535179819e-01 func: -1.0405401325700e+05
+Quad (003) norm:  4.0623266711652e-05 Lin (029) step:  9.9979197987555e-01 func: -1.0405401326837e+05
+Quad (004) norm:  7.3677199507684e-09 Lin (039) step:  8.4138217960888e-01 func: -1.0405401326837e+05
+Quad (005) norm:  1.1686594034085e-09 Lin (040) step: -7.3123984754483e-01 func: -1.0405401326837e+05
+Minimal energy termination of quadratic loop.
+
+
+T =    1856.20 °C, P =        0.1 MPa
+Liquid          moles:   0.361955 grams:  53.547
+             Fo form:  Mg2SiO4        X:  0.8851  wt%    SiO2   40.61
+             Fa form:  Fe2SiO4        X:  0.1149  wt%     FeO   11.16
+                                                  wt%     MgO   48.23
+Olivine         moles:   0.638045 grams:  90.300
+             Fo form:  Mg2SiO4        X:  0.9868  wt%    SiO2   42.45
+             Fa form:  Fe2SiO4        X:  0.0132  wt%     FeO    1.34
+                                                  wt%     MgO   56.20
+Add: Olivine
+Quad (000) norm:  2.0114451413753e+00 Lin (015) step:  3.9174467592009e-01 func: -1.0663613100463e+05
+Quad (001) norm:  3.1142185393805e-02 Lin (032) step:  1.8317912801402e+00 func: -1.0670046985749e+05
+Quad (002) norm:  1.5416604556166e-02 Lin (019) step:  9.6691766198867e-01 func: -1.0670104487450e+05
+Quad (003) norm:  4.5064898567581e-05 Lin (028) step:  9.9975861375761e-01 func: -1.0670104490454e+05
+Quad (004) norm:  9.6146541687342e-09 Lin (039) step:  8.5998149639898e-01 func: -1.0670104490454e+05
+Quad (005) norm:  1.3462267133040e-09 Lin (039) step:  8.1909231079668e-01 func: -1.0670104490454e+05
+Minimal energy termination of quadratic loop.
+
+
+T =    1822.55 °C, P =        0.1 MPa
+Liquid          moles:   0.376308 grams:  58.172
+             Fo form:  Mg2SiO4        X:  0.7798  wt%    SiO2   38.87
+             Fa form:  Fe2SiO4        X:  0.2202  wt%     FeO   20.47
+                                                  wt%     MgO   40.66
+Olivine         moles:   0.623692 grams:  88.829
+             Fo form:  Mg2SiO4        X:  0.9725  wt%    SiO2   42.19
+             Fa form:  Fe2SiO4        X:  0.0275  wt%     FeO    2.77
+                                                  wt%     MgO   55.04
+Add: Olivine
+Quad (000) norm:  1.9106239644072e+00 Lin (016) step:  3.9582177358734e-01 func: -1.0863573839282e+05
+Quad (001) norm:  3.0573320893983e-02 Lin (014) step:  1.8719312484472e+00 func: -1.0873576578541e+05
+Quad (002) norm:  1.6092789244022e-02 Lin (014) step:  9.6415282496294e-01 func: -1.0873673638519e+05
+Quad (003) norm:  5.1487274533657e-05 Lin (029) step:  9.9945717817509e-01 func: -1.0873673644510e+05
+Quad (004) norm:  3.5575530590706e-09 Lin (038) step:  1.6519526824590e+00 func: -1.0873673644510e+05
+Quad (005) norm:  2.3193563531757e-09 Lin (042) step: -3.6785150611398e-01 func: -1.0873673644510e+05
+Minimal energy termination of quadratic loop.
+
+
+T =    1788.90 °C, P =        0.1 MPa
+Liquid          moles:   0.391316 grams:  62.871
+             Fo form:  Mg2SiO4        X:  0.6834  wt%    SiO2   37.40
+             Fa form:  Fe2SiO4        X:  0.3166  wt%     FeO   28.31
+                                                  wt%     MgO   34.29
+Olivine         moles:   0.608684 grams:  87.285
+             Fo form:  Mg2SiO4        X:  0.9571  wt%    SiO2   41.90
+             Fa form:  Fe2SiO4        X:  0.0429  wt%     FeO    4.30
+                                                  wt%     MgO   53.80
+Add: Olivine
+Quad (000) norm:  1.8079136182821e+00 Lin (024) step:  4.0003822981413e-01 func: -1.1019554484785e+05
+Quad (001) norm:  3.0787646794130e-02 Lin (016) step:  1.9160707731592e+00 func: -1.1033368599857e+05
+Quad (002) norm:  1.6791400729548e-02 Lin (020) step:  9.6095788326558e-01 func: -1.1033514496278e+05
+Quad (003) norm:  6.0794171941693e-05 Lin (024) step:  9.9954277934166e-01 func: -1.1033514506973e+05
+Quad (004) norm:  9.9720374388972e-09 Lin (040) step:  4.9983406065890e-01 func: -1.1033514506973e+05
+Quad (005) norm:  4.9876737609594e-09 Lin (047) step: -2.1334834772453e-02 func: -1.1033514506973e+05
+Minimal energy termination of quadratic loop.
+
+
+T =    1755.25 °C, P =        0.1 MPa
+Liquid          moles:   0.406994 grams:  67.643
+             Fo form:  Mg2SiO4        X:  0.5956  wt%    SiO2   36.15
+             Fa form:  Fe2SiO4        X:  0.4044  wt%     FeO   34.96
+                                                  wt%     MgO   28.89
+Olivine         moles:   0.593006 grams:  85.667
+             Fo form:  Mg2SiO4        X:  0.9403  wt%    SiO2   41.59
+             Fa form:  Fe2SiO4        X:  0.0597  wt%     FeO    5.94
+                                                  wt%     MgO   52.47
+Add: Olivine
+Quad (000) norm:  1.7032709372590e+00 Lin (014) step:  4.0441189414102e-01 func: -1.1139918109725e+05
+Quad (001) norm:  3.1794373696592e-02 Lin (029) step:  1.9648182746974e+00 func: -1.1157786603177e+05
+Quad (002) norm:  1.7512076248931e-02 Lin (021) step:  9.5724546055780e-01 func: -1.1157992569536e+05
+Quad (003) norm:  7.4166851734302e-05 Lin (022) step:  9.9954766440304e-01 func: -1.1157992587561e+05
+Quad (004) norm:  1.8561007700569e-08 Lin (038) step:  1.9941348560423e+00 func: -1.1157992587561e+05
+Quad (005) norm:  1.8452144971921e-08 Lin (039) step:  1.3449506850978e+00 func: -1.1157992587561e+05
+Minimal energy termination of quadratic loop.
+
+
+T =    1721.60 °C, P =        0.1 MPa
+Liquid          moles:   0.423353 grams:  72.490
+             Fo form:  Mg2SiO4        X:  0.5160  wt%    SiO2   35.09
+             Fa form:  Fe2SiO4        X:  0.4840  wt%     FeO   40.62
+                                                  wt%     MgO   24.29
+Olivine         moles:   0.576647 grams:  83.975
+             Fo form:  Mg2SiO4        X:  0.9218  wt%    SiO2   41.26
+             Fa form:  Fe2SiO4        X:  0.0782  wt%     FeO    7.72
+                                                  wt%     MgO   51.03
+Add: Olivine
+Quad (000) norm:  1.5966604996323e+00 Lin (021) step:  4.0896682151642e-01 func: -1.1229597492575e+05
+Quad (001) norm:  3.3531760786162e-02 Lin (038) step:  1.9999999695048e+00 func: -1.1251755736637e+05
+Quad (002) norm:  1.8730262736856e-02 Lin (021) step:  9.5145608560682e-01 func: -1.1252036721908e+05
+Quad (003) norm:  4.1909407472519e-05 Lin (026) step:  9.9978900144526e-01 func: -1.1252036728945e+05
+Quad (004) norm:  9.2042603294142e-09 Lin (040) step: -4.4760217220127e-01 func: -1.1252036728945e+05
+Quad (005) norm:  1.3324106387581e-08 Lin (040) step:  4.7007485184832e-01 func: -1.1252036728945e+05
+Minimal energy termination of quadratic loop.
+
+
+T =    1687.95 °C, P =        0.1 MPa
+Liquid          moles:   0.440402 grams:  77.409
+             Fo form:  Mg2SiO4        X:  0.4440  wt%    SiO2   34.18
+             Fa form:  Fe2SiO4        X:  0.5560  wt%     FeO   45.46
+                                                  wt%     MgO   20.36
+Olivine         moles:   0.559598 grams:  82.209
+             Fo form:  Mg2SiO4        X:  0.9015  wt%    SiO2   40.90
+             Fa form:  Fe2SiO4        X:  0.0985  wt%     FeO    9.64
+                                                  wt%     MgO   49.47
+Add: Olivine
+Quad (000) norm:  1.4880582357278e+00 Lin (012) step:  4.1373492082155e-01 func: -1.1291818273809e+05
+Quad (001) norm:  3.5885647757584e-02 Lin (037) step:  1.9999999451233e+00 func: -1.1318463428273e+05
+Quad (002) norm:  2.0995382584375e-02 Lin (013) step:  9.4673678156252e-01 func: -1.1318859383769e+05
+Quad (003) norm:  1.2095598641376e-04 Lin (009) step:  1.0006930291438e+00 func: -1.1318859460434e+05
+Quad (004) norm:  1.0234833107969e-07 Lin (032) step:  9.9640056598608e-01 func: -1.1318859460434e+05
+Quad (005) norm:  3.6836719171515e-10 Lin (027) step: -1.0557282694161e+00 func: -1.1318859460434e+05
+Minimal energy termination of quadratic loop.
+
+
+T =    1654.30 °C, P =        0.1 MPa
+Liquid          moles:   0.458145 grams:  82.401
+             Fo form:  Mg2SiO4        X:  0.3792  wt%    SiO2   33.41
+             Fa form:  Fe2SiO4        X:  0.6208  wt%     FeO   49.60
+                                                  wt%     MgO   16.99
+Olivine         moles:   0.541855 grams:  80.372
+             Fo form:  Mg2SiO4        X:  0.8790  wt%    SiO2   40.51
+             Fa form:  Fe2SiO4        X:  0.1210  wt%     FeO   11.72
+                                                  wt%     MgO   47.77
+Add: Olivine
+Quad (000) norm:  1.3774563841416e+00 Lin (016) step:  4.1875957633954e-01 func: -1.1328816860212e+05
+Quad (001) norm:  3.8714527790115e-02 Lin (037) step:  1.9999999507498e+00 func: -1.1360092303644e+05
+Quad (002) norm:  2.3554754466832e-02 Lin (021) step:  9.4853093477755e-01 func: -1.1360670263280e+05
+Quad (003) norm:  3.8209968150830e-04 Lin (017) step:  1.0016221307589e+00 func: -1.1360671021612e+05
+Quad (004) norm:  9.3148899886895e-07 Lin (038) step:  9.8610154707078e-01 func: -1.1360671021613e+05
+Quad (005) norm:  1.2944080631323e-08 Lin (040) step:  4.6997624564121e-01 func: -1.1360671021613e+05
+Minimal energy termination of quadratic loop.
+
+
+T =    1620.65 °C, P =        0.1 MPa
+Liquid          moles:   0.476580 grams:  87.461
+             Fo form:  Mg2SiO4        X:  0.3211  wt%    SiO2   32.74
+             Fa form:  Fe2SiO4        X:  0.6789  wt%     FeO   53.15
+                                                  wt%     MgO   14.11
+Olivine         moles:   0.523420 grams:  78.466
+             Fo form:  Mg2SiO4        X:  0.8539  wt%    SiO2   40.08
+             Fa form:  Fe2SiO4        X:  0.1461  wt%     FeO   14.00
+                                                  wt%     MgO   45.92
+Add: Olivine
+Quad (000) norm:  1.2648704862387e+00 Lin (014) step:  4.2409981494523e-01 func: -1.1342194473354e+05
+Quad (001) norm:  4.1869525150838e-02 Lin (037) step:  1.9999999596761e+00 func: -1.1378169604333e+05
+Quad (002) norm:  2.6613942137230e-02 Lin (019) step:  9.5579384524493e-01 func: -1.1379024996267e+05
+Quad (003) norm:  7.9668730517902e-04 Lin (014) step:  1.0024585337351e+00 func: -1.1379027996411e+05
+Quad (004) norm:  2.9607950072807e-06 Lin (032) step:  1.0007908725777e+00 func: -1.1379027996423e+05
+Quad (005) norm:  2.3600833745774e-09 Lin (038) step:  1.7283434109660e+00 func: -1.1379027996423e+05
+Minimal energy termination of quadratic loop.
+
+
+T =    1587.00 °C, P =        0.1 MPa
+Liquid          moles:   0.495698 grams:  92.587
+             Fo form:  Mg2SiO4        X:  0.2694  wt%    SiO2   32.17
+             Fa form:  Fe2SiO4        X:  0.7306  wt%     FeO   56.20
+                                                  wt%     MgO   11.63
+Olivine         moles:   0.504302 grams:  76.494
+             Fo form:  Mg2SiO4        X:  0.8258  wt%    SiO2   39.61
+             Fa form:  Fe2SiO4        X:  0.1742  wt%     FeO   16.50
+                                                  wt%     MgO   43.89
+Add: Olivine
+Quad (000) norm:  1.1503493938843e+00 Lin (010) step:  4.2983715680788e-01 func: -1.1333111264439e+05
+Quad (001) norm:  4.5202800591801e-02 Lin (037) step:  1.9999999484570e+00 func: -1.1373749443677e+05
+Quad (002) norm:  3.0406944185969e-02 Lin (015) step:  9.6703569319832e-01 func: -1.1375011298796e+05
+Quad (003) norm:  1.4006732752022e-03 Lin (015) step:  1.0033804526085e+00 func: -1.1375019792047e+05
+Quad (004) norm:  6.4058759280046e-06 Lin (018) step:  9.9998379375210e-01 func: -1.1375019792108e+05
+Quad (005) norm:  7.0408383870557e-11 Lin (028) step:  1.7770876763913e+00 func: -1.1375019792108e+05
+Minimal energy termination of quadratic loop.
+
+
+T =    1553.35 °C, P =        0.1 MPa
+Liquid          moles:   0.515485 grams:  97.774
+             Fo form:  Mg2SiO4        X:  0.2236  wt%    SiO2   31.68
+             Fa form:  Fe2SiO4        X:  0.7764  wt%     FeO   58.82
+                                                  wt%     MgO    9.50
+Olivine         moles:   0.484515 grams:  74.461
+             Fo form:  Mg2SiO4        X:  0.7941  wt%    SiO2   39.10
+             Fa form:  Fe2SiO4        X:  0.2059  wt%     FeO   19.25
+                                                  wt%     MgO   41.65
+Add: Olivine
+Quad (000) norm:  1.0339899082375e+00 Lin (016) step:  4.3608564888796e-01 func: -1.1302399689041e+05
+Quad (001) norm:  4.8567089825116e-02 Lin (037) step:  1.9999999486317e+00 func: -1.1347515653818e+05
+Quad (002) norm:  3.5170758113792e-02 Lin (016) step:  9.8102269403651e-01 func: -1.1349350833412e+05
+Quad (003) norm:  2.2408633540299e-03 Lin (011) step:  1.0046605966100e+00 func: -1.1349371088887e+05
+Quad (004) norm:  1.1680331732484e-05 Lin (019) step:  9.9995395647818e-01 func: -1.1349371089098e+05
+Quad (005) norm:  4.5315777914587e-10 Lin (039) step:  1.4164078897546e+00 func: -1.1349371089098e+05
+Minimal energy termination of quadratic loop.
+
+
+T =    1519.70 °C, P =        0.1 MPa
+Liquid          moles:   0.535917 grams: 103.015
+             Fo form:  Mg2SiO4        X:  0.1832  wt%    SiO2   31.26
+             Fa form:  Fe2SiO4        X:  0.8168  wt%     FeO   61.06
+                                                  wt%     MgO    7.68
+Olivine         moles:   0.464083 grams:  72.375
+             Fo form:  Mg2SiO4        X:  0.7581  wt%    SiO2   38.53
+             Fa form:  Fe2SiO4        X:  0.2419  wt%     FeO   22.29
+                                                  wt%     MgO   39.19
+Add: Olivine
+Quad (000) norm:  9.1595877115216e-01 Lin (016) step:  4.4300754818810e-01 func: -1.1250631657962e+05
+Quad (001) norm:  5.1809328381885e-02 Lin (037) step:  1.9999999486317e+00 func: -1.1299834763691e+05
+Quad (002) norm:  4.1117061534466e-02 Lin (024) step:  9.9680566612166e-01 func: -1.1302449337895e+05
+Quad (003) norm:  3.4076848385436e-03 Lin (020) step:  1.0066232763024e+00 func: -1.1302493065333e+05
+Quad (004) norm:  2.0123925274523e-05 Lin (019) step:  9.9996011819525e-01 func: -1.1302493065956e+05
+Quad (005) norm:  8.9683820119860e-10 Lin (040) step:  1.2909649445544e+00 func: -1.1302493065956e+05
+Minimal energy termination of quadratic loop.
+
+
+T =    1486.05 °C, P =        0.1 MPa
+Liquid          moles:   0.556960 grams: 108.302
+             Fo form:  Mg2SiO4        X:  0.1478  wt%    SiO2   30.90
+             Fa form:  Fe2SiO4        X:  0.8522  wt%     FeO   62.97
+                                                  wt%     MgO    6.13
+Olivine         moles:   0.443040 grams:  70.241
+             Fo form:  Mg2SiO4        X:  0.7170  wt%    SiO2   37.90
+             Fa form:  Fe2SiO4        X:  0.2830  wt%     FeO   25.65
+                                                  wt%     MgO   36.46
+Add: Olivine
+Quad (000) norm:  7.9652687717774e-01 Lin (013) step:  4.5083929279971e-01 func: -1.1178154576498e+05
+Quad (001) norm:  5.4759990379579e-02 Lin (037) step:  1.9999999486317e+00 func: -1.1230772601811e+05
+Quad (002) norm:  4.8408414712455e-02 Lin (019) step:  1.0134693868266e+00 func: -1.1234406869686e+05
+Quad (003) norm:  5.0764193451215e-03 Lin (012) step:  1.0097330712646e+00 func: -1.1234495654607e+05
+Quad (004) norm:  3.5796951091354e-05 Lin (027) step:  9.9996152538313e-01 func: -1.1234495656488e+05
+Quad (005) norm:  2.3817893499710e-09 Lin (040) step:  1.9257054217066e-01 func: -1.1234495656488e+05
+Minimal energy termination of quadratic loop.
+
+
+T =    1452.40 °C, P =        0.1 MPa
+Liquid          moles:   0.578571 grams: 113.626
+             Fo form:  Mg2SiO4        X:  0.1171  wt%    SiO2   30.59
+             Fa form:  Fe2SiO4        X:  0.8829  wt%     FeO   64.60
+                                                  wt%     MgO    4.81
+Olivine         moles:   0.421429 grams:  68.071
+             Fo form:  Mg2SiO4        X:  0.6698  wt%    SiO2   37.20
+             Fa form:  Fe2SiO4        X:  0.3302  wt%     FeO   29.38
+                                                  wt%     MgO   33.42
+Add: Olivine
+Quad (000) norm:  6.7612492383195e-01 Lin (021) step:  4.5993569447173e-01 func: -1.1085100202990e+05
+Quad (001) norm:  5.7217682254019e-02 Lin (037) step:  1.9999999486317e+00 func: -1.1140075998402e+05
+Quad (002) norm:  5.7138211438038e-02 Lin (027) step:  1.0297538888655e+00 func: -1.1144986398854e+05
+Quad (003) norm:  7.5762134765027e-03 Lin (013) step:  1.0147727341214e+00 func: -1.1145159773969e+05
+Quad (004) norm:  7.1041544163877e-05 Lin (031) step:  9.9977449540369e-01 func: -1.1145159780779e+05
+Quad (005) norm:  1.7571977345191e-08 Lin (039) step:  1.1827281053379e+00 func: -1.1145159780779e+05
+Minimal energy termination of quadratic loop.
+
+
+T =    1418.75 °C, P =        0.1 MPa
+Liquid          moles:   0.600695 grams: 118.976
+             Fo form:  Mg2SiO4        X:  0.0906  wt%    SiO2   30.34
+             Fa form:  Fe2SiO4        X:  0.9094  wt%     FeO   65.98
+                                                  wt%     MgO    3.69
+Olivine         moles:   0.399305 grams:  65.876
+             Fo form:  Mg2SiO4        X:  0.6151  wt%    SiO2   36.42
+             Fa form:  Fe2SiO4        X:  0.3849  wt%     FeO   33.53
+                                                  wt%     MgO   30.05
+Add: Olivine
+Quad (000) norm:  5.5543949202481e-01 Lin (021) step:  4.7085053128253e-01 func: -1.0971359206561e+05
+Quad (001) norm:  5.8925356540378e-02 Lin (037) step:  1.9999999486317e+00 func: -1.1027108471228e+05
+Quad (002) norm:  6.7305478732473e-02 Lin (013) step:  1.0435208574435e+00 func: -1.1033523428082e+05
+Quad (003) norm:  1.1505030474154e-02 Lin (016) step:  1.0232335975700e+00 func: -1.1033853169246e+05
+Quad (004) norm:  1.6369600248230e-04 Lin (021) step:  9.9973911783214e-01 func: -1.1033853201481e+05
+Quad (005) norm:  5.5089535171400e-08 Lin (038) step:  1.0838690740601e+00 func: -1.1033853201481e+05
+Minimal energy termination of quadratic loop.
+
+
+T =    1385.10 °C, P =        0.1 MPa
+Liquid          moles:   0.623264 grams: 124.337
+             Fo form:  Mg2SiO4        X:  0.0679  wt%    SiO2   30.12
+             Fa form:  Fe2SiO4        X:  0.9321  wt%     FeO   67.14
+                                                  wt%     MgO    2.74
+Olivine         moles:   0.376736 grams:  63.669
+             Fo form:  Mg2SiO4        X:  0.5513  wt%    SiO2   35.55
+             Fa form:  Fe2SiO4        X:  0.4487  wt%     FeO   38.15
+                                                  wt%     MgO   26.29
+Add: Olivine
+Quad (000) norm:  4.3559312804386e-01 Lin (014) step:  4.8449627414159e-01 func: -1.0836493609787e+05
+Quad (001) norm:  5.9529476050007e-02 Lin (037) step:  1.9999999486317e+00 func: -1.0890705815873e+05
+Quad (002) norm:  7.8766975062179e-02 Lin (019) step:  1.0509975357788e+00 func: -1.0898730390469e+05
+Quad (003) norm:  1.7891152136413e-02 Lin (017) step:  1.0382321492869e+00 func: -1.0899343676869e+05
+Quad (004) norm:  4.2822065197050e-04 Lin (025) step:  9.9908284219637e-01 func: -1.0899343867446e+05
+Quad (005) norm:  4.1366423993629e-07 Lin (035) step:  1.0540567761337e+00 func: -1.0899343867446e+05
+Minimal energy termination of quadratic loop.
+
+
+T =    1351.45 °C, P =        0.1 MPa
+Liquid          moles:   0.646198 grams: 129.694
+             Fo form:  Mg2SiO4        X:  0.0487  wt%    SiO2   29.94
+             Fa form:  Fe2SiO4        X:  0.9513  wt%     FeO   68.11
+                                                  wt%     MgO    1.96
+Olivine         moles:   0.353802 grams:  61.466
+             Fo form:  Mg2SiO4        X:  0.4763  wt%    SiO2   34.59
+             Fa form:  Fe2SiO4        X:  0.5237  wt%     FeO   43.31
+                                                  wt%     MgO   22.10
+Add: Olivine
+Quad (000) norm:  3.1852437204954e-01 Lin (013) step:  5.0249398225183e-01 func: -1.0679500499436e+05
+Quad (001) norm:  5.8501068165817e-02 Lin (037) step:  1.9999999486317e+00 func: -1.0728856655177e+05
+Quad (002) norm:  9.1131195096223e-02 Lin (019) step:  1.0458731597712e+00 func: -1.0738276874258e+05
+Quad (003) norm:  2.8316580022175e-02 Lin (018) step:  1.0666690482862e+00 func: -1.0739383048254e+05
+Quad (004) norm:  1.2011354132180e-03 Lin (020) step:  9.9659503150087e-01 func: -1.0739384283993e+05
+Quad (005) norm:  3.5716283239582e-06 Lin (026) step:  1.0005734051080e+00 func: -1.0739384284007e+05
+Quad (006) norm:  2.0085466993128e-09 Lin (040) step:  4.7216433831497e-01 func: -1.0739384284007e+05
+Minimal energy termination of quadratic loop.
+
+
+T =    1317.80 °C, P =        0.1 MPa
+Liquid          moles:   0.669403 grams: 135.030
+             Fo form:  Mg2SiO4        X:  0.0327  wt%    SiO2   29.79
+             Fa form:  Fe2SiO4        X:  0.9673  wt%     FeO   68.91
+                                                  wt%     MgO    1.31
+Olivine         moles:   0.330597 grams:  59.285
+             Fo form:  Mg2SiO4        X:  0.3876  wt%    SiO2   33.51
+             Fa form:  Fe2SiO4        X:  0.6124  wt%     FeO   49.07
+                                                  wt%     MgO   17.42
+Add: Olivine
+Quad (000) norm:  2.0794856357104e-01 Lin (021) step:  5.2806377702831e-01 func: -1.0498115451600e+05
+Quad (001) norm:  5.4960557582732e-02 Lin (037) step:  1.9999999486317e+00 func: -1.0537895573655e+05
+Quad (002) norm:  1.0349900326869e-01 Lin (016) step:  1.0188187654698e+00 func: -1.0547784639120e+05
+Quad (003) norm:  4.4619563918756e-02 Lin (013) step:  1.1247128399950e+00 func: -1.0549649928907e+05
+Quad (004) norm:  3.4487847296435e-03 Lin (022) step:  9.8752670798971e-01 func: -1.0549657516277e+05
+Quad (005) norm:  3.1391133892242e-05 Lin (016) step:  1.0000585534400e+00 func: -1.0549657516925e+05
+Quad (006) norm:  1.3416486172291e-09 Lin (035) step:  4.7207970565543e-01 func: -1.0549657516925e+05
+Minimal energy termination of quadratic loop.
+
+
+T =    1284.15 °C, P =        0.1 MPa
+Liquid          moles:   0.692772 grams: 140.323
+             Fo form:  Mg2SiO4        X:  0.0194  wt%    SiO2   29.66
+             Fa form:  Fe2SiO4        X:  0.9806  wt%     FeO   69.56
+                                                  wt%     MgO    0.77
+Olivine         moles:   0.307228 grams:  57.145
+             Fo form:  Mg2SiO4        X:  0.2817  wt%    SiO2   32.30
+             Fa form:  Fe2SiO4        X:  0.7183  wt%     FeO   55.49
+                                                  wt%     MgO   12.21
+Add: Olivine
+Quad (000) norm:  1.1254439960757e-01 Lin (013) step:  5.6886545119054e-01 func: -1.0286064747519e+05
+Quad (001) norm:  4.7212340551214e-02 Lin (037) step:  1.9999999470379e+00 func: -1.0309716844711e+05
+Quad (002) norm:  1.1367867550790e-01 Lin (023) step:  9.5893721444821e-01 func: -1.0317623263192e+05
+Quad (003) norm:  6.6929065305317e-02 Lin (014) step:  1.2552998124023e+00 func: -1.0320172077162e+05
+Quad (004) norm:  1.0133058640396e-02 Lin (011) step:  9.5627186609852e-01 func: -1.0320208266356e+05
+Quad (005) norm:  2.6970989681121e-04 Lin (022) step:  1.0004716759792e+00 func: -1.0320208286835e+05
+Quad (006) norm:  1.0937803239169e-07 Lin (039) step:  1.5470767854492e+00 func: -1.0320208286835e+05
+Minimal energy termination of quadratic loop.
+
+
+T =    1250.50 °C, P =        0.1 MPa
+Liquid          moles:   0.716183 grams: 145.553
+             Fo form:  Mg2SiO4        X:  0.0086  wt%    SiO2   29.56
+             Fa form:  Fe2SiO4        X:  0.9914  wt%     FeO   70.09
+                                                  wt%     MgO    0.34
+Olivine         moles:   0.283817 grams:  55.070
+             Fo form:  Mg2SiO4        X:  0.1544  wt%    SiO2   30.97
+             Fa form:  Fe2SiO4        X:  0.8456  wt%     FeO   62.62
+                                                  wt%     MgO    6.42
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xFoSol</span><span class="p">,</span> <span class="n">tC</span><span class="p">,</span> <span class="s1">&#39;b-&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xFoLiq</span><span class="p">,</span> <span class="n">tC</span><span class="p">,</span> <span class="s1">&#39;r-&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;T °C&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Mole fraction&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="_images/9-Olivine-loop_27_1.png" src="_images/9-Olivine-loop_27_1.png" />
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2020, ENKI.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.4.0.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

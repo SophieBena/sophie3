@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Helmholtz energy (Stixrude - Debye integral) &mdash; Thermoengine 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="None"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" >
+    <link rel="search" title="Search" href="search.html" >
+    <link rel="top" title="Thermoengine 1.0.1 documentation" href="index.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="index.html">
+      <img style="border: 0;" alt="ENKI" src="_static/img/ENKI_header.png"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="http://enki-portal.org">ENKI Web</a></li>
+        <li class="active"><a href="https://enki.ofm-research.org">ENKI Server</a></li>
+	
+        <li class="active"><a href="index.html">Thermoengine 1.0.1 documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/Enki.png" alt="Logo">
+            </a></p>
+        </div>
+      </div>
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="helmholtz-energy-stixrude-debye-integral">
+<h1>Helmholtz energy (Stixrude - Debye integral)<a class="headerlink" href="#helmholtz-energy-stixrude-debye-integral" title="Permalink to this headline">¶</a></h1>
+<p>Required system packages and initialization</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">sympy</span> <span class="k">as</span> <span class="nn">sym</span>
+<span class="n">sym</span><span class="o">.</span><span class="n">init_printing</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">thermoengine</span> <span class="kn">import</span> <span class="n">coder</span>
+<span class="kn">from</span> <span class="nn">thermoengine.coder</span> <span class="kn">import</span> <span class="n">Debye</span> <span class="k">as</span> <span class="n">db</span>
+</pre></div>
+</div>
+<div class="section" id="declare-t-and-v-to-be-independent-variables">
+<h2>Declare <em>T</em> and <em>V</em> to be independent variables<a class="headerlink" href="#declare-t-and-v-to-be-independent-variables" title="Permalink to this headline">¶</a></h2>
+<p>This specifies that the model expression will be defined in terms of the
+Helmholtz free energy. Note, that the defauilt model type, <em>TP</em>,
+decalres that the model expression will be the Gibbs free energy.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">coder</span><span class="o">.</span><span class="n">StdStateModel</span><span class="p">(</span><span class="n">model_type</span><span class="o">=</span><span class="s1">&#39;TV&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_symbol_for_t</span><span class="p">()</span>
+<span class="n">V</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_symbol_for_v</span><span class="p">()</span>
+<span class="n">Tr</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_symbol_for_tr</span><span class="p">()</span>
+<span class="n">Vr</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_symbol_for_vr</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="section" id="define-model-expressions-applicable-over-all-of-t-p-space">
+<h3>Define model expressions applicable over all of T,P space<a class="headerlink" href="#define-model-expressions-applicable-over-all-of-t-p-space" title="Permalink to this headline">¶</a></h3>
+<p>An expression for the Gibbs free energy, <span class="math notranslate nohighlight">\(G(T,P)\)</span> or the Helmholtz
+energy <span class="math notranslate nohighlight">\(A(T,V)\)</span> is constructed. The expression may have multiple
+parts. Often the heat capacity function is postulated, then integrated
+to yield expressions for the entahlpy, entropy, and in combination the
+energy potential. Then, an equation of state (EOS) is adopted and that
+term is integrated in pressure or volume and added to the heat capacity
+integrals. This proceedure is follwed here. #### (1) Helmholtz free
+energy Declare parameters of the Stixrude standard state model:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a0</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">v0</span><span class="p">,</span><span class="n">k00</span><span class="p">,</span><span class="n">k0p</span><span class="p">,</span><span class="n">theta0</span><span class="p">,</span><span class="n">gamma0</span><span class="p">,</span><span class="n">q</span><span class="p">,</span><span class="n">refS</span><span class="p">,</span><span class="n">R</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;a0 n v0 k00 k0p theta0 gamma0 q refS R&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Specify paramters …</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;a0&#39;</span><span class="p">,</span><span class="s1">&#39;J/m&#39;</span><span class="p">,</span><span class="n">a0</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;n&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="n">n</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;v0&#39;</span><span class="p">,</span><span class="s1">&#39;J/bar-m&#39;</span><span class="p">,</span><span class="n">v0</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;k00&#39;</span><span class="p">,</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span><span class="n">k00</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;k0p&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="n">k0p</span><span class="p">),</span>  <span class="p">(</span><span class="s1">&#39;theta0&#39;</span><span class="p">,</span><span class="s1">&#39;K&#39;</span><span class="p">,</span><span class="n">theta0</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;gamma0&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span><span class="n">gamma0</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">q</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;refS&#39;</span><span class="p">,</span> <span class="s1">&#39;J/K-m&#39;</span><span class="p">,</span> <span class="n">refS</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;R&#39;</span><span class="p">,</span> <span class="s1">&#39;J/K-m&#39;</span><span class="p">,</span> <span class="n">R</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>Define the Debye temperature:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c1</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span><span class="o">*</span><span class="n">k00</span><span class="o">*</span><span class="n">v0</span>
+<span class="n">c2</span> <span class="o">=</span> <span class="n">k0p</span><span class="o">/</span><span class="n">sym</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">sym</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">c5</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">gamma0</span>
+<span class="n">c7</span> <span class="o">=</span> <span class="n">c5</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="n">sym</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">sym</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="o">*</span><span class="n">gamma0</span> <span class="o">-</span> <span class="n">sym</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">q</span><span class="p">)</span>
+<span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">v0</span><span class="o">/</span><span class="n">V</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="n">sym</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">sym</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span><span class="o">/</span><span class="n">sym</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">sym</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">sym</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">d0</span> <span class="o">=</span> <span class="n">theta0</span><span class="o">*</span><span class="p">(</span><span class="n">sym</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">c7</span><span class="o">*</span><span class="n">f</span><span class="o">*</span><span class="n">f</span> <span class="o">+</span> <span class="n">sym</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">c5</span><span class="o">*</span><span class="n">f</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="n">sym</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">sym</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">d0</span>
+</pre></div>
+</div>
+<div class="math notranslate nohighlight">
+\[\theta_{0} \sqrt{3 \gamma_{0} \left(\frac{\left(\frac{v_{0}}{V}\right)^{\frac{2}{3}}}{2} - \frac{1}{2}\right)^{2} \left(6 \gamma_{0} - 3 q - 2\right) + 6 \gamma_{0} \left(\frac{\left(\frac{v_{0}}{V}\right)^{\frac{2}{3}}}{2} - \frac{1}{2}\right) + 1}\]</div>
+<div class="line-block">
+<div class="line">Define the Debye Helmholtz free energy …</div>
+<div class="line">db(x) returns the Debye <em>integral</em> with upper limit <em>x</em></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">d0</span><span class="o">/</span><span class="n">T</span>
+<span class="n">A_db</span> <span class="o">=</span> <span class="n">n</span><span class="o">*</span><span class="n">R</span><span class="o">*</span><span class="n">T</span><span class="o">*</span><span class="p">(</span><span class="n">sym</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">sym</span><span class="o">.</span><span class="n">ln</span><span class="p">(</span><span class="n">sym</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="n">sym</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span> <span class="o">-</span> <span class="n">db</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>… and from that the quasiharmonic approximation to the Helmholtz energy
+…</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A_quasi</span> <span class="o">=</span> <span class="n">A_db</span> <span class="o">-</span> <span class="n">A_db</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="n">Tr</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>… and finally the Stixrude model expression for the Helmholtz free
+energy:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">a0</span> <span class="o">+</span> <span class="n">c1</span><span class="o">*</span><span class="n">f</span><span class="o">*</span><span class="n">f</span><span class="o">*</span><span class="p">(</span><span class="n">sym</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">sym</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="n">c2</span><span class="o">*</span><span class="n">f</span><span class="p">)</span> <span class="o">+</span> <span class="n">A_quasi</span>
+</pre></div>
+</div>
+<p>… and add this expression to the model</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">add_expression_to_model</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="code-print-the-model-compile-the-code-and-link-a-python-module">
+<h2>Code Print the Model, compile the code and link a Python module<a class="headerlink" href="#code-print-the-model-compile-the-code-and-link-a-python-module" title="Permalink to this headline">¶</a></h2>
+<p>Name the model class</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">set_module_name</span><span class="p">(</span><span class="s1">&#39;stixrude&#39;</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">set_include_debye_code</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Make a working sub-directory and move down into the directory. This is
+done so that generated files will not clash between alternate model
+configurations.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_working_dir</span> <span class="o">=</span> <span class="s2">&quot;working&quot;</span>
+<span class="o">!</span>mkdir -p <span class="o">{</span>model_working_dir<span class="o">}</span>
+<span class="o">%</span><span class="k">cd</span> {model_working_dir}
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">ghiorso</span><span class="o">/</span><span class="n">Documents</span><span class="o">/</span><span class="n">ARCHIVE_XCODE</span><span class="o">/</span><span class="n">ThermoEngine</span><span class="o">/</span><span class="n">Notebooks</span><span class="o">/</span><span class="n">Codegen</span><span class="o">/</span><span class="n">working</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Choose an existing phase from the Berman database</p></li>
+<li><p>Generate an include file and code file for this phase</p></li>
+</ul>
+<p>Note that the call to</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">create_code_module</span><span class="p">(</span><span class="n">phase</span><span class="o">=</span><span class="n">phase_name</span><span class="p">,</span> <span class="n">formula</span><span class="o">=</span><span class="n">formula</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">param_dict</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>generates fast code with unmodifiable model parameters and
+“calibration-” related functions. The call to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">create_code_module</span><span class="p">(</span><span class="n">phase</span><span class="o">=</span><span class="n">phase_name</span><span class="p">,</span> <span class="n">formula</span><span class="o">=</span><span class="n">formula</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">param_dict</span><span class="p">,</span> <span class="n">module_type</span><span class="o">=</span><span class="s1">&#39;calib&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>generates code suitable for model parameter calibration.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">param_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a0&#39;</span><span class="p">:</span><span class="o">-</span><span class="mf">2055.0</span><span class="o">*</span><span class="mf">1000.0</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">:</span><span class="mf">7.0</span><span class="p">,</span> <span class="s1">&#39;v0&#39;</span><span class="p">:</span><span class="mf">43.6</span><span class="o">/</span><span class="mf">10.0</span><span class="p">,</span> <span class="s1">&#39;k00&#39;</span><span class="p">:</span><span class="mf">128.0</span><span class="o">*</span><span class="mf">10000.0</span><span class="p">,</span> <span class="s1">&#39;k0p&#39;</span><span class="p">:</span><span class="mf">4.2</span><span class="p">,</span>
+              <span class="s1">&#39;theta0&#39;</span><span class="p">:</span><span class="mf">809.0</span><span class="p">,</span> <span class="s1">&#39;gamma0&#39;</span><span class="p">:</span><span class="mf">0.99</span><span class="p">,</span> <span class="s1">&#39;q&#39;</span><span class="p">:</span><span class="mf">2.1</span><span class="p">,</span> <span class="s1">&#39;refS&#39;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;R&#39;</span><span class="p">:</span><span class="mf">8.314472</span><span class="p">,</span> <span class="s1">&#39;T_r&#39;</span><span class="p">:</span><span class="mf">300.00</span><span class="p">,</span>
+              <span class="s1">&#39;V_r&#39;</span><span class="p">:</span><span class="mf">43.6</span><span class="o">/</span><span class="mf">10.0</span><span class="p">}</span>
+<span class="n">phase_name</span> <span class="o">=</span> <span class="s1">&#39;Forsterite&#39;</span>
+<span class="n">formula</span> <span class="o">=</span> <span class="s1">&#39;Mg(2)Si(1)O(4)&#39;</span>
+<span class="n">model</span><span class="o">.</span><span class="n">set_reference_origin</span><span class="p">(</span><span class="n">Vr</span><span class="o">=</span><span class="n">param_dict</span><span class="p">[</span><span class="s1">&#39;V_r&#39;</span><span class="p">])</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_code_module</span><span class="p">(</span><span class="n">phase</span><span class="o">=</span><span class="n">phase_name</span><span class="p">,</span> <span class="n">formula</span><span class="o">=</span><span class="n">formula</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">param_dict</span><span class="p">)</span>
+<span class="c1">#result = model.create_code_module(phase=phase_name, formula=formula, params=param_dict, module_type=&#39;calib&#39;)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Creating (once only) generic fast model code file string
+Creating (once only) generic model fast code template include file string
+Creating (once only) generic model fast code template code file string
+Creating include file ...
+... done!
+Creating code file ...
+... done
+Writing include file to working directory ...
+Writing code file to working directory ...
+Writing pyxbld file to working directory ...
+writing pyx file to working directory ...
+Compiling code and Python bindings ...
+Success! Import the module named  stixrude
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">param_dict</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;a0&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">2055000.0</span><span class="p">,</span>
+ <span class="s1">&#39;n&#39;</span><span class="p">:</span> <span class="mf">7.0</span><span class="p">,</span>
+ <span class="s1">&#39;v0&#39;</span><span class="p">:</span> <span class="mf">4.36</span><span class="p">,</span>
+ <span class="s1">&#39;k00&#39;</span><span class="p">:</span> <span class="mf">1280000.0</span><span class="p">,</span>
+ <span class="s1">&#39;k0p&#39;</span><span class="p">:</span> <span class="mf">4.2</span><span class="p">,</span>
+ <span class="s1">&#39;theta0&#39;</span><span class="p">:</span> <span class="mf">809.0</span><span class="p">,</span>
+ <span class="s1">&#39;gamma0&#39;</span><span class="p">:</span> <span class="mf">0.99</span><span class="p">,</span>
+ <span class="s1">&#39;q&#39;</span><span class="p">:</span> <span class="mf">2.1</span><span class="p">,</span>
+ <span class="s1">&#39;refS&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+ <span class="s1">&#39;R&#39;</span><span class="p">:</span> <span class="mf">8.314472</span><span class="p">,</span>
+ <span class="s1">&#39;T_r&#39;</span><span class="p">:</span> <span class="mf">300.0</span><span class="p">,</span>
+ <span class="s1">&#39;V_r&#39;</span><span class="p">:</span> <span class="mf">4.36</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="import-the-new-module-and-test-the-model">
+<h2>Import the new module and test the model<a class="headerlink" href="#import-the-new-module-and-test-the-model" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">stixrude</span>
+<span class="o">%</span><span class="k">cd</span> ..
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">ghiorso</span><span class="o">/</span><span class="n">Documents</span><span class="o">/</span><span class="n">ARCHIVE_XCODE</span><span class="o">/</span><span class="n">ThermoEngine</span><span class="o">/</span><span class="n">Notebooks</span><span class="o">/</span><span class="n">Codegen</span>
+</pre></div>
+</div>
+<p>Evaluate functions at temperature (K) and pressure (bars)</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="mf">1000.0</span>
+<span class="n">p</span> <span class="o">=</span> <span class="mf">10000.0</span>
+</pre></div>
+</div>
+<div class="section" id="available-in-both-fast-and-calib-code-versions">
+<h3>Available in both “Fast” and “Calib” code versions<a class="headerlink" href="#available-in-both-fast-and-calib-code-versions" title="Permalink to this headline">¶</a></h3>
+<p>Execute the “fast” or “calibration” code metadata retrieval functions:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_identifier</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_name</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_formula</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_mw</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_elements</span><span class="p">())</span>
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_identifier</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_name</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_formula</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_mw</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_elements</span><span class="p">())</span>
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Thu</span> <span class="n">Sep</span> <span class="mi">20</span> <span class="mi">12</span><span class="p">:</span><span class="mi">27</span><span class="p">:</span><span class="mi">08</span> <span class="mi">2018</span>
+<span class="n">Forsterite</span>
+<span class="n">Mg2SiO4</span>
+<span class="mf">140.6931</span>
+<span class="p">[</span><span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">4.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">2.</span> <span class="mf">0.</span> <span class="mf">1.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span>
+ <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span>
+ <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span>
+ <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span>
+ <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Execute the standard thermodynamic property retrieval functions:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0:&lt;10.10s}</span><span class="s2"> </span><span class="si">{1:13.6e}</span><span class="s2"> </span><span class="si">{2:&lt;10.10s}</span><span class="s2">&quot;</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_g</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dGdT&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_dgdt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dGdP&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_dgdp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/bar-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdP2&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_d2gdt2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K^2-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdTdP&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_d2gdtdp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-bar-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdP2&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_d2gdp2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/bar^2-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdT3&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_d3gdt3</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K^3-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdT2dP&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_d3gdt2dp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K^2-bar-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdTdP2&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_d3gdtdp2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-bar^2-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdP3&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_d3gdp3</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/bar^3-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_s</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;V&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_v</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/bar-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Cv&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_cv</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Cp&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_cp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dCpdT&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_dcpdt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K^2-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_alpha</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;1/K&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_beta</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;1/bar&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;K&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_K</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;bar&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Kp&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_Kp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;&#39;</span><span class="p">))</span>
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_g</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dGdT&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_dgdt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dGdP&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_dgdp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/bar-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdP2&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_d2gdt2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K^2-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdTdP&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_d2gdtdp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-bar-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdP2&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_d2gdp2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/bar^2-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdT3&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_d3gdt3</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K^3-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdT2dP&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_d3gdt2dp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K^2-bar-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdTdP2&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_d3gdtdp2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-bar^2-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdP3&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_d3gdp3</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/bar^3-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_s</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;V&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_v</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/bar-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Cv&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_cv</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Cp&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_cp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dCpdT&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_dcpdt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K^2-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_alpha</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;1/K&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_beta</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;1/bar&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;K&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_K</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;bar&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Kp&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_Kp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;&#39;</span><span class="p">))</span>
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">G</span>          <span class="o">-</span><span class="mf">2.147813e+06</span> <span class="n">J</span><span class="o">/</span><span class="n">m</span>
+<span class="n">dGdT</span>       <span class="o">-</span><span class="mf">2.653920e+02</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">-</span><span class="n">m</span>
+<span class="n">dGdP</span>        <span class="mf">4.410375e+00</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">-</span><span class="n">m</span>
+<span class="n">d2GdP2</span>     <span class="o">-</span><span class="mf">1.624659e-01</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="n">m</span>
+<span class="n">d2GdTdP</span>     <span class="mf">1.347595e-04</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">-</span><span class="n">bar</span><span class="o">-</span><span class="n">m</span>
+<span class="n">d2GdP2</span>     <span class="o">-</span><span class="mf">3.718165e-06</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="n">m</span>
+<span class="n">d3GdT3</span>      <span class="mf">1.522700e-04</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">^</span><span class="mi">3</span><span class="o">-</span><span class="n">m</span>
+<span class="n">d3GdT2dP</span>    <span class="mf">3.519210e-08</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="n">bar</span><span class="o">-</span>
+<span class="n">d3GdTdP2</span>   <span class="o">-</span><span class="mf">7.534594e-10</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">-</span><span class="n">bar</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span>
+<span class="n">d3GdP3</span>      <span class="mf">1.715513e-11</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">^</span><span class="mi">3</span><span class="o">-</span><span class="n">m</span>
+<span class="n">S</span>           <span class="mf">2.653920e+02</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">-</span><span class="n">m</span>
+<span class="n">V</span>           <span class="mf">4.410375e+00</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">-</span><span class="n">m</span>
+<span class="n">Cv</span>          <span class="mf">1.575818e+02</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">-</span><span class="n">m</span>
+<span class="n">Cp</span>          <span class="mf">1.624659e+02</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">-</span><span class="n">m</span>
+<span class="n">dCpdT</span>       <span class="mf">1.019590e-02</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="n">m</span>
+<span class="n">alpha</span>       <span class="mf">3.055512e-05</span> <span class="mi">1</span><span class="o">/</span><span class="n">K</span>
+<span class="n">beta</span>        <span class="mf">8.430497e-07</span> <span class="mi">1</span><span class="o">/</span><span class="n">bar</span>
+<span class="n">K</span>           <span class="mf">1.186170e+06</span> <span class="n">bar</span>
+<span class="n">Kp</span>          <span class="mf">4.472832e+00</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="available-only-in-the-calib-versions-of-generated-code">
+<h3>Available only in the “Calib” versions of generated code<a class="headerlink" href="#available-only-in-the-calib-versions-of-generated-code" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">Execute the parameter value/metadata functions.</div>
+<div class="line">These functions are only defined for the “calibration” model code
+implementation:</div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">np</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_get_param_number</span><span class="p">()</span>
+    <span class="n">names</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_get_param_names</span><span class="p">()</span>
+    <span class="n">units</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_get_param_units</span><span class="p">()</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_get_param_values</span><span class="p">()</span>
+    <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0:&lt;10.10s}</span><span class="s2"> </span><span class="si">{1:13.6e}</span><span class="s2"> </span><span class="si">{2:13.6e}</span><span class="s2"> </span><span class="si">{3:&lt;10.10s}</span><span class="s2">&quot;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">np</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_get_param_value</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">units</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>Test the functions that allow modification of the array of parameter
+values</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">100.0</span>
+    <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_set_param_values</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+    <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0:&lt;10.10s}</span><span class="s2"> </span><span class="si">{1:13.6e}</span><span class="s2"> </span><span class="si">{2:13.6e}</span><span class="s2"> </span><span class="si">{3:&lt;10.10s}</span><span class="s2">&quot;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">np</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_get_param_value</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">units</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+<span class="k">except</span> <span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">NameError</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>Test the functions that allow modification of a particular parameter
+value</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_set_param_value</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0:&lt;10.10s}</span><span class="s2"> </span><span class="si">{1:13.6e}</span><span class="s2"> </span><span class="si">{2:13.6e}</span><span class="s2"> </span><span class="si">{3:&lt;10.10s}</span><span class="s2">&quot;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">np</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_get_param_value</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">units</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>Evaluate parameter derivatives …</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;    </span><span class="si">{0:&lt;10.10s}</span><span class="s2"> </span><span class="si">{1:13.6e}</span><span class="s2">&quot;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="p">):</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Derivative with respect to parameter: &#39;</span><span class="p">,</span> <span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="s1">&#39; of&#39;</span><span class="p">)</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_dparam_g</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dGdT&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_dparam_dgdt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dGdP&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_dparam_dgdp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdT2&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_dparam_d2gdt2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdTdP&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_dparam_d2gdtdp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdP2&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_dparam_d2gdp2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdT3&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_dparam_d3gdt3</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdT2dP&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_dparam_d3gdt2dp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdTdP2&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_dparam_d3gdtdp2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdP3&#39;</span><span class="p">,</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_dparam_d3gdp3</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span>
+<span class="k">except</span> <span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="time-execution-of-the-code">
+<h2>Time execution of the code<a class="headerlink" href="#time-execution-of-the-code" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="o">%</span><span class="k">timeit</span>(stixrude.cy_Forsterite_stixrude_calib_g(t,p))
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="o">%</span><span class="k">timeit</span>(stixrude.cy_Forsterite_stixrude_g(t,p))
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>262 ns ± 1.05 ns per loop (mean ± std. dev. of 7 runs, 1000000 loops each)
+</pre></div>
+</div>
+</div>
+<div class="section" id="test-the-generated-code-against-the-standard-stixrude-code-base">
+<h2>Test the generated code against the standard Stixrude code base<a class="headerlink" href="#test-the-generated-code-against-the-standard-stixrude-code-base" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">thermoengine</span> <span class="kn">import</span> <span class="n">model</span> <span class="k">as</span> <span class="n">md</span>
+<span class="n">stixrudeDB</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">Database</span><span class="p">(</span><span class="n">database</span><span class="o">=</span><span class="s2">&quot;Stixrude&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">abbrv</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<span class="k">for</span> <span class="n">full_name</span><span class="p">,</span> <span class="n">abbrv</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">stixrudeDB</span><span class="o">.</span><span class="n">phase_info</span><span class="o">.</span><span class="n">phase_name</span><span class="p">,</span><span class="n">stixrudeDB</span><span class="o">.</span><span class="n">phase_info</span><span class="o">.</span><span class="n">abbrev</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">phase_name</span> <span class="o">==</span> <span class="n">full_name</span><span class="p">:</span>
+        <span class="k">break</span>
+<span class="n">refModel</span> <span class="o">=</span> <span class="n">stixrudeDB</span><span class="o">.</span><span class="n">get_phase</span><span class="p">(</span><span class="n">abbrv</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0:&lt;10.10s}</span><span class="s2"> </span><span class="si">{1:13.6e}</span><span class="s2"> </span><span class="si">{2:13.6e}</span><span class="s2"> </span><span class="si">{3:13.6e}</span><span class="s2"> </span><span class="si">{4:6.2f}</span><span class="s2">%&quot;</span>
+<span class="n">fmts</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0:&lt;10.10s}</span><span class="s2"> </span><span class="si">{1:13.6e}</span><span class="s2">&quot;</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_g</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">gibbs_energy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_dgdt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="n">refModel</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dGdT&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_dgdp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dGdP&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_d2gdt2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdT2&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_d2gdtdp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdTdP&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_d2gdp2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdP2&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_d3gdt3</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdT3&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_d3gdt2dp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdT2dP&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_d3gdtdp2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdTdP2&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_d3gdp3</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdP3&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_s</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_v</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;V&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_cv</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Cv&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_cp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">heat_capacity</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Cp&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_dcpdt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dCpdT&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_alpha</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_beta</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_K</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;K&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_Kp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Kp&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_g</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">gibbs_energy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_dgdt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="n">refModel</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dGdT&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_dgdp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dGdP&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_d2gdt2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdT2&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_d2gdtdp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdTdP&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_d2gdp2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdP2&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_d3gdt3</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdT3&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_d3gdt2dp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdT2dP&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_d3gdtdp2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdTdP2&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_d3gdp3</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdP3&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_s</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_v</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;V&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_cv</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Cv&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_cp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">heat_capacity</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Cp&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_dcpdt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dCpdT&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_alpha</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_beta</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_K</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;K&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">stixrude</span><span class="o">.</span><span class="n">cy_Forsterite_stixrude_calib_Kp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Kp&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">G</span>          <span class="o">-</span><span class="mf">2.147813e+06</span> <span class="o">-</span><span class="mf">2.148196e+06</span>  <span class="mf">3.829654e+02</span>   <span class="mf">0.02</span><span class="o">%</span>
+<span class="n">dGdT</span>       <span class="o">-</span><span class="mf">2.653920e+02</span> <span class="o">-</span><span class="mf">2.747216e+02</span>  <span class="mf">9.329571e+00</span>   <span class="mf">3.40</span><span class="o">%</span>
+<span class="n">dGdP</span>        <span class="mf">4.410375e+00</span>  <span class="mf">4.414971e+00</span> <span class="o">-</span><span class="mf">4.596333e-03</span>   <span class="mf">0.10</span><span class="o">%</span>
+<span class="n">d2GdT2</span>     <span class="o">-</span><span class="mf">1.624659e-01</span>
+<span class="n">d2GdTdP</span>     <span class="mf">1.347595e-04</span>
+<span class="n">d2GdP2</span>     <span class="o">-</span><span class="mf">3.718165e-06</span>
+<span class="n">d3GdT3</span>      <span class="mf">1.522700e-04</span>
+<span class="n">d3GdT2dP</span>    <span class="mf">3.519210e-08</span>
+<span class="n">d3GdTdP2</span>   <span class="o">-</span><span class="mf">7.534594e-10</span>
+<span class="n">d3GdP3</span>      <span class="mf">1.715513e-11</span>
+<span class="n">S</span>           <span class="mf">2.653920e+02</span>  <span class="mf">2.747216e+02</span> <span class="o">-</span><span class="mf">9.329571e+00</span>   <span class="mf">3.40</span><span class="o">%</span>
+<span class="n">V</span>           <span class="mf">4.410375e+00</span>  <span class="mf">4.414971e+00</span> <span class="o">-</span><span class="mf">4.596333e-03</span>   <span class="mf">0.10</span><span class="o">%</span>
+<span class="n">Cv</span>          <span class="mf">1.575818e+02</span>
+<span class="n">Cp</span>          <span class="mf">1.624659e+02</span>  <span class="mf">1.748649e+02</span> <span class="o">-</span><span class="mf">1.239895e+01</span>   <span class="mf">7.09</span><span class="o">%</span>
+<span class="n">dCpdT</span>       <span class="mf">1.019590e-02</span>
+<span class="n">alpha</span>       <span class="mf">3.055512e-05</span>
+<span class="n">beta</span>        <span class="mf">8.430497e-07</span>
+<span class="n">K</span>           <span class="mf">1.186170e+06</span>
+<span class="n">Kp</span>          <span class="mf">4.472832e+00</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2020, ENKI.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.4.0.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Revised HKF - Standard State &mdash; Thermoengine 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="None"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" >
+    <link rel="search" title="Search" href="search.html" >
+    <link rel="top" title="Thermoengine 1.0.1 documentation" href="index.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="index.html">
+      <img style="border: 0;" alt="ENKI" src="_static/img/ENKI_header.png"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="http://enki-portal.org">ENKI Web</a></li>
+        <li class="active"><a href="https://enki.ofm-research.org">ENKI Server</a></li>
+	
+        <li class="active"><a href="index.html">Thermoengine 1.0.1 documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/Enki.png" alt="Logo">
+            </a></p>
+        </div>
+      </div>
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="revised-hkf-standard-state">
+<h1>Revised HKF - Standard State<a class="headerlink" href="#revised-hkf-standard-state" title="Permalink to this headline">¶</a></h1>
+<p><strong>This notebook develops code for the revised HKF
+(Helgeson-Kirkham-Flowers) formalism for the thermodynamic properties of
+aqueous species.</strong></p>
+<p>The derivation follows that in Appendix B of</p>
+<p>Shock EL, Oelkers EH, Johnson JW, Sverjensky DA, Helgeson HC (1992)
+Calculation of the thermodynamic properties of aqueous species at high
+pressures and temperatures. Journal of the Chemical Society Faraday
+Transactions, 88(6), 803-826</p>
+<p>and in</p>
+<p>Tanger JC, Helgeson HC (1988) Calculation of the thermodynamic and
+transport properties of aqueous species at high pressures and
+temperatures: Revised equations of state for the standard partial molal
+properties if ions and electrolytes. American Journal of Science, 288,
+19-98</p>
+<p>Required system packages and initialization</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">sympy</span> <span class="k">as</span> <span class="nn">sym</span>
+<span class="n">sym</span><span class="o">.</span><span class="n">init_printing</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Import the coder module and retrieve sympy extensions for the Born
+functions and for the Shock et al., (1992) “<em>g</em>” function:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">thermoengine</span> <span class="kn">import</span> <span class="n">coder</span>
+<span class="kn">from</span> <span class="nn">thermoengine.coder</span> <span class="kn">import</span> <span class="n">B</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">dUdT</span><span class="p">,</span> <span class="n">dUdP</span><span class="p">,</span> <span class="n">dNdT</span><span class="p">,</span> <span class="n">dNdP</span><span class="p">,</span> <span class="n">dXdT</span><span class="p">,</span> <span class="n">gSolvent</span>
+</pre></div>
+</div>
+<p>Create a standard state model instance …</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">coder</span><span class="o">.</span><span class="n">StdStateModel</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>… and retrieve sympy symbols for standard variables.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_symbol_for_t</span><span class="p">()</span>
+<span class="n">P</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_symbol_for_p</span><span class="p">()</span>
+<span class="n">Tr</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_symbol_for_tr</span><span class="p">()</span>
+<span class="n">Pr</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_symbol_for_pr</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="section" id="equation-of-state-eos">
+<h2>Equation of State (EOS)<a class="headerlink" href="#equation-of-state-eos" title="Permalink to this headline">¶</a></h2>
+<p>Shock et al., 1992, eqn. B10:</p>
+<p><span class="math notranslate nohighlight">\({\bar v^o} = {a_1} + \frac{{{a_2}}}{{\Psi + P}} + \left( {{a_3} + \frac{{{a_4}}}{{\Psi + P}}} \right)\frac{1}{{T - \theta }} - \omega Q - \left( {B + 1} \right){\left( {\frac{{\partial \omega }}{{\partial P}}} \right)_T}\)</span></p>
+<div class="line-block">
+<div class="line"><span class="math notranslate nohighlight">\(\Psi\)</span> has a value of 2600 bars as determined by Tanger and
+Helgeson (1988)</div>
+<div class="line"><span class="math notranslate nohighlight">\(\theta\)</span> has a value of 228 K as determined by Helgeson and
+Kirkham (1976)</div>
+</div>
+<p><span class="math notranslate nohighlight">\(\omega\)</span> is defined in terms of the charge on the ion (<em>z</em>) and a
+mysterious function, <em>g</em>, as derived by Shock et al. (1992),building on
+the work of Tanger and Helgeson (1988):</p>
+<p><span class="math notranslate nohighlight">\(\omega = \eta z\left( {\frac{z}{{{r_{e,ref}} + \left| z \right|g}} - \frac{1}{{{r_{e,{H^ + }}} + g}}} \right)\)</span></p>
+<p>where <span class="math notranslate nohighlight">\(\eta\)</span> is a conversion constant. The reference ionic radius
+is:</p>
+<p><span class="math notranslate nohighlight">\({r_{e,ref}} = \frac{{{z^2}}}{{\frac{{{\omega _{ref}}}}{\eta } + \frac{z}{{{r_{e,{H^ + }}}}}}}\)</span></p>
+<p>which when inserted into the definition becomes</p>
+<p><span class="math notranslate nohighlight">\(\omega = \left( {\frac{{{\omega _{ref}} + \frac{{z\eta }}{{{r_{e,{H^ + }}}}}}}{{1 + \frac{{\sqrt {{z^2}} }}{{{z^2}}}g\left( {\frac{{{\omega _{ref}}}}{\eta } + \frac{z}{{{r_{e,{H^ + }}}}}} \right)}} - \frac{{\eta z}}{{{r_{e,{H^ + }}} + g}}} \right)\)</span></p>
+<p>The above expression is cast into a slightly different form than the one
+provided by Shock et al. (1992), but is otherwise identical. This form
+is applicable to both charged and neutral species, as demonstrated
+below.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eta</span><span class="p">,</span> <span class="n">rH</span><span class="p">,</span> <span class="n">omega0</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;eta rH omega0 z&#39;</span><span class="p">,</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">omega_def</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">Piecewise</span><span class="p">((</span><span class="n">omega0</span><span class="p">,</span> <span class="n">sym</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">z</span><span class="p">,</span><span class="mi">0</span><span class="p">)),</span> \
+            <span class="p">((</span><span class="n">omega0</span> <span class="o">+</span> <span class="n">z</span><span class="o">*</span><span class="n">eta</span><span class="o">/</span><span class="n">rH</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">sym</span><span class="o">.</span><span class="n">Abs</span><span class="p">(</span><span class="n">z</span><span class="p">)</span><span class="o">*</span><span class="n">gSolvent</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="n">P</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">omega0</span><span class="o">/</span><span class="n">eta</span> <span class="o">+</span> <span class="n">z</span><span class="o">/</span><span class="n">rH</span><span class="p">)</span><span class="o">/</span><span class="n">z</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">eta</span><span class="o">*</span><span class="n">z</span><span class="o">/</span><span class="p">(</span><span class="n">rH</span> <span class="o">+</span> <span class="n">gSolvent</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="n">P</span><span class="p">)),</span> <span class="kc">True</span><span class="p">))</span>
+<span class="n">omega_def</span>
+</pre></div>
+</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}\displaystyle \begin{cases} \omega_{0} &amp; \text{for}\: z = 0 \\- \frac{\eta z}{rH + \operatorname{gSolvent}{\left(T,P \right)}} + \frac{\frac{\eta z}{rH} + \omega_{0}}{1 + \frac{\left(\frac{z}{rH} + \frac{\omega_{0}}{\eta}\right) \left|{z}\right| \operatorname{gSolvent}{\left(T,P \right)}}{z^{2}}} &amp; \text{otherwise} \end{cases}\end{split}\]</div>
+<p>Hence,
+<span class="math notranslate nohighlight">\({\bar v^o} = {a_1} + \frac{{{a_2}}}{{\Psi + P}} + \left( {{a_3} + \frac{{{a_4}}}{{\Psi + P}}} \right)\frac{1}{{T - \theta }} - \omega Q - \left( {B + 1} \right){\left( {\frac{{\partial \omega }}{{\partial P}}} \right)_T}\)</span>
+is</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a1</span><span class="p">,</span><span class="n">a2</span><span class="p">,</span><span class="n">a3</span><span class="p">,</span><span class="n">a4</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;a1 a2 a3 a4&#39;</span><span class="p">)</span>
+<span class="n">Psi</span><span class="p">,</span><span class="n">theta</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;Psi theta&#39;</span><span class="p">)</span>
+<span class="n">omega</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="s1">&#39;omega&#39;</span><span class="p">)(</span><span class="n">T</span><span class="p">,</span><span class="n">P</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vtp</span> <span class="o">=</span> <span class="n">a1</span> <span class="o">+</span> <span class="n">a2</span><span class="o">/</span><span class="p">(</span><span class="n">Psi</span><span class="o">+</span><span class="n">P</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">a3</span> <span class="o">+</span> <span class="n">a4</span><span class="o">/</span><span class="p">(</span><span class="n">Psi</span><span class="o">+</span><span class="n">P</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="n">T</span><span class="o">-</span><span class="n">theta</span><span class="p">)</span> <span class="o">-</span> <span class="n">omega</span><span class="o">*</span><span class="n">Q</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="n">P</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">B</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="n">P</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">omega</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+<span class="n">vtp</span>
+</pre></div>
+</div>
+<div class="math notranslate nohighlight">
+\[\displaystyle a_{1} + \frac{a_{2}}{P + \Psi} - \left(B{\left(T,P \right)} + 1\right) \frac{\partial}{\partial P} \omega{\left(T,P \right)} - \omega{\left(T,P \right)} Q{\left(T,P \right)} + \frac{a_{3} + \frac{a_{4}}{P + \Psi}}{T - \theta}\]</div>
+<p>Note that the derivative of $ -
+:raw-latex:<a href="#id1"><span class="problematic" id="id2">`</span></a>left[ {left( {{B_{T,P}} + 1} right){omega _{T,P}} - left( {{B_{T,{P_r}}} + 1} right){omega _{T,{P_r}}}} right]`$</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">B</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="n">P</span><span class="p">))</span><span class="o">*</span><span class="n">omega</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">B</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="n">Pr</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="n">omega</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">P</span><span class="p">,</span><span class="n">Pr</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="math notranslate nohighlight">
+\[\displaystyle \left(- B{\left(T,P \right)} - 1\right) \omega{\left(T,P \right)} + \left(B{\left(T,P_{r} \right)} + 1\right) \omega{\left(T,P_{r} \right)}\]</div>
+<p>is</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">B</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="n">P</span><span class="p">))</span><span class="o">*</span><span class="n">omega</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">B</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="n">Pr</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="n">omega</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">P</span><span class="p">,</span><span class="n">Pr</span><span class="p">)))</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math notranslate nohighlight">
+\[\displaystyle \left(- B{\left(T,P \right)} - 1\right) \frac{\partial}{\partial P} \omega{\left(T,P \right)} - \omega{\left(T,P \right)} Q{\left(T,P \right)}\]</div>
+<p>So that <span class="math notranslate nohighlight">\(\int_{{P_r}}^P {{{\bar v}^o}} dP\)</span> may be written:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">deltaG</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="n">a1</span> <span class="o">+</span> <span class="n">a2</span><span class="o">/</span><span class="p">(</span><span class="n">Psi</span><span class="o">+</span><span class="n">P</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">a3</span> <span class="o">+</span> <span class="n">a4</span><span class="o">/</span><span class="p">(</span><span class="n">Psi</span><span class="o">+</span><span class="n">P</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="n">T</span><span class="o">-</span><span class="n">theta</span><span class="p">),</span> <span class="p">(</span><span class="n">P</span><span class="p">,</span><span class="n">Pr</span><span class="p">,</span><span class="n">P</span><span class="p">))</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">B</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="n">P</span><span class="p">))</span><span class="o">*</span><span class="n">omega</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">B</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="n">Pr</span><span class="p">))</span><span class="o">*</span><span class="n">omega</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">P</span><span class="p">,</span><span class="n">Pr</span><span class="p">)</span>
+<span class="n">deltaG</span>
+</pre></div>
+</div>
+<div class="math notranslate nohighlight">
+\[\displaystyle \frac{P \left(T a_{1} - a_{1} \theta + a_{3}\right)}{T - \theta} - \frac{P_{r} \left(T a_{1} - a_{1} \theta + a_{3}\right)}{T - \theta} - \left(B{\left(T,P \right)} + 1\right) \omega{\left(T,P \right)} + \left(B{\left(T,P_{r} \right)} + 1\right) \omega{\left(T,P_{r} \right)} + \frac{\left(T a_{2} - a_{2} \theta + a_{4}\right) \log{\left(P + \Psi \right)}}{T - \theta} - \frac{\left(T a_{2} - a_{2} \theta + a_{4}\right) \log{\left(P_{r} + \Psi \right)}}{T - \theta}\]</div>
+<p>The second derivative of this volume integral gives the contribution to
+the heat capacity,
+i.e. <span class="math notranslate nohighlight">\(\frac{{{\partial ^2}G}}{{\partial {T^2}}} = - \frac{{\partial S}}{{\partial T}} = - \frac{{{C_P}}}{T}\)</span>
+so that</p>
+<p><span class="math notranslate nohighlight">\({{\bar c}_P}\left( {T,P} \right) - {{\bar c}_P}\left( {T,{P_r}} \right) = - T\frac{{{\partial ^2}\int_{{P_r}}^P {{{\bar v}^o}} dP}}{{\partial {T^2}}}\)</span></p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">T</span><span class="o">*</span><span class="n">deltaG</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math notranslate nohighlight">
+\[\displaystyle - T \left(- \frac{2 P a_{1}}{\left(T - \theta\right)^{2}} + \frac{2 P \left(T a_{1} - a_{1} \theta + a_{3}\right)}{\left(T - \theta\right)^{3}} + \frac{2 P_{r} a_{1}}{\left(T - \theta\right)^{2}} - \frac{2 P_{r} \left(T a_{1} - a_{1} \theta + a_{3}\right)}{\left(T - \theta\right)^{3}} - \frac{2 a_{2} \log{\left(P + \Psi \right)}}{\left(T - \theta\right)^{2}} + \frac{2 a_{2} \log{\left(P_{r} + \Psi \right)}}{\left(T - \theta\right)^{2}} - \left(B{\left(T,P \right)} + 1\right) \frac{\partial^{2}}{\partial T^{2}} \omega{\left(T,P \right)} + \left(B{\left(T,P_{r} \right)} + 1\right) \frac{\partial^{2}}{\partial T^{2}} \omega{\left(T,P_{r} \right)} - \omega{\left(T,P \right)} X{\left(T,P \right)} + \omega{\left(T,P_{r} \right)} X{\left(T,P_{r} \right)} - 2 Y{\left(T,P \right)} \frac{\partial}{\partial T} \omega{\left(T,P \right)} + 2 Y{\left(T,P_{r} \right)} \frac{\partial}{\partial T} \omega{\left(T,P_{r} \right)} + \frac{2 \left(T a_{2} - a_{2} \theta + a_{4}\right) \log{\left(P + \Psi \right)}}{\left(T - \theta\right)^{3}} - \frac{2 \left(T a_{2} - a_{2} \theta + a_{4}\right) \log{\left(P_{r} + \Psi \right)}}{\left(T - \theta\right)^{3}}\right)\]</div>
+</div>
+<div class="section" id="heat-capacity-functions">
+<h2>Heat Capacity functions<a class="headerlink" href="#heat-capacity-functions" title="Permalink to this headline">¶</a></h2>
+<p>Heat capacity is parameterized as (Tanger and Helgeson, 1988, eq A-4, p
+78):</p>
+<p><span class="math notranslate nohighlight">\({{\bar c}_P} = {c_1} + \frac{{{c_2}}}{{{{\left( {T - \theta } \right)}^2}}} - \left[ {\frac{{2T}}{{{{\left( {T - \theta } \right)}^3}}}} \right]\left[ {{a_3}\left( {P - {P_r}} \right) + {a_4}\ln \left( {\frac{{\Psi + P}}{{\Psi + {P_r}}}} \right)} \right] + \omega TX + 2TY\frac{{\partial \omega }}{{\partial T}} - T\left( {\frac{1}{\varepsilon } - 1} \right)\frac{{{\partial ^2}\omega }}{{\partial {T^2}}}\)</span></p>
+<p>or equivalently, as the Born function is defined as
+<span class="math notranslate nohighlight">\(B = - \frac{1}{\varepsilon }\)</span></p>
+<p><span class="math notranslate nohighlight">\({{\bar c}_P} = {c_1} + \frac{{{c_2}}}{{{{\left( {T - \theta } \right)}^2}}} - \left[ {\frac{{2T}}{{{{\left( {T - \theta } \right)}^3}}}} \right]\left[ {{a_3}\left( {P - {P_r}} \right) + {a_4}\ln \left( {\frac{{\Psi + P}}{{\Psi + {P_r}}}} \right)} \right] + \omega TX + 2TY\frac{{\partial \omega }}{{\partial T}} + T\left( {B + 1} \right)\frac{{{\partial ^2}\omega }}{{\partial {T^2}}}\)</span></p>
+<p>at the reference pressure this expression becomes</p>
+<p><span class="math notranslate nohighlight">\({\bar c_{{P_r}}} = {c_1} + \frac{{{c_2}}}{{{{\left( {T - \theta } \right)}^2}}} + {\omega _{{P_r}}}T{X_{T,{P_r}}} + 2T{Y_{T,{P_r}}}{\left. {\frac{{\partial \omega }}{{\partial T}}} \right|_{T,{P_r}}} + T\left( {{B_{T,{P_r}}} + 1} \right){\left. {\frac{{{\partial ^2}\omega }}{{\partial {T^2}}}} \right|_{T,{P_r}}}\)</span></p>
+<p>Note that the “Born” function terms are the equivalent of
+<span class="math notranslate nohighlight">\(T{\left. {\frac{{{\partial ^2}\left( {B + 1} \right)\omega }}{{\partial {T^2}}}} \right|_{T,{P_r}}}\)</span>,
+so that the reference pressure heat capacity can be equivalently
+written:</p>
+<p><span class="math notranslate nohighlight">\({{\bar c}_{{P_r}}} = {c_1} + \frac{{{c_2}}}{{{{\left( {T - \theta } \right)}^2}}} + T{\left. {\frac{{{\partial ^2}\left( {B + 1} \right)\omega }}{{\partial {T^2}}}} \right|_{T,{P_r}}}\)</span></p>
+<p>as demonstrated here:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c1</span><span class="p">,</span><span class="n">c2</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;c1 c2&#39;</span><span class="p">)</span>
+<span class="n">ctpr</span> <span class="o">=</span> <span class="n">c1</span> <span class="o">+</span> <span class="n">c2</span><span class="o">/</span><span class="p">(</span><span class="n">T</span><span class="o">-</span><span class="n">theta</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">T</span><span class="o">*</span><span class="p">((</span><span class="n">B</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="n">P</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">omega</span><span class="p">)</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">P</span><span class="p">,</span><span class="n">Pr</span><span class="p">)</span>
+<span class="n">ctpr</span>
+</pre></div>
+</div>
+<div class="math notranslate nohighlight">
+\[\displaystyle T \left(\left(B{\left(T,P_{r} \right)} + 1\right) \frac{\partial^{2}}{\partial T^{2}} \omega{\left(T,P_{r} \right)} + \omega{\left(T,P_{r} \right)} X{\left(T,P_{r} \right)} + 2 Y{\left(T,P_{r} \right)} \frac{\partial}{\partial T} \omega{\left(T,P_{r} \right)}\right) + c_{1} + \frac{c_{2}}{\left(T - \theta\right)^{2}}\]</div>
+</div>
+<div class="section" id="gibbs-free-energy">
+<h2>Gibbs free energy<a class="headerlink" href="#gibbs-free-energy" title="Permalink to this headline">¶</a></h2>
+<p>The above analysis gives a way to write the Gibbs free energy using the
+identity <span class="math notranslate nohighlight">\(dG = - SdT + VdP\)</span>, from which:</p>
+<p><span class="math notranslate nohighlight">\({G_{T,P}} = {G_{{T_r},{P_r}}} - \int_{{T_r}}^T {{S_{T,{P_r}}}dT} + \int_{{P_r}}^P {{V_{T,P}}dP}\)</span></p>
+<p>The entropy term is given by</p>
+<p><span class="math notranslate nohighlight">\({S_{T,{P_r}}} = {S_{{T_r},{P_r}}} + \int_{{T_r}}^T {\frac{{{{\bar c}_{T,{P_r}}}}}{T}dT}\)</span></p>
+<p>Combining expressions</p>
+<p><span class="math notranslate nohighlight">\({G_{T,P}} = {G_{{T_r},{P_r}}} - {S_{{T_r},{P_r}}}\left( {T - {T_r}} \right) - \int_{{T_r}}^T {\int_{{T_r}}^T {\frac{{{{\bar c}_{T,{P_r}}}}}{T}dT} dT} + \int_{{P_r}}^P {{V_{T,P}}dP}\)</span></p>
+<p>Now, using the above expression for the reference pressure heat capacity
+we can write</p>
+<p><span class="math notranslate nohighlight">\({G_{T,P}} = {G_{{T_r},{P_r}}} - {S_{{T_r},{P_r}}}\left( {T - {T_r}} \right) - \int_{{T_r}}^T {\int_{{T_r}}^T {\frac{{\left( {{c_1} + \frac{{{c_2}}}{{{{\left( {T - \theta } \right)}^2}}} + T{{\left. {\frac{{{\partial ^2}\left( {B + 1} \right)\omega }}{{\partial {T^2}}}} \right|}_{T,{P_r}}}} \right)}}{T}dT} dT} + \int_{{P_r}}^P {{V_{T,P}}dP}\)</span></p>
+<p>or</p>
+<p><span class="math notranslate nohighlight">\({G_{T,P}} = {G_{{T_r},{P_r}}} - {S_{{T_r},{P_r}}}\left( {T - {T_r}} \right) - \int_{{T_r}}^T {\int_{{T_r}}^T {\left[ {\frac{{{c_1}}}{T} + \frac{{{c_2}}}{{T{{\left( {T - \theta } \right)}^2}}} + {{\left. {\frac{{{\partial ^2}\left( {B + 1} \right)\omega }}{{\partial {T^2}}}} \right|}_{T,{P_r}}}} \right]dT} dT} + \int_{{P_r}}^P {{V_{T,P}}dP}\)</span></p>
+<p>which expands to</p>
+<p><span class="math notranslate nohighlight">\({G_{T,P}} = {G_{{T_r},{P_r}}} - {S_{{T_r},{P_r}}}\left( {T - {T_r}} \right) - \int_{{T_r}}^T {\int_{{T_r}}^T {\left[ {\frac{{{c_1}}}{T} + \frac{{{c_2}}}{{T{{\left( {T - \theta } \right)}^2}}}} \right]dT} dT} - \int_{{T_r}}^T {\int_{{T_r}}^T {{{\left. {\frac{{{\partial ^2}\left( {B + 1} \right)\omega }}{{\partial {T^2}}}} \right|}_{T,{P_r}}}dT} dT} + \int_{{P_r}}^P {{V_{T,P}}dP}\)</span></p>
+<p>Note that
+<span class="math notranslate nohighlight">\(\int_{{T_r}}^T {\int_{{T_r}}^T {{{\left. {\frac{{{\partial ^2}\left( {B + 1} \right)\omega }}{{\partial {T^2}}}} \right|}_{T,{P_r}}}dT} dT}\)</span>
+evaluates to:</p>
+<p><span class="math notranslate nohighlight">\(\int_{{T_r}}^T {\int_{{T_r}}^T {{{\left. {\frac{{{\partial ^2}\left( {B + 1} \right)\omega }}{{\partial {T^2}}}} \right|}_{T,{P_r}}}dT} dT} = \int_{{T_r}}^T {\left[ {{{\left. {\frac{{\partial \left( {B + 1} \right)\omega }}{{\partial T}}} \right|}_{T,{P_r}}} - {{\left. {\frac{{\partial \left( {B + 1} \right)\omega }}{{\partial T}}} \right|}_{{T_r},{P_r}}}} \right]dT}\)</span></p>
+<p>and further to:</p>
+<p><span class="math notranslate nohighlight">\(\int_{{T_r}}^T {\int_{{T_r}}^T {{{\left. {\frac{{{\partial ^2}\left( {B + 1} \right)\omega }}{{\partial {T^2}}}} \right|}_{T,{P_r}}}dT} dT} = \left( {{B_{T,{P_r}}} + 1} \right){\omega _{T,P_r}} - \left( {{B_{{T_r},{P_r}}} + 1} \right){\omega _{{T_r},{P_r}}} - {\left. {\frac{{\partial \left( {B + 1} \right)\omega }}{{\partial T}}} \right|_{{T_r},{P_r}}}\left( {T - {T_r}} \right)\)</span></p>
+<p>and still further to:</p>
+<p><span class="math notranslate nohighlight">\(\int_{{T_r}}^T {\int_{{T_r}}^T {{{\left. {\frac{{{\partial ^2}\left( {B + 1} \right)\omega }}{{\partial {T^2}}}} \right|}_{T,{P_r}}}dT} dT} = \left( {{B_{T,{P_r}}} + 1} \right){\omega _{T,{P_r}}} - \left( {{B_{{T_r},{P_r}}} + 1} \right){\omega _{{T_r},{P_r}}} - {\left. {\frac{{\partial B}}{{\partial T}}} \right|_{{T_r},{P_r}}}{\omega _{{T_r},{P_r}}}\left( {T - {T_r}} \right) - {\left. {\left( {{B_{{T_r},{P_r}}} + 1} \right)\frac{{\partial \omega }}{{\partial T}}} \right|_{{T_r},{P_r}}}\left( {T - {T_r}} \right)\)</span></p>
+<p>recognizing that <span class="math notranslate nohighlight">\(Y = \frac{{\partial B}}{{\partial T}}\)</span>, we have
+finally</p>
+<p><span class="math notranslate nohighlight">\(\int_{{T_r}}^T {\int_{{T_r}}^T {{{\left. {\frac{{{\partial ^2}\left( {B + 1} \right)\omega }}{{\partial {T^2}}}} \right|}_{T,{P_r}}}dT} dT} = \left( {{B_{T,{P_r}}} + 1} \right){\omega _{T,{P_r}}} - \left( {{B_{{T_r},{P_r}}} + 1} \right){\omega _{{T_r},{P_r}}} - {Y_{{T_r},{P_r}}}\left( {T - {T_r}} \right){\omega _{{T_r},{P_r}}} - {\left. {\left( {{B_{{T_r},{P_r}}} + 1} \right)\left( {T - {T_r}} \right)\frac{{\partial \omega }}{{\partial T}}} \right|_{{T_r},{P_r}}}\)</span></p>
+<p>Note that:</p>
+<p>$ - <a href="#id3"><span class="problematic" id="id4">:raw-latex:`\int`</span></a><em>{{T_r}}^T {:raw-latex:`int`</em>{{T_r}}^T
+{{{<a href="#id5"><span class="problematic" id="id6">:raw-latex:`\left`</span></a>.
+{<a href="#id7"><span class="problematic" id="id8">:raw-latex:`\frac{{{\partial ^2}\left( {B + 1} \right)\omega }}{{\partial {T^2}}}`</span></a>}
+<a href="#id9"><span class="problematic" id="id10">:raw-latex:`\right`</span></a>|}<em>{T,{P_r}}}dT} dT} = - :raw-latex:`left`(
+{{B</em>{T,{P_r}}} + 1}
+<a href="#id11"><span class="problematic" id="id12">:raw-latex:`\right`</span></a>){<a href="#id13"><span class="problematic" id="id14">:raw-latex:`\omega `\ *{T,{P_r}}} +
+:raw-latex:`</span></a>left`( {{B*{{T_r},{P_r}}} + 1}
+<a href="#id15"><span class="problematic" id="id16">:raw-latex:`\right`</span></a>){<a href="#id17"><span class="problematic" id="id18">:raw-latex:`\omega `\ *{{T_r},{P_r}}} +
+{Y*\ {{T_r},{P_r}}}:raw-latex:`</span></a>left`( {T - {T_r}}
+<a href="#id19"><span class="problematic" id="id20">:raw-latex:`\right`</span></a>){<a href="#id21"><span class="problematic" id="id22">:raw-latex:`\omega `\ *{{T_r},{P_r}}} +
+{:raw-latex:`</span></a>left`. {<a href="#id23"><span class="problematic" id="id24">:raw-latex:`\left`( {{B*\ {{T_r},{P_r}}} + 1}
+:raw-latex:`</span></a>right`):raw-latex:<cite>left`( {T - {T_r}}
+:raw-latex:</cite>right`):raw-latex:<cite>frac{{partial omega }}{{partial T}}</cite>}
+<a href="#id25"><span class="problematic" id="id26">:raw-latex:`\right`</span></a>|_{{T_r},{P_r}}}$</p>
+<p>and</p>
+<p><span class="math notranslate nohighlight">\(\int_{{P_r}}^P {{V_{T,P}}dP} = f\left( {T,\theta ,{a_1},{a_2},{a_3},{a_4},T,P,{P_r}} \right) - \left( {{B_{T,P}} + 1} \right){\omega _{T,P}} + \left( {{B_{T,{P_r}}} + 1} \right){\omega _{T,{P_r}}}\)</span></p>
+<p>Add to the above parameters the reference state enthalpy,
+<span class="math notranslate nohighlight">\(H_{ref}\)</span> and the reference state entropy, <span class="math notranslate nohighlight">\(S_{ref}\)</span></p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Gref</span><span class="p">,</span><span class="n">Sref</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;G_ref S_ref&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="derive-an-expression-for-the-gibbs-free-energy">
+<h2>Derive an expression for the Gibbs free energy<a class="headerlink" href="#derive-an-expression-for-the-gibbs-free-energy" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gtp</span> <span class="o">=</span> <span class="n">Gref</span> <span class="o">-</span> <span class="n">Sref</span><span class="o">*</span><span class="p">(</span><span class="n">T</span><span class="o">-</span><span class="n">Tr</span><span class="p">)</span> <span class="o">-</span> <span class="n">sym</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="n">sym</span><span class="o">.</span><span class="n">integrate</span><span class="p">((</span><span class="n">c1</span> <span class="o">+</span> <span class="n">c2</span><span class="o">/</span><span class="p">(</span><span class="n">T</span><span class="o">-</span><span class="n">theta</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">T</span><span class="p">,</span> <span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="n">Tr</span><span class="p">,</span><span class="n">T</span><span class="p">)),</span> <span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="n">Tr</span><span class="p">,</span><span class="n">T</span><span class="p">))</span> \
+    <span class="o">-</span> <span class="p">(</span><span class="n">B</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="n">Pr</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">omega</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">P</span><span class="p">,</span><span class="n">Pr</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">B</span><span class="p">(</span><span class="n">Tr</span><span class="p">,</span><span class="n">Pr</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">omega</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">P</span><span class="p">,</span><span class="n">Pr</span><span class="p">)</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="n">Tr</span><span class="p">)</span> \
+    <span class="o">+</span> <span class="n">Y</span><span class="p">(</span><span class="n">Tr</span><span class="p">,</span><span class="n">Pr</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">T</span><span class="o">-</span><span class="n">Tr</span><span class="p">)</span><span class="o">*</span><span class="n">omega</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">P</span><span class="p">,</span><span class="n">Pr</span><span class="p">)</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="n">Tr</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">B</span><span class="p">(</span><span class="n">Tr</span><span class="p">,</span><span class="n">Pr</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">T</span><span class="o">-</span><span class="n">Tr</span><span class="p">)</span><span class="o">*</span><span class="n">omega</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">P</span><span class="p">,</span><span class="n">Pr</span><span class="p">)</span> \
+    <span class="o">+</span> <span class="n">sym</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="n">a1</span> <span class="o">+</span> <span class="n">a2</span><span class="o">/</span><span class="p">(</span><span class="n">Psi</span><span class="o">+</span><span class="n">P</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">a3</span> <span class="o">+</span> <span class="n">a4</span><span class="o">/</span><span class="p">(</span><span class="n">Psi</span><span class="o">+</span><span class="n">P</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="n">T</span><span class="o">-</span><span class="n">theta</span><span class="p">),</span> <span class="p">(</span><span class="n">P</span><span class="p">,</span><span class="n">Pr</span><span class="p">,</span><span class="n">P</span><span class="p">))</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">B</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="n">P</span><span class="p">))</span><span class="o">*</span><span class="n">omega</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">B</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="n">Pr</span><span class="p">))</span><span class="o">*</span><span class="n">omega</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">P</span><span class="p">,</span><span class="n">Pr</span><span class="p">)</span>
+<span class="n">gtp</span>
+</pre></div>
+</div>
+<div class="math notranslate nohighlight">
+\[\displaystyle G_{ref} + \frac{P \left(T a_{1} - a_{1} \theta + a_{3}\right)}{T - \theta} - \frac{P_{r} \left(T a_{1} - a_{1} \theta + a_{3}\right)}{T - \theta} - S_{ref} \left(T - T_{r}\right) + \frac{T c_{2} \log{\left(T + \frac{- c_{1} \theta^{3} - 2 c_{2} \theta}{c_{1} \theta^{2} + 2 c_{2}} \right)}}{\theta^{2}} - \frac{T \left(- T_{r} c_{1} \theta^{2} \log{\left(T_{r} \right)} - T_{r} c_{1} \theta^{2} - T_{r} c_{2} \log{\left(T_{r} \right)} + T_{r} c_{2} \log{\left(T_{r} - \frac{c_{1} \theta^{3}}{c_{1} \theta^{2} + 2 c_{2}} - \frac{2 c_{2} \theta}{c_{1} \theta^{2} + 2 c_{2}} \right)} + c_{1} \theta^{3} \log{\left(T_{r} \right)} + c_{1} \theta^{3} + c_{2} \theta \log{\left(T_{r} \right)} - c_{2} \theta \log{\left(T_{r} - \frac{c_{1} \theta^{3}}{c_{1} \theta^{2} + 2 c_{2}} - \frac{2 c_{2} \theta}{c_{1} \theta^{2} + 2 c_{2}} \right)} + c_{2} \theta\right)}{T_{r} \theta^{2} - \theta^{3}} - \frac{T_{r} c_{2} \log{\left(T_{r} + \frac{- c_{1} \theta^{3} - 2 c_{2} \theta}{c_{1} \theta^{2} + 2 c_{2}} \right)}}{\theta^{2}} + \frac{T_{r} \left(- T_{r} c_{1} \theta^{2} \log{\left(T_{r} \right)} - T_{r} c_{1} \theta^{2} - T_{r} c_{2} \log{\left(T_{r} \right)} + T_{r} c_{2} \log{\left(T_{r} - \frac{c_{1} \theta^{3}}{c_{1} \theta^{2} + 2 c_{2}} - \frac{2 c_{2} \theta}{c_{1} \theta^{2} + 2 c_{2}} \right)} + c_{1} \theta^{3} \log{\left(T_{r} \right)} + c_{1} \theta^{3} + c_{2} \theta \log{\left(T_{r} \right)} - c_{2} \theta \log{\left(T_{r} - \frac{c_{1} \theta^{3}}{c_{1} \theta^{2} + 2 c_{2}} - \frac{2 c_{2} \theta}{c_{1} \theta^{2} + 2 c_{2}} \right)} + c_{2} \theta\right)}{T_{r} \theta^{2} - \theta^{3}} + \left(T - T_{r}\right) \left(B{\left(T_{r},P_{r} \right)} + 1\right) \frac{\partial}{\partial T} \omega{\left(T,P_{r} \right)} + \left(T - T_{r}\right) \omega{\left(T_{r},P_{r} \right)} Y{\left(T_{r},P_{r} \right)} - \left(B{\left(T,P \right)} + 1\right) \omega{\left(T,P \right)} + \left(B{\left(T_{r},P_{r} \right)} + 1\right) \omega{\left(T_{r},P_{r} \right)} + \frac{\left(T a_{2} - a_{2} \theta + a_{4}\right) \log{\left(P + \Psi \right)}}{T - \theta} - \frac{\left(T a_{2} - a_{2} \theta + a_{4}\right) \log{\left(P_{r} + \Psi \right)}}{T - \theta} - \frac{\left(T c_{1} \theta^{2} + T c_{2}\right) \log{\left(T + \frac{- c_{1} \theta^{3} - c_{2} \theta + \theta \left(c_{1} \theta^{2} + c_{2}\right)}{c_{1} \theta^{2} + 2 c_{2}} \right)}}{\theta^{2}} + \frac{\left(T_{r} c_{1} \theta^{2} + T_{r} c_{2}\right) \log{\left(T_{r} + \frac{- c_{1} \theta^{3} - c_{2} \theta + \theta \left(c_{1} \theta^{2} + c_{2}\right)}{c_{1} \theta^{2} + 2 c_{2}} \right)}}{\theta^{2}}\]</div>
+<p>At the reference pressure, <span class="math notranslate nohighlight">\(\omega\)</span> is a constant,
+<span class="math notranslate nohighlight">\(\omega_0\)</span>, and its derivatives are zero too.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gtp</span> <span class="o">=</span> <span class="n">gtp</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">omega</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="n">Tr</span><span class="p">)</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">P</span><span class="p">,</span><span class="n">Pr</span><span class="p">),</span> <span class="n">omega0</span><span class="p">)</span>
+<span class="n">gtp</span> <span class="o">=</span> <span class="n">gtp</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">omega</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">P</span><span class="p">,</span><span class="n">Pr</span><span class="p">),</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">gtp</span>
+</pre></div>
+</div>
+<div class="math notranslate nohighlight">
+\[\displaystyle G_{ref} + \frac{P \left(T a_{1} - a_{1} \theta + a_{3}\right)}{T - \theta} - \frac{P_{r} \left(T a_{1} - a_{1} \theta + a_{3}\right)}{T - \theta} - S_{ref} \left(T - T_{r}\right) + \frac{T c_{2} \log{\left(T + \frac{- c_{1} \theta^{3} - 2 c_{2} \theta}{c_{1} \theta^{2} + 2 c_{2}} \right)}}{\theta^{2}} - \frac{T \left(- T_{r} c_{1} \theta^{2} \log{\left(T_{r} \right)} - T_{r} c_{1} \theta^{2} - T_{r} c_{2} \log{\left(T_{r} \right)} + T_{r} c_{2} \log{\left(T_{r} - \frac{c_{1} \theta^{3}}{c_{1} \theta^{2} + 2 c_{2}} - \frac{2 c_{2} \theta}{c_{1} \theta^{2} + 2 c_{2}} \right)} + c_{1} \theta^{3} \log{\left(T_{r} \right)} + c_{1} \theta^{3} + c_{2} \theta \log{\left(T_{r} \right)} - c_{2} \theta \log{\left(T_{r} - \frac{c_{1} \theta^{3}}{c_{1} \theta^{2} + 2 c_{2}} - \frac{2 c_{2} \theta}{c_{1} \theta^{2} + 2 c_{2}} \right)} + c_{2} \theta\right)}{T_{r} \theta^{2} - \theta^{3}} - \frac{T_{r} c_{2} \log{\left(T_{r} + \frac{- c_{1} \theta^{3} - 2 c_{2} \theta}{c_{1} \theta^{2} + 2 c_{2}} \right)}}{\theta^{2}} + \frac{T_{r} \left(- T_{r} c_{1} \theta^{2} \log{\left(T_{r} \right)} - T_{r} c_{1} \theta^{2} - T_{r} c_{2} \log{\left(T_{r} \right)} + T_{r} c_{2} \log{\left(T_{r} - \frac{c_{1} \theta^{3}}{c_{1} \theta^{2} + 2 c_{2}} - \frac{2 c_{2} \theta}{c_{1} \theta^{2} + 2 c_{2}} \right)} + c_{1} \theta^{3} \log{\left(T_{r} \right)} + c_{1} \theta^{3} + c_{2} \theta \log{\left(T_{r} \right)} - c_{2} \theta \log{\left(T_{r} - \frac{c_{1} \theta^{3}}{c_{1} \theta^{2} + 2 c_{2}} - \frac{2 c_{2} \theta}{c_{1} \theta^{2} + 2 c_{2}} \right)} + c_{2} \theta\right)}{T_{r} \theta^{2} - \theta^{3}} + \omega_{0} \left(T - T_{r}\right) Y{\left(T_{r},P_{r} \right)} + \omega_{0} \left(B{\left(T_{r},P_{r} \right)} + 1\right) - \left(B{\left(T,P \right)} + 1\right) \omega{\left(T,P \right)} + \frac{\left(T a_{2} - a_{2} \theta + a_{4}\right) \log{\left(P + \Psi \right)}}{T - \theta} - \frac{\left(T a_{2} - a_{2} \theta + a_{4}\right) \log{\left(P_{r} + \Psi \right)}}{T - \theta} - \frac{\left(T c_{1} \theta^{2} + T c_{2}\right) \log{\left(T + \frac{- c_{1} \theta^{3} - c_{2} \theta + \theta \left(c_{1} \theta^{2} + c_{2}\right)}{c_{1} \theta^{2} + 2 c_{2}} \right)}}{\theta^{2}} + \frac{\left(T_{r} c_{1} \theta^{2} + T_{r} c_{2}\right) \log{\left(T_{r} + \frac{- c_{1} \theta^{3} - c_{2} \theta + \theta \left(c_{1} \theta^{2} + c_{2}\right)}{c_{1} \theta^{2} + 2 c_{2}} \right)}}{\theta^{2}}\]</div>
+<p>Substitute the definition of the omega function into the expression for
+the Gibbs free energy</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gtp</span> <span class="o">=</span> <span class="n">gtp</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span><span class="n">omega_def</span><span class="p">)</span>
+<span class="n">gtp</span>
+</pre></div>
+</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}\displaystyle G_{ref} + \frac{P \left(T a_{1} - a_{1} \theta + a_{3}\right)}{T - \theta} - \frac{P_{r} \left(T a_{1} - a_{1} \theta + a_{3}\right)}{T - \theta} - S_{ref} \left(T - T_{r}\right) + \frac{T c_{2} \log{\left(T + \frac{- c_{1} \theta^{3} - 2 c_{2} \theta}{c_{1} \theta^{2} + 2 c_{2}} \right)}}{\theta^{2}} - \frac{T \left(- T_{r} c_{1} \theta^{2} \log{\left(T_{r} \right)} - T_{r} c_{1} \theta^{2} - T_{r} c_{2} \log{\left(T_{r} \right)} + T_{r} c_{2} \log{\left(T_{r} - \frac{c_{1} \theta^{3}}{c_{1} \theta^{2} + 2 c_{2}} - \frac{2 c_{2} \theta}{c_{1} \theta^{2} + 2 c_{2}} \right)} + c_{1} \theta^{3} \log{\left(T_{r} \right)} + c_{1} \theta^{3} + c_{2} \theta \log{\left(T_{r} \right)} - c_{2} \theta \log{\left(T_{r} - \frac{c_{1} \theta^{3}}{c_{1} \theta^{2} + 2 c_{2}} - \frac{2 c_{2} \theta}{c_{1} \theta^{2} + 2 c_{2}} \right)} + c_{2} \theta\right)}{T_{r} \theta^{2} - \theta^{3}} - \frac{T_{r} c_{2} \log{\left(T_{r} + \frac{- c_{1} \theta^{3} - 2 c_{2} \theta}{c_{1} \theta^{2} + 2 c_{2}} \right)}}{\theta^{2}} + \frac{T_{r} \left(- T_{r} c_{1} \theta^{2} \log{\left(T_{r} \right)} - T_{r} c_{1} \theta^{2} - T_{r} c_{2} \log{\left(T_{r} \right)} + T_{r} c_{2} \log{\left(T_{r} - \frac{c_{1} \theta^{3}}{c_{1} \theta^{2} + 2 c_{2}} - \frac{2 c_{2} \theta}{c_{1} \theta^{2} + 2 c_{2}} \right)} + c_{1} \theta^{3} \log{\left(T_{r} \right)} + c_{1} \theta^{3} + c_{2} \theta \log{\left(T_{r} \right)} - c_{2} \theta \log{\left(T_{r} - \frac{c_{1} \theta^{3}}{c_{1} \theta^{2} + 2 c_{2}} - \frac{2 c_{2} \theta}{c_{1} \theta^{2} + 2 c_{2}} \right)} + c_{2} \theta\right)}{T_{r} \theta^{2} - \theta^{3}} + \omega_{0} \left(T - T_{r}\right) Y{\left(T_{r},P_{r} \right)} + \omega_{0} \left(B{\left(T_{r},P_{r} \right)} + 1\right) - \left(B{\left(T,P \right)} + 1\right) \left(\begin{cases} \omega_{0} &amp; \text{for}\: z = 0 \\- \frac{\eta z}{rH + \operatorname{gSolvent}{\left(T,P \right)}} + \frac{\frac{\eta z}{rH} + \omega_{0}}{1 + \frac{\left(\frac{z}{rH} + \frac{\omega_{0}}{\eta}\right) \left|{z}\right| \operatorname{gSolvent}{\left(T,P \right)}}{z^{2}}} &amp; \text{otherwise} \end{cases}\right) + \frac{\left(T a_{2} - a_{2} \theta + a_{4}\right) \log{\left(P + \Psi \right)}}{T - \theta} - \frac{\left(T a_{2} - a_{2} \theta + a_{4}\right) \log{\left(P_{r} + \Psi \right)}}{T - \theta} - \frac{\left(T c_{1} \theta^{2} + T c_{2}\right) \log{\left(T + \frac{- c_{1} \theta^{3} - c_{2} \theta + \theta \left(c_{1} \theta^{2} + c_{2}\right)}{c_{1} \theta^{2} + 2 c_{2}} \right)}}{\theta^{2}} + \frac{\left(T_{r} c_{1} \theta^{2} + T_{r} c_{2}\right) \log{\left(T_{r} + \frac{- c_{1} \theta^{3} - c_{2} \theta + \theta \left(c_{1} \theta^{2} + c_{2}\right)}{c_{1} \theta^{2} + 2 c_{2}} \right)}}{\theta^{2}}\end{split}\]</div>
+<p>The “charge” contribution to the Gibbs free energy is</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gtp</span><span class="o">-</span><span class="n">gtp</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">z</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}\displaystyle \omega_{0} \left(B{\left(T,P \right)} + 1\right) - \left(B{\left(T,P \right)} + 1\right) \left(\begin{cases} \omega_{0} &amp; \text{for}\: z = 0 \\- \frac{\eta z}{rH + \operatorname{gSolvent}{\left(T,P \right)}} + \frac{\frac{\eta z}{rH} + \omega_{0}}{1 + \frac{\left(\frac{z}{rH} + \frac{\omega_{0}}{\eta}\right) \left|{z}\right| \operatorname{gSolvent}{\left(T,P \right)}}{z^{2}}} &amp; \text{otherwise} \end{cases}\right)\end{split}\]</div>
+<p>Add the derived expression for <em>G(T,P)</em> and its parameter list to the
+model</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;G_ref&#39;</span><span class="p">,</span><span class="s1">&#39;J&#39;</span><span class="p">,</span><span class="n">Gref</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;S_ref&#39;</span><span class="p">,</span><span class="s1">&#39;J/K&#39;</span><span class="p">,</span><span class="n">Sref</span><span class="p">),</span>
+          <span class="p">(</span><span class="s1">&#39;a1&#39;</span><span class="p">,</span><span class="s1">&#39;J/bar-m&#39;</span><span class="p">,</span><span class="n">a1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;a2&#39;</span><span class="p">,</span><span class="s1">&#39;J/bar^2-m&#39;</span><span class="p">,</span><span class="n">a2</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;a3&#39;</span><span class="p">,</span><span class="s1">&#39;J/bar-m&#39;</span><span class="p">,</span><span class="n">a3</span><span class="p">),</span>  <span class="p">(</span><span class="s1">&#39;a4&#39;</span><span class="p">,</span><span class="s1">&#39;J/bar^2-m&#39;</span><span class="p">,</span><span class="n">a4</span><span class="p">),</span>
+          <span class="p">(</span><span class="s1">&#39;c1&#39;</span><span class="p">,</span><span class="s1">&#39;J/K-m&#39;</span><span class="p">,</span><span class="n">c1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;c2&#39;</span><span class="p">,</span><span class="s1">&#39;J-K/m&#39;</span><span class="p">,</span><span class="n">c2</span><span class="p">),</span>
+          <span class="p">(</span><span class="s1">&#39;Psi&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">Psi</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;eta&#39;</span><span class="p">,</span> <span class="s1">&#39;Å-J/mole&#39;</span><span class="p">,</span> <span class="n">eta</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;rH&#39;</span><span class="p">,</span> <span class="s1">&#39;Å&#39;</span><span class="p">,</span> <span class="n">rH</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;omega0&#39;</span><span class="p">,</span><span class="s1">&#39;J&#39;</span><span class="p">,</span><span class="n">omega0</span><span class="p">),</span>
+          <span class="p">(</span><span class="s1">&#39;theta&#39;</span><span class="p">,</span><span class="s1">&#39;K&#39;</span><span class="p">,</span><span class="n">theta</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">z</span><span class="p">)]</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add_expression_to_model</span><span class="p">(</span><span class="n">gtp</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="code-print-the-model-compile-the-code-and-link-a-python-module">
+<h2>Code Print the Model, compile the code and link a Python module<a class="headerlink" href="#code-print-the-model-compile-the-code-and-link-a-python-module" title="Permalink to this headline">¶</a></h2>
+<p>Name the model class</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">set_module_name</span><span class="p">(</span><span class="s1">&#39;hkf&#39;</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">set_include_born_code</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Make a working sub-directory and move down into the directory. This is
+done so that generated files will not clash between alternate model
+configurations.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_working_dir</span> <span class="o">=</span> <span class="s2">&quot;aqueous&quot;</span>
+<span class="o">!</span>mkdir -p <span class="o">{</span>model_working_dir<span class="o">}</span>
+<span class="o">%</span><span class="k">cd</span> {model_working_dir}
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">ghiorso</span><span class="o">/</span><span class="n">Documents</span><span class="o">/</span><span class="n">ARCHIVE_XCODE</span><span class="o">/</span><span class="n">ThermoEngine</span><span class="o">/</span><span class="n">Notebooks</span><span class="o">/</span><span class="n">Codegen</span><span class="o">/</span><span class="n">aqueous</span>
+</pre></div>
+</div>
+<p>Define a parameter dictionary for a specific aqueous species. Parameters
+from DEW.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">use_charged_species_example</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="k">if</span> <span class="n">use_charged_species_example</span><span class="p">:</span>
+    <span class="n">species</span>     <span class="o">=</span> <span class="s1">&#39;Na+&#39;</span>
+    <span class="n">formula</span>     <span class="o">=</span> <span class="s1">&#39;Na(1)&#39;</span>
+    <span class="n">DEW_g</span>       <span class="o">=</span> <span class="o">-</span><span class="mf">62591.0</span>     <span class="c1">#       cal/mol</span>
+    <span class="n">DEW_h</span>       <span class="o">=</span> <span class="o">-</span><span class="mf">57433.0</span>     <span class="c1">#       cal/mol</span>
+    <span class="n">DEW_s</span>       <span class="o">=</span> <span class="mf">13.96</span>        <span class="c1">#       cal/mol/K</span>
+    <span class="n">DEW_v</span>       <span class="o">=</span> <span class="o">-</span><span class="mf">1.106808692</span> <span class="c1">#       cm^3/mol</span>
+    <span class="n">DEW_cp</span>      <span class="o">=</span> <span class="mf">9.076552599</span>  <span class="c1">#       cal/mol/K</span>
+    <span class="n">DEW_omega</span>   <span class="o">=</span> <span class="mf">0.3306</span>       <span class="c1"># 10^-5 cal/mol</span>
+    <span class="n">DEW_z</span>       <span class="o">=</span> <span class="mf">1.0</span>          <span class="c1">#       charge</span>
+    <span class="n">DEW_a1</span>      <span class="o">=</span> <span class="mf">1.839</span>        <span class="c1"># 10    cal/mol/bar</span>
+    <span class="n">DEW_a2</span>      <span class="o">=</span> <span class="o">-</span><span class="mf">2.285</span>       <span class="c1"># 10^-2 cal/mol</span>
+    <span class="n">DEW_a3</span>      <span class="o">=</span> <span class="mf">3.256</span>        <span class="c1">#       cal-K/mol/bar</span>
+    <span class="n">DEW_a4</span>      <span class="o">=</span> <span class="o">-</span><span class="mf">2.726</span>       <span class="c1"># 10^-4 cal-K/mol</span>
+    <span class="n">DEW_c1</span>      <span class="o">=</span> <span class="mf">18.18</span>        <span class="c1">#       cal/mol/K</span>
+    <span class="n">DEW_c2</span>      <span class="o">=</span> <span class="o">-</span><span class="mf">2.981</span>       <span class="c1"># 10^-4 cal-K/mol</span>
+    <span class="n">DEW_comment</span> <span class="o">=</span> <span class="s2">&quot;Shock &amp; Helgeson (1988)&quot;</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">species</span>     <span class="o">=</span> <span class="s1">&#39;NaCl&#39;</span>
+    <span class="n">formula</span>     <span class="o">=</span> <span class="s2">&quot;Na(1)Cl(1)&quot;</span>
+    <span class="n">DEW_g</span>       <span class="o">=</span> <span class="o">-</span><span class="mf">92910.0</span>     <span class="c1">#       cal/mol</span>
+    <span class="n">DEW_h</span>       <span class="o">=</span> <span class="o">-</span><span class="mf">96120.0</span>     <span class="c1">#       cal/mol</span>
+    <span class="n">DEW_s</span>       <span class="o">=</span> <span class="mf">28.00</span>        <span class="c1">#       cal/mol/K</span>
+    <span class="n">DEW_v</span>       <span class="o">=</span> <span class="mf">24.00006579</span>  <span class="c1">#       cm^3/mol</span>
+    <span class="n">DEW_cp</span>      <span class="o">=</span> <span class="mf">8.508360325</span>  <span class="c1">#       cal/mol/K</span>
+    <span class="n">DEW_omega</span>   <span class="o">=</span> <span class="o">-</span><span class="mf">0.038</span>       <span class="c1"># 10^-5 cal/mol</span>
+    <span class="n">DEW_z</span>       <span class="o">=</span> <span class="mf">0.0</span>          <span class="c1">#       charge</span>
+    <span class="n">DEW_a1</span>      <span class="o">=</span> <span class="mf">5.0363</span>       <span class="c1"># 10    cal/mol/bar</span>
+    <span class="n">DEW_a2</span>      <span class="o">=</span> <span class="mf">4.7365</span>       <span class="c1"># 10^-2 cal/mol</span>
+    <span class="n">DEW_a3</span>      <span class="o">=</span> <span class="mf">3.4154</span>       <span class="c1">#       cal-K/mol/bar</span>
+    <span class="n">DEW_a4</span>      <span class="o">=</span> <span class="o">-</span><span class="mf">2.9748</span>      <span class="c1"># 10^-4 cal-K/mol</span>
+    <span class="n">DEW_c1</span>      <span class="o">=</span> <span class="mf">10.8</span>         <span class="c1">#       cal/mol/K</span>
+    <span class="n">DEW_c2</span>      <span class="o">=</span> <span class="o">-</span><span class="mf">1.3</span>         <span class="c1"># 10^-4 cal-K/mol</span>
+    <span class="n">DEW_comment</span> <span class="o">=</span> <span class="s2">&quot;Shock &amp; Helgeson (1988)&quot;</span>
+</pre></div>
+</div>
+<p>Scaling constants ..</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SCALEforOmega</span> <span class="o">=</span> <span class="mf">1.0e+5</span>
+<span class="n">SCALEforA1</span>    <span class="o">=</span> <span class="mf">1.0e-1</span>
+<span class="n">SCALEforA2</span>    <span class="o">=</span> <span class="mf">1.0e+2</span>
+<span class="n">SCALEforA4</span>    <span class="o">=</span> <span class="mf">1.0e+4</span>
+<span class="n">SCALEforC2</span>    <span class="o">=</span> <span class="mf">1.0e+4</span>
+<span class="n">CALtoJOULES</span>   <span class="o">=</span> <span class="mf">4.184</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">param_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;G_ref&#39;</span><span class="p">:</span><span class="n">DEW_g</span><span class="o">*</span><span class="n">CALtoJOULES</span><span class="p">,</span>
+              <span class="s1">&#39;S_ref&#39;</span><span class="p">:</span><span class="n">DEW_s</span><span class="o">*</span><span class="n">CALtoJOULES</span><span class="p">,</span>
+              <span class="s1">&#39;a1&#39;</span><span class="p">:</span><span class="n">DEW_a1</span><span class="o">*</span><span class="n">CALtoJOULES</span><span class="o">*</span><span class="n">SCALEforA1</span><span class="p">,</span>
+              <span class="s1">&#39;a2&#39;</span><span class="p">:</span><span class="n">DEW_a2</span><span class="o">*</span><span class="n">CALtoJOULES</span><span class="o">*</span><span class="n">SCALEforA2</span><span class="p">,</span>
+              <span class="s1">&#39;a3&#39;</span><span class="p">:</span><span class="n">DEW_a3</span><span class="o">*</span><span class="n">CALtoJOULES</span><span class="p">,</span>
+              <span class="s1">&#39;a4&#39;</span><span class="p">:</span><span class="n">DEW_a4</span><span class="o">*</span><span class="n">CALtoJOULES</span><span class="o">*</span><span class="n">SCALEforA4</span><span class="p">,</span>
+              <span class="s1">&#39;c1&#39;</span><span class="p">:</span><span class="n">DEW_c1</span><span class="o">*</span><span class="n">CALtoJOULES</span><span class="p">,</span>
+              <span class="s1">&#39;c2&#39;</span><span class="p">:</span><span class="n">DEW_c2</span><span class="o">*</span><span class="n">CALtoJOULES</span><span class="o">*</span><span class="n">SCALEforC2</span><span class="p">,</span>
+              <span class="s1">&#39;omega0&#39;</span><span class="p">:</span><span class="n">DEW_omega</span><span class="o">*</span><span class="n">CALtoJOULES</span><span class="o">*</span><span class="n">SCALEforOmega</span><span class="p">,</span>
+              <span class="s1">&#39;theta&#39;</span><span class="p">:</span><span class="mf">228.0</span><span class="p">,</span>
+              <span class="s1">&#39;Psi&#39;</span><span class="p">:</span><span class="mf">2600.0</span><span class="p">,</span>
+              <span class="s1">&#39;eta&#39;</span><span class="p">:</span><span class="mf">1.66027e5</span><span class="o">*</span><span class="n">CALtoJOULES</span><span class="p">,</span>
+              <span class="s1">&#39;rH&#39;</span><span class="p">:</span><span class="mf">3.082</span><span class="p">,</span>
+              <span class="s1">&#39;z&#39;</span><span class="p">:</span><span class="n">DEW_z</span><span class="p">,</span>
+              <span class="s1">&#39;T_r&#39;</span><span class="p">:</span><span class="mf">298.15</span><span class="p">,</span>
+              <span class="s1">&#39;P_r&#39;</span><span class="p">:</span><span class="mf">1.0</span>
+             <span class="p">}</span>
+<span class="n">phase_name</span> <span class="o">=</span> <span class="s2">&quot;Na_1_cation&quot;</span>
+<span class="n">param_dict</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;G_ref&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">261880.744</span><span class="p">,</span>
+ <span class="s1">&#39;S_ref&#39;</span><span class="p">:</span> <span class="mf">58.408640000000005</span><span class="p">,</span>
+ <span class="s1">&#39;a1&#39;</span><span class="p">:</span> <span class="mf">0.7694376</span><span class="p">,</span>
+ <span class="s1">&#39;a2&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">956.0440000000002</span><span class="p">,</span>
+ <span class="s1">&#39;a3&#39;</span><span class="p">:</span> <span class="mf">13.623104</span><span class="p">,</span>
+ <span class="s1">&#39;a4&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">114055.84000000001</span><span class="p">,</span>
+ <span class="s1">&#39;c1&#39;</span><span class="p">:</span> <span class="mf">76.06512000000001</span><span class="p">,</span>
+ <span class="s1">&#39;c2&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">124725.04000000001</span><span class="p">,</span>
+ <span class="s1">&#39;omega0&#39;</span><span class="p">:</span> <span class="mf">138323.04</span><span class="p">,</span>
+ <span class="s1">&#39;theta&#39;</span><span class="p">:</span> <span class="mf">228.0</span><span class="p">,</span>
+ <span class="s1">&#39;Psi&#39;</span><span class="p">:</span> <span class="mf">2600.0</span><span class="p">,</span>
+ <span class="s1">&#39;eta&#39;</span><span class="p">:</span> <span class="mf">694656.968</span><span class="p">,</span>
+ <span class="s1">&#39;rH&#39;</span><span class="p">:</span> <span class="mf">3.082</span><span class="p">,</span>
+ <span class="s1">&#39;z&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+ <span class="s1">&#39;T_r&#39;</span><span class="p">:</span> <span class="mf">298.15</span><span class="p">,</span>
+ <span class="s1">&#39;P_r&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Note that the call to</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">create_code_module</span><span class="p">(</span><span class="n">phase</span><span class="o">=</span><span class="n">phase_name</span><span class="p">,</span> <span class="n">formula</span><span class="o">=</span><span class="n">formula</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">param_dict</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>generates fast code with unmodifiable model parameters and
+“calibration-” related functions. The call to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">create_code_module</span><span class="p">(</span><span class="n">phase</span><span class="o">=</span><span class="n">phase_name</span><span class="p">,</span> <span class="n">formula</span><span class="o">=</span><span class="n">formula</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">param_dict</span><span class="p">,</span> <span class="n">module_type</span><span class="o">=</span><span class="s1">&#39;calib&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>generates code suitable for model parameter calibration.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#result = model.create_code_module(phase=phase_name, formula=formula, params=param_dict)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_code_module</span><span class="p">(</span><span class="n">phase</span><span class="o">=</span><span class="n">phase_name</span><span class="p">,</span> <span class="n">formula</span><span class="o">=</span><span class="n">formula</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">param_dict</span><span class="p">,</span> <span class="n">module_type</span><span class="o">=</span><span class="s1">&#39;calib&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Creating (once only) generic fast model code file string
+Creating (once only) generic model calib code template include file string
+Creating (once only) generic model calib code template code file string
+Creating (once only) generic calib model code file string
+Creating include file ...
+... done!
+Creating code file ...
+... done
+Writing include file to working directory ...
+Writing code file to working directory ...
+Writing pyxbld file to working directory ...
+writing pyx file to working directory ...
+Compiling code and Python bindings ...
+Success! Import the module named  hkf
+</pre></div>
+</div>
+</div>
+<div class="section" id="import-the-new-module-and-test-the-model">
+<h2>Import the new module and test the model<a class="headerlink" href="#import-the-new-module-and-test-the-model" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">hkf</span>
+<span class="o">%</span><span class="k">cd</span> ..
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/ghiorso/anaconda3/lib/python3.7/site-packages/Cython/Compiler/Main.py:369: FutureWarning: Cython directive &#39;language_level&#39; not set, using 2 for now (Py2). This will change in a later release! File: /Users/ghiorso/Documents/ARCHIVE_XCODE/ThermoEngine/Notebooks/Codegen/aqueous/hkf.pyx
+  tree = Parsing.p_module(s, pxd, full_module_name)
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">ghiorso</span><span class="o">/</span><span class="n">Documents</span><span class="o">/</span><span class="n">ARCHIVE_XCODE</span><span class="o">/</span><span class="n">ThermoEngine</span><span class="o">/</span><span class="n">Notebooks</span><span class="o">/</span><span class="n">Codegen</span>
+</pre></div>
+</div>
+<p>Evaluate functions at temperature (K) and pressure (bars)</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="mf">1298.15</span>
+<span class="n">p</span> <span class="o">=</span> <span class="mf">1001.0</span>
+</pre></div>
+</div>
+<div class="section" id="available-in-both-fast-and-calib-code-versions">
+<h3>Available in both “Fast” and “Calib” code versions<a class="headerlink" href="#available-in-both-fast-and-calib-code-versions" title="Permalink to this headline">¶</a></h3>
+<p>Execute the “fast” or “calibration” code metadata retrieval functions:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_identifier</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_name</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_formula</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_mw</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_elements</span><span class="p">())</span>
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_identifier</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_name</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_formula</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_mw</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_elements</span><span class="p">())</span>
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Wed</span> <span class="n">Sep</span> <span class="mi">23</span> <span class="mi">09</span><span class="p">:</span><span class="mi">56</span><span class="p">:</span><span class="mi">24</span> <span class="mi">2020</span>
+<span class="n">Na_1_cation</span>
+<span class="n">Na</span>
+<span class="mf">22.98977</span>
+<span class="p">[</span><span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">1.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span>
+ <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span>
+ <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span>
+ <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span>
+ <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Execute the standard thermodynamic property retrieval functions:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0:&lt;10.10s}</span><span class="s2"> </span><span class="si">{1:13.6e}</span><span class="s2"> </span><span class="si">{2:&lt;10.10s}</span><span class="s2">&quot;</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_g</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dGdT&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_dgdt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dGdP&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_dgdp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/bar-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdP2&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_d2gdt2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K^2-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdTdP&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_d2gdtdp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-bar-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdP2&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_d2gdp2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/bar^2-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdT3&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_d3gdt3</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K^3-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdT2dP&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_d3gdt2dp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K^2-bar-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdTdP2&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_d3gdtdp2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-bar^2-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdP3&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_d3gdp3</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/bar^3-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_s</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;V&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_v</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/bar-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Cv&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_cv</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Cp&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_cp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dCpdT&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_dcpdt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K^2-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_alpha</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;1/K&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_beta</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;1/bar&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;K&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_K</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;bar&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Kp&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_Kp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;&#39;</span><span class="p">))</span>
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_g</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dGdT&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_dgdt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dGdP&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_dgdp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/bar-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdP2&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_d2gdt2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K^2-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdTdP&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_d2gdtdp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-bar-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdP2&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_d2gdp2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/bar^2-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdT3&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_d3gdt3</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K^3-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdT2dP&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_d3gdt2dp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K^2-bar-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdTdP2&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_d3gdtdp2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-bar^2-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdP3&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_d3gdp3</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/bar^3-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_s</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;V&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_v</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/bar-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Cv&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_cv</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Cp&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_cp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dCpdT&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_dcpdt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;J/K^2-m&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_alpha</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;1/K&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_beta</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;1/bar&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;K&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_K</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;bar&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Kp&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_Kp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;&#39;</span><span class="p">))</span>
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">G</span>          <span class="o">-</span><span class="mf">2.787254e+05</span> <span class="n">J</span><span class="o">/</span><span class="n">m</span>
+<span class="n">dGdT</span>        <span class="mf">1.769563e+01</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">-</span><span class="n">m</span>
+<span class="n">dGdP</span>       <span class="o">-</span><span class="mf">1.553101e+02</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">-</span><span class="n">m</span>
+<span class="n">d2GdP2</span>     <span class="o">-</span><span class="mf">3.089866e-01</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="n">m</span>
+<span class="n">d2GdTdP</span>    <span class="o">-</span><span class="mf">1.692411e-01</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">-</span><span class="n">bar</span><span class="o">-</span><span class="n">m</span>
+<span class="n">d2GdP2</span>      <span class="mf">3.750827e-01</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="n">m</span>
+<span class="n">d3GdT3</span>     <span class="o">-</span><span class="mf">8.825633e-04</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">^</span><span class="mi">3</span><span class="o">-</span><span class="n">m</span>
+<span class="n">d3GdT2dP</span>    <span class="mf">5.486632e-04</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="n">bar</span><span class="o">-</span>
+<span class="n">d3GdTdP2</span>    <span class="mf">2.847840e-04</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">-</span><span class="n">bar</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span>
+<span class="n">d3GdP3</span>     <span class="o">-</span><span class="mf">1.257095e-03</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">^</span><span class="mi">3</span><span class="o">-</span><span class="n">m</span>
+<span class="n">S</span>          <span class="o">-</span><span class="mf">1.769563e+01</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">-</span><span class="n">m</span>
+<span class="n">V</span>          <span class="o">-</span><span class="mf">1.553101e+02</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">-</span><span class="n">m</span>
+<span class="n">Cv</span>          <span class="mf">5.002420e+02</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">-</span><span class="n">m</span>
+<span class="n">Cp</span>          <span class="mf">4.011110e+02</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">-</span><span class="n">m</span>
+<span class="n">dCpdT</span>       <span class="mf">1.454686e+00</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="n">m</span>
+<span class="n">alpha</span>       <span class="mf">1.089698e-03</span> <span class="mi">1</span><span class="o">/</span><span class="n">K</span>
+<span class="n">beta</span>        <span class="mf">2.415056e-03</span> <span class="mi">1</span><span class="o">/</span><span class="n">bar</span>
+<span class="n">K</span>           <span class="mf">4.140690e+02</span> <span class="n">bar</span>
+<span class="n">Kp</span>          <span class="mf">3.877578e-01</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="available-only-in-the-calib-versions-of-generated-code">
+<h3>Available only in the “Calib” versions of generated code<a class="headerlink" href="#available-only-in-the-calib-versions-of-generated-code" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">Execute the parameter value/metadata functions.</div>
+<div class="line">These functions are only defined for the “calibration” model code
+implementation:</div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">np</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_get_param_number</span><span class="p">()</span>
+    <span class="n">names</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_get_param_names</span><span class="p">()</span>
+    <span class="n">units</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_get_param_units</span><span class="p">()</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_get_param_values</span><span class="p">()</span>
+    <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0:&lt;10.10s}</span><span class="s2"> </span><span class="si">{1:13.6e}</span><span class="s2"> </span><span class="si">{2:13.6e}</span><span class="s2"> </span><span class="si">{3:&lt;10.10s}</span><span class="s2">&quot;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">np</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_get_param_value</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">units</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">T_r</span>         <span class="mf">2.981500e+02</span>  <span class="mf">2.981500e+02</span> <span class="n">K</span>
+<span class="n">P_r</span>         <span class="mf">1.000000e+00</span>  <span class="mf">1.000000e+00</span> <span class="n">bar</span>
+<span class="n">G_ref</span>      <span class="o">-</span><span class="mf">2.618807e+05</span> <span class="o">-</span><span class="mf">2.618807e+05</span> <span class="n">J</span>
+<span class="n">S_ref</span>       <span class="mf">5.840864e+01</span>  <span class="mf">5.840864e+01</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span>
+<span class="n">a1</span>          <span class="mf">7.694376e-01</span>  <span class="mf">7.694376e-01</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">-</span><span class="n">m</span>
+<span class="n">a2</span>         <span class="o">-</span><span class="mf">9.560440e+02</span> <span class="o">-</span><span class="mf">9.560440e+02</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="n">m</span>
+<span class="n">a3</span>          <span class="mf">1.362310e+01</span>  <span class="mf">1.362310e+01</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">-</span><span class="n">m</span>
+<span class="n">a4</span>         <span class="o">-</span><span class="mf">1.140558e+05</span> <span class="o">-</span><span class="mf">1.140558e+05</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="n">m</span>
+<span class="n">c1</span>          <span class="mf">7.606512e+01</span>  <span class="mf">7.606512e+01</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">-</span><span class="n">m</span>
+<span class="n">c2</span>         <span class="o">-</span><span class="mf">1.247250e+05</span> <span class="o">-</span><span class="mf">1.247250e+05</span> <span class="n">J</span><span class="o">-</span><span class="n">K</span><span class="o">/</span><span class="n">m</span>
+<span class="n">Psi</span>         <span class="mf">2.600000e+03</span>  <span class="mf">2.600000e+03</span> <span class="n">bar</span>
+<span class="n">eta</span>         <span class="mf">6.946570e+05</span>  <span class="mf">6.946570e+05</span> <span class="n">Å</span><span class="o">-</span><span class="n">J</span><span class="o">/</span><span class="n">mole</span>
+<span class="n">rH</span>          <span class="mf">3.082000e+00</span>  <span class="mf">3.082000e+00</span> <span class="n">Å</span>
+<span class="n">omega0</span>      <span class="mf">1.383230e+05</span>  <span class="mf">1.383230e+05</span> <span class="n">J</span>
+<span class="n">theta</span>       <span class="mf">2.280000e+02</span>  <span class="mf">2.280000e+02</span> <span class="n">K</span>
+<span class="n">z</span>           <span class="mf">1.000000e+00</span>  <span class="mf">1.000000e+00</span>
+</pre></div>
+</div>
+<p>Test the functions that allow modification of the array of parameter
+values</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">100.0</span>
+    <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_set_param_values</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+    <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0:&lt;10.10s}</span><span class="s2"> </span><span class="si">{1:13.6e}</span><span class="s2"> </span><span class="si">{2:13.6e}</span><span class="s2"> </span><span class="si">{3:&lt;10.10s}</span><span class="s2">&quot;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">np</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_get_param_value</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">units</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+<span class="k">except</span> <span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">NameError</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">T_r</span>         <span class="mf">2.981500e+02</span>  <span class="mf">2.981500e+02</span> <span class="n">K</span>
+<span class="n">P_r</span>         <span class="mf">1.000000e+02</span>  <span class="mf">1.000000e+02</span> <span class="n">bar</span>
+<span class="n">G_ref</span>      <span class="o">-</span><span class="mf">2.618807e+05</span> <span class="o">-</span><span class="mf">2.618807e+05</span> <span class="n">J</span>
+<span class="n">S_ref</span>       <span class="mf">5.840864e+01</span>  <span class="mf">5.840864e+01</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span>
+<span class="n">a1</span>          <span class="mf">7.694376e-01</span>  <span class="mf">7.694376e-01</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">-</span><span class="n">m</span>
+<span class="n">a2</span>         <span class="o">-</span><span class="mf">9.560440e+02</span> <span class="o">-</span><span class="mf">9.560440e+02</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="n">m</span>
+<span class="n">a3</span>          <span class="mf">1.362310e+01</span>  <span class="mf">1.362310e+01</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">-</span><span class="n">m</span>
+<span class="n">a4</span>         <span class="o">-</span><span class="mf">1.140558e+05</span> <span class="o">-</span><span class="mf">1.140558e+05</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="n">m</span>
+<span class="n">c1</span>          <span class="mf">7.606512e+01</span>  <span class="mf">7.606512e+01</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">-</span><span class="n">m</span>
+<span class="n">c2</span>         <span class="o">-</span><span class="mf">1.247250e+05</span> <span class="o">-</span><span class="mf">1.247250e+05</span> <span class="n">J</span><span class="o">-</span><span class="n">K</span><span class="o">/</span><span class="n">m</span>
+<span class="n">Psi</span>         <span class="mf">2.600000e+03</span>  <span class="mf">2.600000e+03</span> <span class="n">bar</span>
+<span class="n">eta</span>         <span class="mf">6.946570e+05</span>  <span class="mf">6.946570e+05</span> <span class="n">Å</span><span class="o">-</span><span class="n">J</span><span class="o">/</span><span class="n">mole</span>
+<span class="n">rH</span>          <span class="mf">3.082000e+00</span>  <span class="mf">3.082000e+00</span> <span class="n">Å</span>
+<span class="n">omega0</span>      <span class="mf">1.383230e+05</span>  <span class="mf">1.383230e+05</span> <span class="n">J</span>
+<span class="n">theta</span>       <span class="mf">2.280000e+02</span>  <span class="mf">2.280000e+02</span> <span class="n">K</span>
+<span class="n">z</span>           <span class="mf">1.000000e+00</span>  <span class="mf">1.000000e+00</span>
+</pre></div>
+</div>
+<p>Test the functions that allow modification of a particular parameter
+value</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_set_param_value</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0:&lt;10.10s}</span><span class="s2"> </span><span class="si">{1:13.6e}</span><span class="s2"> </span><span class="si">{2:13.6e}</span><span class="s2"> </span><span class="si">{3:&lt;10.10s}</span><span class="s2">&quot;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">np</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_get_param_value</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">units</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">T_r</span>         <span class="mf">2.981500e+02</span>  <span class="mf">2.981500e+02</span> <span class="n">K</span>
+<span class="n">P_r</span>         <span class="mf">1.000000e+02</span>  <span class="mf">1.000000e+00</span> <span class="n">bar</span>
+<span class="n">G_ref</span>      <span class="o">-</span><span class="mf">2.618807e+05</span> <span class="o">-</span><span class="mf">2.618807e+05</span> <span class="n">J</span>
+<span class="n">S_ref</span>       <span class="mf">5.840864e+01</span>  <span class="mf">5.840864e+01</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span>
+<span class="n">a1</span>          <span class="mf">7.694376e-01</span>  <span class="mf">7.694376e-01</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">-</span><span class="n">m</span>
+<span class="n">a2</span>         <span class="o">-</span><span class="mf">9.560440e+02</span> <span class="o">-</span><span class="mf">9.560440e+02</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="n">m</span>
+<span class="n">a3</span>          <span class="mf">1.362310e+01</span>  <span class="mf">1.362310e+01</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">-</span><span class="n">m</span>
+<span class="n">a4</span>         <span class="o">-</span><span class="mf">1.140558e+05</span> <span class="o">-</span><span class="mf">1.140558e+05</span> <span class="n">J</span><span class="o">/</span><span class="n">bar</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="n">m</span>
+<span class="n">c1</span>          <span class="mf">7.606512e+01</span>  <span class="mf">7.606512e+01</span> <span class="n">J</span><span class="o">/</span><span class="n">K</span><span class="o">-</span><span class="n">m</span>
+<span class="n">c2</span>         <span class="o">-</span><span class="mf">1.247250e+05</span> <span class="o">-</span><span class="mf">1.247250e+05</span> <span class="n">J</span><span class="o">-</span><span class="n">K</span><span class="o">/</span><span class="n">m</span>
+<span class="n">Psi</span>         <span class="mf">2.600000e+03</span>  <span class="mf">2.600000e+03</span> <span class="n">bar</span>
+<span class="n">eta</span>         <span class="mf">6.946570e+05</span>  <span class="mf">6.946570e+05</span> <span class="n">Å</span><span class="o">-</span><span class="n">J</span><span class="o">/</span><span class="n">mole</span>
+<span class="n">rH</span>          <span class="mf">3.082000e+00</span>  <span class="mf">3.082000e+00</span> <span class="n">Å</span>
+<span class="n">omega0</span>      <span class="mf">1.383230e+05</span>  <span class="mf">1.383230e+05</span> <span class="n">J</span>
+<span class="n">theta</span>       <span class="mf">2.280000e+02</span>  <span class="mf">2.280000e+02</span> <span class="n">K</span>
+<span class="n">z</span>           <span class="mf">1.000000e+00</span>  <span class="mf">1.000000e+00</span>
+</pre></div>
+</div>
+<p>Evaluate parameter derivatives …</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;    </span><span class="si">{0:&lt;10.10s}</span><span class="s2"> </span><span class="si">{1:13.6e}</span><span class="s2">&quot;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="p">):</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Derivative with respect to parameter: &#39;</span><span class="p">,</span> <span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="s1">&#39; of&#39;</span><span class="p">)</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_dparam_g</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dGdT&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_dparam_dgdt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dGdP&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_dparam_dgdp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdT2&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_dparam_d2gdt2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdTdP&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_dparam_d2gdtdp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdP2&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_dparam_d2gdp2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdT3&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_dparam_d3gdt3</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdT2dP&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_dparam_d3gdt2dp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdTdP2&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_dparam_d3gdtdp2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdP3&#39;</span><span class="p">,</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_dparam_d3gdp3</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span>
+<span class="k">except</span> <span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Derivative</span> <span class="k">with</span> <span class="n">respect</span> <span class="n">to</span> <span class="n">parameter</span><span class="p">:</span>  <span class="n">T_r</span>  <span class="n">of</span>
+    <span class="n">G</span>           <span class="mf">3.519348e+02</span>
+    <span class="n">dGdT</span>        <span class="mf">2.935261e-01</span>
+    <span class="n">dGdP</span>        <span class="mf">0.000000e+00</span>
+    <span class="n">d2GdT2</span>      <span class="mf">0.000000e+00</span>
+    <span class="n">d2GdTdP</span>     <span class="mf">0.000000e+00</span>
+    <span class="n">d2GdP2</span>      <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdT3</span>      <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdT2dP</span>    <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdTdP2</span>    <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdP3</span>      <span class="mf">0.000000e+00</span>
+<span class="n">Derivative</span> <span class="k">with</span> <span class="n">respect</span> <span class="n">to</span> <span class="n">parameter</span><span class="p">:</span>  <span class="n">P_r</span>  <span class="n">of</span>
+    <span class="n">G</span>           <span class="mf">4.883484e-01</span>
+    <span class="n">dGdT</span>        <span class="mf">7.545207e-04</span>
+    <span class="n">dGdP</span>        <span class="mf">0.000000e+00</span>
+    <span class="n">d2GdT2</span>      <span class="mf">4.932880e-08</span>
+    <span class="n">d2GdTdP</span>     <span class="mf">0.000000e+00</span>
+    <span class="n">d2GdP2</span>      <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdT3</span>     <span class="o">-</span><span class="mf">1.382857e-10</span>
+    <span class="n">d3GdT2dP</span>    <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdTdP2</span>    <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdP3</span>      <span class="mf">0.000000e+00</span>
+<span class="n">Derivative</span> <span class="k">with</span> <span class="n">respect</span> <span class="n">to</span> <span class="n">parameter</span><span class="p">:</span>  <span class="n">G_ref</span>  <span class="n">of</span>
+    <span class="n">G</span>           <span class="mf">1.000000e+00</span>
+    <span class="n">dGdT</span>        <span class="mf">0.000000e+00</span>
+    <span class="n">dGdP</span>        <span class="mf">0.000000e+00</span>
+    <span class="n">d2GdT2</span>      <span class="mf">0.000000e+00</span>
+    <span class="n">d2GdTdP</span>     <span class="mf">0.000000e+00</span>
+    <span class="n">d2GdP2</span>      <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdT3</span>      <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdT2dP</span>    <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdTdP2</span>    <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdP3</span>      <span class="mf">0.000000e+00</span>
+<span class="n">Derivative</span> <span class="k">with</span> <span class="n">respect</span> <span class="n">to</span> <span class="n">parameter</span><span class="p">:</span>  <span class="n">S_ref</span>  <span class="n">of</span>
+    <span class="n">G</span>          <span class="o">-</span><span class="mf">1.000000e+03</span>
+    <span class="n">dGdT</span>       <span class="o">-</span><span class="mf">1.000000e+00</span>
+    <span class="n">dGdP</span>        <span class="mf">0.000000e+00</span>
+    <span class="n">d2GdT2</span>      <span class="mf">0.000000e+00</span>
+    <span class="n">d2GdTdP</span>     <span class="mf">0.000000e+00</span>
+    <span class="n">d2GdP2</span>      <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdT3</span>      <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdT2dP</span>    <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdTdP2</span>    <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdP3</span>      <span class="mf">0.000000e+00</span>
+<span class="n">Derivative</span> <span class="k">with</span> <span class="n">respect</span> <span class="n">to</span> <span class="n">parameter</span><span class="p">:</span>  <span class="n">a1</span>  <span class="n">of</span>
+    <span class="n">G</span>           <span class="mf">1.000000e+03</span>
+    <span class="n">dGdT</span>        <span class="mf">0.000000e+00</span>
+    <span class="n">dGdP</span>        <span class="mf">1.000000e+00</span>
+    <span class="n">d2GdT2</span>      <span class="mf">0.000000e+00</span>
+    <span class="n">d2GdTdP</span>     <span class="mf">0.000000e+00</span>
+    <span class="n">d2GdP2</span>      <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdT3</span>      <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdT2dP</span>    <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdTdP2</span>    <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdP3</span>      <span class="mf">0.000000e+00</span>
+<span class="n">Derivative</span> <span class="k">with</span> <span class="n">respect</span> <span class="n">to</span> <span class="n">parameter</span><span class="p">:</span>  <span class="n">a2</span>  <span class="n">of</span>
+    <span class="n">G</span>           <span class="mf">3.253156e-01</span>
+    <span class="n">dGdT</span>        <span class="mf">0.000000e+00</span>
+    <span class="n">dGdP</span>        <span class="mf">2.777006e-04</span>
+    <span class="n">d2GdT2</span>      <span class="mf">0.000000e+00</span>
+    <span class="n">d2GdTdP</span>     <span class="mf">0.000000e+00</span>
+    <span class="n">d2GdP2</span>     <span class="o">-</span><span class="mf">7.711764e-08</span>
+    <span class="n">d3GdT3</span>      <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdT2dP</span>    <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdTdP2</span>    <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdP3</span>      <span class="mf">4.283124e-11</span>
+<span class="n">Derivative</span> <span class="k">with</span> <span class="n">respect</span> <span class="n">to</span> <span class="n">parameter</span><span class="p">:</span>  <span class="n">a3</span>  <span class="n">of</span>
+    <span class="n">G</span>           <span class="mf">9.344484e-01</span>
+    <span class="n">dGdT</span>       <span class="o">-</span><span class="mf">8.731939e-04</span>
+    <span class="n">dGdP</span>        <span class="mf">9.344484e-04</span>
+    <span class="n">d2GdT2</span>      <span class="mf">1.631909e-06</span>
+    <span class="n">d2GdTdP</span>    <span class="o">-</span><span class="mf">8.731939e-07</span>
+    <span class="n">d2GdP2</span>      <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdT3</span>     <span class="o">-</span><span class="mf">4.574805e-09</span>
+    <span class="n">d3GdT2dP</span>    <span class="mf">1.631909e-09</span>
+    <span class="n">d3GdTdP2</span>    <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdP3</span>      <span class="mf">0.000000e+00</span>
+<span class="n">Derivative</span> <span class="k">with</span> <span class="n">respect</span> <span class="n">to</span> <span class="n">parameter</span><span class="p">:</span>  <span class="n">a4</span>  <span class="n">of</span>
+    <span class="n">G</span>           <span class="mf">3.039907e-04</span>
+    <span class="n">dGdT</span>       <span class="o">-</span><span class="mf">2.840636e-07</span>
+    <span class="n">dGdP</span>        <span class="mf">2.594969e-07</span>
+    <span class="n">d2GdT2</span>      <span class="mf">5.308856e-10</span>
+    <span class="n">d2GdTdP</span>    <span class="o">-</span><span class="mf">2.424865e-10</span>
+    <span class="n">d2GdP2</span>     <span class="o">-</span><span class="mf">7.206246e-11</span>
+    <span class="n">d3GdT3</span>     <span class="o">-</span><span class="mf">1.488256e-12</span>
+    <span class="n">d3GdT2dP</span>    <span class="mf">4.531823e-13</span>
+    <span class="n">d3GdTdP2</span>    <span class="mf">6.733866e-14</span>
+    <span class="n">d3GdP3</span>      <span class="mf">4.002358e-14</span>
+<span class="n">Derivative</span> <span class="k">with</span> <span class="n">respect</span> <span class="n">to</span> <span class="n">parameter</span><span class="p">:</span>  <span class="n">c1</span>  <span class="n">of</span>
+    <span class="n">G</span>          <span class="o">-</span><span class="mf">9.097068e+02</span>
+    <span class="n">dGdT</span>       <span class="o">-</span><span class="mf">1.471099e+00</span>
+    <span class="n">dGdP</span>        <span class="mf">0.000000e+00</span>
+    <span class="n">d2GdT2</span>     <span class="o">-</span><span class="mf">7.703270e-04</span>
+    <span class="n">d2GdTdP</span>     <span class="mf">0.000000e+00</span>
+    <span class="n">d2GdP2</span>      <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdT3</span>      <span class="mf">5.934037e-07</span>
+    <span class="n">d3GdT2dP</span>    <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdTdP2</span>    <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdP3</span>      <span class="mf">0.000000e+00</span>
+<span class="n">Derivative</span> <span class="k">with</span> <span class="n">respect</span> <span class="n">to</span> <span class="n">parameter</span><span class="p">:</span>  <span class="n">c2</span>  <span class="n">of</span>
+    <span class="n">G</span>          <span class="o">-</span><span class="mf">3.121215e-02</span>
+    <span class="n">dGdT</span>       <span class="o">-</span><span class="mf">3.430487e-05</span>
+    <span class="n">dGdP</span>        <span class="mf">0.000000e+00</span>
+    <span class="n">d2GdT2</span>     <span class="o">-</span><span class="mf">6.726448e-10</span>
+    <span class="n">d2GdTdP</span>     <span class="mf">0.000000e+00</span>
+    <span class="n">d2GdP2</span>      <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdT3</span>      <span class="mf">1.775260e-12</span>
+    <span class="n">d3GdT2dP</span>    <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdTdP2</span>    <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdP3</span>      <span class="mf">0.000000e+00</span>
+<span class="n">Derivative</span> <span class="k">with</span> <span class="n">respect</span> <span class="n">to</span> <span class="n">parameter</span><span class="p">:</span>  <span class="n">Psi</span>  <span class="n">of</span>
+    <span class="n">G</span>           <span class="mf">1.134530e-01</span>
+    <span class="n">dGdT</span>       <span class="o">-</span><span class="mf">1.063322e-05</span>
+    <span class="n">dGdP</span>        <span class="mf">8.194701e-05</span>
+    <span class="n">d2GdT2</span>      <span class="mf">1.987239e-08</span>
+    <span class="n">d2GdTdP</span>    <span class="o">-</span><span class="mf">7.680367e-09</span>
+    <span class="n">d2GdP2</span>     <span class="o">-</span><span class="mf">4.551347e-08</span>
+    <span class="n">d3GdT3</span>     <span class="o">-</span><span class="mf">5.570917e-11</span>
+    <span class="n">d3GdT2dP</span>    <span class="mf">1.435381e-11</span>
+    <span class="n">d3GdTdP2</span>    <span class="mf">4.265686e-12</span>
+    <span class="n">d3GdP3</span>      <span class="mf">3.791736e-11</span>
+<span class="n">Derivative</span> <span class="k">with</span> <span class="n">respect</span> <span class="n">to</span> <span class="n">parameter</span><span class="p">:</span>  <span class="n">eta</span>  <span class="n">of</span>
+    <span class="n">G</span>           <span class="mf">0.000000e+00</span>
+    <span class="n">dGdT</span>        <span class="mf">0.000000e+00</span>
+    <span class="n">dGdP</span>        <span class="mf">0.000000e+00</span>
+    <span class="n">d2GdT2</span>      <span class="mf">0.000000e+00</span>
+    <span class="n">d2GdTdP</span>     <span class="mf">0.000000e+00</span>
+    <span class="n">d2GdP2</span>      <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdT3</span>      <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdT2dP</span>    <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdTdP2</span>    <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdP3</span>      <span class="mf">0.000000e+00</span>
+<span class="n">Derivative</span> <span class="k">with</span> <span class="n">respect</span> <span class="n">to</span> <span class="n">parameter</span><span class="p">:</span>  <span class="n">rH</span>  <span class="n">of</span>
+    <span class="n">G</span>           <span class="mf">0.000000e+00</span>
+    <span class="n">dGdT</span>        <span class="mf">0.000000e+00</span>
+    <span class="n">dGdP</span>        <span class="mf">0.000000e+00</span>
+    <span class="n">d2GdT2</span>      <span class="mf">0.000000e+00</span>
+    <span class="n">d2GdTdP</span>     <span class="mf">0.000000e+00</span>
+    <span class="n">d2GdP2</span>      <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdT3</span>      <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdT2dP</span>    <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdTdP2</span>    <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdP3</span>      <span class="mf">0.000000e+00</span>
+<span class="n">Derivative</span> <span class="k">with</span> <span class="n">respect</span> <span class="n">to</span> <span class="n">parameter</span><span class="p">:</span>  <span class="n">omega0</span>  <span class="n">of</span>
+    <span class="n">G</span>           <span class="mf">7.694419e-01</span>
+    <span class="n">dGdT</span>        <span class="mf">1.328082e-03</span>
+    <span class="n">dGdP</span>       <span class="o">-</span><span class="mf">1.126329e-03</span>
+    <span class="n">d2GdT2</span>     <span class="o">-</span><span class="mf">1.810524e-06</span>
+    <span class="n">d2GdTdP</span>    <span class="o">-</span><span class="mf">1.223635e-06</span>
+    <span class="n">d2GdP2</span>      <span class="mf">2.711051e-06</span>
+    <span class="n">d3GdT3</span>     <span class="o">-</span><span class="mf">6.705944e-09</span>
+    <span class="n">d3GdT2dP</span>    <span class="mf">3.966748e-09</span>
+    <span class="n">d3GdTdP2</span>    <span class="mf">2.058888e-09</span>
+    <span class="n">d3GdP3</span>     <span class="o">-</span><span class="mf">9.087778e-09</span>
+<span class="n">Derivative</span> <span class="k">with</span> <span class="n">respect</span> <span class="n">to</span> <span class="n">parameter</span><span class="p">:</span>  <span class="n">theta</span>  <span class="n">of</span>
+    <span class="n">G</span>           <span class="mf">6.970779e+01</span>
+    <span class="n">dGdT</span>        <span class="mf">7.319222e-02</span>
+    <span class="n">dGdP</span>       <span class="o">-</span><span class="mf">1.576139e-05</span>
+    <span class="n">d2GdT2</span>      <span class="mf">4.937114e-08</span>
+    <span class="n">d2GdTdP</span>     <span class="mf">2.945641e-08</span>
+    <span class="n">d2GdP2</span>      <span class="mf">7.680367e-09</span>
+    <span class="n">d3GdT3</span>     <span class="o">-</span><span class="mf">1.588061e-10</span>
+    <span class="n">d3GdT2dP</span>   <span class="o">-</span><span class="mf">8.257650e-11</span>
+    <span class="n">d3GdTdP2</span>   <span class="o">-</span><span class="mf">1.435381e-11</span>
+    <span class="n">d3GdP3</span>     <span class="o">-</span><span class="mf">4.265686e-12</span>
+<span class="n">Derivative</span> <span class="k">with</span> <span class="n">respect</span> <span class="n">to</span> <span class="n">parameter</span><span class="p">:</span>  <span class="n">z</span>  <span class="n">of</span>
+    <span class="n">G</span>           <span class="mf">0.000000e+00</span>
+    <span class="n">dGdT</span>        <span class="mf">0.000000e+00</span>
+    <span class="n">dGdP</span>        <span class="mf">0.000000e+00</span>
+    <span class="n">d2GdT2</span>      <span class="mf">0.000000e+00</span>
+    <span class="n">d2GdTdP</span>     <span class="mf">0.000000e+00</span>
+    <span class="n">d2GdP2</span>      <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdT3</span>      <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdT2dP</span>    <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdTdP2</span>    <span class="mf">0.000000e+00</span>
+    <span class="n">d3GdP3</span>      <span class="mf">0.000000e+00</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="time-execution-of-the-code">
+<h2>Time execution of the code<a class="headerlink" href="#time-execution-of-the-code" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="o">%</span><span class="k">timeit</span> hkf.cy_Na_1_cation_hkf_calib_g(t,p)
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="o">%</span><span class="k">timeit</span> hkf.cy_Na_1_cation_hkf_g(t,p)
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>166 µs ± 3.57 µs per loop (mean ± std. dev. of 7 runs, 10000 loops each)
+</pre></div>
+</div>
+</div>
+<div class="section" id="compare-to-objective-c-implementation-of-dew-model">
+<h2>Compare to Objective-C implementation of DEW model<a class="headerlink" href="#compare-to-objective-c-implementation-of-dew-model" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ctypes</span> <span class="kn">import</span> <span class="n">cdll</span>
+<span class="kn">from</span> <span class="nn">ctypes</span> <span class="kn">import</span> <span class="n">util</span>
+<span class="kn">from</span> <span class="nn">rubicon.objc</span> <span class="kn">import</span> <span class="n">ObjCClass</span><span class="p">,</span> <span class="n">objc_method</span>
+<span class="n">cdll</span><span class="o">.</span><span class="n">LoadLibrary</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">find_library</span><span class="p">(</span><span class="s1">&#39;phaseobjc&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">CDLL</span> <span class="s1">&#39;/usr/local/lib/libphaseobjc.dylib&#39;</span><span class="p">,</span> <span class="n">handle</span> <span class="mi">7</span><span class="n">fbfef904a70</span> <span class="n">at</span> <span class="mh">0x7fc042695e50</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DEWFluid</span> <span class="o">=</span> <span class="n">ObjCClass</span><span class="p">(</span><span class="s1">&#39;DEWFluid&#39;</span><span class="p">)</span>
+<span class="n">obj</span> <span class="o">=</span> <span class="n">DEWFluid</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">use_charged_species_example</span><span class="p">:</span>
+    <span class="n">refModel</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">endmembers</span><span class="o">.</span><span class="n">objectAtIndex_</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span> <span class="c1"># 25 is Na+</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">refModel</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">endmembers</span><span class="o">.</span><span class="n">objectAtIndex_</span><span class="p">(</span><span class="mi">24</span><span class="p">)</span> <span class="c1"># 24 is NaCl</span>
+<span class="n">refModel</span><span class="o">.</span><span class="n">phaseName</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;Na+&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="mf">1298.15</span>
+<span class="n">p</span> <span class="o">=</span> <span class="mf">5001.0</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0:&lt;10.10s}</span><span class="s2"> </span><span class="si">{1:13.6e}</span><span class="s2"> </span><span class="si">{2:13.6e}</span><span class="s2"> </span><span class="si">{3:13.6e}</span><span class="s2"> </span><span class="si">{4:6.2f}</span><span class="s2">%&quot;</span>
+<span class="n">fmts</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0:&lt;10.10s}</span><span class="s2"> </span><span class="si">{1:13.6e}</span><span class="s2">&quot;</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_g</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">getGibbsFreeEnergyFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_dgdt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="n">refModel</span><span class="o">.</span><span class="n">getEntropyFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dGdT&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_dgdp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">getVolumeFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dGdP&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_d2gdt2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdT2&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_d2gdtdp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">getDvDtFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdTdP&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_d2gdp2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">getDvDpFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdP2&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_d3gdt3</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdT3&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_d3gdt2dp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">getD2vDt2FromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdT2dP&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_d3gdtdp2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">getD2vDtDpFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdTdP2&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_d3gdp3</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">getD2vDp2FromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdP3&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_s</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">getEntropyFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_v</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">getVolumeFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;V&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_cv</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Cv&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_cp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">getHeatCapacityFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Cp&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_dcpdt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">getDcpDtFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dCpdT&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_alpha</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_beta</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_K</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;K&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_Kp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Kp&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_g</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">getGibbsFreeEnergyFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_dgdt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="n">refModel</span><span class="o">.</span><span class="n">getEntropyFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dGdT&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_dgdp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">getVolumeFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dGdP&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_d2gdt2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdT2&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_d2gdtdp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">getDvDtFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdTdP&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_d2gdp2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">getDvDpFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d2GdP2&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_d3gdt3</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdT3&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_d3gdt2dp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">getD2vDt2FromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdT2dP&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_d3gdtdp2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">getD2vDtDpFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdTdP2&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_d3gdp3</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">getD2vDp2FromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;d3GdP3&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_s</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">getEntropyFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_v</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">getVolumeFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;V&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_cv</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Cv&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_cp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">getHeatCapacityFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Cp&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_dcpdt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">refModel</span><span class="o">.</span><span class="n">getDcpDtFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;dCpdT&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_alpha</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_beta</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_K</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;K&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">hkf</span><span class="o">.</span><span class="n">cy_Na_1_cation_hkf_calib_Kp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fmts</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Kp&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">G</span>          <span class="o">-</span><span class="mf">3.732904e+05</span> <span class="o">-</span><span class="mf">3.690727e+05</span> <span class="o">-</span><span class="mf">4.217695e+03</span>   <span class="mf">1.14</span><span class="o">%</span>
+<span class="n">dGdT</span>       <span class="o">-</span><span class="mf">1.354628e+02</span> <span class="o">-</span><span class="mf">1.311818e+02</span> <span class="o">-</span><span class="mf">4.280958e+00</span>   <span class="mf">3.26</span><span class="o">%</span>
+<span class="n">dGdP</span>       <span class="o">-</span><span class="mf">2.288937e+00</span> <span class="o">-</span><span class="mf">2.288937e+00</span>  <span class="mf">0.000000e+00</span>   <span class="mf">0.00</span><span class="o">%</span>
+<span class="n">d2GdT2</span>     <span class="o">-</span><span class="mf">2.985789e-02</span>
+<span class="n">d2GdTdP</span>    <span class="o">-</span><span class="mf">7.511966e-03</span> <span class="o">-</span><span class="mf">7.511966e-03</span> <span class="o">-</span><span class="mf">1.734723e-18</span>   <span class="mf">0.00</span><span class="o">%</span>
+<span class="n">d2GdP2</span>      <span class="mf">1.143502e-03</span>  <span class="mf">1.143502e-03</span>  <span class="mf">2.168404e-19</span>   <span class="mf">0.00</span><span class="o">%</span>
+<span class="n">d3GdT3</span>     <span class="o">-</span><span class="mf">8.917339e-05</span>
+<span class="n">d3GdT2dP</span>   <span class="o">-</span><span class="mf">3.366689e-06</span> <span class="o">-</span><span class="mf">3.476772e-06</span>  <span class="mf">1.100835e-07</span>   <span class="mf">3.17</span><span class="o">%</span>
+<span class="n">d3GdTdP2</span>    <span class="mf">3.553811e-06</span>  <span class="mf">3.561965e-06</span> <span class="o">-</span><span class="mf">8.154136e-09</span>   <span class="mf">0.23</span><span class="o">%</span>
+<span class="n">d3GdP3</span>     <span class="o">-</span><span class="mf">6.291056e-07</span> <span class="o">-</span><span class="mf">6.232179e-07</span> <span class="o">-</span><span class="mf">5.887680e-09</span>   <span class="mf">0.94</span><span class="o">%</span>
+<span class="n">S</span>           <span class="mf">1.354628e+02</span>  <span class="mf">1.311818e+02</span>  <span class="mf">4.280996e+00</span>   <span class="mf">3.26</span><span class="o">%</span>
+<span class="n">V</span>          <span class="o">-</span><span class="mf">2.288937e+00</span> <span class="o">-</span><span class="mf">2.288943e+00</span>  <span class="mf">5.626684e-06</span>   <span class="mf">0.00</span><span class="o">%</span>
+<span class="n">Cv</span>          <span class="mf">1.028212e+02</span>
+<span class="n">Cp</span>          <span class="mf">3.876002e+01</span>  <span class="mf">3.876000e+01</span>  <span class="mf">2.184210e-05</span>   <span class="mf">0.00</span><span class="o">%</span>
+<span class="n">dCpdT</span>       <span class="mf">1.456183e-01</span>  <span class="mf">1.450226e-01</span>  <span class="mf">5.957707e-04</span>   <span class="mf">0.41</span><span class="o">%</span>
+<span class="n">alpha</span>       <span class="mf">3.281857e-03</span>
+<span class="n">beta</span>        <span class="mf">4.995779e-04</span>
+<span class="n">K</span>           <span class="mf">2.001690e+03</span>
+<span class="n">Kp</span>          <span class="mf">1.012431e-01</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2020, ENKI.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.4.0.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Fe-Ti oxide geothermobarometer &mdash; Thermoengine 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="None"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" >
+    <link rel="search" title="Search" href="search.html" >
+    <link rel="top" title="Thermoengine 1.0.1 documentation" href="index.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="index.html">
+      <img style="border: 0;" alt="ENKI" src="_static/img/ENKI_header.png"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="http://enki-portal.org">ENKI Web</a></li>
+        <li class="active"><a href="https://enki.ofm-research.org">ENKI Server</a></li>
+	
+        <li class="active"><a href="index.html">Thermoengine 1.0.1 documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/Enki.png" alt="Logo">
+            </a></p>
+        </div>
+      </div>
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="fe-ti-oxide-geothermobarometer">
+<h1>Fe-Ti oxide geothermobarometer<a class="headerlink" href="#fe-ti-oxide-geothermobarometer" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="constructed-based-on-fe-ti-exchange-for-oxide-pairs-using-the-methodology-of-ghiorso-and-evans-2008">
+<h2>Constructed based on Fe-Ti exchange for oxide pairs, using the methodology of Ghiorso and Evans (2008)<a class="headerlink" href="#constructed-based-on-fe-ti-exchange-for-oxide-pairs-using-the-methodology-of-ghiorso-and-evans-2008" title="Permalink to this headline">¶</a></h2>
+<p>Required Python code to load the phase library …</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">optimize</span> <span class="k">as</span> <span class="n">optim</span>
+<span class="kn">import</span> <span class="nn">thermoengine</span> <span class="k">as</span> <span class="nn">thermo</span>
+</pre></div>
+</div>
+<div class="section" id="get-access-to-a-thermodynamic-database-by-default-the-berman-1988-melts-database">
+<h3>Get access to a thermodynamic database (by default, the Berman (1988)/MELTS database).<a class="headerlink" href="#get-access-to-a-thermodynamic-database-by-default-the-berman-1988-melts-database" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">modelDB</span> <span class="o">=</span> <span class="n">thermo</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">Database</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-a-python-reference-to-the-spinel-mag-and-rhombehedral-oxide-ilm-solution-phase-class">
+<h3>Create a Python reference to the Spinel (“Mag”) and Rhombehedral oxide (“Ilm”) solution phase class.<a class="headerlink" href="#create-a-python-reference-to-the-spinel-mag-and-rhombehedral-oxide-ilm-solution-phase-class" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Mag</span> <span class="o">=</span> <span class="n">modelDB</span><span class="o">.</span><span class="n">get_phase</span><span class="p">(</span><span class="s1">&#39;SplS&#39;</span><span class="p">)</span>
+<span class="n">Ilm</span> <span class="o">=</span> <span class="n">modelDB</span><span class="o">.</span><span class="n">get_phase</span><span class="p">(</span><span class="s1">&#39;Rhom&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="optional-obtain-some-properties-of-the-selected-oxide-solution">
+<h3>Optional - Obtain some properties of the selected Oxide solution<a class="headerlink" href="#optional-obtain-some-properties-of-the-selected-oxide-solution" title="Permalink to this headline">¶</a></h3>
+<p>Name, formulas of endmembers, molecular weights of endmembers,
+abbreviation, number of endmember components, names of endmembers</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">Mag</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;phase_name&#39;</span><span class="p">])</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Num of endmembers: &#39;</span><span class="p">,</span> <span class="n">Mag</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;endmember_num&#39;</span><span class="p">])</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">Mag</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;formula&#39;</span><span class="p">])</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">Mag</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;endmember_name&#39;</span><span class="p">])</span>
+<span class="nb">print</span> <span class="p">()</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">Ilm</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;phase_name&#39;</span><span class="p">])</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Num of endmembers: &#39;</span><span class="p">,</span> <span class="n">Ilm</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;endmember_num&#39;</span><span class="p">])</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">Ilm</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;formula&#39;</span><span class="p">])</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">Ilm</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;endmember_name&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Spinel</span>
+<span class="n">Num</span> <span class="n">of</span> <span class="n">endmembers</span><span class="p">:</span>  <span class="mi">5</span>
+<span class="p">[</span><span class="s1">&#39;FeCr2O4&#39;</span> <span class="s1">&#39;FeAl2O4&#39;</span> <span class="s1">&#39;Fe3O4&#39;</span> <span class="s1">&#39;MgAl2O4&#39;</span> <span class="s1">&#39;Fe2TiO4&#39;</span><span class="p">]</span>
+<span class="p">[</span><span class="s1">&#39;chromite&#39;</span> <span class="s1">&#39;hercynite&#39;</span> <span class="s1">&#39;magnetite&#39;</span> <span class="s1">&#39;spinel&#39;</span> <span class="s1">&#39;ulvospinel&#39;</span><span class="p">]</span>
+
+<span class="n">Ilmenite</span> <span class="n">ss</span>
+<span class="n">Num</span> <span class="n">of</span> <span class="n">endmembers</span><span class="p">:</span>  <span class="mi">5</span>
+<span class="p">[</span><span class="s1">&#39;MgTiO3&#39;</span> <span class="s1">&#39;Fe2O3&#39;</span> <span class="s1">&#39;FeTiO3&#39;</span> <span class="s1">&#39;MnTiO3&#39;</span> <span class="s1">&#39;Al2O3&#39;</span><span class="p">]</span>
+<span class="p">[</span><span class="s1">&#39;geikielite&#39;</span> <span class="s1">&#39;hematite&#39;</span> <span class="s1">&#39;ilmenite&#39;</span> <span class="s1">&#39;pyrophanite&#39;</span> <span class="s1">&#39;corundum&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="step-1-input-compositions-of-oxide-pairs">
+<h2>Step 1 - Input compositions of oxide pairs<a class="headerlink" href="#step-1-input-compositions-of-oxide-pairs" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">case</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>case 0: Brad’s composition</p></li>
+<li><p>case 1: Oxide pair from website geothermometer</p></li>
+</ul>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">case</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">Mag_mol_oxides</span> <span class="o">=</span> <span class="n">thermo</span><span class="o">.</span><span class="n">chem</span><span class="o">.</span><span class="n">format_mol_oxide_comp</span><span class="p">(</span>
+        <span class="p">{</span><span class="s1">&#39;SiO2&#39;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;TiO2&#39;</span><span class="p">:</span><span class="mf">4.15</span><span class="p">,</span> <span class="s1">&#39;Al2O3&#39;</span><span class="p">:</span><span class="mf">2.83</span><span class="p">,</span> <span class="s1">&#39;Fe2O3&#39;</span><span class="p">:</span><span class="mf">57.89</span><span class="p">,</span> <span class="s1">&#39;FeO&#39;</span><span class="p">:</span><span class="mf">32.48</span><span class="p">,</span>
+        <span class="s1">&#39;MnO&#39;</span><span class="p">:</span><span class="mf">0.35</span><span class="p">,</span> <span class="s1">&#39;MgO&#39;</span><span class="p">:</span><span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;CaO&#39;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;Na2O&#39;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;Cr2O3&#39;</span><span class="p">:</span><span class="mf">0.07</span><span class="p">},</span><span class="n">convert_grams_to_moles</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">Ilm_mol_oxides</span> <span class="o">=</span> <span class="n">thermo</span><span class="o">.</span><span class="n">chem</span><span class="o">.</span><span class="n">format_mol_oxide_comp</span><span class="p">(</span>
+        <span class="p">{</span><span class="s1">&#39;SiO2&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;TiO2&#39;</span><span class="p">:</span><span class="mf">37.27</span><span class="p">,</span> <span class="s1">&#39;Al2O3&#39;</span><span class="p">:</span><span class="mf">0.29</span><span class="p">,</span> <span class="s1">&#39;Fe2O3&#39;</span><span class="p">:</span><span class="mf">29.62</span><span class="p">,</span><span class="s1">&#39;FeO&#39;</span><span class="p">:</span><span class="mf">29.19</span><span class="p">,</span>
+        <span class="s1">&#39;MnO&#39;</span><span class="p">:</span><span class="mf">0.39</span><span class="p">,</span> <span class="s1">&#39;MgO&#39;</span><span class="p">:</span><span class="mf">2.0</span><span class="p">,</span> <span class="s1">&#39;CaO&#39;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;Na2O&#39;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;Cr2O3&#39;</span><span class="p">:</span><span class="mf">0.01</span><span class="p">},</span><span class="n">convert_grams_to_moles</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span> <span class="c1"># example from website, gives 724 °C, 1.61 delta NNO 0.894 a TiO2</span>
+    <span class="n">Mag_mol_oxides</span> <span class="o">=</span> <span class="n">thermo</span><span class="o">.</span><span class="n">chem</span><span class="o">.</span><span class="n">format_mol_oxide_comp</span><span class="p">(</span>
+        <span class="p">{</span><span class="s1">&#39;SiO2&#39;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;TiO2&#39;</span><span class="p">:</span><span class="mf">4.35</span><span class="p">,</span> <span class="s1">&#39;Al2O3&#39;</span><span class="p">:</span><span class="mf">1.94</span><span class="p">,</span> <span class="s1">&#39;Fe2O3&#39;</span><span class="p">:</span><span class="mf">0.00</span><span class="p">,</span> <span class="s1">&#39;Cr2O3&#39;</span><span class="p">:</span><span class="mf">0.18</span><span class="p">,</span> <span class="s1">&#39;FeO&#39;</span><span class="p">:</span><span class="mf">86.34</span><span class="p">,</span>
+        <span class="s1">&#39;MnO&#39;</span><span class="p">:</span><span class="mf">0.44</span><span class="p">,</span> <span class="s1">&#39;MgO&#39;</span><span class="p">:</span><span class="mf">1.2</span><span class="p">,</span> <span class="s1">&#39;CaO&#39;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;Na2O&#39;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">},</span><span class="n">convert_grams_to_moles</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">Ilm_mol_oxides</span> <span class="o">=</span> <span class="n">thermo</span><span class="o">.</span><span class="n">chem</span><span class="o">.</span><span class="n">format_mol_oxide_comp</span><span class="p">(</span>
+        <span class="p">{</span><span class="s1">&#39;SiO2&#39;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;TiO2&#39;</span><span class="p">:</span><span class="mf">28.73</span><span class="p">,</span> <span class="s1">&#39;Al2O3&#39;</span><span class="p">:</span><span class="mf">0.35</span><span class="p">,</span> <span class="s1">&#39;Fe2O3&#39;</span><span class="p">:</span><span class="mf">0.00</span><span class="p">,</span> <span class="s1">&#39;Cr2O3&#39;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;FeO&#39;</span><span class="p">:</span><span class="mf">65.98</span><span class="p">,</span>
+        <span class="s1">&#39;MnO&#39;</span><span class="p">:</span><span class="mf">0.23</span><span class="p">,</span> <span class="s1">&#39;MgO&#39;</span><span class="p">:</span><span class="mf">1.02</span><span class="p">,</span> <span class="s1">&#39;CaO&#39;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;Na2O&#39;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">},</span><span class="n">convert_grams_to_moles</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="step-2-convert-analytical-composition-to-moles-of-endmember-components">
+<h2>Step 2 - Convert analytical composition to moles of endmember components<a class="headerlink" href="#step-2-convert-analytical-composition-to-moles-of-endmember-components" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">Note that a method - <em>test_endmember_comp()</em> - is called to test the
+validity of the projected composition</div>
+<div class="line">Also note that the “intrinsic” conversion routines now take care of
+FeO-Fe2O3 conversion to balance the cation-anion ratio of the phase.
+Input compositions of Fe2O3 and/or FeO are adjusted to balance charge
+and maintain phase stoichiometry.</div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">validate_endmember_comp</span><span class="p">(</span><span class="n">moles_end</span><span class="p">,</span> <span class="n">phase</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">phase</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;phase_name&#39;</span><span class="p">])</span>
+    <span class="nb">sum</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">phase</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;endmember_num&#39;</span><span class="p">]):</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;mole number of </span><span class="si">{0:10.10s}</span><span class="s2"> = </span><span class="si">{1:13.8f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">phase</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;endmember_name&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">moles_end</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+        <span class="nb">sum</span> <span class="o">+=</span> <span class="n">moles_end</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">phase</span><span class="o">.</span><span class="n">test_endmember_comp</span><span class="p">(</span><span class="n">moles_end</span><span class="p">):</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Calculated composition is infeasible!&quot;</span><span class="p">)</span>
+
+<span class="n">Mag_moles_end</span> <span class="o">=</span> <span class="n">Mag</span><span class="o">.</span><span class="n">calc_endmember_comp</span><span class="p">(</span>
+    <span class="n">mol_oxide_comp</span><span class="o">=</span><span class="n">Mag_mol_oxides</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;intrinsic&#39;</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">validate_endmember_comp</span><span class="p">(</span><span class="n">Mag_moles_end</span><span class="p">,</span> <span class="n">Mag</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="n">Ilm_moles_end</span> <span class="o">=</span> <span class="n">Ilm</span><span class="o">.</span><span class="n">calc_endmember_comp</span><span class="p">(</span>
+    <span class="n">mol_oxide_comp</span><span class="o">=</span><span class="n">Ilm_mol_oxides</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;intrinsic&#39;</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">validate_endmember_comp</span><span class="p">(</span><span class="n">Ilm_moles_end</span><span class="p">,</span> <span class="n">Ilm</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Spinel</span>
+<span class="n">mole</span> <span class="n">number</span> <span class="n">of</span> <span class="n">chromite</span>   <span class="o">=</span>    <span class="mf">0.00266617</span>
+<span class="n">mole</span> <span class="n">number</span> <span class="n">of</span> <span class="n">hercynite</span>  <span class="o">=</span>   <span class="o">-</span><span class="mf">0.02419364</span>
+<span class="n">mole</span> <span class="n">number</span> <span class="n">of</span> <span class="n">magnetite</span>  <span class="o">=</span>    <span class="mf">0.83193038</span>
+<span class="n">mole</span> <span class="n">number</span> <span class="n">of</span> <span class="n">spinel</span>     <span class="o">=</span>    <span class="mf">0.06702845</span>
+<span class="n">mole</span> <span class="n">number</span> <span class="n">of</span> <span class="n">ulvospinel</span> <span class="o">=</span>    <span class="mf">0.12256865</span>
+
+<span class="n">Ilmenite</span> <span class="n">ss</span>
+<span class="n">mole</span> <span class="n">number</span> <span class="n">of</span> <span class="n">geikielite</span> <span class="o">=</span>    <span class="mf">0.03853892</span>
+<span class="n">mole</span> <span class="n">number</span> <span class="n">of</span> <span class="n">hematite</span>   <span class="o">=</span>    <span class="mf">0.44719307</span>
+<span class="n">mole</span> <span class="n">number</span> <span class="n">of</span> <span class="n">ilmenite</span>   <span class="o">=</span>    <span class="mf">0.50410315</span>
+<span class="n">mole</span> <span class="n">number</span> <span class="n">of</span> <span class="n">pyrophanit</span> <span class="o">=</span>    <span class="mf">0.00493747</span>
+<span class="n">mole</span> <span class="n">number</span> <span class="n">of</span> <span class="n">corundum</span>   <span class="o">=</span>    <span class="mf">0.00522739</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="implement-a-fe-ti-oxide-geothermometer">
+<h1>Implement a Fe-Ti oxide geothermometer.<a class="headerlink" href="#implement-a-fe-ti-oxide-geothermometer" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="consider-fe-ti-exchange-between-oxides">
+<h2>Consider Fe-Ti exchange between oxides<a class="headerlink" href="#consider-fe-ti-exchange-between-oxides" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="rhom-ilm-spinel-mag-spinel-ulv-rhom-hm">
+<h3>Rhom(Ilm) + Spinel(Mag) = Spinel (Ulv) + Rhom(Hm)<a class="headerlink" href="#rhom-ilm-spinel-mag-spinel-ulv-rhom-hm" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="fetio3-fe3o4-fe2tio4-fe2o3">
+<h3>FeTiO3 + Fe3O4 = Fe2TiO4 + Fe2O3<a class="headerlink" href="#fetio3-fe3o4-fe2tio4-fe2o3" title="Permalink to this headline">¶</a></h3>
+<p>Fix the pressure at 2000 bars</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">P</span> <span class="o">=</span> <span class="mf">2000.0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="corection-terms-from-ghiorso-and-evans-2008-that-modify-the-melts-models">
+<h2>Corection terms from Ghiorso and Evans (2008) that modify the MELTS models<a class="headerlink" href="#corection-terms-from-ghiorso-and-evans-2008-that-modify-the-melts-models" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="correction-terms-for-ulvospinel-derived-in-ghiorso-and-evans-2008">
+<h3>Correction terms for ulvospinel derived in Ghiorso and Evans (2008)<a class="headerlink" href="#correction-terms-for-ulvospinel-derived-in-ghiorso-and-evans-2008" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">UlvCorr</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">correctReaction</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="n">tr</span> <span class="o">=</span> <span class="mf">298.15</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="o">-</span> <span class="mf">162.0</span> <span class="o">+</span> <span class="mf">284.5</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">if</span> <span class="n">correctReaction</span><span class="p">:</span>
+        <span class="n">h</span> <span class="o">+=</span> <span class="mf">2039.106175</span>
+        <span class="n">s</span> <span class="o">+=</span>    <span class="mf">1.247790</span>
+    <span class="n">l1</span> <span class="o">=</span> <span class="o">-</span> <span class="mf">0.039452</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">4.184</span><span class="p">)</span>
+    <span class="n">l2</span> <span class="o">=</span> <span class="mf">7.54197e-5</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">4.184</span><span class="p">)</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">h</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">l1</span><span class="o">*</span><span class="n">l1</span><span class="o">*</span><span class="p">(</span><span class="n">t</span><span class="o">*</span><span class="n">t</span><span class="o">-</span><span class="n">tr</span><span class="o">*</span><span class="n">tr</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mf">2.0</span><span class="o">/</span><span class="mf">3.0</span><span class="p">)</span><span class="o">*</span><span class="n">l1</span><span class="o">*</span><span class="n">l2</span><span class="o">*</span><span class="p">(</span><span class="n">t</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="n">t</span> <span class="o">-</span> <span class="n">tr</span><span class="o">*</span><span class="n">tr</span><span class="o">*</span><span class="n">tr</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.25</span><span class="o">*</span><span class="n">l2</span><span class="o">*</span><span class="n">l2</span><span class="o">*</span><span class="p">(</span><span class="n">t</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="n">t</span> <span class="o">-</span> <span class="n">tr</span><span class="o">*</span><span class="n">tr</span><span class="o">*</span><span class="n">tr</span><span class="o">*</span><span class="n">tr</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span> <span class="o">+</span> <span class="n">l1</span><span class="o">*</span><span class="n">l1</span><span class="o">*</span><span class="p">(</span><span class="n">t</span> <span class="o">-</span> <span class="n">tr</span><span class="p">)</span> <span class="o">+</span> <span class="n">l1</span><span class="o">*</span><span class="n">l2</span><span class="o">*</span><span class="p">(</span><span class="n">t</span><span class="o">*</span><span class="n">t</span> <span class="o">-</span> <span class="n">tr</span><span class="o">*</span><span class="n">tr</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="mf">3.0</span><span class="p">)</span><span class="o">*</span><span class="n">l2</span><span class="o">*</span><span class="n">l2</span><span class="o">*</span><span class="p">(</span><span class="n">t</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="n">t</span> <span class="o">-</span> <span class="n">tr</span><span class="o">*</span><span class="n">tr</span><span class="o">*</span><span class="n">tr</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">h</span> <span class="o">-</span> <span class="n">t</span><span class="o">*</span><span class="n">s</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ghiorso-and-evans-2008-used-the-vinet-integral-melts-uses-the-berman-integral">
+<h3>Ghiorso and Evans (2008) used the Vinet integral; MELTS uses the Berman integral<a class="headerlink" href="#ghiorso-and-evans-2008-used-the-vinet-integral-melts-uses-the-berman-integral" title="Permalink to this headline">¶</a></h3>
+<p>We must substract the latter from computed chemical potentials and add
+in the former.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">BermanVint</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">v0</span><span class="p">,</span> <span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">v3</span><span class="p">,</span> <span class="n">v4</span><span class="p">):</span>
+    <span class="n">pr</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">tr</span> <span class="o">=</span> <span class="mf">298.15</span>
+    <span class="k">return</span> <span class="n">v0</span><span class="o">*</span><span class="p">((</span><span class="n">v1</span><span class="o">/</span><span class="mf">2.0</span><span class="o">-</span><span class="n">v2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">*</span><span class="n">p</span><span class="o">-</span><span class="n">pr</span><span class="o">*</span><span class="n">pr</span><span class="p">)</span><span class="o">+</span><span class="n">v2</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">*</span><span class="n">p</span><span class="o">*</span><span class="n">p</span><span class="o">-</span><span class="n">pr</span><span class="o">*</span><span class="n">pr</span><span class="o">*</span><span class="n">pr</span><span class="p">)</span><span class="o">/</span><span class="mf">3.0</span> <span class="o">+</span> <span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="n">v1</span><span class="o">+</span><span class="n">v2</span><span class="o">+</span><span class="n">v3</span><span class="o">*</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="n">tr</span><span class="p">)</span><span class="o">+</span><span class="n">v4</span><span class="o">*</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="n">tr</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="n">tr</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="n">pr</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">VinetVint</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">v0</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">Kp</span><span class="p">):</span>
+    <span class="n">eta</span> <span class="o">=</span> <span class="mf">3.0</span><span class="o">*</span><span class="p">(</span><span class="n">Kp</span><span class="o">-</span><span class="mf">1.0</span><span class="p">)</span><span class="o">/</span><span class="mf">2.0</span>
+    <span class="n">x</span>   <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">x0</span>  <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">pr</span>  <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">tr</span>  <span class="o">=</span> <span class="mf">298.15</span>
+
+    <span class="nb">iter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">fn</span> <span class="o">=</span> <span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">/</span><span class="mf">10000.0</span><span class="p">)</span> <span class="o">-</span> <span class="mf">3.0</span><span class="o">*</span><span class="n">K</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">eta</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="n">x</span><span class="p">))</span> <span class="o">-</span> <span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">alpha</span><span class="o">*</span><span class="n">K</span><span class="o">*</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="n">tr</span><span class="p">)</span>
+        <span class="n">dfn</span> <span class="o">=</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">/</span><span class="mf">10000.0</span><span class="p">)</span> <span class="o">+</span> <span class="mf">3.0</span><span class="o">*</span><span class="n">K</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span><span class="o">+</span><span class="n">eta</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="n">x</span><span class="p">))</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">eta</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="n">x</span><span class="p">))</span> <span class="o">-</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">alpha</span><span class="o">*</span><span class="n">K</span><span class="o">*</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="n">tr</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">fn</span><span class="o">/</span><span class="n">dfn</span>
+        <span class="nb">iter</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="p">((</span><span class="nb">iter</span> <span class="o">&gt;</span> <span class="mi">500</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">fn</span><span class="o">*</span><span class="n">fn</span> <span class="o">&lt;</span> <span class="mf">1.0e-15</span><span class="p">)):</span>
+            <span class="k">break</span>
+    <span class="c1"># print (iter, x)</span>
+
+    <span class="nb">iter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">fn</span> <span class="o">=</span> <span class="n">x0</span><span class="o">*</span><span class="n">x0</span><span class="o">*</span><span class="p">(</span><span class="n">pr</span><span class="o">/</span><span class="mf">10000.0</span><span class="p">)</span> <span class="o">-</span> <span class="mf">3.0</span><span class="o">*</span><span class="n">K</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="n">x0</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">eta</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="n">x0</span><span class="p">))</span> <span class="o">-</span> <span class="n">x0</span><span class="o">*</span><span class="n">x0</span><span class="o">*</span><span class="n">alpha</span><span class="o">*</span><span class="n">K</span><span class="o">*</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="n">tr</span><span class="p">)</span>
+        <span class="n">dfn</span> <span class="o">=</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">x0</span><span class="o">*</span><span class="p">(</span><span class="n">pr</span><span class="o">/</span><span class="mf">10000.0</span><span class="p">)</span> <span class="o">+</span> <span class="mf">3.0</span><span class="o">*</span><span class="n">K</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span><span class="o">+</span><span class="n">eta</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="n">x0</span><span class="p">))</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">eta</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="n">x0</span><span class="p">))</span> <span class="o">-</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">alpha</span><span class="o">*</span><span class="n">K</span><span class="o">*</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="n">tr</span><span class="p">)</span>
+        <span class="n">x0</span> <span class="o">=</span> <span class="n">x0</span> <span class="o">-</span> <span class="n">fn</span><span class="o">/</span><span class="n">dfn</span>
+        <span class="nb">iter</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="p">((</span><span class="nb">iter</span> <span class="o">&gt;</span> <span class="mi">500</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">fn</span><span class="o">*</span><span class="n">fn</span> <span class="o">&lt;</span> <span class="mf">1.0e-15</span><span class="p">)):</span>
+            <span class="k">break</span>
+    <span class="c1"># print (iter, x0)</span>
+
+    <span class="n">a</span>  <span class="o">=</span> <span class="p">(</span><span class="mf">9.0</span><span class="o">*</span><span class="n">v0</span><span class="o">*</span><span class="n">K</span><span class="o">/</span><span class="p">(</span><span class="n">eta</span><span class="o">*</span><span class="n">eta</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">eta</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="n">x</span><span class="p">))</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">eta</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">a</span> <span class="o">+=</span> <span class="n">v0</span><span class="o">*</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="n">tr</span><span class="p">)</span><span class="o">*</span><span class="n">K</span><span class="o">*</span><span class="n">alpha</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">x</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">-</span> <span class="mf">9.0</span><span class="o">*</span><span class="n">v0</span><span class="o">*</span><span class="n">K</span><span class="o">/</span><span class="p">(</span><span class="n">eta</span><span class="o">*</span><span class="n">eta</span><span class="p">)</span>
+    <span class="n">a</span> <span class="o">-=</span> <span class="p">(</span><span class="mf">9.0</span><span class="o">*</span><span class="n">v0</span><span class="o">*</span><span class="n">K</span><span class="o">/</span><span class="p">(</span><span class="n">eta</span><span class="o">*</span><span class="n">eta</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">eta</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="n">x0</span><span class="p">))</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">eta</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="n">x0</span><span class="p">))</span>
+    <span class="n">a</span> <span class="o">-=</span> <span class="n">v0</span><span class="o">*</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="n">tr</span><span class="p">)</span><span class="o">*</span><span class="n">K</span><span class="o">*</span><span class="n">alpha</span><span class="o">*</span><span class="p">(</span><span class="n">x0</span><span class="o">*</span><span class="n">x0</span><span class="o">*</span><span class="n">x0</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">-</span> <span class="mf">9.0</span><span class="o">*</span><span class="n">v0</span><span class="o">*</span><span class="n">K</span><span class="o">/</span><span class="p">(</span><span class="n">eta</span><span class="o">*</span><span class="n">eta</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="o">-</span><span class="n">a</span><span class="o">*</span><span class="mf">10000.0</span> <span class="o">+</span> <span class="n">p</span><span class="o">*</span><span class="n">v0</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">x</span> <span class="o">-</span> <span class="n">pr</span><span class="o">*</span><span class="n">v0</span><span class="o">*</span><span class="n">x0</span><span class="o">*</span><span class="n">x0</span><span class="o">*</span><span class="n">x0</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="berman-integral-for-the-reaction-fetio3-fe3o4-fe2tio4-fe2o3">
+<h3>Berman integral for the reaction FeTiO3 + Fe3O4 = Fe2TiO4 + Fe2O3<a class="headerlink" href="#berman-integral-for-the-reaction-fetio3-fe3o4-fe2tio4-fe2o3" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">rBerVint</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">):</span>
+    <span class="n">vIntBerMag</span> <span class="o">=</span> <span class="n">BermanVint</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="mf">4.452</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.582E-6</span><span class="p">,</span> <span class="mf">1.751E-12</span><span class="p">,</span> <span class="mf">30.291E-6</span><span class="p">,</span> <span class="mf">138.470E-10</span><span class="p">)</span>
+    <span class="n">vIntBerUlv</span> <span class="o">=</span> <span class="n">BermanVint</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="mf">4.682</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">vIntBerHem</span> <span class="o">=</span> <span class="n">BermanVint</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="mf">3.027</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.479e-6</span><span class="p">,</span> <span class="mf">0.304e-12</span><span class="p">,</span> <span class="mf">38.310e-6</span><span class="p">,</span> <span class="mf">1.650e-10</span><span class="p">)</span>
+    <span class="n">vIntBerIlm</span> <span class="o">=</span> <span class="n">BermanVint</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="mf">3.170</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.584e-6</span><span class="p">,</span> <span class="mf">1.230e-12</span><span class="p">,</span> <span class="mf">27.248e-6</span><span class="p">,</span> <span class="mf">29.968e-10</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">vIntBerUlv</span> <span class="o">+</span> <span class="n">vIntBerHem</span> <span class="o">-</span> <span class="n">vIntBerMag</span> <span class="o">-</span><span class="n">vIntBerIlm</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="vinet-integral-for-the-reaction-fetio3-fe3o4-fe2tio4-fe2o3">
+<h3>Vinet integral for the reaction FeTiO3 + Fe3O4 = Fe2TiO4 + Fe2O3<a class="headerlink" href="#vinet-integral-for-the-reaction-fetio3-fe3o4-fe2tio4-fe2o3" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">rVinetVint</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">):</span>
+    <span class="n">vIntVinetMag</span> <span class="o">=</span> <span class="n">VinetVint</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="mf">4.452</span><span class="p">,</span> <span class="mf">30.291E-6</span><span class="p">,</span> <span class="mf">171.821</span><span class="p">,</span> <span class="mf">9.3387</span><span class="p">)</span>
+    <span class="n">vIntVinetUlv</span> <span class="o">=</span> <span class="n">VinetVint</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="mf">4.682</span><span class="p">,</span> <span class="mf">30.291E-6</span><span class="p">,</span> <span class="mf">171.821</span><span class="p">,</span> <span class="mf">9.3387</span><span class="p">)</span>
+    <span class="n">vIntVinetHem</span> <span class="o">=</span> <span class="n">VinetVint</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="mf">3.027</span><span class="p">,</span> <span class="mf">38.310E-6</span><span class="p">,</span> <span class="mf">208.768</span><span class="p">,</span> <span class="mf">1.64992</span><span class="p">)</span>
+    <span class="n">vIntVinetIlm</span> <span class="o">=</span> <span class="n">VinetVint</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="mf">3.170</span><span class="p">,</span> <span class="mf">27.248E-6</span><span class="p">,</span> <span class="mf">171.233</span><span class="p">,</span> <span class="mf">6.21289</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">vIntVinetUlv</span> <span class="o">+</span> <span class="n">vIntVinetHem</span> <span class="o">-</span> <span class="n">vIntVinetMag</span> <span class="o">-</span> <span class="n">vIntVinetIlm</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="this-method-computes-the-free-energy-of-the-exchange-reaction">
+<h3>This method computes the free energy of the exchange reaction …<a class="headerlink" href="#this-method-computes-the-free-energy-of-the-exchange-reaction" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">deltaG</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">mag_mols</span><span class="p">,</span> <span class="n">ilm_mols</span><span class="p">):</span>
+    <span class="n">muMag</span> <span class="o">=</span> <span class="n">Mag</span><span class="o">.</span><span class="n">chem_potential</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">mag_mols</span><span class="p">,</span> <span class="n">endmember</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">muUlv</span> <span class="o">=</span> <span class="n">Mag</span><span class="o">.</span><span class="n">chem_potential</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">mag_mols</span><span class="p">,</span> <span class="n">endmember</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="n">UlvCorr</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
+    <span class="n">muIlm</span> <span class="o">=</span> <span class="n">Ilm</span><span class="o">.</span><span class="n">chem_potential</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">ilm_mols</span><span class="p">,</span> <span class="n">endmember</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">muHem</span> <span class="o">=</span> <span class="n">Ilm</span><span class="o">.</span><span class="n">chem_potential</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">ilm_mols</span><span class="p">,</span> <span class="n">endmember</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">deltaG</span> <span class="o">=</span> <span class="n">muUlv</span> <span class="o">+</span> <span class="n">muHem</span> <span class="o">-</span> <span class="n">muIlm</span> <span class="o">-</span> <span class="n">muMag</span> <span class="o">-</span> <span class="n">rBerVint</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">)</span> <span class="o">+</span> <span class="n">rVinetVint</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">deltaG</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="this-next-function-is-used-by-the-minimizer-to-zero-the-free-energy-of-the-exchange-reaction">
+<h3>This next function is used by the minimizer to zero the free energy of the exchange reaction …<a class="headerlink" href="#this-next-function-is-used-by-the-minimizer-to-zero-the-free-energy-of-the-exchange-reaction" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">boundary</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">Tlims</span><span class="p">,</span> <span class="n">deltaG</span><span class="p">,</span> <span class="n">mag_mols</span><span class="p">,</span> <span class="n">ilm_mols</span><span class="p">):</span>
+    <span class="n">Afun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="o">=</span><span class="n">P</span><span class="p">:</span> <span class="n">deltaG</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">mag_mols</span><span class="p">,</span> <span class="n">ilm_mols</span><span class="p">)</span>
+    <span class="n">Tbound</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">brentq</span><span class="p">(</span><span class="n">Afun</span><span class="p">,</span> <span class="n">Tlims</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Tlims</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">Tbound</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="calculate-the-equilibrium-temperature-for-this-oxide-pair">
+<h3>Calculate the equilibrium temperature for this oxide pair …<a class="headerlink" href="#calculate-the-equilibrium-temperature-for-this-oxide-pair" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Teq</span> <span class="o">=</span> <span class="n">boundary</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="p">[</span><span class="mf">500.</span><span class="p">,</span><span class="mf">2000.</span><span class="p">],</span> <span class="n">deltaG</span><span class="p">,</span> <span class="n">Mag_moles_end</span><span class="p">,</span> <span class="n">Ilm_moles_end</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Equilibrium Temp = &#39;</span><span class="p">,</span> <span class="n">Teq</span><span class="o">-</span><span class="mf">273.15</span><span class="p">,</span> <span class="s1">&#39; °C&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Equilibrium Temp =  724.072806179801  °C
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="calculate-oxygen-fugacity-from-the-reaction">
+<h2>Calculate Oxygen fugacity from the reaction<a class="headerlink" href="#calculate-oxygen-fugacity-from-the-reaction" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="o2-4-fe3o4-6-fe2o3">
+<h3>O2 + 4 Fe3O4 = 6 Fe2O3<a class="headerlink" href="#o2-4-fe3o4-6-fe2o3" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">Note that the properties of oxygen are defined here for consistency
+instead of using the built-in functions.</div>
+<div class="line">Also note that the chemical potentials of hematite and magnetite are
+adjusted to remove the Berman-type volume integrals and replace them
+with the Vinet-type volume integrals to be consistent with Ghiorso and
+Evans (2008)</div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">muO2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+    <span class="n">tr</span> <span class="o">=</span> <span class="mf">298.15</span>
+    <span class="n">hs</span> <span class="o">=</span> <span class="mf">23.10248</span><span class="o">*</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="n">tr</span><span class="p">)</span> <span class="o">+</span> <span class="mf">2.0</span><span class="o">*</span><span class="mf">804.8876</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">tr</span><span class="p">))</span> <span class="o">-</span> <span class="mf">1762835.0</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="n">t</span><span class="o">-</span><span class="mf">1.0</span><span class="o">/</span><span class="n">tr</span><span class="p">)</span> \
+       <span class="o">-</span> <span class="mf">18172.91960</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">t</span><span class="o">/</span><span class="n">tr</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="mf">0.002676</span><span class="o">*</span><span class="p">(</span><span class="n">t</span><span class="o">*</span><span class="n">t</span><span class="o">-</span><span class="n">tr</span><span class="o">*</span><span class="n">tr</span><span class="p">)</span>
+    <span class="n">ss</span> <span class="o">=</span> <span class="mf">205.15</span> <span class="o">+</span> <span class="mf">23.10248</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">t</span><span class="o">/</span><span class="n">tr</span><span class="p">)</span>  <span class="o">-</span> <span class="mf">2.0</span><span class="o">*</span><span class="mf">804.8876</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">-</span><span class="mf">1.0</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">tr</span><span class="p">))</span> \
+       <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="mf">1762835.0</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="n">t</span><span class="o">*</span><span class="n">t</span><span class="p">)</span><span class="o">-</span><span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="n">tr</span><span class="o">*</span><span class="n">tr</span><span class="p">))</span> <span class="o">+</span> <span class="mf">18172.91960</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="n">t</span><span class="o">-</span><span class="mf">1.0</span><span class="o">/</span><span class="n">tr</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.002676</span><span class="o">*</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="n">tr</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">hs</span> <span class="o">-</span> <span class="n">t</span><span class="o">*</span><span class="n">ss</span>
+<span class="k">def</span> <span class="nf">deltaNNO</span> <span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">mag_mols</span><span class="p">,</span> <span class="n">ilm_mols</span><span class="p">):</span>
+    <span class="n">muHem</span>  <span class="o">=</span> <span class="n">Ilm</span><span class="o">.</span><span class="n">chem_potential</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">ilm_mols</span><span class="p">,</span> <span class="n">endmember</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">muHem</span> <span class="o">-=</span> <span class="n">BermanVint</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="mf">3.027</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.479e-6</span><span class="p">,</span> <span class="mf">0.304e-12</span><span class="p">,</span> <span class="mf">38.310e-6</span><span class="p">,</span> <span class="mf">1.650e-10</span><span class="p">)</span>
+    <span class="n">muHem</span> <span class="o">+=</span> <span class="n">VinetVint</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="mf">3.027</span><span class="p">,</span> <span class="mf">38.310E-6</span><span class="p">,</span> <span class="mf">208.768</span><span class="p">,</span> <span class="mf">1.64992</span><span class="p">)</span>
+    <span class="n">muMag</span> <span class="o">=</span>  <span class="n">Mag</span><span class="o">.</span><span class="n">chem_potential</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">mag_mols</span><span class="p">,</span> <span class="n">endmember</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">muMag</span> <span class="o">-=</span> <span class="n">BermanVint</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="mf">4.452</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.582E-6</span><span class="p">,</span> <span class="mf">1.751E-12</span><span class="p">,</span> <span class="mf">30.291E-6</span><span class="p">,</span> <span class="mf">138.470E-10</span><span class="p">)</span>
+    <span class="n">muMag</span> <span class="o">+=</span> <span class="n">VinetVint</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="mf">4.452</span><span class="p">,</span> <span class="mf">30.291E-6</span><span class="p">,</span> <span class="mf">171.821</span><span class="p">,</span> <span class="mf">9.3387</span><span class="p">)</span>
+    <span class="n">muOxy</span>  <span class="o">=</span> <span class="n">muO2</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">)</span>
+    <span class="n">logfO2</span> <span class="o">=</span> <span class="p">(</span><span class="mf">6.0</span><span class="o">*</span><span class="n">muHem</span> <span class="o">-</span> <span class="mf">4.0</span><span class="o">*</span><span class="n">muMag</span> <span class="o">-</span>  <span class="n">muOxy</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mf">8.3144598</span><span class="o">*</span><span class="n">T</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">10.0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">logfO2</span> <span class="o">-</span> <span class="p">(</span><span class="o">-</span><span class="mf">25018.7</span><span class="o">/</span><span class="n">T</span> <span class="o">+</span> <span class="mf">12.981</span> <span class="o">+</span> <span class="mf">0.046</span><span class="o">*</span><span class="p">(</span><span class="n">P</span><span class="o">-</span><span class="mf">1.0</span><span class="p">)</span><span class="o">/</span><span class="n">Teq</span> <span class="o">-</span><span class="mf">0.5117</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">T</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="calculate-the-equilibrium-oxygen-fugacity-for-this-oxide-pair">
+<h3>Calculate the equilibrium oxygen fugacity for this oxide pair …<a class="headerlink" href="#calculate-the-equilibrium-oxygen-fugacity-for-this-oxide-pair" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">deltaNNO</span><span class="p">(</span><span class="n">Teq</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">Mag_moles_end</span><span class="p">,</span> <span class="n">Ilm_moles_end</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">1.613240788544294</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="calculate-the-temperature-for-fe-mg-exchange">
+<h2>Calculate the temperature for Fe-Mg exchange<a class="headerlink" href="#calculate-the-temperature-for-fe-mg-exchange" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="feal2o4-hercynite-mgtio3-geikielite-mgal2o4-spinel-fetio3-ilmenite">
+<h3>FeAl2O4 (hercynite) + MgTiO3 (geikielite) = MgAl2O4 (spinel) + FeTiO3 (ilmenite)<a class="headerlink" href="#feal2o4-hercynite-mgtio3-geikielite-mgal2o4-spinel-fetio3-ilmenite" title="Permalink to this headline">¶</a></h3>
+<p>The method below is used by the minimizer to evaluate the free energy
+change of the Fe-Mg exchange reaction …</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">deltaGfemg</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">mag_mols</span><span class="p">,</span> <span class="n">ilm_mols</span><span class="p">):</span>
+    <span class="n">muSpn</span>  <span class="o">=</span> <span class="n">Mag</span><span class="o">.</span><span class="n">chem_potential</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">mag_mols</span><span class="p">,</span> <span class="n">endmember</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">muSpn</span> <span class="o">-=</span> <span class="n">BermanVint</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="mf">3.977</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.489E-6</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">21.691E-6</span><span class="p">,</span> <span class="mf">50.528E-10</span><span class="p">)</span>
+    <span class="n">muSpn</span> <span class="o">+=</span> <span class="n">VinetVint</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="mf">3.977</span><span class="p">,</span> <span class="mf">21.691E-6</span><span class="p">,</span> <span class="mf">204.499</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">)</span>
+
+    <span class="n">muHer</span>  <span class="o">=</span> <span class="n">Mag</span><span class="o">.</span><span class="n">chem_potential</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">mag_mols</span><span class="p">,</span> <span class="n">endmember</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">muHer</span> <span class="o">-=</span> <span class="n">BermanVint</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="mf">0.973948</span><span class="o">*</span><span class="mf">4.184</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">muHer</span> <span class="o">+=</span> <span class="n">VinetVint</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="mf">0.973948</span><span class="o">*</span><span class="mf">4.184</span><span class="p">,</span> <span class="mf">21.691E-6</span><span class="p">,</span> <span class="mf">204.499</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">)</span>
+
+    <span class="n">muIlm</span>  <span class="o">=</span> <span class="n">Ilm</span><span class="o">.</span><span class="n">chem_potential</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">ilm_mols</span><span class="p">,</span> <span class="n">endmember</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">muIlm</span> <span class="o">-=</span> <span class="n">BermanVint</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="mf">3.170</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.584e-6</span><span class="p">,</span> <span class="mf">1.230e-12</span><span class="p">,</span> <span class="mf">27.248e-6</span><span class="p">,</span> <span class="mf">29.968e-10</span><span class="p">)</span>
+    <span class="n">muIlm</span> <span class="o">+=</span> <span class="n">VinetVint</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="mf">3.170</span><span class="p">,</span> <span class="mf">27.248E-6</span><span class="p">,</span> <span class="mf">171.233</span><span class="p">,</span> <span class="mf">6.21289</span><span class="p">)</span>
+
+    <span class="n">muGei</span>  <span class="o">=</span> <span class="n">Ilm</span><span class="o">.</span><span class="n">chem_potential</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">ilm_mols</span><span class="p">,</span> <span class="n">endmember</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">muGei</span> <span class="o">-=</span> <span class="n">BermanVint</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="mf">3.086</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.584e-6</span><span class="p">,</span> <span class="mf">1.230e-12</span><span class="p">,</span> <span class="mf">27.248e-6</span><span class="p">,</span> <span class="mf">29.968e-10</span><span class="p">)</span>
+    <span class="n">muGei</span> <span class="o">+=</span> <span class="n">VinetVint</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="mf">3.086</span><span class="p">,</span> <span class="mf">27.2476341e-6</span><span class="p">,</span> <span class="mf">171.240</span><span class="p">,</span> <span class="mf">6.21527</span><span class="p">)</span>
+
+    <span class="n">deltaG</span> <span class="o">=</span> <span class="n">muSpn</span> <span class="o">+</span> <span class="n">muIlm</span> <span class="o">-</span> <span class="n">muHer</span> <span class="o">-</span> <span class="n">muGei</span>
+    <span class="k">return</span> <span class="n">deltaG</span>
+</pre></div>
+</div>
+<p>Compute the Fe-Mg exchange temperature (if possible) …</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Tlow</span>  <span class="o">=</span> <span class="n">deltaGfemg</span><span class="p">(</span><span class="mf">500.0</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">Mag_moles_end</span><span class="p">,</span> <span class="n">Ilm_moles_end</span><span class="p">)</span>
+<span class="n">Thigh</span> <span class="o">=</span> <span class="n">deltaGfemg</span><span class="p">(</span><span class="mf">2000.0</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">Mag_moles_end</span><span class="p">,</span> <span class="n">Ilm_moles_end</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">Tlow</span><span class="p">)</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">Thigh</span><span class="p">):</span>
+    <span class="n">Tfemg</span> <span class="o">=</span> <span class="n">boundary</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="p">[</span><span class="mf">500.</span><span class="p">,</span><span class="mf">2000.</span><span class="p">],</span> <span class="n">deltaGfemg</span><span class="p">,</span> <span class="n">Mag_moles_end</span><span class="p">,</span> <span class="n">Ilm_moles_end</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Fe-Mg Equilibrium Temp = &#39;</span><span class="p">,</span> <span class="n">Tfemg</span><span class="o">-</span><span class="mf">273.15</span><span class="p">,</span> <span class="s1">&#39; °C&#39;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;No Fe-Mg equilibration temperature found.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">No</span> <span class="n">Fe</span><span class="o">-</span><span class="n">Mg</span> <span class="n">equilibration</span> <span class="n">temperature</span> <span class="n">found</span><span class="o">.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="calculate-the-activity-of-tio2-relative-to-rutile-saturation">
+<h2>Calculate the activity of TiO2 relative to rutile saturation<a class="headerlink" href="#calculate-the-activity-of-tio2-relative-to-rutile-saturation" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Rut</span> <span class="o">=</span> <span class="n">modelDB</span><span class="o">.</span><span class="n">get_phase</span><span class="p">(</span><span class="s1">&#39;Rt&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">aTiO2</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">mag_mols</span><span class="p">,</span> <span class="n">ilm_mols</span><span class="p">):</span>
+    <span class="n">muUlv</span>  <span class="o">=</span> <span class="n">Mag</span><span class="o">.</span><span class="n">chem_potential</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">mag_mols</span><span class="p">,</span> <span class="n">endmember</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="n">UlvCorr</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">correctReaction</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">muUlv</span> <span class="o">-=</span> <span class="n">BermanVint</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="mf">4.682</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">muUlv</span> <span class="o">+=</span> <span class="n">VinetVint</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="mf">4.682</span><span class="p">,</span> <span class="mf">30.291E-6</span><span class="p">,</span> <span class="mf">171.821</span><span class="p">,</span> <span class="mf">9.3387</span><span class="p">)</span>
+    <span class="n">muIlm</span>  <span class="o">=</span> <span class="n">Ilm</span><span class="o">.</span><span class="n">chem_potential</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">ilm_mols</span><span class="p">,</span> <span class="n">endmember</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">muIlm</span> <span class="o">-=</span> <span class="n">BermanVint</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="mf">3.170</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.584e-6</span><span class="p">,</span> <span class="mf">1.230e-12</span><span class="p">,</span> <span class="mf">27.248e-6</span><span class="p">,</span> <span class="mf">29.968e-10</span><span class="p">)</span>
+    <span class="n">muIlm</span> <span class="o">+=</span> <span class="n">VinetVint</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="mf">3.170</span><span class="p">,</span> <span class="mf">27.248E-6</span><span class="p">,</span> <span class="mf">171.233</span><span class="p">,</span> <span class="mf">6.21289</span><span class="p">)</span>
+    <span class="n">muRut</span> <span class="o">=</span> <span class="n">Rut</span><span class="o">.</span><span class="n">chem_potential</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">muRut</span><span class="o">+</span><span class="n">muUlv</span><span class="o">-</span><span class="mf">2.0</span><span class="o">*</span><span class="n">muIlm</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mf">8.3143</span><span class="o">*</span><span class="n">T</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">aTiO2</span><span class="p">(</span><span class="n">Teq</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">Mag_moles_end</span><span class="p">,</span> <span class="n">Ilm_moles_end</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.8938677107462636</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2020, ENKI.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.4.0.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

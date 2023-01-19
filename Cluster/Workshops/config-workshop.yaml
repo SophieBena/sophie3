@@ -1,0 +1,47 @@
+proxy:
+  secretToken: "782f65ff317054c3ca9e7942294b57fa79f61d99de85c63186acb4e83c2d03a1"
+  https:
+    hosts:
+      - workshop.enki-portal.org
+    letsencrypt:
+      contactEmail: ghiorso@ofm-research.org
+
+singleuser:
+  imagePullSecret:
+    enabled: true
+    registry: https://registry.gitlab.com/
+    username: gitlab+deploy-token-79194
+    password: fMGxUUuc9uxRTnUsB5yw
+  image:
+    name: registry.gitlab.com/enki-portal/thermoengine/enki-scipy-notebook
+    tag: latest
+  defaultUrl: "/lab"
+  lifecycleHooks:
+    postStart:
+      exec:
+        command: 
+          - "sh"
+          - "-c"
+          - >
+            gitpuller https://gitlab+deploy-token-79705:GmDNt-Gn4Ns-LAjgtgM8@gitlab.com/enki-portal/ThermoEngine master ThermoEngine;
+            gitpuller https://gitlab.com/ENKI-portal/enki_workshops.git master ENKI_Workshops
+
+hub:
+  extraConfig:
+    00-first-config: |
+      c.Spawner.cmd = ['jupyter-labhub']
+    10-second-config: |
+      from oauthenticator.gitlab import GitLabOAuthenticator
+      c.JupyterHub.authenticator_class = GitLabOAuthenticator
+      c.GitLabOAuthenticator.scope = ['read_user']
+      c.GitLabOAuthenticator.oauth_callback_url = 'https://workshop.enki-portal.org/hub/oauth_callback'
+      c.GitLabOAuthenticator.client_id = 'fd5d485c51e879692a6fe9a9d16c2581e79fc12925151e190e58c75515dad485'
+      c.GitLabOAuthenticator.client_secret = '854d625aed3c33190d4cb491b4616feab82a727fb595c1920f4401f9a7c27d46'
+  extraEnv:
+    GITLAB_URL: https://gitlab.com
+
+auth:
+  admin:
+    access: true
+    users:
+      - ghiorso

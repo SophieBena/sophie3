@@ -1,0 +1,9 @@
+#!/bin/bash
+echo Teardown the cluster
+echo Delete the release ...
+helm delete jhub --purge
+echo Delete the namespace ...
+kubectl delete namespace jhub
+echo Delete the cluster ...
+gcloud container clusters delete enkiserver --zone=us-west1-a
+echo Done

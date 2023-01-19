@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Compare Stoichiometric Phases from Different Databases &mdash; Thermoengine 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="None"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" >
+    <link rel="search" title="Search" href="search.html" >
+    <link rel="top" title="Thermoengine 1.0.1 documentation" href="index.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="index.html">
+      <img style="border: 0;" alt="ENKI" src="_static/img/ENKI_header.png"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="http://enki-portal.org">ENKI Web</a></li>
+        <li class="active"><a href="https://enki.ofm-research.org">ENKI Server</a></li>
+	
+        <li class="active"><a href="index.html">Thermoengine 1.0.1 documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/Enki.png" alt="Logo">
+            </a></p>
+        </div>
+      </div>
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="compare-stoichiometric-phases-from-different-databases">
+<h1>Compare Stoichiometric Phases from Different Databases<a class="headerlink" href="#compare-stoichiometric-phases-from-different-databases" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">from</span> <span class="nn">thermoengine</span> <span class="kn">import</span> <span class="n">phases</span>
+<span class="kn">from</span> <span class="nn">thermoengine</span> <span class="kn">import</span> <span class="n">model</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">modelDB</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">Database</span><span class="p">()</span>
+<span class="n">modelDBStix</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">Database</span><span class="p">(</span><span class="n">database</span><span class="o">=</span><span class="s1">&#39;Stixrude&#39;</span><span class="p">)</span>
+<span class="n">modelDBHP</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">Database</span><span class="p">(</span><span class="n">database</span><span class="o">=</span><span class="s1">&#39;HollandAndPowell&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="get-access-to-a-thermodynamic-database-by-default-the-berman-1988-database">
+<h2>Get access to a thermodynamic database (by default, the Berman (1988) database).<a class="headerlink" href="#get-access-to-a-thermodynamic-database-by-default-the-berman-1988-database" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="to-print-a-list-of-all-of-the-phases-in-the-database-execute">
+<h2>To print a list of all of the phases in the database, execute:<a class="headerlink" href="#to-print-a-list-of-all-of-the-phases-in-the-database-execute" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">all_purephases_df</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-the-quartz-stoichiometric-phase-class-in-three-databases">
+<h2>Create the Quartz stoichiometric phase class in three databases:<a class="headerlink" href="#create-the-quartz-stoichiometric-phase-class-in-three-databases" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">Berman (1988)</div>
+<div class="line">Stixrude-Lithgow-Bertelloni (2011)</div>
+<div class="line">Holland and Powell (1998, latest release)</div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Quartz_Berman</span> <span class="o">=</span> <span class="n">modelDB</span><span class="o">.</span><span class="n">get_phase</span><span class="p">(</span><span class="s1">&#39;Qz&#39;</span><span class="p">)</span>
+<span class="n">Quartz_SLB</span> <span class="o">=</span> <span class="n">modelDBStix</span><span class="o">.</span><span class="n">get_phase</span><span class="p">(</span><span class="s1">&#39;Qz&#39;</span><span class="p">)</span>
+<span class="n">Quartz_HP</span> <span class="o">=</span> <span class="n">modelDBHP</span><span class="o">.</span><span class="n">get_phase</span><span class="p">(</span><span class="s1">&#39;Qz&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="perform-a-sanity-check">
+<h2>Perform a sanity check.<a class="headerlink" href="#perform-a-sanity-check" title="Permalink to this headline">¶</a></h2>
+<p>Make sure that we are not going to compare apples and oranges.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">{0:&gt;10s}</span><span class="s1"> </span><span class="si">{1:&gt;10s}</span><span class="s1"> </span><span class="si">{2:&gt;10s}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Berman DB&#39;</span><span class="p">,</span> <span class="s1">&#39;SLB DB&#39;</span><span class="p">,</span> <span class="s1">&#39;HP DB&#39;</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">{0:&gt;10s}</span><span class="s1"> </span><span class="si">{1:&gt;10s}</span><span class="s1"> </span><span class="si">{2:&gt;10s}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+    <span class="n">Quartz_Berman</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;phase_name&#39;</span><span class="p">],</span> <span class="n">Quartz_SLB</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;phase_name&#39;</span><span class="p">],</span> <span class="n">Quartz_HP</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;phase_name&#39;</span><span class="p">]))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">{0:&gt;10s}</span><span class="s1"> </span><span class="si">{1:&gt;10s}</span><span class="s1"> </span><span class="si">{2:&gt;10s}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+    <span class="n">Quartz_Berman</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;formula&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">Quartz_SLB</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;formula&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">Quartz_HP</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;formula&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">{0:10.3f}</span><span class="s1"> </span><span class="si">{1:10.3f}</span><span class="s1"> </span><span class="si">{2:10.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+    <span class="n">Quartz_Berman</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;molwt&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">Quartz_SLB</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;molwt&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">Quartz_HP</span><span class="o">.</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;molwt&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Berman</span> <span class="n">DB</span>     <span class="n">SLB</span> <span class="n">DB</span>      <span class="n">HP</span> <span class="n">DB</span>
+   <span class="n">Quartz</span>     <span class="n">Quartz</span>     <span class="n">Quartz</span>
+     <span class="n">SiO2</span>       <span class="n">SiO2</span>       <span class="n">SiO2</span>
+   <span class="mf">60.084</span>     <span class="mf">60.084</span>     <span class="mf">60.084</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="recall-that-all-pure-component-stoichiometric-phases-implement-the-following-functions">
+<h2>Recall that all pure component (stoichiometric) phases implement the following functions:<a class="headerlink" href="#recall-that-all-pure-component-stoichiometric-phases-implement-the-following-functions" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">get_gibbs_energy</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">)</span>
+<span class="n">get_enthalpy</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">)</span>
+<span class="n">get_entropy</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">)</span>
+<span class="n">get_heat_capacity</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">)</span>
+<span class="n">get_dCp_dT</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">)</span>
+<span class="n">get_volume</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">)</span>
+<span class="n">get_dV_dT</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">)</span>
+<span class="n">get_dV_dP</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">)</span>
+<span class="n">get_d2V_dT2</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">)</span>
+<span class="n">get_d2V_dTdP</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">)</span>
+<span class="n">get_d2V_dP2</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">P</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where <em>T</em> (temperature) is in K, and <em>P</em> (pressure) is in bars.</p>
+<div class="section" id="compare-the-heat-capacity-at-1-bar">
+<h3>Compare the heat capacity at 1 bar.<a class="headerlink" href="#compare-the-heat-capacity-at-1-bar" title="Permalink to this headline">¶</a></h3>
+<p>Also, plot measured heat capacity from an especially reliable source:
+Ghiorso et al., 1979, <em>Contributions to Mineralogy and Petrology</em> v. 68,
+307-323.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">msg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;Ghiorso-cp-quartz.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">),</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">msg_data_T</span> <span class="o">=</span> <span class="n">msg</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">msg_data_Cp</span> <span class="o">=</span> <span class="n">msg</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">T_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">250.0</span><span class="p">,</span> <span class="mf">1200.0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">Cp_array_Berman</span> <span class="o">=</span> <span class="n">Quartz_Berman</span><span class="o">.</span><span class="n">heat_capacity</span><span class="p">(</span><span class="n">T_array</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">Cp_array_SLB</span> <span class="o">=</span> <span class="n">Quartz_SLB</span><span class="o">.</span><span class="n">heat_capacity</span><span class="p">(</span><span class="n">T_array</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">Cp_array_HP</span> <span class="o">=</span> <span class="n">Quartz_HP</span><span class="o">.</span><span class="n">heat_capacity</span><span class="p">(</span><span class="n">T_array</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">msg_data_T</span><span class="p">,</span> <span class="n">msg_data_Cp</span><span class="p">,</span> <span class="s1">&#39;go&#39;</span><span class="p">,</span> <span class="n">T_array</span><span class="p">,</span> <span class="n">Cp_array_Berman</span><span class="p">,</span> <span class="s1">&#39;r-&#39;</span><span class="p">,</span> <span class="n">T_array</span><span class="p">,</span> <span class="n">Cp_array_SLB</span><span class="p">,</span> <span class="s1">&#39;b-&#39;</span><span class="p">,</span>
+        <span class="n">T_array</span><span class="p">,</span> <span class="n">Cp_array_HP</span><span class="p">,</span> <span class="s1">&#39;y-&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Cp J/K-m&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;T K&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="_images/Compare-Phases_10_0.png" src="_images/Compare-Phases_10_0.png" />
+</div>
+<div class="section" id="compare-the-entropy-at-1-bar">
+<h3>Compare the entropy at 1 bar.<a class="headerlink" href="#compare-the-entropy-at-1-bar" title="Permalink to this headline">¶</a></h3>
+<p>Data point is reported by CODATA (1978).</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">S_array_Berman</span> <span class="o">=</span> <span class="n">Quartz_Berman</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">T_array</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">S_array_SLB</span> <span class="o">=</span> <span class="n">Quartz_SLB</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">T_array</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">S_array_HP</span> <span class="o">=</span> <span class="n">Quartz_HP</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">T_array</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mf">298.15</span><span class="p">,</span> <span class="mf">41.46</span><span class="p">,</span> <span class="s1">&#39;go&#39;</span><span class="p">,</span> <span class="n">T_array</span><span class="p">,</span> <span class="n">S_array_Berman</span><span class="p">,</span> <span class="s1">&#39;r-&#39;</span><span class="p">,</span> <span class="n">T_array</span><span class="p">,</span> <span class="n">S_array_SLB</span><span class="p">,</span> <span class="s1">&#39;b-&#39;</span><span class="p">,</span> <span class="n">T_array</span><span class="p">,</span> <span class="n">S_array_HP</span><span class="p">,</span> <span class="s1">&#39;y-&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;S J/K-m&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;T K&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="_images/Compare-Phases_12_0.png" src="_images/Compare-Phases_12_0.png" />
+</div>
+<div class="section" id="compare-the-gibbs-free-energy-at-1-bar">
+<h3>Compare the Gibbs free energy at 1 bar.<a class="headerlink" href="#compare-the-gibbs-free-energy-at-1-bar" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G_array_Berman</span> <span class="o">=</span> <span class="n">Quartz_Berman</span><span class="o">.</span><span class="n">gibbs_energy</span><span class="p">(</span><span class="n">T_array</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">G_array_SLB</span> <span class="o">=</span> <span class="n">Quartz_SLB</span><span class="o">.</span><span class="n">gibbs_energy</span><span class="p">(</span><span class="n">T_array</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">G_array_HP</span> <span class="o">=</span> <span class="n">Quartz_HP</span><span class="o">.</span><span class="n">gibbs_energy</span><span class="p">(</span><span class="n">T_array</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">T_array</span><span class="p">,</span> <span class="n">G_array_Berman</span><span class="p">,</span> <span class="s1">&#39;r-&#39;</span><span class="p">,</span> <span class="n">T_array</span><span class="p">,</span> <span class="n">G_array_SLB</span><span class="p">,</span> <span class="s1">&#39;b-&#39;</span><span class="p">,</span> <span class="n">T_array</span><span class="p">,</span> <span class="n">G_array_HP</span><span class="p">,</span> <span class="s1">&#39;y-&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;G J/m&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;T K&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="_images/Compare-Phases_14_0.png" src="_images/Compare-Phases_14_0.png" />
+</div>
+<div class="section" id="compare-the-enthalpy-of-formation-at-1-bar">
+<h3>Compare the enthalpy of formation at 1 bar.<a class="headerlink" href="#compare-the-enthalpy-of-formation-at-1-bar" title="Permalink to this headline">¶</a></h3>
+<p>Data point is reported by CODATA (1978)</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">H_array_Berman</span> <span class="o">=</span> <span class="n">Quartz_Berman</span><span class="o">.</span><span class="n">enthalpy</span><span class="p">(</span><span class="n">T_array</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">H_array_SLB</span> <span class="o">=</span> <span class="n">Quartz_SLB</span><span class="o">.</span><span class="n">enthalpy</span><span class="p">(</span><span class="n">T_array</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">H_array_HP</span> <span class="o">=</span> <span class="n">Quartz_HP</span><span class="o">.</span><span class="n">enthalpy</span><span class="p">(</span><span class="n">T_array</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mf">298.15</span><span class="p">,</span> <span class="o">-</span><span class="mf">910700.0</span><span class="p">,</span> <span class="s1">&#39;go&#39;</span><span class="p">,</span> <span class="n">T_array</span><span class="p">,</span> <span class="n">H_array_Berman</span><span class="p">,</span> <span class="s1">&#39;r-&#39;</span><span class="p">,</span> <span class="n">T_array</span><span class="p">,</span> <span class="n">H_array_SLB</span><span class="p">,</span> <span class="s1">&#39;b-&#39;</span><span class="p">,</span>
+         <span class="n">T_array</span><span class="p">,</span> <span class="n">H_array_HP</span><span class="p">,</span> <span class="s1">&#39;y-&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;H J/m&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;T K&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="_images/Compare-Phases_16_0.png" src="_images/Compare-Phases_16_0.png" />
+</div>
+<div class="section" id="compare-the-volume-at-1-bar">
+<h3>Compare the volume at 1 bar.<a class="headerlink" href="#compare-the-volume-at-1-bar" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">V_array_Berman</span> <span class="o">=</span> <span class="n">Quartz_Berman</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">T_array</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">V_array_SLB</span> <span class="o">=</span> <span class="n">Quartz_SLB</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">T_array</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">V_array_HP</span> <span class="o">=</span> <span class="n">Quartz_HP</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="n">T_array</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mf">298.15</span><span class="p">,</span> <span class="mf">2.269</span><span class="p">,</span> <span class="s1">&#39;go&#39;</span><span class="p">,</span> <span class="n">T_array</span><span class="p">,</span> <span class="n">V_array_Berman</span><span class="p">,</span> <span class="s1">&#39;r-&#39;</span><span class="p">,</span> <span class="n">T_array</span><span class="p">,</span> <span class="n">V_array_SLB</span><span class="p">,</span> <span class="s1">&#39;b-&#39;</span><span class="p">,</span> <span class="n">T_array</span><span class="p">,</span> <span class="n">V_array_HP</span><span class="p">,</span> <span class="s1">&#39;y-&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;V J/bar-m&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;T K&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="_images/Compare-Phases_18_0.png" src="_images/Compare-Phases_18_0.png" />
+</div>
+<div class="section" id="how-about-the-volume-as-a-function-of-p">
+<h3>… How about the volume as a function of P?<a class="headerlink" href="#how-about-the-volume-as-a-function-of-p" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">P_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1000000.0</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">V_array_Berman</span> <span class="o">=</span> <span class="n">Quartz_Berman</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="mf">298.15</span><span class="p">,</span> <span class="n">P_array</span><span class="p">)</span>
+<span class="n">V_array_SLB</span> <span class="o">=</span> <span class="n">Quartz_SLB</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="mf">298.15</span><span class="p">,</span> <span class="n">P_array</span><span class="p">)</span>
+<span class="n">V_array_HP</span> <span class="o">=</span> <span class="n">Quartz_HP</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="mf">298.15</span><span class="p">,</span> <span class="n">P_array</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">P_array</span><span class="p">,</span> <span class="n">V_array_Berman</span><span class="p">,</span> <span class="s1">&#39;r-&#39;</span><span class="p">,</span> <span class="n">P_array</span><span class="p">,</span> <span class="n">V_array_SLB</span><span class="p">,</span> <span class="s1">&#39;b-&#39;</span><span class="p">,</span> <span class="n">P_array</span><span class="p">,</span> <span class="n">V_array_HP</span><span class="p">,</span> <span class="s1">&#39;y-&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;V J/bar-m&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;T K&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="_images/Compare-Phases_20_0.png" src="_images/Compare-Phases_20_0.png" />
+</div>
+<div class="section" id="what-does-frac-partial-v-partial-p-look-like">
+<h3>What does <span class="math notranslate nohighlight">\(\frac{{\partial V}}{{\partial P}}\)</span> look like?<a class="headerlink" href="#what-does-frac-partial-v-partial-p-look-like" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dVdP_array_Berman</span> <span class="o">=</span> <span class="n">Quartz_Berman</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="mf">298.15</span><span class="p">,</span> <span class="n">P_array</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dP&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
+<span class="n">dVdP_array_SLB</span> <span class="o">=</span> <span class="n">Quartz_SLB</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="mf">298.15</span><span class="p">,</span> <span class="n">P_array</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dP&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
+<span class="n">dVdP_array_HP</span> <span class="o">=</span> <span class="n">Quartz_HP</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="mf">298.15</span><span class="p">,</span> <span class="n">P_array</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dP&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">P_array</span><span class="p">,</span> <span class="n">dVdP_array_Berman</span><span class="p">,</span> <span class="s1">&#39;r-&#39;</span><span class="p">,</span> <span class="n">P_array</span><span class="p">,</span> <span class="n">dVdP_array_SLB</span><span class="p">,</span> <span class="s1">&#39;b-&#39;</span><span class="p">,</span> <span class="n">P_array</span><span class="p">,</span> <span class="n">dVdP_array_HP</span><span class="p">,</span> <span class="s1">&#39;y-&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;dV/dP J/bar^2-m&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;P bars&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ticklabel_format</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;sci&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">scilimits</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="_images/Compare-Phases_22_0.png" src="_images/Compare-Phases_22_0.png" />
+<p>Berman (1988) using the following form:
+<span class="math notranslate nohighlight">\(V = {V_0}\left[ {{v_1}\left( {P - {P_0}} \right) + {v_2}{{\left( {P - {P_0}} \right)}^2} + {v_3}\left( {T - {T_0}} \right) + {v_4}{{\left( {T - {T_0}} \right)}^2}} \right]\)</span>,
+whereas Stixrude and Lithgow-Bertelloni use this form:
+<span class="math notranslate nohighlight">\(P = \frac{{3K}}{2}\left[ {{{\left( {\frac{{{V_0}}}{V}} \right)}^{\frac{7}{3}}} - {{\left( {\frac{{{V_0}}}{V}} \right)}^{\frac{5}{3}}}} \right]\left\{ {1 + \frac{3}{4}\left( {K' - 4} \right)\left[ {{{\left( {\frac{{{V_0}}}{V}} \right)}^{\frac{2}{3}}} - 1} \right]} \right\}\)</span></p>
+</div>
+<div class="section" id="perhaps-berman-1988-is-better-at-low-pressure">
+<h3>… Perhaps Berman (1988) is better at low pressure?<a class="headerlink" href="#perhaps-berman-1988-is-better-at-low-pressure" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">P_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">10000.0</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">dVdP_array_Berman</span> <span class="o">=</span> <span class="n">Quartz_Berman</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="mf">298.15</span><span class="p">,</span> <span class="n">P_array</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dP&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
+<span class="n">dVdP_array_SLB</span> <span class="o">=</span> <span class="n">Quartz_SLB</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="mf">298.15</span><span class="p">,</span> <span class="n">P_array</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dP&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
+<span class="n">dVdP_array_HP</span> <span class="o">=</span> <span class="n">Quartz_HP</span><span class="o">.</span><span class="n">volume</span><span class="p">(</span><span class="mf">298.15</span><span class="p">,</span> <span class="n">P_array</span><span class="p">,</span> <span class="n">deriv</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dP&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">P_array</span><span class="p">,</span> <span class="n">dVdP_array_Berman</span><span class="p">,</span> <span class="s1">&#39;r-&#39;</span><span class="p">,</span> <span class="n">P_array</span><span class="p">,</span> <span class="n">dVdP_array_SLB</span><span class="p">,</span> <span class="s1">&#39;b-&#39;</span><span class="p">,</span> <span class="n">P_array</span><span class="p">,</span> <span class="n">dVdP_array_HP</span><span class="p">,</span> <span class="s1">&#39;y-&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;dV/dP J/bar^2-m&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;P bars&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ticklabel_format</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;sci&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">scilimits</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="_images/Compare-Phases_24_0.png" src="_images/Compare-Phases_24_0.png" />
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2020, ENKI.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.4.0.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

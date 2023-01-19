@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Gibbs free energy potential minimization (T, P) &mdash; Thermoengine 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="None"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" >
+    <link rel="search" title="Search" href="search.html" >
+    <link rel="top" title="Thermoengine 1.0.1 documentation" href="index.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="index.html">
+      <img style="border: 0;" alt="ENKI" src="_static/img/ENKI_header.png"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="http://enki-portal.org">ENKI Web</a></li>
+        <li class="active"><a href="https://enki.ofm-research.org">ENKI Server</a></li>
+	
+        <li class="active"><a href="index.html">Thermoengine 1.0.1 documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/Enki.png" alt="Logo">
+            </a></p>
+        </div>
+      </div>
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="gibbs-free-energy-potential-minimization-t-p">
+<h1>Gibbs free energy potential minimization (T, P)<a class="headerlink" href="#gibbs-free-energy-potential-minimization-t-p" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="with-rhyolite-melts-and-muo2-constrained-using-the-empirical-method-of-kress-and-carmichael-1991">
+<h2>With rhyolite-MELTS and <span class="math notranslate nohighlight">\(\mu\)</span>O2 constrained using the empirical method of Kress and Carmichael (1991)<a class="headerlink" href="#with-rhyolite-melts-and-muo2-constrained-using-the-empirical-method-of-kress-and-carmichael-1991" title="Permalink to this headline">¶</a></h2>
+<p>This notebook demonstates the use of the Equilibrate class in the
+equilibrate module to perform equilibrium crystallization clculations
+for the special case of oxygen fugacity constrained using the model of
+Kress and Carmichael (1991). This model is applicable to natural
+composition silicate liquids and is usually applied in conjunction with
+thermodynamic models published by Ghiorso and Sack (1995) [MELTS],
+Ghiorso et al., (2003) [pMELTS], Gualda et al. (2012) [rhyolite-MELTS]
+or Ghiorso and Gualda (2015) [rhyoliteMELTS + CO2].</p>
+<p><strong>References:</strong></p>
+<p>Ghiorso, Mark S., and Sack, Richard O. (1995) Chemical Mass Transfer in
+Magmatic Processes. IV. A Revised and Internally Consistent
+Thermodynamic Model for the Interpolation and Extrapolation of
+Liquid-Solid Equilibria in Magmatic Systems at Elevated Temperatures and
+Pressures. Contributions to Mineralogy and Petrology, 119, 197-212</p>
+<p>Ghiorso, Mark S., Hirschmann, Marc M., Reiners, Peter W., and Kress,
+Victor C. III (2002) The pMELTS: An revision of MELTS aimed at improving
+calculation of phase relations and major element partitioning involved
+in partial melting of the mantle at pressures up to 3 GPa. Geochemistry,
+Geophysics, Geosystems 3(5), 10.1029/2001GC000217</p>
+<p>Gualda G.A.R., Ghiorso M.S., Lemons R.V., Carley T.L. (2012)
+Rhyolite-MELTS: A modified calibration of MELTS optimized for
+silica-rich, fluid-bearing magmatic systems. Journal of Petrology, 53,
+875-890</p>
+<p>Ghiorso M.S., Gualda, G.A.R., (2015) An H2O-CO2 mixed fluid saturation
+model compatible with rhyolite-MELTS. Contributions to Mineralogy and
+Petrology 2015, doi:10.1007/s00410-015-1141-8</p>
+<p>Kress and Carmichael (1991, The compressibility of silicate liquids
+containing Fe2O3 and the effect of composition, temperature, oxygen
+fugacity and pressure on their redox states, Contributions to Mineralogy
+and Petrology 108:82-92</p>
+<p><strong>Note</strong> that the method demonstrated in this notebook should ideally be
+cast into a proper Khorzhinskii potential minimization, as is done for
+the <span class="math notranslate nohighlight">\(\mu\)</span>H2O constraint method illustrated in the next notebook.
+However, the method of Kress and Carmichael (1991) is inconsistent with
+the thermodynamic models of Ghiorso and others, even though the latter
+were dependently calibrated on the basis of the former. This
+inconsistency prevents a minima in the Khorzhinskii potential of a
+system containing a Ghiorso-like liquid model from reproducing the
+calibration of Kress and Carmichael. Hence, the empirical method of this
+notebook is made avaialble for practical application; the method used
+here mimics the method used in MELTS, etc.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.optimize</span> <span class="k">as</span> <span class="nn">opt</span>
+<span class="kn">import</span> <span class="nn">scipy.linalg</span> <span class="k">as</span> <span class="nn">lin</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">thermoengine</span> <span class="kn">import</span> <span class="n">core</span><span class="p">,</span> <span class="n">phases</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">equilibrate</span>
+</pre></div>
+</div>
+<div class="section" id="create-phases-for-equilibrium-assemblages">
+<h3>Create phases for equilibrium assemblages<a class="headerlink" href="#create-phases-for-equilibrium-assemblages" title="Permalink to this headline">¶</a></h3>
+<p>Minimal rhyolitic phase assemblage</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">modelDB</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">Database</span><span class="p">(</span><span class="n">liq_mod</span><span class="o">=</span><span class="s1">&#39;v1.0&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Liquid</span> <span class="o">=</span> <span class="n">modelDB</span><span class="o">.</span><span class="n">get_phase</span><span class="p">(</span><span class="s1">&#39;Liq&#39;</span><span class="p">)</span>
+<span class="n">Feldspar</span> <span class="o">=</span> <span class="n">modelDB</span><span class="o">.</span><span class="n">get_phase</span><span class="p">(</span><span class="s1">&#39;Fsp&#39;</span><span class="p">)</span>
+<span class="n">Quartz</span> <span class="o">=</span> <span class="n">modelDB</span><span class="o">.</span><span class="n">get_phase</span><span class="p">(</span><span class="s1">&#39;Qz&#39;</span><span class="p">)</span>
+<span class="n">Spinel</span> <span class="o">=</span> <span class="n">modelDB</span><span class="o">.</span><span class="n">get_phase</span><span class="p">(</span><span class="s1">&#39;SplS&#39;</span><span class="p">)</span>
+<span class="n">Opx</span> <span class="o">=</span> <span class="n">modelDB</span><span class="o">.</span><span class="n">get_phase</span><span class="p">(</span><span class="s1">&#39;Opx&#39;</span><span class="p">)</span>
+<span class="n">RhomOx</span> <span class="o">=</span> <span class="n">modelDB</span><span class="o">.</span><span class="n">get_phase</span><span class="p">(</span><span class="s1">&#39;Rhom&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The Berman model database provides the SWIM water model by default.
+Instead, override that choice by instantiating the MELTS 1.0.2 water
+model directly.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Water</span> <span class="o">=</span> <span class="n">phases</span><span class="o">.</span><span class="n">PurePhase</span><span class="p">(</span><span class="s1">&#39;WaterMelts&#39;</span><span class="p">,</span> <span class="s1">&#39;H2O&#39;</span><span class="p">,</span> <span class="n">calib</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="define-elements-in-system-and-phases-in-system">
+<h3>Define elements in system and phases in system<a class="headerlink" href="#define-elements-in-system-and-phases-in-system" title="Permalink to this headline">¶</a></h3>
+<p>These 15 elements are required for the silicate liquid model of MELTS
+(rhyolite-MELTS)</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">elm_sys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;H&#39;</span><span class="p">,</span><span class="s1">&#39;O&#39;</span><span class="p">,</span><span class="s1">&#39;Na&#39;</span><span class="p">,</span><span class="s1">&#39;Mg&#39;</span><span class="p">,</span><span class="s1">&#39;Al&#39;</span><span class="p">,</span><span class="s1">&#39;Si&#39;</span><span class="p">,</span><span class="s1">&#39;P&#39;</span><span class="p">,</span><span class="s1">&#39;K&#39;</span><span class="p">,</span><span class="s1">&#39;Ca&#39;</span><span class="p">,</span><span class="s1">&#39;Ti&#39;</span><span class="p">,</span><span class="s1">&#39;Cr&#39;</span><span class="p">,</span><span class="s1">&#39;Mn&#39;</span><span class="p">,</span><span class="s1">&#39;Fe&#39;</span><span class="p">,</span><span class="s1">&#39;Co&#39;</span><span class="p">,</span><span class="s1">&#39;Ni&#39;</span><span class="p">]</span>
+<span class="n">phs_sys</span> <span class="o">=</span> <span class="p">[</span><span class="n">Liquid</span><span class="p">,</span> <span class="n">Feldspar</span><span class="p">,</span> <span class="n">Water</span><span class="p">,</span> <span class="n">Quartz</span><span class="p">,</span> <span class="n">Spinel</span><span class="p">,</span> <span class="n">Opx</span><span class="p">,</span> <span class="n">RhomOx</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="composition-of-the-system">
+<h3>Composition of the system<a class="headerlink" href="#composition-of-the-system" title="Permalink to this headline">¶</a></h3>
+<p>This is a high-silica rhyolite</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">grm_oxides</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;SiO2&#39;</span><span class="p">:</span>  <span class="mf">77.5</span><span class="p">,</span>
+    <span class="s1">&#39;TiO2&#39;</span><span class="p">:</span>   <span class="mf">0.08</span><span class="p">,</span>
+    <span class="s1">&#39;Al2O3&#39;</span><span class="p">:</span> <span class="mf">12.5</span><span class="p">,</span>
+    <span class="s1">&#39;Fe2O3&#39;</span><span class="p">:</span>  <span class="mf">0.207</span><span class="p">,</span>
+    <span class="s1">&#39;Cr2O3&#39;</span><span class="p">:</span>  <span class="mf">0.0</span><span class="p">,</span>
+    <span class="s1">&#39;FeO&#39;</span><span class="p">:</span>    <span class="mf">0.473</span><span class="p">,</span>
+    <span class="s1">&#39;MnO&#39;</span><span class="p">:</span>    <span class="mf">0.0</span><span class="p">,</span>
+    <span class="s1">&#39;MgO&#39;</span><span class="p">:</span>    <span class="mf">0.03</span><span class="p">,</span>
+    <span class="s1">&#39;NiO&#39;</span><span class="p">:</span>    <span class="mf">0.0</span><span class="p">,</span>
+    <span class="s1">&#39;CoO&#39;</span><span class="p">:</span>    <span class="mf">0.0</span><span class="p">,</span>
+    <span class="s1">&#39;CaO&#39;</span><span class="p">:</span>    <span class="mf">0.43</span><span class="p">,</span>
+    <span class="s1">&#39;Na2O&#39;</span><span class="p">:</span>   <span class="mf">3.98</span><span class="p">,</span>
+    <span class="s1">&#39;K2O&#39;</span><span class="p">:</span>    <span class="mf">4.88</span><span class="p">,</span>
+    <span class="s1">&#39;P2O5&#39;</span><span class="p">:</span>   <span class="mf">0.0</span><span class="p">,</span>
+    <span class="s1">&#39;H2O&#39;</span><span class="p">:</span>    <span class="mf">5.5</span>
+<span class="p">}</span>
+<span class="n">tot_grm_oxides</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">grm_oxides</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">tot_grm_oxides</span> <span class="o">+=</span> <span class="n">grm_oxides</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Cast this composition as moles of elements for input to the Equilibrate
+class</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mol_oxides</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">chem</span><span class="o">.</span><span class="n">format_mol_oxide_comp</span><span class="p">(</span><span class="n">grm_oxides</span><span class="p">,</span> <span class="n">convert_grams_to_moles</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">moles_end</span><span class="p">,</span><span class="n">oxide_res</span> <span class="o">=</span> <span class="n">Liquid</span><span class="o">.</span><span class="n">calc_endmember_comp</span><span class="p">(</span>
+    <span class="n">mol_oxide_comp</span><span class="o">=</span><span class="n">mol_oxides</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;intrinsic&#39;</span><span class="p">,</span> <span class="n">output_residual</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">Liquid</span><span class="o">.</span><span class="n">test_endmember_comp</span><span class="p">(</span><span class="n">moles_end</span><span class="p">):</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Calculated composition is infeasible!&quot;</span><span class="p">)</span>
+<span class="n">mol_elm</span> <span class="o">=</span> <span class="n">Liquid</span><span class="o">.</span><span class="n">covert_endmember_comp</span><span class="p">(</span><span class="n">moles_end</span><span class="p">,</span><span class="n">output</span><span class="o">=</span><span class="s1">&#39;moles_elements&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">blk_cmp</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">elm</span> <span class="ow">in</span> <span class="n">elm_sys</span><span class="p">:</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">chem</span><span class="o">.</span><span class="n">PERIODIC_ORDER</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">elm</span><span class="p">)</span>
+    <span class="n">blk_cmp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mol_elm</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+<span class="n">blk_cmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">blk_cmp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="run-the-calculation">
+<h1>Run the calculation<a class="headerlink" href="#run-the-calculation" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">equil</span> <span class="o">=</span> <span class="n">equilibrate</span><span class="o">.</span><span class="n">Equilibrate</span><span class="p">(</span><span class="n">elm_sys</span><span class="p">,</span> <span class="n">phs_sys</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Uncomment here and in the next cell to generate a call graph that traces
+execution times by method and module</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#%load_ext snakeviz</span>
+</pre></div>
+</div>
+<div class="section" id="for-reference-equilibrate-at-an-initial-temperature-and-pressure">
+<h2>For reference, equilibrate at an initial temperature and pressure<a class="headerlink" href="#for-reference-equilibrate-at-an-initial-temperature-and-pressure" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#%%snakeviz --new-tab</span>
+<span class="n">t</span> <span class="o">=</span> <span class="mf">1034.0</span>
+<span class="n">p</span> <span class="o">=</span> <span class="mf">1750.0</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">equil</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">bulk_comp</span><span class="o">=</span><span class="n">blk_cmp</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">stats</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">state</span><span class="o">.</span><span class="n">print_state</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Minimal energy termination of quadratic loop.
+Minimal energy termination of quadratic loop.
+Minimal energy termination of quadratic loop.
+Minimal energy termination of quadratic loop.
+Minimal energy termination of quadratic loop.
+
+T =     760.85 °C, P =      175.0 MPa
+Liquid          moles:   0.631594 grams:  40.489
+           SiO2 form:  SiO2           X:  0.6742  wt%    SiO2   73.59
+           TiO2 form:  TiO2           X:  0.0010  wt%    TiO2    0.13
+          Al2O3 form:  Al2O3          X:  0.0401  wt%   Al2O3   11.50
+          Fe2O3 form:  Fe2O3          X:  0.0007  wt%   Fe2O3    0.19
+        MgCr2O4 form:  MgCr2O4        X:  0.0000  wt%     FeO    0.90
+        Fe2SiO4 form:  Fe2SiO4        X:  0.0040  wt%     MgO    0.07
+      MnSi0.5O2 form:  MnSi0.5O2      X:  0.0000  wt%     CaO    0.24
+        Mg2SiO4 form:  Mg2SiO4        X:  0.0006  wt%    Na2O    3.79
+      NiSi0.5O2 form:  NiSi0.5O2      X:  0.0000  wt%     K2O    4.74
+      CoSi0.5O2 form:  CoSi0.5O2      X:  0.0000  wt%     H2O    4.86
+         CaSiO3 form:  CaSiO3         X:  0.0027
+        Na2SiO3 form:  Na2SiO3        X:  0.0392
+        KAlSiO4 form:  KAlSiO4        X:  0.0644
+      Ca3(PO4)2 form:  Ca3(PO4)2      X:  0.0000
+            H2O form:  H2O            X:  0.1730
+Feldspar        moles:   0.040758 grams:  10.843
+         albite form:  NaAlSi3O8      X:  0.7619  wt%    SiO2   65.42
+      anorthite form:  CaAl2Si2O8     X:  0.1035  wt%   Al2O3   21.15
+       sanidine form:  KAlSi3O8       X:  0.1346  wt%     CaO    2.18
+                                                  wt%    Na2O    8.87
+                                                  wt%     K2O    2.38
+Water           moles:   0.196050 grams:   3.532
+Quartz          moles:   0.356430 grams:  21.416
+Spinel          moles:   0.001206 grams:   0.273
+       chromite form:  FeCr2O4        X:  0.0000  wt%    TiO2    9.92
+      hercynite form:  FeAl2O4        X:  0.0046  wt%   Al2O3    1.65
+      magnetite form:  Fe3O4          X:  0.6825  wt%   Fe2O3   48.19
+         spinel form:  MgAl2O4        X:  0.0321  wt%     FeO   39.67
+     ulvospinel form:  Fe2TiO4        X:  0.2808  wt%     MgO    0.57
+Orthopyroxene   affn:    1601.07
+       diopside form:  CaMgSi2O6      X: -1.3631
+ clinoenstatite form:  Mg2Si2O6       X:  0.9900
+   hedenbergite form:  CaFeSi2O6      X:  1.3223
+alumino-buffoni form:  CaTi0.5Mg0     X:  0.0384
+      buffonite form:  CaTi0.5Mg0     X: -0.0379
+       essenite form:  CaFeAlSiO6     X:  0.0479
+        jadeite form:  NaAlSi2O6      X:  0.0024
+Ilmenite ss     affn:    1532.58
+     geikielite form:  MgTiO3         X:  0.0541
+       hematite form:  Fe2O3          X:  0.0926
+       ilmenite form:  FeTiO3         X:  0.8213
+    pyrophanite form:  MnTiO3         X:  0.0000
+       corundum form:  Al2O3          X:  0.0320
+Feldspar        moles:   0.107063 grams:  29.027
+         albite form:  NaAlSi3O8      X:  0.4476  wt%    SiO2   66.13
+      anorthite form:  CaAl2Si2O8     X:  0.0161  wt%   Al2O3   19.11
+       sanidine form:  KAlSi3O8       X:  0.5363  wt%     CaO    0.33
+                                                  wt%    Na2O    5.12
+                                                  wt%     K2O    9.32
+</pre></div>
+</div>
+<p>Compute the system oxygen fugacity using Kress and Carmichael (1991)
+along with the total moles of oxygen in the system</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">t</span><span class="o">-</span><span class="mf">273.15</span><span class="p">,</span><span class="n">p</span><span class="o">/</span><span class="mf">10.0</span><span class="p">)</span> <span class="o">+</span> <span class="n">equil</span><span class="o">.</span><span class="n">kc_print_state</span><span class="p">(</span><span class="n">state</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">System</span> <span class="n">log</span> <span class="mi">10</span> <span class="n">fO2</span> <span class="o">-</span><span class="mf">1.7164406456824466</span> <span class="n">realtive</span> <span class="n">to</span> <span class="n">NNO</span><span class="o">.</span>
+<span class="n">System</span> <span class="n">log</span> <span class="mi">10</span> <span class="n">NNO</span> <span class="o">-</span><span class="mf">14.689033256787773</span>
+<span class="n">Moles</span> <span class="n">of</span> <span class="n">O</span> <span class="ow">in</span> <span class="n">system</span> <span class="mf">3.3896811476490214</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="assign-an-oxygen-buffer-and-recalculate">
+<h2>Assign an oxygen buffer, and recalculate …<a class="headerlink" href="#assign-an-oxygen-buffer-and-recalculate" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">NNO_offset</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">equil</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">bulk_comp</span><span class="o">=</span><span class="n">blk_cmp</span><span class="p">,</span> <span class="n">con_deltaNNO</span><span class="o">=</span><span class="n">NNO_offset</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">stats</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">state</span><span class="o">.</span><span class="n">print_state</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Add: Feldspar
+Quad (000) norm:  1.1088965209070e-02 Lin (023) step:  9.5997569002109e-01 func: -1.7237374118436e+06
+Quad (001) norm:  8.1604987400092e-04 Lin (021) step:  1.0857467425863e+00 func: -1.7237370619054e+06
+Quad (002) norm:  3.2991904519225e-04 Lin (029) step:  1.0213975589435e+00 func: -1.7237370197636e+06
+Quad (003) norm:  3.4086301589486e-06 Lin (032) step:  1.0064460754365e+00 func: -1.7237370056517e+06
+Quad (004) norm:  2.4588439250310e-08 Lin (037) step:  6.2519199060268e-01 func: -1.7237370057651e+06
+Quad (005) norm:  9.2165369704004e-09 Lin (039) step: -1.0747080246838e+00 func: -1.7237370057646e+06
+Minimal energy termination of quadratic loop.
+
+Add: Water
+Quad (000) norm:  6.3618321033766e-02 Lin (019) step:  8.8747190098187e-01 func: -1.7237483102659e+06
+Quad (001) norm:  5.3303612550691e-03 Lin (020) step:  1.1199292927701e+00 func: -1.7237487872091e+06
+Quad (002) norm:  1.0788905113964e-03 Lin (018) step:  1.0438220098859e+00 func: -1.7237485802443e+06
+Quad (003) norm:  1.0300483180752e-05 Lin (030) step:  1.0008740453093e+00 func: -1.7237485454949e+06
+Quad (004) norm:  3.0800336161768e-08 Lin (038) step:  1.0442103805261e+00 func: -1.7237485454033e+06
+Quad (005) norm:  1.3605931626475e-09 Lin (037) step:  1.0851449005413e+00 func: -1.7237485454024e+06
+Minimal energy termination of quadratic loop.
+
+Add: Quartz
+Quad (000) norm:  1.2056195438626e-01 Lin (022) step:  9.4583825548841e-01 func: -1.7237524777846e+06
+Quad (001) norm:  1.1920199389206e-02 Lin (020) step:  1.5463617100034e+00 func: -1.7237543536443e+06
+Quad (002) norm:  4.1847268598403e-03 Lin (022) step:  1.0549958681705e+00 func: -1.7237541976735e+06
+Quad (003) norm:  3.4836373545317e-04 Lin (030) step:  1.0071263854185e+00 func: -1.7237542303590e+06
+Quad (004) norm:  2.0577440062515e-06 Lin (029) step:  1.0560946587188e+00 func: -1.7237542268188e+06
+Quad (005) norm:  1.1536333342486e-07 Lin (041) step:  5.4657225374552e-01 func: -1.7237542268307e+06
+Minimal energy termination of quadratic loop.
+
+Unmixing: Feldspar
+Quad (000) norm:  5.9291455859757e-01 Lin (024) step:  6.4434966514216e-01 func: -1.7237606829510e+06
+Quad (001) norm:  2.0996136091821e-02 Lin (016) step:  1.3282093865142e+00 func: -1.7237600223682e+06
+Quad (002) norm:  1.4117419236090e-02 Lin (029) step:  1.0292363957991e+00 func: -1.7237598503303e+06
+Quad (003) norm:  3.4956779781134e-04 Lin (030) step:  1.0006067972068e+00 func: -1.7237597503985e+06
+Quad (004) norm:  5.7233272908965e-07 Lin (046) step: -1.1222183310892e-01 func: -1.7237597529522e+06
+Quad (005) norm:  6.3657620206228e-07 Lin (019) step:  1.9475175468053e+00 func: -1.7237597529526e+06
+Minimal energy termination of quadratic loop.
+
+Add: Spinel
+Quad (000) norm:  3.0680775090454e-01 Lin (018) step:  5.5129438039842e-01 func: -1.7237620066069e+06
+Quad (001) norm:  2.3109675795017e-01 Lin (017) step:  6.3444708819673e-01 func: -1.7238666764237e+06
+Quad (002) norm:  1.6105407008731e-01 Lin (023) step:  6.7860487840586e-01 func: -1.7239335162576e+06
+Quad (003) norm:  7.4077371350414e-02 Lin (026) step:  7.5444995263151e-01 func: -1.7239710792901e+06
+Quad (004) norm:  2.8142236109093e-02 Lin (023) step:  8.4988115683744e-01 func: -1.7239911179668e+06
+Quad (005) norm:  1.3108274306646e-02 Lin (024) step:  9.0094876936307e-01 func: -1.7240032421603e+06
+Quad (006) norm:  7.2450175149946e-03 Lin (021) step:  9.3324715261238e-01 func: -1.7240108272472e+06
+Quad (007) norm:  4.2808137849794e-03 Lin (029) step:  9.5641841594201e-01 func: -1.7240155995396e+06
+Quad (008) norm:  2.6014167104895e-03 Lin (024) step:  9.7198145996323e-01 func: -1.7240186040995e+06
+Quad (009) norm:  1.6014354975508e-03 Lin (025) step:  9.8194976913110e-01 func: -1.7240204932053e+06
+Quad (010) norm:  9.9285230654093e-04 Lin (027) step:  9.8898930422666e-01 func: -1.7240216796059e+06
+Quad (011) norm:  6.1796198823174e-04 Lin (034) step:  9.9239010500033e-01 func: -1.7240224248362e+06
+Quad (012) norm:  3.8583314598256e-04 Lin (027) step:  9.9564057907902e-01 func: -1.7240228920112e+06
+Quad (013) norm:  2.4121530007305e-04 Lin (030) step:  9.9755635324963e-01 func: -1.7240231853401e+06
+Quad (014) norm:  1.5094056139566e-04 Lin (029) step:  9.9820592784760e-01 func: -1.7240233693481e+06
+Quad (015) norm:  9.4536730531719e-05 Lin (032) step:  9.9944672151471e-01 func: -1.7240234846730e+06
+Quad (016) norm:  5.9214219429387e-05 Lin (029) step:  9.9894056190156e-01 func: -1.7240235570349e+06
+Quad (017) norm:  3.7119663300749e-05 Lin (021) step:  1.0006600891535e+00 func: -1.7240236023533e+06
+Quad (018) norm:  2.3252825997875e-05 Lin (035) step:  9.9337695656695e-01 func: -1.7240236308174e+06
+Quad (019) norm:  1.4632379648442e-05 Lin (018) step:  1.0063685909704e+00 func: -1.7240236485210e+06
+Quad (020) norm:  9.1379550640479e-06 Lin (032) step:  1.0117165723119e+00 func: -1.7240236598080e+06
+Minimal energy termination of quadratic loop.
+
+
+T =     760.85 °C, P =      175.0 MPa
+Liquid          moles:   0.245286 grams:  15.672
+           SiO2 form:  SiO2           X:  0.6750  wt%    SiO2   73.88
+           TiO2 form:  TiO2           X:  0.0013  wt%    TiO2    0.17
+          Al2O3 form:  Al2O3          X:  0.0387  wt%   Al2O3   11.23
+          Fe2O3 form:  Fe2O3          X:  0.0010  wt%   Fe2O3    0.25
+        MgCr2O4 form:  MgCr2O4        X:  0.0000  wt%     FeO    0.56
+        Fe2SiO4 form:  Fe2SiO4        X:  0.0025  wt%     MgO    0.15
+      MnSi0.5O2 form:  MnSi0.5O2      X:  0.0000  wt%     CaO    0.23
+        Mg2SiO4 form:  Mg2SiO4        X:  0.0012  wt%    Na2O    3.97
+      NiSi0.5O2 form:  NiSi0.5O2      X:  0.0000  wt%     K2O    4.67
+      CoSi0.5O2 form:  CoSi0.5O2      X:  0.0000  wt%     H2O    4.89
+         CaSiO3 form:  CaSiO3         X:  0.0026
+        Na2SiO3 form:  Na2SiO3        X:  0.0409
+        KAlSiO4 form:  KAlSiO4        X:  0.0634
+      Ca3(PO4)2 form:  Ca3(PO4)2      X:  0.0000
+            H2O form:  H2O            X:  0.1734
+Feldspar        moles:   0.048162 grams:  12.813
+         albite form:  NaAlSi3O8      X:  0.7631  wt%    SiO2   65.64
+      anorthite form:  CaAl2Si2O8     X:  0.0939  wt%   Al2O3   20.96
+       sanidine form:  KAlSi3O8       X:  0.1430  wt%     CaO    1.98
+                                                  wt%    Na2O    8.89
+                                                  wt%     K2O    2.53
+Water           moles:   0.262776 grams:   4.734
+Quartz          moles:   0.493846 grams:  29.672
+Spinel          moles:   0.002832 grams:   0.639
+       chromite form:  FeCr2O4        X:  0.0000  wt%    TiO2    8.41
+      hercynite form:  FeAl2O4        X: -0.0252  wt%   Al2O3    1.55
+      magnetite form:  Fe3O4          X:  0.7281  wt%   Fe2O3   51.50
+         spinel form:  MgAl2O4        X:  0.0594  wt%     FeO   37.49
+     ulvospinel form:  Fe2TiO4        X:  0.2376  wt%     MgO    1.06
+Orthopyroxene   affn:    1464.93
+       diopside form:  CaMgSi2O6      X: -1.0075
+ clinoenstatite form:  Mg2Si2O6       X:  0.9909
+   hedenbergite form:  CaFeSi2O6      X:  0.9783
+alumino-buffoni form:  CaTi0.5Mg0     X:  0.0272
+      buffonite form:  CaTi0.5Mg0     X: -0.0264
+       essenite form:  CaFeAlSiO6     X:  0.0354
+        jadeite form:  NaAlSi2O6      X:  0.0021
+Ilmenite ss     affn:     734.99
+     geikielite form:  MgTiO3         X:  0.1007
+       hematite form:  Fe2O3          X:  0.1183
+       ilmenite form:  FeTiO3         X:  0.7534
+    pyrophanite form:  MnTiO3         X:  0.0000
+       corundum form:  Al2O3          X:  0.0276
+Feldspar        moles:   0.155280 grams:  42.066
+         albite form:  NaAlSi3O8      X:  0.4611  wt%    SiO2   66.18
+      anorthite form:  CaAl2Si2O8     X:  0.0161  wt%   Al2O3   19.12
+       sanidine form:  KAlSi3O8       X:  0.5228  wt%     CaO    0.33
+                                                  wt%    Na2O    5.27
+                                                  wt%     K2O    9.09
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">t</span><span class="o">-</span><span class="mf">273.15</span><span class="p">,</span><span class="n">p</span><span class="o">/</span><span class="mf">10.0</span><span class="p">)</span> <span class="o">+</span> <span class="n">equil</span><span class="o">.</span><span class="n">kc_print_state</span><span class="p">(</span><span class="n">state</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">System</span> <span class="n">log</span> <span class="mi">10</span> <span class="n">fO2</span> <span class="mf">4.760636329592671e-13</span> <span class="n">realtive</span> <span class="n">to</span> <span class="n">NNO</span><span class="o">.</span>
+<span class="n">System</span> <span class="n">log</span> <span class="mi">10</span> <span class="n">NNO</span> <span class="o">-</span><span class="mf">14.689033256787773</span>
+<span class="n">Moles</span> <span class="n">of</span> <span class="n">O</span> <span class="ow">in</span> <span class="n">system</span> <span class="mf">3.390696315476103</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="next-loop-through-a-series-of-temperatures">
+<h2>Next, loop through a series of temperatures<a class="headerlink" href="#next-loop-through-a-series-of-temperatures" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">deltaT</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">equil</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="n">deltaT</span><span class="p">),</span> <span class="n">p</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span> <span class="n">con_deltaNNO</span><span class="o">=</span><span class="n">NNO_offset</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">stats</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">state</span><span class="o">.</span><span class="n">print_state</span><span class="p">()</span>
+<span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">t</span><span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="n">deltaT</span><span class="p">)</span><span class="o">-</span><span class="mf">273.15</span><span class="p">,</span><span class="n">p</span><span class="o">/</span><span class="mf">10.0</span><span class="p">)</span> <span class="o">+</span> <span class="n">equil</span><span class="o">.</span><span class="n">kc_print_state</span><span class="p">(</span><span class="n">state</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Quad (000) norm:  1.1716193655914e-01 Lin (019) step:  6.2651985718892e-01 func: -1.7237675803246e+06
+Quad (001) norm:  6.1088672599057e-03 Lin (022) step:  9.2495728264936e-01 func: -1.7237755526931e+06
+Quad (002) norm:  2.1761558468316e-03 Lin (017) step:  9.5291598297549e-01 func: -1.7237796195321e+06
+Quad (003) norm:  1.2408504075135e-03 Lin (022) step:  9.6911811107389e-01 func: -1.7237821730298e+06
+Quad (004) norm:  7.6495031674791e-04 Lin (025) step:  9.7974589461997e-01 func: -1.7237838070235e+06
+Quad (005) norm:  4.8112752525092e-04 Lin (031) step:  9.8692391082430e-01 func: -1.7237848534456e+06
+Quad (006) norm:  3.0483606284705e-04 Lin (019) step:  9.9173674493789e-01 func: -1.7237855241471e+06
+Quad (007) norm:  1.9394853817389e-04 Lin (025) step:  9.9587335525550e-01 func: -1.7237859541642e+06
+Quad (008) norm:  1.2365722175777e-04 Lin (031) step:  9.9790433266723e-01 func: -1.7237862301398e+06
+Quad (009) norm:  7.8977763857675e-05 Lin (017) step:  9.9817426305689e-01 func: -1.7237864069693e+06
+Quad (010) norm:  5.0527487481494e-05 Lin (021) step:  9.9889898642025e-01 func: -1.7237865201498e+06
+Quad (011) norm:  3.2350995821889e-05 Lin (021) step:  9.9927742290195e-01 func: -1.7237865926988e+06
+Quad (012) norm:  2.0724579235076e-05 Lin (021) step:  9.9972805409784e-01 func: -1.7237866392030e+06
+Quad (013) norm:  1.3279634567496e-05 Lin (026) step:  1.0001228329674e+00 func: -1.7237866690226e+06
+Quad (014) norm:  8.5099352162928e-06 Lin (033) step:  1.0151040899645e+00 func: -1.7237866881437e+06
+Quad (015) norm:  5.4087172271374e-06 Lin (032) step:  1.0073030248227e+00 func: -1.7237867005830e+06
+Minimal energy termination of quadratic loop.
+
+Add: Orthopyroxene
+Quad (000) norm:  8.5628032584059e-03 Lin (025) step:  9.0988059528844e-01 func: -1.7237867192707e+06
+Quad (001) norm:  9.5310057568647e-05 Lin (016) step:  1.0456400979295e+00 func: -1.7237855440615e+06
+Quad (002) norm:  2.1939070270258e-04 Lin (012) step:  1.0074831376080e+00 func: -1.7237845954139e+06
+Quad (003) norm:  1.1291804441265e-04 Lin (022) step:  1.0053030547400e+00 func: -1.7237839010628e+06
+Quad (004) norm:  8.3354590771905e-05 Lin (027) step:  1.0030414293043e+00 func: -1.7237833790243e+06
+Quad (005) norm:  6.2146388371921e-05 Lin (026) step:  1.0022807675146e+00 func: -1.7237829864048e+06
+Quad (006) norm:  4.6481147017440e-05 Lin (030) step:  1.0026606985133e+00 func: -1.7237826905575e+06
+Quad (007) norm:  3.4825832683591e-05 Lin (025) step:  1.0013140773975e+00 func: -1.7237824673700e+06
+Quad (008) norm:  2.6141742392939e-05 Lin (023) step:  1.0010250651609e+00 func: -1.7237822993348e+06
+Quad (009) norm:  1.9645591106098e-05 Lin (035) step:  9.9990066876400e-01 func: -1.7237821726494e+06
+Quad (010) norm:  1.4780945563084e-05 Lin (021) step:  1.0006375732695e+00 func: -1.7237820772177e+06
+Quad (011) norm:  1.1124809299801e-05 Lin (033) step:  1.0022235173255e+00 func: -1.7237820051740e+06
+Quad (012) norm:  8.3724734217140e-06 Lin (025) step:  9.9991774637626e-01 func: -1.7237819507561e+06
+Quad (013) norm:  6.3080177207430e-06 Lin (033) step:  1.0030302960268e+00 func: -1.7237819098341e+06
+Quad (014) norm:  4.7489718380006e-06 Lin (038) step:  9.9220329968826e-01 func: -1.7237818788715e+06
+Quad (015) norm:  3.5886311264534e-06 Lin (020) step:  9.9893451472596e-01 func: -1.7237818557932e+06
+Quad (016) norm:  2.7062221760145e-06 Lin (034) step:  1.0025774796223e+00 func: -1.7237818382242e+06
+Quad (017) norm:  2.0385961575181e-06 Lin (032) step:  9.8838420643944e-01 func: -1.7237818249205e+06
+Minimal energy termination of quadratic loop.
+
+Add: Ilmenite ss
+Quad (000) norm:  3.9887860130423e-04 Lin (029) step:  1.0121371611223e+00 func: -1.7237818150997e+06
+Quad (001) norm:  1.1138178097085e-04 Lin (024) step:  9.8598815068760e-01 func: -1.7237818503456e+06
+Quad (002) norm:  9.9027993676813e-07 Lin (033) step:  1.0015701871848e+00 func: -1.7237818777930e+06
+Quad (003) norm:  2.8454360284714e-07 Lin (033) step:  9.9780049815636e-01 func: -1.7237818996928e+06
+Quad (004) norm:  2.2275877862611e-07 Lin (031) step:  1.0022485331229e+00 func: -1.7237819166105e+06
+Quad (005) norm:  1.7281597966302e-07 Lin (035) step:  9.7982150596083e-01 func: -1.7237819298017e+06
+Minimal energy termination of quadratic loop.
+
+
+T =     759.85 °C, P =      175.0 MPa
+Liquid          moles:   0.130198 grams:   8.305
+           SiO2 form:  SiO2           X:  0.6743  wt%    SiO2   74.05
+           TiO2 form:  TiO2           X:  0.0014  wt%    TiO2    0.18
+          Al2O3 form:  Al2O3          X:  0.0367  wt%   Al2O3   10.81
+          Fe2O3 form:  Fe2O3          X:  0.0010  wt%   Fe2O3    0.26
+        MgCr2O4 form:  MgCr2O4        X:  0.0000  wt%     FeO    0.55
+        Fe2SiO4 form:  Fe2SiO4        X:  0.0025  wt%     MgO    0.21
+      MnSi0.5O2 form:  MnSi0.5O2      X:  0.0000  wt%     CaO    0.24
+        Mg2SiO4 form:  Mg2SiO4        X:  0.0016  wt%    Na2O    4.19
+      NiSi0.5O2 form:  NiSi0.5O2      X:  0.0000  wt%     K2O    4.57
+      CoSi0.5O2 form:  CoSi0.5O2      X:  0.0000  wt%     H2O    4.93
+         CaSiO3 form:  CaSiO3         X:  0.0027
+        Na2SiO3 form:  Na2SiO3        X:  0.0431
+        KAlSiO4 form:  KAlSiO4        X:  0.0619
+      Ca3(PO4)2 form:  Ca3(PO4)2      X:  0.0000
+            H2O form:  H2O            X:  0.1747
+Feldspar        moles:   0.050478 grams:  13.428
+         albite form:  NaAlSi3O8      X:  0.7639  wt%    SiO2   65.70
+      anorthite form:  CaAl2Si2O8     X:  0.0914  wt%   Al2O3   20.92
+       sanidine form:  KAlSi3O8       X:  0.1447  wt%     CaO    1.93
+                                                  wt%    Na2O    8.90
+                                                  wt%     K2O    2.56
+Water           moles:   0.282553 grams:   5.090
+Quartz          moles:   0.534470 grams:  32.113
+Spinel          moles:   0.003147 grams:   0.709
+       chromite form:  FeCr2O4        X:  0.0000  wt%    TiO2    9.16
+      hercynite form:  FeAl2O4        X: -0.0407  wt%   Al2O3    1.45
+      magnetite form:  Fe3O4          X:  0.7097  wt%   Fe2O3   50.29
+         spinel form:  MgAl2O4        X:  0.0728  wt%     FeO   37.80
+     ulvospinel form:  Fe2TiO4        X:  0.2582  wt%     MgO    1.30
+Orthopyroxene   moles:   0.000079 grams:   0.018
+       diopside form:  CaMgSi2O6      X: -0.9051  wt%    SiO2   51.67
+ clinoenstatite form:  Mg2Si2O6       X:  0.9935  wt%    TiO2    0.02
+   hedenbergite form:  CaFeSi2O6      X:  0.8794  wt%   Al2O3    1.13
+alumino-buffoni form:  CaTi0.5Mg0     X:  0.0195  wt%   Fe2O3    0.40
+      buffonite form:  CaTi0.5Mg0     X: -0.0186  wt%     FeO   27.59
+       essenite form:  CaFeAlSiO6     X:  0.0299  wt%     MgO   19.05
+        jadeite form:  NaAlSi2O6      X:  0.0014  wt%     CaO    0.13
+                                                  wt%    Na2O    0.02
+Ilmenite ss     moles:   0.000005 grams:   0.001
+     geikielite form:  MgTiO3         X:  0.1207  wt%    TiO2   46.98
+       hematite form:  Fe2O3          X:  0.1069  wt%   Al2O3    1.78
+       ilmenite form:  FeTiO3         X:  0.7466  wt%   Fe2O3   11.57
+    pyrophanite form:  MnTiO3         X:  0.0000  wt%     FeO   36.37
+       corundum form:  Al2O3          X:  0.0257  wt%     MgO    3.30
+Feldspar        moles:   0.169578 grams:  45.932
+         albite form:  NaAlSi3O8      X:  0.4637  wt%    SiO2   66.20
+      anorthite form:  CaAl2Si2O8     X:  0.0159  wt%   Al2O3   19.12
+       sanidine form:  KAlSi3O8       X:  0.5204  wt%     CaO    0.33
+                                                  wt%    Na2O    5.31
+                                                  wt%     K2O    9.05
+System log 10 fO2 1.1404210908949608e-12 realtive to NNO.
+System log 10 NNO -14.711885893595664
+Moles of O in system 3.3907519057677327
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">deltaT</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">equil</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="n">deltaT</span><span class="p">),</span> <span class="n">p</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span> <span class="n">con_deltaNNO</span><span class="o">=</span><span class="n">NNO_offset</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">stats</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">state</span><span class="o">.</span><span class="n">print_state</span><span class="p">()</span>
+<span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">t</span><span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="n">deltaT</span><span class="p">)</span><span class="o">-</span><span class="mf">273.15</span><span class="p">,</span><span class="n">p</span><span class="o">/</span><span class="mf">10.0</span><span class="p">)</span> <span class="o">+</span> <span class="n">equil</span><span class="o">.</span><span class="n">kc_print_state</span><span class="p">(</span><span class="n">state</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Quad (000) norm:  7.5695898580778e-02 Lin (028) step:  5.0493519563345e-01 func: -1.7235268312828e+06
+Quad (001) norm:  2.8004998242375e-04 Lin (020) step:  9.9045376386634e-01 func: -1.7235266246677e+06
+Quad (002) norm:  3.4992097467373e-06 Lin (030) step:  1.0031173160087e+00 func: -1.7235264687474e+06
+Quad (003) norm:  1.4049735387857e-06 Lin (031) step:  1.0018309929430e+00 func: -1.7235263358813e+06
+Quad (004) norm:  1.1785979817255e-06 Lin (033) step:  1.0031286511991e+00 func: -1.7235262245294e+06
+Quad (005) norm:  9.8981862263130e-07 Lin (033) step:  1.0014851158518e+00 func: -1.7235261309484e+06
+Quad (006) norm:  8.3136252566102e-07 Lin (017) step:  1.0007169534797e+00 func: -1.7235260525576e+06
+Quad (007) norm:  6.9825704246073e-07 Lin (018) step:  1.0008217289770e+00 func: -1.7235259868173e+06
+Quad (008) norm:  5.8636652875720e-07 Lin (031) step:  1.0014290103664e+00 func: -1.7235259316325e+06
+Quad (009) norm:  4.9228888834348e-07 Lin (031) step:  1.0019285518599e+00 func: -1.7235258852880e+06
+Quad (010) norm:  4.1322347070990e-07 Lin (008) step:  1.0010065313479e+00 func: -1.7235258463777e+06
+Quad (011) norm:  3.4688724685297e-07 Lin (034) step:  1.0039585461546e+00 func: -1.7235258137595e+06
+Quad (012) norm:  2.9101529361279e-07 Lin (034) step:  1.0053367404128e+00 func: -1.7235257863059e+06
+Quad (013) norm:  2.4406243344218e-07 Lin (032) step:  9.9976247272188e-01 func: -1.7235257632489e+06
+Quad (014) norm:  2.0489298780127e-07 Lin (030) step:  9.9947960199157e-01 func: -1.7235257440237e+06
+Quad (015) norm:  1.7201187361741e-07 Lin (034) step:  1.0048143845123e+00 func: -1.7235257278916e+06
+Minimal energy termination of quadratic loop.
+
+
+T =     758.85 °C, P =      175.0 MPa
+Liquid          moles:   0.082776 grams:   5.268
+           SiO2 form:  SiO2           X:  0.6735  wt%    SiO2   74.28
+           TiO2 form:  TiO2           X:  0.0014  wt%    TiO2    0.17
+          Al2O3 form:  Al2O3          X:  0.0344  wt%   Al2O3   10.33
+          Fe2O3 form:  Fe2O3          X:  0.0011  wt%   Fe2O3    0.26
+        MgCr2O4 form:  MgCr2O4        X:  0.0000  wt%     FeO    0.56
+        Fe2SiO4 form:  Fe2SiO4        X:  0.0025  wt%     MgO    0.21
+      MnSi0.5O2 form:  MnSi0.5O2      X:  0.0000  wt%     CaO    0.26
+        Mg2SiO4 form:  Mg2SiO4        X:  0.0016  wt%    Na2O    4.47
+      NiSi0.5O2 form:  NiSi0.5O2      X:  0.0000  wt%     K2O    4.46
+      CoSi0.5O2 form:  CoSi0.5O2      X:  0.0000  wt%     H2O    5.00
+         CaSiO3 form:  CaSiO3         X:  0.0029
+        Na2SiO3 form:  Na2SiO3        X:  0.0459
+        KAlSiO4 form:  KAlSiO4        X:  0.0603
+      Ca3(PO4)2 form:  Ca3(PO4)2      X:  0.0000
+            H2O form:  H2O            X:  0.1765
+Feldspar        moles:   0.051675 grams:  13.746
+         albite form:  NaAlSi3O8      X:  0.7646  wt%    SiO2   65.72
+      anorthite form:  CaAl2Si2O8     X:  0.0904  wt%   Al2O3   20.90
+       sanidine form:  KAlSi3O8       X:  0.1450  wt%     CaO    1.91
+                                                  wt%    Na2O    8.91
+                                                  wt%     K2O    2.57
+Water           moles:   0.290684 grams:   5.237
+Quartz          moles:   0.551080 grams:  33.111
+Spinel          moles:   0.003194 grams:   0.720
+       chromite form:  FeCr2O4        X:  0.0000  wt%    TiO2    9.21
+      hercynite form:  FeAl2O4        X: -0.0416  wt%   Al2O3    1.37
+      magnetite form:  Fe3O4          X:  0.7098  wt%   Fe2O3   50.28
+         spinel form:  MgAl2O4        X:  0.0720  wt%     FeO   37.85
+     ulvospinel form:  Fe2TiO4        X:  0.2598  wt%     MgO    1.29
+Orthopyroxene   moles:   0.000220 grams:   0.050
+       diopside form:  CaMgSi2O6      X: -0.9050  wt%    SiO2   51.71
+ clinoenstatite form:  Mg2Si2O6       X:  0.9930  wt%    TiO2    0.01
+   hedenbergite form:  CaFeSi2O6      X:  0.8820  wt%   Al2O3    1.04
+alumino-buffoni form:  CaTi0.5Mg0     X:  0.0177  wt%   Fe2O3    0.38
+      buffonite form:  CaTi0.5Mg0     X: -0.0169  wt%     FeO   27.66
+       essenite form:  CaFeAlSiO6     X:  0.0278  wt%     MgO   19.03
+        jadeite form:  NaAlSi2O6      X:  0.0014  wt%     CaO    0.14
+                                                  wt%    Na2O    0.02
+Ilmenite ss     moles:   0.000068 grams:   0.010
+     geikielite form:  MgTiO3         X:  0.1200  wt%    TiO2   47.05
+       hematite form:  Fe2O3          X:  0.1066  wt%   Al2O3    1.68
+       ilmenite form:  FeTiO3         X:  0.7491  wt%   Fe2O3   11.53
+    pyrophanite form:  MnTiO3         X:  0.0000  wt%     FeO   36.46
+       corundum form:  Al2O3          X:  0.0243  wt%     MgO    3.28
+Feldspar        moles:   0.175204 grams:  47.455
+         albite form:  NaAlSi3O8      X:  0.4641  wt%    SiO2   66.20
+      anorthite form:  CaAl2Si2O8     X:  0.0157  wt%   Al2O3   19.12
+       sanidine form:  KAlSi3O8       X:  0.5201  wt%     CaO    0.33
+                                                  wt%    Na2O    5.31
+                                                  wt%     K2O    9.04
+System log 10 fO2 -6.288303211476887e-13 realtive to NNO.
+System log 10 NNO -14.734783298453006
+Moles of O in system 3.3907478066363748
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">deltaT</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">equil</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="n">deltaT</span><span class="p">),</span> <span class="n">p</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span> <span class="n">con_deltaNNO</span><span class="o">=</span><span class="n">NNO_offset</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">stats</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">state</span><span class="o">.</span><span class="n">print_state</span><span class="p">()</span>
+<span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">t</span><span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="n">deltaT</span><span class="p">)</span><span class="o">-</span><span class="mf">273.15</span><span class="p">,</span><span class="n">p</span><span class="o">/</span><span class="mf">10.0</span><span class="p">)</span> <span class="o">+</span> <span class="n">equil</span><span class="o">.</span><span class="n">kc_print_state</span><span class="p">(</span><span class="n">state</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Quad (000) norm:  2.0243026303418e-02 Lin (021) step:  7.0082983487209e-01 func: -1.7232710032814e+06
+Quad (001) norm:  1.6656396148692e-04 Lin (024) step:  9.9784472612397e-01 func: -1.7232708971859e+06
+Quad (002) norm:  1.1870343795491e-06 Lin (022) step:  1.0013430841889e+00 func: -1.7232708025140e+06
+Quad (003) norm:  9.5988553108768e-07 Lin (033) step:  1.0024086002173e+00 func: -1.7232707201750e+06
+Quad (004) norm:  8.3180023976553e-07 Lin (021) step:  1.0009072984148e+00 func: -1.7232706487809e+06
+Quad (005) norm:  7.2082830410361e-07 Lin (031) step:  1.0007872021771e+00 func: -1.7232705870482e+06
+Quad (006) norm:  6.2461005108588e-07 Lin (034) step:  1.0056017573443e+00 func: -1.7232705335855e+06
+Quad (007) norm:  5.4078675303037e-07 Lin (029) step:  1.0008625064891e+00 func: -1.7232704870572e+06
+Quad (008) norm:  4.6851729237499e-07 Lin (008) step:  1.0012345832159e+00 func: -1.7232704469787e+06
+Quad (009) norm:  4.0585616482288e-07 Lin (023) step:  1.0003979429953e+00 func: -1.7232704122549e+06
+Quad (010) norm:  3.5160088576436e-07 Lin (030) step:  1.0006084923947e+00 func: -1.7232703822092e+06
+Quad (011) norm:  3.0457326875907e-07 Lin (033) step:  1.0023026342140e+00 func: -1.7232703561812e+06
+Quad (012) norm:  2.6375539872188e-07 Lin (034) step:  1.0046557285035e+00 func: -1.7232703336012e+06
+Quad (013) norm:  2.2831627214069e-07 Lin (025) step:  9.9965515779842e-01 func: -1.7232703140052e+06
+Quad (014) norm:  1.9778485140346e-07 Lin (035) step:  9.9252806668756e-01 func: -1.7232702971294e+06
+Quad (015) norm:  1.7152049456173e-07 Lin (033) step:  1.0005198987296e+00 func: -1.7232702826166e+06
+Minimal energy termination of quadratic loop.
+
+
+T =     757.85 °C, P =      175.0 MPa
+Liquid          moles:   0.065228 grams:   4.144
+           SiO2 form:  SiO2           X:  0.6727  wt%    SiO2   74.43
+           TiO2 form:  TiO2           X:  0.0013  wt%    TiO2    0.16
+          Al2O3 form:  Al2O3          X:  0.0327  wt%   Al2O3    9.99
+          Fe2O3 form:  Fe2O3          X:  0.0011  wt%   Fe2O3    0.27
+        MgCr2O4 form:  MgCr2O4        X:  0.0000  wt%     FeO    0.57
+        Fe2SiO4 form:  Fe2SiO4        X:  0.0025  wt%     MgO    0.20
+      MnSi0.5O2 form:  MnSi0.5O2      X:  0.0000  wt%     CaO    0.27
+        Mg2SiO4 form:  Mg2SiO4        X:  0.0016  wt%    Na2O    4.68
+      NiSi0.5O2 form:  NiSi0.5O2      X:  0.0000  wt%     K2O    4.38
+      CoSi0.5O2 form:  CoSi0.5O2      X:  0.0000  wt%     H2O    5.05
+         CaSiO3 form:  CaSiO3         X:  0.0030
+        Na2SiO3 form:  Na2SiO3        X:  0.0480
+        KAlSiO4 form:  KAlSiO4        X:  0.0590
+      Ca3(PO4)2 form:  Ca3(PO4)2      X:  0.0000
+            H2O form:  H2O            X:  0.1780
+Feldspar        moles:   0.052405 grams:  13.939
+         albite form:  NaAlSi3O8      X:  0.7652  wt%    SiO2   65.73
+      anorthite form:  CaAl2Si2O8     X:  0.0900  wt%   Al2O3   20.89
+       sanidine form:  KAlSi3O8       X:  0.1448  wt%     CaO    1.90
+                                                  wt%    Na2O    8.92
+                                                  wt%     K2O    2.56
+Water           moles:   0.293688 grams:   5.291
+Quartz          moles:   0.557237 grams:  33.481
+Spinel          moles:   0.003209 grams:   0.724
+       chromite form:  FeCr2O4        X:  0.0000  wt%    TiO2    9.24
+      hercynite form:  FeAl2O4        X: -0.0421  wt%   Al2O3    1.32
+      magnetite form:  Fe3O4          X:  0.7100  wt%   Fe2O3   50.27
+         spinel form:  MgAl2O4        X:  0.0712  wt%     FeO   37.90
+     ulvospinel form:  Fe2TiO4        X:  0.2609  wt%     MgO    1.27
+Orthopyroxene   moles:   0.000274 grams:   0.063
+       diopside form:  CaMgSi2O6      X: -0.9057  wt%    SiO2   51.73
+ clinoenstatite form:  Mg2Si2O6       X:  0.9927  wt%    TiO2    0.01
+   hedenbergite form:  CaFeSi2O6      X:  0.8845  wt%   Al2O3    0.98
+alumino-buffoni form:  CaTi0.5Mg0     X:  0.0165  wt%   Fe2O3    0.37
+      buffonite form:  CaTi0.5Mg0     X: -0.0157  wt%     FeO   27.73
+       essenite form:  CaFeAlSiO6     X:  0.0263  wt%     MgO   19.00
+        jadeite form:  NaAlSi2O6      X:  0.0014  wt%     CaO    0.15
+                                                  wt%    Na2O    0.02
+Ilmenite ss     moles:   0.000090 grams:   0.013
+     geikielite form:  MgTiO3         X:  0.1193  wt%    TiO2   47.10
+       hematite form:  Fe2O3          X:  0.1063  wt%   Al2O3    1.61
+       ilmenite form:  FeTiO3         X:  0.7511  wt%   Fe2O3   11.49
+    pyrophanite form:  MnTiO3         X:  0.0000  wt%     FeO   36.54
+       corundum form:  Al2O3          X:  0.0233  wt%     MgO    3.26
+Feldspar        moles:   0.176997 grams:  47.942
+         albite form:  NaAlSi3O8      X:  0.4637  wt%    SiO2   66.20
+      anorthite form:  CaAl2Si2O8     X:  0.0156  wt%   Al2O3   19.11
+       sanidine form:  KAlSi3O8       X:  0.5208  wt%     CaO    0.32
+                                                  wt%    Na2O    5.30
+                                                  wt%     K2O    9.06
+System log 10 fO2 2.788880237858393e-13 realtive to NNO.
+System log 10 NNO -14.757725602091266
+Moles of O in system 3.390745117287217
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">deltaT</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">equil</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="n">deltaT</span><span class="p">),</span> <span class="n">p</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span> <span class="n">con_deltaNNO</span><span class="o">=</span><span class="n">NNO_offset</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">stats</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">state</span><span class="o">.</span><span class="n">print_state</span><span class="p">()</span>
+<span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">t</span><span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="n">deltaT</span><span class="p">)</span><span class="o">-</span><span class="mf">273.15</span><span class="p">,</span><span class="n">p</span><span class="o">/</span><span class="mf">10.0</span><span class="p">)</span> <span class="o">+</span> <span class="n">equil</span><span class="o">.</span><span class="n">kc_print_state</span><span class="p">(</span><span class="n">state</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Quad (000) norm:  1.0077722247735e-02 Lin (022) step:  7.8729338922378e-01 func: -1.7230158185347e+06
+Quad (001) norm:  1.1919229445379e-04 Lin (026) step:  9.9897620783456e-01 func: -1.7230157421731e+06
+Quad (002) norm:  9.2287473033048e-07 Lin (027) step:  1.0011107494646e+00 func: -1.7230156722621e+06
+Quad (003) norm:  7.5330495551305e-07 Lin (035) step:  9.9698701679482e-01 func: -1.7230156104356e+06
+Quad (004) norm:  6.6505755183412e-07 Lin (025) step:  1.0007254676522e+00 func: -1.7230155561285e+06
+Quad (005) norm:  5.8677326028703e-07 Lin (028) step:  1.0007179107803e+00 func: -1.7230155080243e+06
+Quad (006) norm:  5.1767304168180e-07 Lin (035) step:  9.9863149853616e-01 func: -1.7230154655962e+06
+Quad (007) norm:  4.5681317383747e-07 Lin (034) step:  1.0028396283571e+00 func: -1.7230154282532e+06
+Quad (008) norm:  4.0286364888853e-07 Lin (025) step:  9.9991754179568e-01 func: -1.7230153951696e+06
+Quad (009) norm:  3.5540916915708e-07 Lin (028) step:  1.0088059250695e+00 func: -1.7230153660846e+06
+Quad (010) norm:  3.1316117287442e-07 Lin (030) step:  1.0000073180698e+00 func: -1.7230153402025e+06
+Quad (011) norm:  2.7625064477759e-07 Lin (036) step:  9.9406788719497e-01 func: -1.7230153175998e+06
+Quad (012) norm:  2.4387728127361e-07 Lin (025) step:  1.0001053298964e+00 func: -1.7230152977826e+06
+Quad (013) norm:  2.1511902350563e-07 Lin (024) step:  1.0010126590966e+00 func: -1.7230152801837e+06
+Quad (014) norm:  1.8972475965658e-07 Lin (031) step:  9.9190487783632e-01 func: -1.7230152646478e+06
+Minimal energy termination of quadratic loop.
+
+
+T =     756.85 °C, P =      175.0 MPa
+Liquid          moles:   0.055440 grams:   3.516
+           SiO2 form:  SiO2           X:  0.6720  wt%    SiO2   74.55
+           TiO2 form:  TiO2           X:  0.0013  wt%    TiO2    0.16
+          Al2O3 form:  Al2O3          X:  0.0314  wt%   Al2O3    9.70
+          Fe2O3 form:  Fe2O3          X:  0.0011  wt%   Fe2O3    0.28
+        MgCr2O4 form:  MgCr2O4        X:  0.0000  wt%     FeO    0.57
+        Fe2SiO4 form:  Fe2SiO4        X:  0.0025  wt%     MgO    0.20
+      MnSi0.5O2 form:  MnSi0.5O2      X:  0.0000  wt%     CaO    0.28
+        Mg2SiO4 form:  Mg2SiO4        X:  0.0016  wt%    Na2O    4.86
+      NiSi0.5O2 form:  NiSi0.5O2      X:  0.0000  wt%     K2O    4.31
+      CoSi0.5O2 form:  CoSi0.5O2      X:  0.0000  wt%     H2O    5.09
+         CaSiO3 form:  CaSiO3         X:  0.0031
+        Na2SiO3 form:  Na2SiO3        X:  0.0497
+        KAlSiO4 form:  KAlSiO4        X:  0.0580
+      Ca3(PO4)2 form:  Ca3(PO4)2      X:  0.0000
+            H2O form:  H2O            X:  0.1793
+Feldspar        moles:   0.053016 grams:  14.101
+         albite form:  NaAlSi3O8      X:  0.7659  wt%    SiO2   65.74
+      anorthite form:  CaAl2Si2O8     X:  0.0897  wt%   Al2O3   20.89
+       sanidine form:  KAlSi3O8       X:  0.1444  wt%     CaO    1.89
+                                                  wt%    Na2O    8.92
+                                                  wt%     K2O    2.56
+Water           moles:   0.295360 grams:   5.321
+Quartz          moles:   0.560678 grams:  33.688
+Spinel          moles:   0.003217 grams:   0.726
+       chromite form:  FeCr2O4        X:  0.0000  wt%    TiO2    9.27
+      hercynite form:  FeAl2O4        X: -0.0425  wt%   Al2O3    1.27
+      magnetite form:  Fe3O4          X:  0.7102  wt%   Fe2O3   50.27
+         spinel form:  MgAl2O4        X:  0.0706  wt%     FeO   37.93
+     ulvospinel form:  Fe2TiO4        X:  0.2617  wt%     MgO    1.26
+Orthopyroxene   moles:   0.000306 grams:   0.070
+       diopside form:  CaMgSi2O6      X: -0.9065  wt%    SiO2   51.75
+ clinoenstatite form:  Mg2Si2O6       X:  0.9923  wt%    TiO2    0.01
+   hedenbergite form:  CaFeSi2O6      X:  0.8868  wt%   Al2O3    0.94
+alumino-buffoni form:  CaTi0.5Mg0     X:  0.0156  wt%   Fe2O3    0.36
+      buffonite form:  CaTi0.5Mg0     X: -0.0148  wt%     FeO   27.80
+       essenite form:  CaFeAlSiO6     X:  0.0252  wt%     MgO   18.97
+        jadeite form:  NaAlSi2O6      X:  0.0014  wt%     CaO    0.15
+                                                  wt%    Na2O    0.02
+Ilmenite ss     moles:   0.000102 grams:   0.015
+     geikielite form:  MgTiO3         X:  0.1187  wt%    TiO2   47.14
+       hematite form:  Fe2O3          X:  0.1059  wt%   Al2O3    1.55
+       ilmenite form:  FeTiO3         X:  0.7529  wt%   Fe2O3   11.45
+    pyrophanite form:  MnTiO3         X:  0.0000  wt%     FeO   36.62
+       corundum form:  Al2O3          X:  0.0225  wt%     MgO    3.24
+Feldspar        moles:   0.177792 grams:  48.159
+         albite form:  NaAlSi3O8      X:  0.4630  wt%    SiO2   66.20
+      anorthite form:  CaAl2Si2O8     X:  0.0154  wt%   Al2O3   19.11
+       sanidine form:  KAlSi3O8       X:  0.5217  wt%     CaO    0.32
+                                                  wt%    Na2O    5.30
+                                                  wt%     K2O    9.07
+System log 10 fO2 2.7569058147491887e-12 realtive to NNO.
+System log 10 NNO -14.780712935750506
+Moles of O in system 3.3907430417032036
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">deltaT</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">equil</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="n">deltaT</span><span class="p">),</span> <span class="n">p</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span> <span class="n">con_deltaNNO</span><span class="o">=</span><span class="n">NNO_offset</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">stats</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">state</span><span class="o">.</span><span class="n">print_state</span><span class="p">()</span>
+<span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">t</span><span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="n">deltaT</span><span class="p">)</span><span class="o">-</span><span class="mf">273.15</span><span class="p">,</span><span class="n">p</span><span class="o">/</span><span class="mf">10.0</span><span class="p">)</span> <span class="o">+</span> <span class="n">equil</span><span class="o">.</span><span class="n">kc_print_state</span><span class="p">(</span><span class="n">state</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Quad (000) norm:  6.2705293515395e-03 Lin (020) step:  8.3595839378991e-01 func: -1.7227610125102e+06
+Quad (001) norm:  9.1631825018789e-05 Lin (031) step:  9.9861877590068e-01 func: -1.7227609493691e+06
+Quad (002) norm:  7.7347751364953e-07 Lin (031) step:  1.0010691219059e+00 func: -1.7227608910511e+06
+Quad (003) norm:  6.5211568767003e-07 Lin (033) step:  1.0025759611940e+00 func: -1.7227608388227e+06
+Quad (004) norm:  5.8230995844100e-07 Lin (026) step:  1.0005546266468e+00 func: -1.7227607921203e+06
+Quad (005) norm:  5.2004526399082e-07 Lin (030) step:  1.0012523366404e+00 func: -1.7227607505144e+06
+Quad (006) norm:  4.6438035331624e-07 Lin (012) step:  1.0009033138034e+00 func: -1.7227607133399e+06
+Quad (007) norm:  4.1467558611098e-07 Lin (031) step:  1.0031861319825e+00 func: -1.7227606801628e+06
+Quad (008) norm:  3.7017733191050e-07 Lin (025) step:  9.9950741392646e-01 func: -1.7227606504747e+06
+Quad (009) norm:  3.3058976239564e-07 Lin (032) step:  1.0007823983598e+00 func: -1.7227606240738e+06
+Quad (010) norm:  2.9518307847799e-07 Lin (029) step:  1.0007982467351e+00 func: -1.7227606004697e+06
+Quad (011) norm:  2.6356158980475e-07 Lin (033) step:  1.0032511165411e+00 func: -1.7227605793959e+06
+Quad (012) norm:  2.3525336802940e-07 Lin (034) step:  1.0056258430467e+00 func: -1.7227605605358e+06
+Quad (013) norm:  2.0992195831765e-07 Lin (037) step:  9.9344457321834e-01 func: -1.7227605436633e+06
+Minimal energy termination of quadratic loop.
+
+
+T =     755.85 °C, P =      175.0 MPa
+Liquid          moles:   0.048992 grams:   3.103
+           SiO2 form:  SiO2           X:  0.6713  wt%    SiO2   74.65
+           TiO2 form:  TiO2           X:  0.0012  wt%    TiO2    0.16
+          Al2O3 form:  Al2O3          X:  0.0302  wt%   Al2O3    9.46
+          Fe2O3 form:  Fe2O3          X:  0.0011  wt%   Fe2O3    0.28
+        MgCr2O4 form:  MgCr2O4        X:  0.0000  wt%     FeO    0.58
+        Fe2SiO4 form:  Fe2SiO4        X:  0.0025  wt%     MgO    0.20
+      MnSi0.5O2 form:  MnSi0.5O2      X:  0.0000  wt%     CaO    0.29
+        Mg2SiO4 form:  Mg2SiO4        X:  0.0016  wt%    Na2O    5.02
+      NiSi0.5O2 form:  NiSi0.5O2      X:  0.0000  wt%     K2O    4.24
+      CoSi0.5O2 form:  CoSi0.5O2      X:  0.0000  wt%     H2O    5.13
+         CaSiO3 form:  CaSiO3         X:  0.0032
+        Na2SiO3 form:  Na2SiO3        X:  0.0513
+        KAlSiO4 form:  KAlSiO4        X:  0.0570
+      Ca3(PO4)2 form:  Ca3(PO4)2      X:  0.0000
+            H2O form:  H2O            X:  0.1804
+Feldspar        moles:   0.053574 grams:  14.249
+         albite form:  NaAlSi3O8      X:  0.7666  wt%    SiO2   65.75
+      anorthite form:  CaAl2Si2O8     X:  0.0895  wt%   Al2O3   20.88
+       sanidine form:  KAlSi3O8       X:  0.1439  wt%     CaO    1.89
+                                                  wt%    Na2O    8.93
+                                                  wt%     K2O    2.55
+Water           moles:   0.296459 grams:   5.341
+Quartz          moles:   0.562949 grams:  33.824
+Spinel          moles:   0.003221 grams:   0.727
+       chromite form:  FeCr2O4        X:  0.0000  wt%    TiO2    9.29
+      hercynite form:  FeAl2O4        X: -0.0427  wt%   Al2O3    1.23
+      magnetite form:  Fe3O4          X:  0.7105  wt%   Fe2O3   50.27
+         spinel form:  MgAl2O4        X:  0.0700  wt%     FeO   37.96
+     ulvospinel form:  Fe2TiO4        X:  0.2623  wt%     MgO    1.25
+Orthopyroxene   moles:   0.000328 grams:   0.075
+       diopside form:  CaMgSi2O6      X: -0.9075  wt%    SiO2   51.76
+ clinoenstatite form:  Mg2Si2O6       X:  0.9921  wt%    TiO2    0.01
+   hedenbergite form:  CaFeSi2O6      X:  0.8891  wt%   Al2O3    0.90
+alumino-buffoni form:  CaTi0.5Mg0     X:  0.0148  wt%   Fe2O3    0.35
+      buffonite form:  CaTi0.5Mg0     X: -0.0141  wt%     FeO   27.86
+       essenite form:  CaFeAlSiO6     X:  0.0243  wt%     MgO   18.93
+        jadeite form:  NaAlSi2O6      X:  0.0014  wt%     CaO    0.16
+                                                  wt%    Na2O    0.02
+Ilmenite ss     moles:   0.000110 grams:   0.016
+     geikielite form:  MgTiO3         X:  0.1181  wt%    TiO2   47.18
+       hematite form:  Fe2O3          X:  0.1055  wt%   Al2O3    1.51
+       ilmenite form:  FeTiO3         X:  0.7545  wt%   Fe2O3   11.41
+    pyrophanite form:  MnTiO3         X:  0.0000  wt%     FeO   36.69
+       corundum form:  Al2O3          X:  0.0218  wt%     MgO    3.22
+Feldspar        moles:   0.178159 grams:  48.261
+         albite form:  NaAlSi3O8      X:  0.4621  wt%    SiO2   66.20
+      anorthite form:  CaAl2Si2O8     X:  0.0152  wt%   Al2O3   19.11
+       sanidine form:  KAlSi3O8       X:  0.5226  wt%     CaO    0.32
+                                                  wt%    Na2O    5.29
+                                                  wt%     K2O    9.09
+System log 10 fO2 -3.1956659540810506e-12 realtive to NNO.
+System log 10 NNO -14.803745431181873
+Moles of O in system 3.390741274412504
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="plot-results-of-the-sequence">
+<h1>Plot results of the sequence<a class="headerlink" href="#plot-results-of-the-sequence" title="Permalink to this headline">¶</a></h1>
+<p>Plot total oxygen content of the system against temperature</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="n">log10fO2</span><span class="p">,</span><span class="n">log10NNO</span><span class="p">,</span><span class="n">moles_O</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+    <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">moles_O</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="s1">&#39;r-&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;T °C&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;moles of O&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="_images/2-KandC-O2-Equilibrate_34_0.png" src="_images/2-KandC-O2-Equilibrate_34_0.png" />
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2020, ENKI.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.4.0.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>PhaseObjC - DEW Standard State properties &mdash; Thermoengine 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="None"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" >
+    <link rel="search" title="Search" href="search.html" >
+    <link rel="top" title="Thermoengine 1.0.1 documentation" href="index.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="index.html">
+      <img style="border: 0;" alt="ENKI" src="_static/img/ENKI_header.png"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="http://enki-portal.org">ENKI Web</a></li>
+        <li class="active"><a href="https://enki.ofm-research.org">ENKI Server</a></li>
+	
+        <li class="active"><a href="index.html">Thermoengine 1.0.1 documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/Enki.png" alt="Logo">
+            </a></p>
+        </div>
+      </div>
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="phaseobjc-dew-standard-state-properties">
+<h1>PhaseObjC - DEW Standard State properties<a class="headerlink" href="#phaseobjc-dew-standard-state-properties" title="Permalink to this headline">¶</a></h1>
+<p>Required python code to load the PhaseObjC library. The library
+libphaseobjc.dylib (see build instructions in README.md) must be
+locatable to the system in a standard location (by default
+/usr/local/lib)</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">ctypes</span> <span class="kn">import</span> <span class="n">cdll</span>
+<span class="kn">from</span> <span class="nn">ctypes</span> <span class="kn">import</span> <span class="n">util</span>
+<span class="kn">from</span> <span class="nn">rubicon.objc</span> <span class="kn">import</span> <span class="n">ObjCClass</span><span class="p">,</span> <span class="n">objc_method</span>
+<span class="n">cdll</span><span class="o">.</span><span class="n">LoadLibrary</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">find_library</span><span class="p">(</span><span class="s1">&#39;phaseobjc&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">ghiorso</span><span class="o">/</span><span class="n">anaconda3</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="o">.</span><span class="mi">7</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">rubicon</span><span class="o">/</span><span class="n">objc</span><span class="o">/</span><span class="n">ctypes_patch</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">24</span><span class="p">:</span> <span class="ne">UserWarning</span><span class="p">:</span> <span class="n">rubicon</span><span class="o">.</span><span class="n">objc</span><span class="o">.</span><span class="n">ctypes_patch</span> <span class="n">has</span> <span class="n">only</span> <span class="n">been</span> <span class="n">tested</span> <span class="k">with</span> <span class="n">Python</span> <span class="mf">3.4</span> <span class="n">through</span> <span class="mf">3.6</span><span class="o">.</span> <span class="n">The</span> <span class="n">current</span> <span class="n">version</span> <span class="ow">is</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">(</span><span class="n">major</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">minor</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">micro</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">releaselevel</span><span class="o">=</span><span class="s1">&#39;final&#39;</span><span class="p">,</span> <span class="n">serial</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span> <span class="n">Most</span> <span class="n">likely</span> <span class="n">things</span> <span class="n">will</span> <span class="n">work</span> <span class="n">properly</span><span class="p">,</span> <span class="n">but</span> <span class="n">you</span> <span class="n">may</span> <span class="n">experience</span> <span class="n">crashes</span> <span class="k">if</span> <span class="n">Python</span><span class="s1">&#39;s internals have changed significantly.</span>
+  <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">CDLL</span> <span class="s1">&#39;/usr/local/lib/libphaseobjc.dylib&#39;</span><span class="p">,</span> <span class="n">handle</span> <span class="mi">7</span><span class="n">fe86bdc1980</span> <span class="n">at</span> <span class="mh">0x7fe830975610</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DEWFluid</span> <span class="o">=</span> <span class="n">ObjCClass</span><span class="p">(</span><span class="s1">&#39;DEWFluid&#39;</span><span class="p">)</span>
+<span class="n">obj</span> <span class="o">=</span> <span class="n">DEWFluid</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">phaseName</span><span class="p">)</span>
+<span class="n">ns</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">numberOfSolutionSpecies</span><span class="p">()</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Number of species = &#39;</span><span class="p">,</span> <span class="n">ns</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DEWFluid</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">species</span> <span class="o">=</span>  <span class="mi">92</span>
+</pre></div>
+</div>
+<div class="section" id="compute-standard-state-chemical-potentials-of-endmember-components-species">
+<h2>Compute standard state chemical potentials of endmember components/species …<a class="headerlink" href="#compute-standard-state-chemical-potentials-of-endmember-components-species" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">The standard state Gibbs free energies of all the species known to my
+implementation of DEW are printed and stopred in a python dictionary,
+called species</div>
+<div class="line">Indoividual species can be accessed by specifying
+e.g. species[‘CO2,aq’]</div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="mf">399.85</span> <span class="o">+</span> <span class="mf">273.15</span> <span class="c1"># K</span>
+<span class="n">p</span> <span class="o">=</span> <span class="mf">23599.0</span> <span class="c1"># bars</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0:&gt;20s}</span><span class="s2"> </span><span class="si">{1:&gt;15s}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;species&#39;</span><span class="p">,</span> <span class="s1">&#39;mu0&#39;</span><span class="p">))</span>
+<span class="n">species</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ns</span><span class="p">):</span>
+    <span class="n">pure</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">componentAtIndex_</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">pure</span><span class="o">.</span><span class="n">getGibbsFreeEnergyFromT_andP_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0:&gt;20s}</span><span class="s2"> </span><span class="si">{1:15.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">nameOfSolutionSpeciesAtIndex_</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">g</span><span class="p">))</span>
+    <span class="n">species</span><span class="p">[</span><span class="n">obj</span><span class="o">.</span><span class="n">nameOfSolutionSpeciesAtIndex_</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="n">g</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>   <span class="n">species</span>             <span class="n">mu0</span>
+     <span class="n">Water</span>      <span class="o">-</span><span class="mf">235328.77</span>
+    <span class="n">CO2</span><span class="p">,</span><span class="n">aq</span>      <span class="o">-</span><span class="mf">379028.11</span>
+     <span class="n">O2</span><span class="p">,</span><span class="n">aq</span>        <span class="mf">11393.60</span>
+     <span class="n">HF</span><span class="p">,</span><span class="n">aq</span>      <span class="o">-</span><span class="mf">254324.32</span>
+   <span class="n">NaOH</span><span class="p">,</span><span class="n">aq</span>      <span class="o">-</span><span class="mf">420012.64</span>
+<span class="n">Mg</span><span class="p">(</span><span class="n">OH</span><span class="p">)</span><span class="mi">2</span><span class="p">,</span><span class="n">aq</span>      <span class="o">-</span><span class="mf">707343.06</span>
+  <span class="n">HAlO2</span><span class="p">,</span><span class="n">aq</span>      <span class="o">-</span><span class="mf">847967.29</span>
+   <span class="n">SiO2</span><span class="p">,</span><span class="n">aq</span>      <span class="o">-</span><span class="mf">814208.46</span>
+  <span class="n">H3PO4</span><span class="p">,</span><span class="n">aq</span>     <span class="o">-</span><span class="mf">1103926.66</span>
+    <span class="n">SO2</span><span class="p">,</span><span class="n">aq</span>      <span class="o">-</span><span class="mf">294911.74</span>
+    <span class="n">HCl</span><span class="p">,</span><span class="n">aq</span>      <span class="o">-</span><span class="mf">110085.29</span>
+    <span class="n">KOH</span><span class="p">,</span><span class="n">aq</span>      <span class="o">-</span><span class="mf">434338.03</span>
+<span class="n">Ca</span><span class="p">(</span><span class="n">OH</span><span class="p">)</span><span class="mi">2</span><span class="p">,</span><span class="n">aq</span>      <span class="o">-</span><span class="mf">822271.04</span>
+ <span class="n">H2CrO4</span><span class="p">,</span><span class="n">aq</span>      <span class="o">-</span><span class="mf">642448.25</span>
+<span class="n">Mn</span><span class="p">(</span><span class="n">OH</span><span class="p">)</span><span class="mi">2</span><span class="p">,</span><span class="n">aq</span>      <span class="o">-</span><span class="mf">502620.19</span>
+<span class="n">Fe</span><span class="p">(</span><span class="n">OH</span><span class="p">)</span><span class="mi">2</span><span class="p">,</span><span class="n">aq</span>      <span class="o">-</span><span class="mf">354307.95</span>
+<span class="n">Co</span><span class="p">(</span><span class="n">OH</span><span class="p">)</span><span class="mi">2</span><span class="p">,</span><span class="n">aq</span>      <span class="o">-</span><span class="mf">319921.11</span>
+        <span class="n">H</span><span class="o">+</span>            <span class="mf">0.00</span>
+       <span class="n">OH</span><span class="o">-</span>      <span class="o">-</span><span class="mf">145885.52</span>
+     <span class="n">H2</span><span class="p">,</span><span class="n">aq</span>        <span class="mf">30308.72</span>
+     <span class="n">CO3</span><span class="o">-</span><span class="mi">2</span>      <span class="o">-</span><span class="mf">469979.24</span>
+     <span class="n">HCO3</span><span class="o">-</span>      <span class="o">-</span><span class="mf">558973.70</span>
+     <span class="n">CO</span><span class="p">,</span><span class="n">aq</span>      <span class="o">-</span><span class="mf">109680.58</span>
+        <span class="n">F</span><span class="o">-</span>      <span class="o">-</span><span class="mf">274324.32</span>
+   <span class="n">NaCl</span><span class="p">,</span><span class="n">aq</span>      <span class="o">-</span><span class="mf">377240.15</span>
+       <span class="n">Na</span><span class="o">+</span>      <span class="o">-</span><span class="mf">280827.69</span>
+    <span class="n">NaCO3</span><span class="o">-</span>      <span class="o">-</span><span class="mf">749930.05</span>
+ <span class="n">NaHCO3</span><span class="p">,</span><span class="n">aq</span>      <span class="o">-</span><span class="mf">845356.91</span>
+<span class="n">NaHSiO3</span><span class="p">,</span><span class="n">aq</span>     <span class="o">-</span><span class="mf">1267235.39</span>
+  <span class="n">MgCO3</span><span class="p">,</span><span class="n">aq</span>      <span class="o">-</span><span class="mf">903280.40</span>
+<span class="n">Mg</span><span class="p">(</span><span class="n">HSiO3</span><span class="p">)</span><span class="o">+</span>     <span class="o">-</span><span class="mf">1448610.09</span>
+ <span class="n">Mg</span><span class="p">(</span><span class="n">HCO3</span><span class="p">)</span><span class="o">+</span>     <span class="o">-</span><span class="mf">1009274.60</span>
+      <span class="n">Mg</span><span class="o">+</span><span class="mi">2</span>      <span class="o">-</span><span class="mf">435572.03</span>
+     <span class="n">MgCl</span><span class="o">+</span>      <span class="o">-</span><span class="mf">551634.66</span>
+     <span class="n">MgOH</span><span class="o">+</span>      <span class="o">-</span><span class="mf">606765.02</span>
+  <span class="n">MgSO4</span><span class="p">,</span><span class="n">aq</span>     <span class="o">-</span><span class="mf">1137741.77</span>
+      <span class="n">Al</span><span class="o">+</span><span class="mi">3</span>      <span class="o">-</span><span class="mf">423414.42</span>
+     <span class="n">AlO2</span><span class="o">-</span>      <span class="o">-</span><span class="mf">793847.25</span>
+    <span class="n">HSiO3</span><span class="o">-</span>      <span class="o">-</span><span class="mf">973875.71</span>
+  <span class="n">Si2O4</span><span class="p">,</span><span class="n">aq</span>     <span class="o">-</span><span class="mf">1632620.84</span>
+    <span class="n">H2PO4</span><span class="o">-</span>     <span class="o">-</span><span class="mf">1092847.49</span>
+    <span class="n">HPO4</span><span class="o">-</span><span class="mi">2</span>     <span class="o">-</span><span class="mf">1043229.94</span>
+     <span class="n">PO4</span><span class="o">-</span><span class="mi">3</span>      <span class="o">-</span><span class="mf">955730.19</span>
+   <span class="n">H3P2O7</span><span class="o">-</span>     <span class="o">-</span><span class="mf">2007817.47</span>
+  <span class="n">H2P2O7</span><span class="o">-</span><span class="mi">2</span>     <span class="o">-</span><span class="mf">1956585.87</span>
+    <span class="n">H2S</span><span class="p">,</span><span class="n">aq</span>       <span class="o">-</span><span class="mf">14246.36</span>
+       <span class="n">HS</span><span class="o">-</span>        <span class="mf">42970.36</span>
+      <span class="n">S2</span><span class="o">-</span><span class="mi">2</span>       <span class="mf">161146.51</span>
+    <span class="n">S2O3</span><span class="o">-</span><span class="mi">2</span>      <span class="o">-</span><span class="mf">438902.52</span>
+    <span class="n">S2O4</span><span class="o">-</span><span class="mi">2</span>      <span class="o">-</span><span class="mf">511494.08</span>
+    <span class="n">S2O5</span><span class="o">-</span><span class="mi">2</span>      <span class="o">-</span><span class="mf">700442.16</span>
+    <span class="n">S2O6</span><span class="o">-</span><span class="mi">2</span>      <span class="o">-</span><span class="mf">874015.55</span>
+    <span class="n">S2O8</span><span class="o">-</span><span class="mi">2</span>      <span class="o">-</span><span class="mf">990899.32</span>
+      <span class="n">S3</span><span class="o">-</span><span class="mi">2</span>       <span class="mf">159583.09</span>
+    <span class="n">S3O6</span><span class="o">-</span><span class="mi">2</span>      <span class="o">-</span><span class="mf">863971.93</span>
+      <span class="n">S4</span><span class="o">-</span><span class="mi">2</span>       <span class="mf">159205.88</span>
+    <span class="n">S4O6</span><span class="o">-</span><span class="mi">2</span>      <span class="o">-</span><span class="mf">932750.30</span>
+      <span class="n">S5</span><span class="o">-</span><span class="mi">2</span>       <span class="mf">160124.78</span>
+    <span class="n">S5O6</span><span class="o">-</span><span class="mi">2</span>      <span class="o">-</span><span class="mf">860623.27</span>
+     <span class="n">SO3</span><span class="o">-</span><span class="mi">2</span>      <span class="o">-</span><span class="mf">413501.98</span>
+     <span class="n">HSO3</span><span class="o">-</span>      <span class="o">-</span><span class="mf">519924.47</span>
+     <span class="n">SO4</span><span class="o">-</span><span class="mi">2</span>      <span class="o">-</span><span class="mf">678674.84</span>
+     <span class="n">HSO4</span><span class="o">-</span>      <span class="o">-</span><span class="mf">729088.61</span>
+     <span class="n">HSO5</span><span class="o">-</span>      <span class="o">-</span><span class="mf">621918.51</span>
+       <span class="n">Cl</span><span class="o">-</span>      <span class="o">-</span><span class="mf">107280.74</span>
+        <span class="n">K</span><span class="o">+</span>      <span class="o">-</span><span class="mf">291322.11</span>
+    <span class="n">KCl</span><span class="p">,</span><span class="n">aq</span>      <span class="o">-</span><span class="mf">386524.80</span>
+     <span class="n">KSO4</span><span class="o">-</span>      <span class="o">-</span><span class="mf">964999.30</span>
+  <span class="n">CaCO3</span><span class="p">,</span><span class="n">aq</span>     <span class="o">-</span><span class="mf">1062603.26</span>
+ <span class="n">Ca</span><span class="p">(</span><span class="n">HCO3</span><span class="p">)</span><span class="o">+</span>     <span class="o">-</span><span class="mf">1141421.73</span>
+   <span class="n">Ca</span><span class="p">(</span><span class="n">OH</span><span class="p">)</span><span class="o">+</span>      <span class="o">-</span><span class="mf">716294.10</span>
+      <span class="n">Ca</span><span class="o">+</span><span class="mi">2</span>      <span class="o">-</span><span class="mf">550500.01</span>
+     <span class="n">CaCl</span><span class="o">+</span>      <span class="o">-</span><span class="mf">667477.48</span>
+  <span class="n">CaCl2</span><span class="p">,</span><span class="n">aq</span>      <span class="o">-</span><span class="mf">757382.71</span>
+  <span class="n">CaSO4</span><span class="p">,</span><span class="n">aq</span>     <span class="o">-</span><span class="mf">1284398.52</span>
+      <span class="n">Cr</span><span class="o">+</span><span class="mi">2</span>      <span class="o">-</span><span class="mf">158023.64</span>
+      <span class="n">Cr</span><span class="o">+</span><span class="mi">3</span>      <span class="o">-</span><span class="mf">177774.85</span>
+   <span class="n">Cr2O7</span><span class="o">-</span><span class="mi">2</span>     <span class="o">-</span><span class="mf">1240458.10</span>
+    <span class="n">CrO4</span><span class="o">-</span><span class="mi">2</span>      <span class="o">-</span><span class="mf">662448.25</span>
+    <span class="n">HCrO4</span><span class="o">-</span>      <span class="o">-</span><span class="mf">748576.33</span>
+      <span class="n">Mn</span><span class="o">+</span><span class="mi">2</span>      <span class="o">-</span><span class="mf">230849.16</span>
+     <span class="n">MnCl</span><span class="o">+</span>      <span class="o">-</span><span class="mf">371282.95</span>
+     <span class="n">MnO4</span><span class="o">-</span>      <span class="o">-</span><span class="mf">449920.93</span>
+    <span class="n">MnO4</span><span class="o">-</span><span class="mi">2</span>      <span class="o">-</span><span class="mf">415762.76</span>
+  <span class="n">MnSO4</span><span class="p">,</span><span class="n">aq</span>      <span class="o">-</span><span class="mf">912339.54</span>
+      <span class="n">Fe</span><span class="o">+</span><span class="mi">2</span>       <span class="o">-</span><span class="mf">82536.92</span>
+      <span class="n">Fe</span><span class="o">+</span><span class="mi">3</span>         <span class="mf">2636.34</span>
+     <span class="n">FeCl</span><span class="o">+</span>      <span class="o">-</span><span class="mf">198234.95</span>
+    <span class="n">FeCl</span><span class="o">+</span><span class="mi">2</span>      <span class="o">-</span><span class="mf">150792.01</span>
+  <span class="n">FeCl2</span><span class="p">,</span><span class="n">aq</span>      <span class="o">-</span><span class="mf">320420.79</span>
+      <span class="n">Co</span><span class="o">+</span><span class="mi">2</span>       <span class="o">-</span><span class="mf">48150.08</span>
+      <span class="n">Co</span><span class="o">+</span><span class="mi">3</span>       <span class="mf">147941.51</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">species</span><span class="p">[</span><span class="s1">&#39;CO2,aq&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="mf">379028.1103565087</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2020, ENKI.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.4.0.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>
